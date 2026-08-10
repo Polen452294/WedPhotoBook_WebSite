@@ -13,7 +13,7 @@ async function render(path = "/") {
   );
 }
 
-test("server-renders the original WordPress home content without rewriting it", async () => {
+test("keeps the original opening screen and restores the first working version below it", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -27,7 +27,9 @@ test("server-renders the original WordPress home content without rewriting it", 
   assert.match(html, /wp-content\/uploads\/2026\/04\/001-1-1-optimized\.jpg/);
   assert.match(html, /class="navbar navbar-default/);
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
-  assert.doesNotMatch(html, /От снимков к семейной реликвии|Спокойный путь к идеальному результату/);
+  assert.match(html, /class="restored-first-version"/);
+  assert.match(html, /От снимков к семейной реликвии/);
+  assert.match(html, /Спокойный путь к идеальному результату/);
 });
 
 test("preserves every published route and its captured text", async () => {

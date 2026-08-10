@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Footer } from "@/components/Footer";
+import { HomePage } from "@/components/HomePage";
 import { LegacyPage } from "@/components/LegacyPage";
 import { getSnapshot } from "@/lib/rendered-pages";
 
@@ -12,5 +14,13 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <LegacyPage page={page} />;
+  return (
+    <>
+      <LegacyPage page={page} />
+      <div className="restored-first-version">
+        <HomePage />
+        <Footer />
+      </div>
+    </>
+  );
 }
