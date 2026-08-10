@@ -4,7 +4,8 @@ import { contacts, getMediaGroup } from "@/lib/site-data";
 
 const craft = [
   {
-    title: "1. Профессиональная обработка фотографий",
+    number: "1.",
+    title: "Профессиональная обработка фотографий",
     image: "/media/home/obrabotka-foto-wedfotobook-ru.webp",
     text: [
       "⋅ Хотите, чтобы ваша фотокнига выглядела как топовое издание? Доверьте обработку снимков нам.",
@@ -14,7 +15,8 @@ const craft = [
     ],
   },
   {
-    title: "2. Дизайн фотокниги",
+    number: "2.",
+    title: "Дизайн фотокниги",
     image: "/media/home/dizain-fotoknigi-wedfotobook-ru.webp",
     text: [
       "⋅ Создаём фотокниги с уникальным дизайном — без использования шаблонов.",
@@ -23,7 +25,8 @@ const craft = [
     ],
   },
   {
-    title: "3. Согласование макета",
+    number: "3.",
+    title: "Согласование макета",
     image: "/media/home/soglasovanie-maketa-wedfotobook-ru.webp",
     text: [
       "⋅ После того как макет будет готов, вы получите его для просмотра. Проверьте, все ли фотографии на месте, нет ли опечаток в тексте.",
@@ -33,7 +36,8 @@ const craft = [
     ],
   },
   {
-    title: "4. Печать фотокниги и доставка",
+    number: "4.",
+    title: "Печать фотокниги и доставка",
     image: "/media/home/print-fotoknig-wedfotobook-ru.webp",
     text: [
       "⋅ После утверждения макета, мы сразу отправляем его в печать.",
@@ -130,7 +134,7 @@ export function OriginalHomeSections() {
             {craft.map((item, index) => (
               <article className={`craft-item ${index % 2 ? "reverse" : ""}`} key={item.title}>
                 <div className="craft-image"><Image src={item.image} alt="" width={996} height={561} /></div>
-                <div className="craft-copy"><h3>{item.title}</h3><div className="craft-body">{item.text.map((text) => <p key={text}>{text}</p>)}</div></div>
+                <div className="craft-copy"><span className="craft-number">{item.number}</span><h3>{item.title}</h3><div className="craft-body">{item.text.map((text) => <p key={text}>{text}</p>)}</div></div>
               </article>
             ))}
           </div>

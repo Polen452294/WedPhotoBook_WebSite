@@ -33,6 +33,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /Фотокнига — это больше, чем просто фотографии/);
   assert.match(restoredHtml, /Хотите узнать стоимость фотокниги до начала работы\?/);
   assert.match(restoredHtml, /15\. Вы работаете с юр\. лицами\?/);
+  assert.match(restoredHtml, /class="craft-number">1\.<\/span><h3>Профессиональная обработка фотографий<\/h3>/);
   assert.doesNotMatch(restoredHtml, /От снимков к семейной реликвии|Спокойный путь к идеальному результату|Выберите формат будущей книги/);
 });
 
