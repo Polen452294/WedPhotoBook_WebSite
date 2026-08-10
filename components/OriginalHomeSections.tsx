@@ -4,7 +4,7 @@ import { contacts, getMediaGroup } from "@/lib/site-data";
 
 const craft = [
   {
-    number: "1.",
+    number: "01",
     title: "Профессиональная обработка фотографий",
     image: "/media/home/obrabotka-foto-wedfotobook-ru.webp",
     text: [
@@ -15,7 +15,7 @@ const craft = [
     ],
   },
   {
-    number: "2.",
+    number: "02",
     title: "Дизайн фотокниги",
     image: "/media/home/dizain-fotoknigi-wedfotobook-ru.webp",
     text: [
@@ -25,7 +25,7 @@ const craft = [
     ],
   },
   {
-    number: "3.",
+    number: "03",
     title: "Согласование макета",
     image: "/media/home/soglasovanie-maketa-wedfotobook-ru.webp",
     text: [
@@ -36,7 +36,7 @@ const craft = [
     ],
   },
   {
-    number: "4.",
+    number: "04",
     title: "Печать фотокниги и доставка",
     image: "/media/home/print-fotoknig-wedfotobook-ru.webp",
     text: [
