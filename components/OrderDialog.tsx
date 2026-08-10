@@ -47,20 +47,19 @@ export function OrderDialog() {
     }}>
       <button className="dialog-close" type="button" aria-label="Закрыть" onClick={() => dialogRef.current?.close()}>×</button>
       <form className="order-form" onSubmit={submit}>
-        <h2>Заказать фотокнигу</h2>
         <label>Ваше имя<input name="name" autoComplete="name" required /></label>
         <label>Телефон<input name="phone" type="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__" required /></label>
         <label>Ссылка на фото <small>(можно прислать потом в мессенджере)</small><input name="photos" type="url" /></label>
         <label>Пожелания<textarea name="message" rows={3} /></label>
         <label className="honeypot" aria-hidden="true">Адрес<input name="address" tabIndex={-1} autoComplete="off" /></label>
         <label className="checkbox"><input name="consent" type="checkbox" required />
-          <span>Я согласен с <a href="/politika-obrabotki-personalnyh-dannyh/">политикой обработки данных</a>.</span>
+          <span>Я соглашаюсь на <a href="/soglashenie/">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/">политике конфиденциальности</a></span>
         </label>
         <button className="button" disabled={status === "sending"} type="submit">
-          {status === "sending" ? "Отправляем…" : "Отправить заявку"}
+          {status === "sending" ? "Отправка…" : "Отправить"}
         </button>
-        {status === "success" && <p className="form-message success">Спасибо! Заявка отправлена. Мы скоро свяжемся с вами.</p>}
-        {status === "error" && <p className="form-message error">Не удалось отправить форму. Позвоните нам или напишите на <a href="mailto:79854342367@yandex.ru">79854342367@yandex.ru</a>.</p>}
+        {status === "success" && <p className="form-message success">Спасибо за ваше сообщение. Оно успешно отправлено.</p>}
+        {status === "error" && <p className="form-message error">При отправке сообщения произошла ошибка. Пожалуйста, попробуйте ещё раз позже.</p>}
       </form>
     </dialog>
   );

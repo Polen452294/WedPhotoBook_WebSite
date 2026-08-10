@@ -28,8 +28,12 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /class="navbar navbar-default/);
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
-  assert.match(html, /От снимков к семейной реликвии/);
-  assert.match(html, /Спокойный путь к идеальному результату/);
+  const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
+  assert.match(restoredHtml, /Как мы делаем фотокниги\?/);
+  assert.match(restoredHtml, /Фотокнига — это больше, чем просто фотографии/);
+  assert.match(restoredHtml, /Хотите узнать стоимость фотокниги до начала работы\?/);
+  assert.match(restoredHtml, /15\. Вы работаете с юр\. лицами\?/);
+  assert.doesNotMatch(restoredHtml, /От снимков к семейной реликвии|Спокойный путь к идеальному результату|Выберите формат будущей книги/);
 });
 
 test("preserves every published route and its captured text", async () => {

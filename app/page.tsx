@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Footer } from "@/components/Footer";
-import { HomePage } from "@/components/HomePage";
 import { LegacyPage } from "@/components/LegacyPage";
+import { OriginalFooter, OriginalHomeSections } from "@/components/OriginalHomeSections";
 import { getSnapshot } from "@/lib/rendered-pages";
 
 const page = getSnapshot("")!;
@@ -18,8 +17,8 @@ export default function Home() {
     <>
       <LegacyPage page={page} />
       <div className="restored-first-version">
-        <HomePage />
-        <Footer />
+        <OriginalHomeSections />
+        <OriginalFooter />
       </div>
     </>
   );
