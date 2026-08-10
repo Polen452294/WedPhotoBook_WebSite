@@ -1,10 +1,4 @@
 /* Exact desktop layout of the original home-page opening screen. */
-.legacy-wordpress.home {
-  background: #fff;
-  color: #000;
-  font-family: "Open Sans", Arial, sans-serif;
-}
-
 .legacy-wordpress.home > .navbar {
   top: 0 !important;
   right: 0 !important;
