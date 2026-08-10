@@ -46,21 +46,17 @@ export function OrderDialog() {
       if (event.target === dialogRef.current) dialogRef.current.close();
     }}>
       <button className="dialog-close" type="button" aria-label="Закрыть" onClick={() => dialogRef.current?.close()}>×</button>
-      <div className="dialog-copy">
-        <span className="eyebrow">Обсудим вашу фотокнигу</span>
-        <h2>Расскажите немного о заказе</h2>
-        <p>Оставьте контакты — мы свяжемся с вами, уточним формат и предварительно рассчитаем стоимость.</p>
-      </div>
       <form className="order-form" onSubmit={submit}>
+        <h2>Заказать фотокнигу</h2>
         <label>Ваше имя<input name="name" autoComplete="name" required /></label>
         <label>Телефон<input name="phone" type="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__" required /></label>
-        <label>Ссылка на фотографии <small>необязательно</small><input name="photos" type="url" placeholder="Яндекс Диск или Облако Mail" /></label>
-        <label>Пожелания <small>необязательно</small><textarea name="message" rows={3} /></label>
+        <label>Ссылка на фото <small>(можно прислать потом в мессенджере)</small><input name="photos" type="url" /></label>
+        <label>Пожелания<textarea name="message" rows={3} /></label>
         <label className="honeypot" aria-hidden="true">Адрес<input name="address" tabIndex={-1} autoComplete="off" /></label>
         <label className="checkbox"><input name="consent" type="checkbox" required />
           <span>Я согласен с <a href="/politika-obrabotki-personalnyh-dannyh/">политикой обработки данных</a>.</span>
         </label>
-        <button className="button button-wide" disabled={status === "sending"} type="submit">
+        <button className="button" disabled={status === "sending"} type="submit">
           {status === "sending" ? "Отправляем…" : "Отправить заявку"}
         </button>
         {status === "success" && <p className="form-message success">Спасибо! Заявка отправлена. Мы скоро свяжемся с вами.</p>}
