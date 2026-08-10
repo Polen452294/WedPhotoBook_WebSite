@@ -9,6 +9,12 @@
   border: 0 !important;
   border-radius: 0 !important;
   background: #011b34 !important;
+  font-family: "Open Sans", Arial, sans-serif !important;
+}
+
+.legacy-wordpress.home .vc_custom_1777398162129,
+.legacy-wordpress.home .vc_custom_1777398162129 * {
+  font-family: "Open Sans", Arial, sans-serif !important;
 }
 
 .legacy-wordpress.home > .navbar .nav-header-container {
@@ -51,6 +57,31 @@
   letter-spacing: 1px !important;
   line-height: 23px !important;
   text-transform: uppercase !important;
+}
+
+.legacy-wordpress.home .vc_custom_1777448124380 > .hcode-column-1 h1,
+.legacy-wordpress.home .vc_custom_1777448124380 > .hcode-column-1 h2 {
+  font-family: "Open Sans", Arial, sans-serif !important;
+  font-size: 28px !important;
+  line-height: normal !important;
+}
+
+.legacy-wordpress.home .vc_custom_1777448124380 > .hcode-column-1 h1 span,
+.legacy-wordpress.home .vc_custom_1777448124380 > .hcode-column-1 h2 span[style*="24pt"] {
+  font-family: "Open Sans", Arial, sans-serif !important;
+  font-size: 32px !important;
+}
+
+.legacy-wordpress.home .vc_custom_1777448124380 > .hcode-column-1 ul,
+.legacy-wordpress.home .vc_custom_1777448124380 > .hcode-column-1 li {
+  font-family: "Open Sans", Arial, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 23px !important;
+}
+
+.legacy-wordpress.home .vc_custom_1777448124380 > .hcode-column-1 p[style*="font-size: 32px"] span {
+  font-family: "Open Sans", Arial, sans-serif !important;
+  font-size: 24px !important;
 }
 
 .legacy-wordpress.home > .navbar .navbar-nav > li.current-menu-item > a {
@@ -109,7 +140,7 @@
     right: 40px !important;
     float: none !important;
     width: 33.33333333% !important;
-    margin-top: -40px !important;
+    margin-top: 0 !important;
     padding-right: 15px !important;
     padding-left: 15px !important;
     text-align: right !important;
@@ -118,6 +149,25 @@
   .legacy-wordpress.home .first_big_block_butt .tel1,
   .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p {
     text-align: right !important;
+  }
+
+  .legacy-wordpress.home .first_big_block_butt .tel1 {
+    font-family: "Open Sans", Arial, sans-serif !important;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    line-height: 30.8px !important;
+  }
+
+  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p {
+    font-family: "Open Sans", Arial, sans-serif !important;
+    font-size: 14px !important;
+    line-height: 23px !important;
+  }
+
+  .legacy-wordpress.home .first_big_block_butt .wpb-pcf-btn {
+    font-family: "Open Sans", Arial, sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 600 !important;
   }
 
   .legacy-wordpress.home .first_big_block_butt .zakaz_top {
