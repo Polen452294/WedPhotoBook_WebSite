@@ -91,6 +91,13 @@ const pricing = [
     image: "/media/home/vipusk-albom-1-wedfotobook-ru.webp",
     features: ["⋅Твердая фотообложка", "⋅ Премиум или Стандарт", "⋅ От 1 разворота", "⋅ Заказ от 10 экз."],
   },
+  {
+    title: "Фотокниги с оживающими фото",
+    price: "от 9 200 руб.",
+    href: "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+    image: "/media/home/fotokniga-alive-photo-stoimost-wedfotobook-ru.webp",
+    features: ["Мы можем связать фото и видео.", "Если видео нет, можем оживать фотографии с помощью ИИ."],
+  },
 ] as const;
 
 const steps = [
@@ -186,11 +193,14 @@ export function OriginalHomeSections() {
 
       <section className="section section-warm">
         <div className="shell">
-          <div className="section-heading center-heading"><h2>Хотите узнать стоимость фотокниги до начала работы?</h2></div>
-          <div className="pricing-grid">
-            {pricing.map((item, index) => <article className={`price-card ${index === 0 ? "featured" : ""}`} key={item.title}><Image src={item.image} alt={item.title} width={960} height={518} /><div className="price-card-copy"><h3>{item.title}</h3><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature}</li>)}</ul><Link href={item.href}>Подробнее</Link></div></article>)}
+          <div className="section-heading center-heading">
+            <span className="eyebrow">Стоимость</span>
+            <h2>Хотите узнать стоимость фотокниги до начала работы?</h2>
+            <p>Можем сделать фотокнигу в кожаной или тканевой обложке.</p>
           </div>
-          <p className="pricing-note">Можем сделать фотокнигу в кожаной или тканевой обложке.</p>
+          <div className="pricing-grid">
+            {pricing.map((item, index) => <article className={`price-card ${index === 0 ? "featured" : ""}`} key={item.title}>{index === 0 && <span className="price-badge">Чаще выбирают</span>}<Image src={item.image} alt={item.title} width={960} height={518} /><div className="price-card-copy"><h3>{item.title}</h3><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature.replace(/^⋅\s*/, "")}</li>)}</ul><Link href={item.href}>Подробнее →</Link></div></article>)}
+          </div>
         </div>
       </section>
 
@@ -212,7 +222,7 @@ export function OriginalHomeSections() {
 
       <section className="section faq-section">
         <div className="shell faq-layout">
-          <div className="faq-intro"><h2>Остались вопросы?</h2></div>
+          <div className="faq-intro"><span className="eyebrow">Частые вопросы</span><h2>Остались вопросы?</h2><p>Не нашли ответ? Напишите нам в мессенджер — отвечаем ежедневно.</p><button className="button" data-order-open type="button">Задать вопрос</button></div>
           <div className="faq-list">{faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary>{question}<span>+</span></summary><p>{answer}</p></details>)}</div>
         </div>
       </section>
