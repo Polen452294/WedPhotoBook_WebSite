@@ -29,7 +29,9 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
   assert.match(html, /home-original-fix\.css\?v=11/);
+  assert.match(html, /first-version-home\.css\?v=11/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
+  assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /Как мы делаем фотокниги\?/);
   assert.match(restoredHtml, /Фотокнига — это больше, чем просто фотографии/);
   assert.match(restoredHtml, /Хотите узнать стоимость фотокниги до начала работы\?/);

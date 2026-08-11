@@ -446,6 +446,19 @@
   background: var(--cream);
 }
 
+.restored-first-version .section-warm,
+.restored-first-version .faq-section {
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.restored-first-version .section-warm .section-heading h2,
+.restored-first-version .faq-intro h2,
+.restored-first-version .price-card h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+}
+
 .restored-first-version .pricing-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -499,7 +512,9 @@
 }
 
 .restored-first-version .price-card li::before {
-  content: none;
+  margin-right: 8px;
+  color: var(--gold);
+  content: "✓";
 }
 
 .restored-first-version .price-card a {
@@ -651,7 +666,7 @@
 
 .restored-first-version .faq-list summary span {
   color: var(--gold);
-  font-family: "Open Sans", Arial, sans-serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 1.8rem;
   font-weight: 400;
   transition: transform .2s ease;

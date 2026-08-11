@@ -188,7 +188,7 @@ export function OriginalHomeSections() {
         <div className="shell">
           <div className="section-heading center-heading"><h2>Хотите узнать стоимость фотокниги до начала работы?</h2></div>
           <div className="pricing-grid">
-            {pricing.map((item) => <article className="price-card" key={item.title}><Image src={item.image} alt={item.title} width={960} height={518} /><div className="price-card-copy"><h3>{item.title}</h3><ul>{item.features.map((feature) => <li key={feature}>{feature}</li>)}</ul><strong>{item.price}</strong><Link href={item.href}>Подробнее</Link></div></article>)}
+            {pricing.map((item, index) => <article className={`price-card ${index === 0 ? "featured" : ""}`} key={item.title}><Image src={item.image} alt={item.title} width={960} height={518} /><div className="price-card-copy"><h3>{item.title}</h3><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature}</li>)}</ul><Link href={item.href}>Подробнее</Link></div></article>)}
           </div>
           <p className="pricing-note">Можем сделать фотокнигу в кожаной или тканевой обложке.</p>
         </div>
