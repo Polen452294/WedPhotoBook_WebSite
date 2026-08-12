@@ -58,10 +58,24 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
         return;
       }
 
+      const scrollTopLink = target?.closest<HTMLAnchorElement>("a.scrollToTop");
+      if (scrollTopLink) {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
       const imageLink = target?.closest<HTMLAnchorElement>("a.fg-thumb, a.foogallery-lightbox, a[href$='.jpg'], a[href$='.jpeg'], a[href$='.png'], a[href$='.webp']");
       if (imageLink && imageLink.href && imageLink.closest(".foogallery")) {
         event.preventDefault();
         openImage(imageLink.href, imageLink.querySelector("img")?.alt ?? "Фотография фотокниги");
+        return;
+      }
+
+      const localLink = target?.closest<HTMLAnchorElement>('a[href^="/"]');
+      if (localLink && !localLink.hasAttribute("download") && localLink.target !== "_blank") {
+        event.preventDefault();
+        window.location.assign(localLink.getAttribute("href")!);
       }
     };
 
@@ -95,10 +109,10 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
       }
     };
 
-    document.addEventListener("click", click);
+    document.addEventListener("click", click, true);
     document.addEventListener("submit", submit);
     return () => {
-      document.removeEventListener("click", click);
+      document.removeEventListener("click", click, true);
       document.removeEventListener("submit", submit);
       document.body.className = previous;
     };

@@ -26,10 +26,13 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /Вы работаете с юр\. лицами\?/);
   assert.match(html, /wp-content\/uploads\/2026\/04\/001-1-1-optimized\.jpg/);
   assert.match(html, /class="navbar navbar-default/);
+  assert.match(html, /href="\/katalog\/" data-redirect-url="\/katalog\/"/);
+  assert.match(html, /href="\/stoimost\/" data-redirect-url="\/stoimost\/"/);
+  assert.doesNotMatch(html, /href="#collapse[2-5]" data-redirect-url=/);
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
   assert.match(html, /home-original-fix\.css\?v=11/);
-  assert.match(html, /first-version-home\.css\?v=14/);
+  assert.match(html, /first-version-home\.css\?v=17/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
@@ -48,7 +51,41 @@ test("keeps the original opening screen and restores the first working version b
   assert.doesNotMatch(restoredHtml, /class="review-strip"/);
   assert.ok(restoredHtml.indexOf("Фотокнига на заказ всего за 7 дней!") < restoredHtml.indexOf("Отзывы о фотокнигах"));
   assert.match(restoredHtml, /class="craft-number">01<\/span><h3>Профессиональная обработка фотографий<\/h3>/);
+  assert.match(restoredHtml, /<h2>Каталог<\/h2>/);
+  assert.match(restoredHtml, /<h2>Стоимость<\/h2>/);
+  assert.match(restoredHtml, /<h2 class="footer-subheading">Сервисы<\/h2>/);
+  assert.match(restoredHtml, /<h2>Соглашения<\/h2>/);
+  assert.match(restoredHtml, /ИНН 772008137237 ОГРНИП 325774600377441/);
+  assert.match(restoredHtml, /class="footer-max-link"/);
   assert.doesNotMatch(restoredHtml, /От снимков к семейной реликвии|Спокойный путь к идеальному результату|Выберите формат будущей книги/);
+});
+
+test("keeps all internal navigation local and resolves known legacy aliases", async () => {
+  const snapshots = JSON.parse(await readFile(new URL("../data/rendered-pages.json", import.meta.url), "utf8"));
+  const routeSet = new Set(snapshots.map((page) => `/${page.slug ? `${page.slug}/` : ""}`));
+  const checkedPaths = new Set(["/"]);
+
+  for (const page of snapshots) {
+    const response = await render(page.slug ? `/${page.slug}/` : "/");
+    assert.equal(response.status, 200, page.slug || "/");
+    const html = await response.text();
+    assert.doesNotMatch(html, /<a\b[^>]*href=["']https?:\/\/(?:www\.)?wedfotobook\.ru/i, page.slug || "/");
+
+    for (const match of html.matchAll(/href=["'](\/[^"']*)["']/gi)) {
+      const pathname = match[1].split(/[?#]/, 1)[0];
+      if (!pathname || pathname.startsWith("//") || pathname.startsWith("/_next/") || pathname.startsWith("/wp-content/") || pathname.startsWith("/wp-assets/") || pathname.startsWith("/media/") || pathname.startsWith("/author/") || /\.[a-z0-9]{2,5}$/i.test(pathname)) continue;
+      checkedPaths.add(pathname.endsWith("/") ? pathname : `${pathname}/`);
+    }
+  }
+
+  for (const pathname of checkedPaths) assert.ok(routeSet.has(pathname), `Missing internal route: ${pathname}`);
+
+  const homeHtml = await (await render()).text();
+  assert.match(homeHtml, /href="\/fotokniga-s-dopolnennoj-realnostyu\/"/);
+  assert.doesNotMatch(homeHtml, /href="\/fotoknigi-s-dopolnennoj-realnostju\/"/);
+  const articleHtml = await (await render("/article-vipysk/")).text();
+  assert.match(articleHtml, /href="\/vypusknye-fotoknigi\/"/);
+  assert.doesNotMatch(articleHtml, /href="\/vypusknye-fotoknigi-2\/"/);
 });
 
 test("preserves every published route and its captured text", async () => {
