@@ -204,13 +204,6 @@ export function OriginalHomeSections() {
         </div>
       </section>
 
-      <section className="section section-ink alive-section">
-        <div className="shell craft-item">
-          <div className="craft-image"><Image src="/media/home/fotokniga-alive-photo-blok-wedfotobook-ru.webp" alt="" width={960} height={518} /></div>
-          <div className="craft-copy"><h2>Фотокниги с оживающими фото</h2><p>В такой фотокниге обычный снимок превращается в маленький видеоролик: стоит навести камеру смартфона на страницу — и перед глазами оживут смех ребёнка, первый танец молодожёнов или трогательное поздравление.</p><p>Мы можем связать фото и видео. Если видео нет, можем оживать фотографии с помощью ИИ.</p><p>Это отличный подарок: он удивляет, вызывает восторг и надолго остаётся в памяти!</p><strong>от 9 200 руб.</strong><button className="button button-light" data-order-open type="button">Заказать</button></div>
-        </div>
-      </section>
-
       <section className="section">
         <div className="shell">
           <div className="section-heading"><h2>Фотокнига на заказ всего за 7 дней!</h2></div>
