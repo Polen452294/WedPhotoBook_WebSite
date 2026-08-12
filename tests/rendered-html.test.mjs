@@ -29,7 +29,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
   assert.match(html, /home-original-fix\.css\?v=11/);
-  assert.match(html, /first-version-home\.css\?v=13/);
+  assert.match(html, /first-version-home\.css\?v=14/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
@@ -44,6 +44,9 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /Обычно на создание и печать фотокниги уходит 7 дней\./);
   assert.match(restoredHtml, /сделать закрывающие документы\./);
   assert.doesNotMatch(restoredHtml, /class="section section-ink alive-section"/);
+  assert.match(restoredHtml, /class="review-carousel"/);
+  assert.doesNotMatch(restoredHtml, /class="review-strip"/);
+  assert.ok(restoredHtml.indexOf("Фотокнига на заказ всего за 7 дней!") < restoredHtml.indexOf("Отзывы о фотокнигах"));
   assert.match(restoredHtml, /class="craft-number">01<\/span><h3>Профессиональная обработка фотографий<\/h3>/);
   assert.doesNotMatch(restoredHtml, /От снимков к семейной реликвии|Спокойный путь к идеальному результату|Выберите формат будущей книги/);
 });

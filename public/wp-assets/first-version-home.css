@@ -596,35 +596,64 @@
   background: #fff;
 }
 
-.restored-first-version .review-strip {
-  display: flex;
-  gap: 22px;
-  overflow-x: auto;
-  padding: 8px 3px 28px;
-  scroll-snap-type: x mandatory;
-  scrollbar-color: var(--gold) var(--cream);
+.restored-first-version .review-carousel {
+  display: grid;
+  justify-items: center;
 }
 
-.restored-first-version .review-strip figure {
-  flex: 0 0 min(520px, 80vw);
+.restored-first-version .review-carousel-frame {
+  width: min(100%, 640px);
   margin: 0;
   border: 1px solid var(--line);
   background: var(--white);
   box-shadow: 0 12px 34px rgba(7, 29, 48, .08);
-  scroll-snap-align: start;
 }
 
-.restored-first-version .review-strip img {
+.restored-first-version .review-carousel-frame img {
+  display: block;
   width: 100%;
+  height: auto;
 }
 
 .restored-first-version .review-navigation {
   display: flex;
+  align-items: center;
   justify-content: center;
   gap: 22px;
-  margin-top: 12px;
+  margin-top: 22px;
   color: var(--muted);
   font-size: .86rem;
+}
+
+.restored-first-version .review-navigation button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  padding: 8px 4px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.restored-first-version .review-navigation button span[aria-hidden="true"] {
+  color: var(--gold);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.restored-first-version .review-navigation button:hover,
+.restored-first-version .review-navigation button:focus-visible {
+  color: var(--blue);
+}
+
+.restored-first-version .review-navigation strong {
+  min-width: 72px;
+  color: var(--muted);
+  font-weight: 500;
+  text-align: center;
 }
 
 .restored-first-version .faq-layout {

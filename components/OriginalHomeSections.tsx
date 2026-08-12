@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ReviewCarousel } from "@/components/ReviewCarousel";
 import { contacts, getMediaGroup } from "@/lib/site-data";
 
 const craft = [
@@ -156,17 +157,6 @@ export function OriginalHomeSections() {
         </div>
       </section>
 
-      <section className="section section-reviews">
-        <div className="shell">
-          <div className="section-heading"><h2>Отзывы о фотокнигах</h2></div>
-          <div className="review-strip">
-            {reviewImages.map((image) => <figure key={image.src}><Image src={image.src} alt={image.alt || ""} width={image.width} height={image.height} loading="lazy" /></figure>)}
-          </div>
-          <div className="review-navigation"><span>Назад</span><span>1 от 38</span><span>Далее</span></div>
-          <div className="center-action action-row"><a className="text-link yandex-review-link" href={contacts.yandex} target="_blank" rel="noreferrer"><span>Отзывы на яндекс услугах</span><strong>ЧИТАТЬ ЗДЕСЬ</strong></a></div>
-        </div>
-      </section>
-
       <section className="section section-ink">
         <div className="shell">
           <div className="section-heading center-heading"><h2>Какие фотокниги мы делаем? Любые!</h2></div>
@@ -210,6 +200,14 @@ export function OriginalHomeSections() {
           <ol className="steps-grid">
             {steps.map(([icon, title, text]) => <li key={title}><Image src={`/media/steps/${icon}`} alt="" width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>)}
           </ol>
+        </div>
+      </section>
+
+      <section className="section section-reviews">
+        <div className="shell">
+          <div className="section-heading center-heading"><h2>Отзывы о фотокнигах</h2></div>
+          <ReviewCarousel images={reviewImages} />
+          <div className="center-action action-row"><a className="text-link yandex-review-link" href={contacts.yandex} target="_blank" rel="noreferrer"><span>Отзывы на яндекс услугах</span><strong>ЧИТАТЬ ЗДЕСЬ</strong></a></div>
         </div>
       </section>
 
