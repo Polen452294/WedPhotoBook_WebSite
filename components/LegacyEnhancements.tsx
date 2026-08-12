@@ -20,10 +20,33 @@ function openImage(url: string, alt: string) {
   dialog.showModal();
 }
 
+function showViewerItem(gallery: HTMLElement, requestedIndex: number) {
+  const items = [...gallery.querySelectorAll<HTMLElement>(".fiv-inner-container > .fg-item")];
+  if (!items.length) return;
+  const index = (requestedIndex + items.length) % items.length;
+
+  items.forEach((item, itemIndex) => {
+    item.classList.remove("fg-loading", "fg-idle", "fg-error");
+    item.classList.add("fg-loaded");
+    item.style.display = itemIndex === index ? "inline-block" : "none";
+    item.style.position = itemIndex === index ? "relative" : "absolute";
+  });
+  gallery.dataset.currentIndex = String(index);
+  const current = gallery.querySelector<HTMLElement>(".fiv-count-current");
+  const total = gallery.querySelector<HTMLElement>(".fiv-count-total");
+  if (current) current.textContent = String(index + 1);
+  if (total) total.textContent = String(items.length);
+}
+
+function initializeImageViewers() {
+  document.querySelectorAll<HTMLElement>(".foogallery-image-viewer").forEach((gallery) => showViewerItem(gallery, 0));
+}
+
 export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
   useEffect(() => {
     const previous = document.body.className;
     document.body.className = `${BODY_CLASSES.join(" ")} ${bodyClass}`.trim();
+    initializeImageViewers();
 
     const click = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
@@ -62,6 +85,17 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
       if (scrollTopLink) {
         event.preventDefault();
         window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
+      const viewerButton = target?.closest<HTMLButtonElement>(".foogallery-image-viewer .fiv-prev, .foogallery-image-viewer .fiv-next");
+      if (viewerButton) {
+        event.preventDefault();
+        const gallery = viewerButton.closest<HTMLElement>(".foogallery-image-viewer");
+        if (gallery) {
+          const currentIndex = Number(gallery.dataset.currentIndex ?? "0");
+          showViewerItem(gallery, currentIndex + (viewerButton.classList.contains("fiv-next") ? 1 : -1));
+        }
         return;
       }
 

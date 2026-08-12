@@ -32,7 +32,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
   assert.match(html, /home-original-fix\.css\?v=11/);
-  assert.match(html, /first-version-home\.css\?v=17/);
+  assert.match(html, /first-version-home\.css\?v=19/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
@@ -51,12 +51,17 @@ test("keeps the original opening screen and restores the first working version b
   assert.doesNotMatch(restoredHtml, /class="review-strip"/);
   assert.ok(restoredHtml.indexOf("Фотокнига на заказ всего за 7 дней!") < restoredHtml.indexOf("Отзывы о фотокнигах"));
   assert.match(restoredHtml, /class="craft-number">01<\/span><h3>Профессиональная обработка фотографий<\/h3>/);
-  assert.match(restoredHtml, /<h2>Каталог<\/h2>/);
-  assert.match(restoredHtml, /<h2>Стоимость<\/h2>/);
-  assert.match(restoredHtml, /<h2 class="footer-subheading">Сервисы<\/h2>/);
-  assert.match(restoredHtml, /<h2>Соглашения<\/h2>/);
-  assert.match(restoredHtml, /ИНН 772008137237 ОГРНИП 325774600377441/);
-  assert.match(restoredHtml, /class="footer-max-link"/);
+  assert.match(restoredHtml, /<strong>Каталог<\/strong>/);
+  assert.match(restoredHtml, /<strong>Стоимость<\/strong>/);
+  assert.match(restoredHtml, /class="footer-subheading"><strong>Сервисы<\/strong>/);
+  assert.match(restoredHtml, /<strong>Соглашения<\/strong>/);
+  assert.match(restoredHtml, /ИНН 772008137237(?:&nbsp;|\u00a0)ОГРНИП(?:&nbsp;|\u00a0)325774600377441/);
+  assert.match(restoredHtml, /class="footer-socials"/);
+  assert.match(restoredHtml, /icon6-optimized\.png/);
+  assert.match(restoredHtml, /icos1-optimized\.png/);
+  assert.match(restoredHtml, /icos3-optimized\.png/);
+  assert.match(restoredHtml, /icos5-optimized\.png/);
+  assert.match(restoredHtml, /logotip_max\.svg_-optimized\.png/);
   assert.doesNotMatch(restoredHtml, /От снимков к семейной реликвии|Спокойный путь к идеальному результату|Выберите формат будущей книги/);
 });
 
