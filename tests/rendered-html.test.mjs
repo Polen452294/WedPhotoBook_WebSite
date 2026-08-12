@@ -38,6 +38,11 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /Фотокнига — это больше, чем просто фотографии/);
   assert.match(restoredHtml, /Хотите узнать стоимость фотокниги до начала работы\?/);
   assert.match(restoredHtml, /15\. Вы работаете с юр\. лицами\?/);
+  assert.match(restoredHtml, /1\. Есть ли у вас конструктор по созданию фотокниг\?/);
+  assert.match(restoredHtml, /Конструктора у нас нет\. Все макеты делаются дизайнерами вручную, без шаблонов, только с индивидуальным дизайном\./);
+  assert.ok(restoredHtml.indexOf("4. Сколько стоит добавить тексты в фотокнигу?") < restoredHtml.indexOf("5. Что нужно при заказе фотокниги у вас?"));
+  assert.match(restoredHtml, /Обычно на создание и печать фотокниги уходит 7 дней\./);
+  assert.match(restoredHtml, /сделать закрывающие документы\./);
   assert.match(restoredHtml, /class="craft-number">01<\/span><h3>Профессиональная обработка фотографий<\/h3>/);
   assert.doesNotMatch(restoredHtml, /От снимков к семейной реликвии|Спокойный путь к идеальному результату|Выберите формат будущей книги/);
 });
