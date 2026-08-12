@@ -32,7 +32,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
   assert.match(html, /home-original-fix\.css\?v=11/);
-  assert.match(html, /first-version-home\.css\?v=19/);
+  assert.match(html, /first-version-home\.css\?v=20/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
@@ -91,6 +91,25 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
   const articleHtml = await (await render("/article-vipysk/")).text();
   assert.match(articleHtml, /href="\/vypusknye-fotoknigi\/"/);
   assert.doesNotMatch(articleHtml, /href="\/vypusknye-fotoknigi-2\/"/);
+});
+
+test("uses the restored original footer on every published page", async () => {
+  const snapshots = JSON.parse(await readFile(new URL("../data/rendered-pages.json", import.meta.url), "utf8"));
+  const footerCss = await readFile(new URL("../public/wp-assets/first-version-home.css", import.meta.url), "utf8");
+  assert.match(footerCss, /\.legacy-wordpress > \.hcode-main-footer[\s\S]*?display:\s*none\s*!important/);
+
+  for (const page of snapshots) {
+    const pathname = page.slug ? `/${page.slug}/` : "/";
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    const html = await response.text();
+    assert.equal((html.match(/class="site-footer"/g) ?? []).length, 1, `Missing restored footer: ${pathname}`);
+    assert.match(html, /class="shell footer-grid original-footer-grid"/, pathname);
+    assert.match(html, /href="\/wedding-fotoknig\/"/, pathname);
+    assert.match(html, /href="\/politika-obrabotki-personalnyh-dannyh\/"/, pathname);
+    assert.match(html, /href="tel:\+79854342367"/, pathname);
+    if (page.slug) assert.match(html, /class="restored-first-version restored-global-footer"/, pathname);
+  }
 });
 
 test("preserves every published route and its captured text", async () => {

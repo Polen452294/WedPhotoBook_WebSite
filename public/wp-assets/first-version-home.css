@@ -4,10 +4,14 @@
   display: none !important;
 }
 
-.legacy-wordpress.home > .hcode-main-footer,
+.legacy-wordpress > .hcode-main-footer,
 .legacy-wordpress.home > .pum,
 .legacy-wordpress.home > #cookie-notice {
   display: none !important;
+}
+
+.restored-global-footer {
+  clear: both;
 }
 
 .restored-first-version {
