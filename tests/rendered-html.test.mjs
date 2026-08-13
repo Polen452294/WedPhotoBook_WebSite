@@ -32,7 +32,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
   assert.match(html, /home-original-fix\.css\?v=11/);
-  assert.match(html, /first-version-home\.css\?v=20/);
+  assert.match(html, /first-version-home\.css\?v=21/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
@@ -110,6 +110,18 @@ test("uses the restored original footer on every published page", async () => {
     assert.match(html, /href="tel:\+79854342367"/, pathname);
     if (page.slug) assert.match(html, /class="restored-first-version restored-global-footer"/, pathname);
   }
+});
+
+test("uses the original Open Sans typography without changing text colors", async () => {
+  const globalCss = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  const restoredCss = await readFile(new URL("../public/wp-assets/first-version-home.css", import.meta.url), "utf8");
+  const wordpressCss = await readFile(new URL("../public/wp-assets/wordpress.css", import.meta.url), "utf8");
+
+  assert.match(globalCss, /body\s*\{[^}]*font-family:\s*"Open Sans",\s*sans-serif/);
+  assert.match(globalCss, /button, input, textarea, select\s*\{[^}]*font-family:\s*"Open Sans",\s*sans-serif/);
+  assert.match(wordpressCss, /body\{font-family:'Open Sans',sans-serif/);
+  assert.match(wordpressCss, /font-family:\s*'Oswald'/);
+  assert.doesNotMatch(restoredCss, /font-family:\s*(?:Georgia|Inter)\b/i);
 });
 
 test("preserves every published route and its captured text", async () => {
