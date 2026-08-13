@@ -31,6 +31,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.doesNotMatch(html, /href="#collapse[2-5]" data-redirect-url=/);
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
+  assert.match(html, /wordpress\.css\?v=22/);
   assert.match(html, /home-original-fix\.css\?v=11/);
   assert.match(html, /first-version-home\.css\?v=21/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
@@ -122,6 +123,10 @@ test("uses the original Open Sans typography without changing text colors", asyn
   assert.match(wordpressCss, /body\{font-family:'Open Sans',sans-serif/);
   assert.match(wordpressCss, /font-family:\s*'Oswald'/);
   assert.doesNotMatch(restoredCss, /font-family:\s*(?:Georgia|Inter)\b/i);
+
+  const weddingHtml = await (await render("/wedding-fotoknig/")).text();
+  assert.match(weddingHtml, /rel="preload" href="\/wp-assets\/external\/bd757f1ad06c84be47a2d34d6cf8c292de0e1185\.ttf" as="font" type="font\/ttf" crossorigin="anonymous"/);
+  assert.match(weddingHtml, /rel="preload" href="\/wp-assets\/external\/38cd786c2a409251d1efc9eca27b2335faebeaf5\.ttf" as="font" type="font\/ttf" crossorigin="anonymous"/);
 });
 
 test("preserves every published route and its captured text", async () => {
