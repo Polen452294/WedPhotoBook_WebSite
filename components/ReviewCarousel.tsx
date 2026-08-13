@@ -13,17 +13,21 @@ export function ReviewCarousel({ images }: { images: MediaItem[] }) {
     setSelected((current) => (current + delta + images.length) % images.length);
   }
 
-  const image = images[selected];
-
   return (
     <div className="review-carousel">
-      <figure className="review-carousel-frame">
-        <Image src={image.src} alt={image.alt || `Отзыв клиента №${selected + 1} о фотокниге`} width={image.width} height={image.height} loading="lazy" />
-      </figure>
+      <div className="review-carousel-viewport">
+        <div id="review-carousel-track" className="review-carousel-track" style={{ transform: `translate3d(-${selected * 100}%, 0, 0)` }}>
+          {images.map((image, index) => (
+            <figure className="review-carousel-frame" aria-hidden={index !== selected} key={image.src}>
+              <Image src={image.src} alt={image.alt || `Отзыв клиента №${index + 1} о фотокниге`} width={image.width} height={image.height} loading={index === 0 ? "eager" : "lazy"} />
+            </figure>
+          ))}
+        </div>
+      </div>
       <div className="review-navigation" aria-label="Переключение отзывов">
-        <button type="button" onClick={() => move(-1)} aria-label="Предыдущий отзыв"><span aria-hidden="true">←</span><span>Назад</span></button>
-        <strong><span>{selected + 1}</span> из {images.length}</strong>
-        <button type="button" onClick={() => move(1)} aria-label="Следующий отзыв"><span aria-hidden="true">→</span><span>Далее</span></button>
+        <button type="button" onClick={() => move(-1)} aria-controls="review-carousel-track" aria-label="Предыдущий отзыв" disabled={images.length < 2}><span aria-hidden="true">←</span><span>Назад</span></button>
+        <strong aria-live="polite"><span>{selected + 1}</span> из {images.length}</strong>
+        <button type="button" onClick={() => move(1)} aria-controls="review-carousel-track" aria-label="Следующий отзыв" disabled={images.length < 2}><span aria-hidden="true">→</span><span>Далее</span></button>
       </div>
     </div>
   );

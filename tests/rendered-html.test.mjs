@@ -32,7 +32,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
   assert.match(html, /home-original-fix\.css\?v=11/);
-  assert.match(html, /first-version-home\.css\?v=20/);
+  assert.match(html, /first-version-home\.css\?v=21/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
@@ -48,6 +48,9 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /сделать закрывающие документы\./);
   assert.doesNotMatch(restoredHtml, /class="section section-ink alive-section"/);
   assert.match(restoredHtml, /class="review-carousel"/);
+  assert.match(restoredHtml, /id="review-carousel-track" class="review-carousel-track"/);
+  assert.match(restoredHtml, /aria-label="Следующий отзыв"/);
+  assert.match(restoredHtml, /aria-label="Предыдущий отзыв"/);
   assert.doesNotMatch(restoredHtml, /class="review-strip"/);
   assert.ok(restoredHtml.indexOf("Как проходит заказ") < restoredHtml.indexOf("Отзывы о фотокнигах"));
   assert.match(restoredHtml, /class="craft-number">01<\/span><h3>Профессиональная обработка фотографий<\/h3>/);
