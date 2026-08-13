@@ -137,7 +137,7 @@ export function OriginalHomeSections() {
     <main className="original-home-sections">
       <section className="section section-craft">
         <div className="shell">
-          <div className="section-heading"><span className="eyebrow">От снимков к семейной реликвии</span><h2>Как мы делаем фотокниги?</h2></div>
+          <div className="section-heading split-heading"><div><span className="eyebrow">От снимков к семейной реликвии</span><h2>Как мы делаем фотокниги?</h2></div><p>Каждый этап выполняют люди — от отбора фотографий и дизайна до финальной проверки перед печатью.</p></div>
           <div className="craft-list">
             {craft.map((item, index) => (
               <article className={`craft-item ${index % 2 ? "reverse" : ""}`} key={item.title}>
@@ -159,7 +159,7 @@ export function OriginalHomeSections() {
 
       <section className="section section-ink">
         <div className="shell">
-          <div className="section-heading center-heading"><span className="eyebrow eyebrow-light">Каталог</span><h2>Какие фотокниги мы делаем? Любые!</h2></div>
+          <div className="section-heading center-heading"><span className="eyebrow eyebrow-light">Каталог</span><h2>Какие фотокниги мы делаем? Любые!</h2><p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы найдём визуальный язык для любого события.</p></div>
           <div className="catalog-grid">
             {catalog.map(([slug, title, description, cover]) => (
               <Link className="catalog-card" href={`/${slug}/`} key={slug}>
@@ -174,7 +174,7 @@ export function OriginalHomeSections() {
 
       <section className="section">
         <div className="shell">
-          <div className="section-heading"><span className="eyebrow">Почему нам доверяют</span><h2>Почему нам можно доверять?</h2></div>
+          <div className="section-heading split-heading"><div><span className="eyebrow">Почему нам доверяют</span><h2>Почему нам можно доверять?</h2></div><p>Вы видите будущую книгу ещё до оплаты и участвуете в создании ровно настолько, насколько хотите.</p></div>
           <div className="benefit-grid">
             {benefits.map(([icon, title, text]) => <article className="benefit-card" key={title}><Image src={`/media/benefits/${icon}`} alt="" width={118} height={122} /><h3>{title}</h3><p>{text}</p></article>)}
           </div>
@@ -196,7 +196,7 @@ export function OriginalHomeSections() {
 
       <section className="section">
         <div className="shell">
-          <div className="section-heading"><span className="eyebrow">Восемь простых шагов</span><h2>Фотокнига на заказ всего за 7 дней!</h2></div>
+          <div className="section-heading split-heading"><div><span className="eyebrow">Восемь простых шагов</span><h2>Фотокнига на заказ всего за 7 дней!</h2></div><p>Вся работа идёт онлайн, без поездок в офис и долгих встреч.</p></div>
           <ol className="steps-grid">
             {steps.map(([icon, title, text]) => <li key={title}><Image src={`/media/steps/${icon}`} alt="" width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>)}
           </ol>
@@ -205,7 +205,7 @@ export function OriginalHomeSections() {
 
       <section className="section section-reviews">
         <div className="shell">
-          <div className="section-heading center-heading"><span className="eyebrow">Отзывы</span><h2>Отзывы о фотокнигах</h2></div>
+          <div className="section-heading split-heading"><div><span className="eyebrow">Отзывы</span><h2>Отзывы о фотокнигах</h2></div><p>Сохраняем живые отзывы клиентов без пересказа и редакторских правок.</p></div>
           <ReviewCarousel images={reviewImages} />
           <div className="center-action action-row"><a className="text-link yandex-review-link" href={contacts.yandex} target="_blank" rel="noreferrer"><span>Отзывы на яндекс услугах</span><strong>ЧИТАТЬ ЗДЕСЬ</strong></a></div>
         </div>

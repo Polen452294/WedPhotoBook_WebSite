@@ -62,11 +62,11 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /icos3-optimized\.png/);
   assert.match(restoredHtml, /icos5-optimized\.png/);
   assert.match(restoredHtml, /logotip_max\.svg_-optimized\.png/);
-  assert.match(restoredHtml, /<span class="eyebrow">От снимков к семейной реликвии<\/span><h2>Как мы делаем фотокниги\?<\/h2>/);
-  assert.match(restoredHtml, /<span class="eyebrow eyebrow-light">Каталог<\/span><h2>Какие фотокниги мы делаем\? Любые!<\/h2>/);
-  assert.match(restoredHtml, /<span class="eyebrow">Почему нам доверяют<\/span><h2>Почему нам можно доверять\?<\/h2>/);
-  assert.match(restoredHtml, /<span class="eyebrow">Восемь простых шагов<\/span><h2>Фотокнига на заказ всего за 7 дней!<\/h2>/);
-  assert.match(restoredHtml, /<span class="eyebrow">Отзывы<\/span><h2>Отзывы о фотокнигах<\/h2>/);
+  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">От снимков к семейной реликвии<\/span><h2>Как мы делаем фотокниги\?<\/h2><\/div><p>Каждый этап выполняют люди — от отбора фотографий и дизайна до финальной проверки перед печатью\.<\/p>/);
+  assert.match(restoredHtml, /<span class="eyebrow eyebrow-light">Каталог<\/span><h2>Какие фотокниги мы делаем\? Любые!<\/h2><p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы найдём визуальный язык для любого события\.<\/p>/);
+  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Почему нам доверяют<\/span><h2>Почему нам можно доверять\?<\/h2><\/div><p>Вы видите будущую книгу ещё до оплаты и участвуете в создании ровно настолько, насколько хотите\.<\/p>/);
+  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Восемь простых шагов<\/span><h2>Фотокнига на заказ всего за 7 дней!<\/h2><\/div><p>Вся работа идёт онлайн, без поездок в офис и долгих встреч\.<\/p>/);
+  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Отзывы<\/span><h2>Отзывы о фотокнигах<\/h2><\/div><p>Сохраняем живые отзывы клиентов без пересказа и редакторских правок\.<\/p>/);
   assert.match(restoredHtml, /<span class="eyebrow">Частые вопросы<\/span><h2>Остались вопросы\?<\/h2>/);
 });
 

@@ -117,24 +117,8 @@
 }
 
 .restored-first-version .section-craft > .shell > .section-heading {
-  width: min(100%, 1034.6667px);
-  margin-right: auto;
+  width: 100%;
   margin-bottom: 54px;
-  margin-left: auto;
-  text-align: center;
-}
-
-.restored-first-version .section-craft > .shell > .section-heading h2 {
-  margin: 0;
-  padding: 0;
-  color: #000;
-  font-family: "Open Sans", Arial, sans-serif;
-  font-size: 26px;
-  font-weight: 700;
-  line-height: 28.6px;
-  letter-spacing: .36px;
-  text-align: center;
-  text-transform: uppercase;
 }
 
 .restored-first-version .section-heading > p,
