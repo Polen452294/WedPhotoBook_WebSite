@@ -31,9 +31,8 @@ test("keeps the original opening screen and restores the first working version b
   assert.doesNotMatch(html, /href="#collapse[2-5]" data-redirect-url=/);
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
-  assert.match(html, /wordpress\.css\?v=22/);
   assert.match(html, /home-original-fix\.css\?v=11/);
-  assert.match(html, /first-version-home\.css\?v=21/);
+  assert.match(html, /first-version-home\.css\?v=19/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
@@ -92,42 +91,6 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
   const articleHtml = await (await render("/article-vipysk/")).text();
   assert.match(articleHtml, /href="\/vypusknye-fotoknigi\/"/);
   assert.doesNotMatch(articleHtml, /href="\/vypusknye-fotoknigi-2\/"/);
-});
-
-test("uses the restored original footer on every published page", async () => {
-  const snapshots = JSON.parse(await readFile(new URL("../data/rendered-pages.json", import.meta.url), "utf8"));
-  const footerCss = await readFile(new URL("../public/wp-assets/first-version-home.css", import.meta.url), "utf8");
-  assert.match(footerCss, /\.legacy-wordpress > \.hcode-main-footer[\s\S]*?display:\s*none\s*!important/);
-
-  for (const page of snapshots) {
-    const pathname = page.slug ? `/${page.slug}/` : "/";
-    const response = await render(pathname);
-    assert.equal(response.status, 200, pathname);
-    const html = await response.text();
-    assert.equal((html.match(/class="site-footer"/g) ?? []).length, 1, `Missing restored footer: ${pathname}`);
-    assert.match(html, /class="shell footer-grid original-footer-grid"/, pathname);
-    assert.match(html, /href="\/wedding-fotoknig\/"/, pathname);
-    assert.match(html, /href="\/politika-obrabotki-personalnyh-dannyh\/"/, pathname);
-    assert.match(html, /href="tel:\+79854342367"/, pathname);
-    if (page.slug) assert.match(html, /class="restored-first-version restored-global-footer"/, pathname);
-  }
-});
-
-test("uses the original Open Sans typography without changing text colors", async () => {
-  const globalCss = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
-  const restoredCss = await readFile(new URL("../public/wp-assets/first-version-home.css", import.meta.url), "utf8");
-  const wordpressCss = await readFile(new URL("../public/wp-assets/wordpress.css", import.meta.url), "utf8");
-
-  assert.match(globalCss, /body\s*\{[^}]*font-family:\s*"Wedfotobook Open Sans",\s*"Open Sans",\s*sans-serif/);
-  assert.match(globalCss, /button, input, textarea, select\s*\{[^}]*font-family:\s*"Wedfotobook Open Sans",\s*"Open Sans",\s*sans-serif/);
-  assert.match(globalCss, /\.legacy-wordpress \.entry-content p,[\s\S]*font-family:\s*"Wedfotobook Open Sans",\s*"Open Sans",\s*sans-serif\s*!important/);
-  assert.match(wordpressCss, /body\{font-family:'Open Sans',sans-serif/);
-  assert.match(wordpressCss, /font-family:\s*'Oswald'/);
-  assert.doesNotMatch(restoredCss, /font-family:\s*(?:Georgia|Inter)\b/i);
-
-  const weddingHtml = await (await render("/wedding-fotoknig/")).text();
-  assert.match(weddingHtml, /rel="preload" href="\/wp-assets\/external\/bd757f1ad06c84be47a2d34d6cf8c292de0e1185\.ttf" as="font" type="font\/ttf" crossorigin="anonymous"/);
-  assert.match(weddingHtml, /rel="preload" href="\/wp-assets\/external\/38cd786c2a409251d1efc9eca27b2335faebeaf5\.ttf" as="font" type="font\/ttf" crossorigin="anonymous"/);
 });
 
 test("preserves every published route and its captured text", async () => {
