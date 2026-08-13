@@ -531,6 +531,7 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   margin: 0;
+  border-bottom: 1px solid var(--line);
   padding: 0;
   list-style: none;
 }
