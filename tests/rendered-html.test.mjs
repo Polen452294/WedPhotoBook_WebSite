@@ -32,7 +32,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
   assert.match(html, /home-original-fix\.css\?v=11/);
-  assert.match(html, /first-version-home\.css\?v=19/);
+  assert.match(html, /first-version-home\.css\?v=20/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
@@ -49,7 +49,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.doesNotMatch(restoredHtml, /class="section section-ink alive-section"/);
   assert.match(restoredHtml, /class="review-carousel"/);
   assert.doesNotMatch(restoredHtml, /class="review-strip"/);
-  assert.ok(restoredHtml.indexOf("Фотокнига на заказ всего за 7 дней!") < restoredHtml.indexOf("Отзывы о фотокнигах"));
+  assert.ok(restoredHtml.indexOf("Как проходит заказ") < restoredHtml.indexOf("Отзывы о фотокнигах"));
   assert.match(restoredHtml, /class="craft-number">01<\/span><h3>Профессиональная обработка фотографий<\/h3>/);
   assert.match(restoredHtml, /<strong>Каталог<\/strong>/);
   assert.match(restoredHtml, /<strong>Стоимость<\/strong>/);
@@ -65,7 +65,11 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">От снимков к семейной реликвии<\/span><h2>Как мы делаем фотокниги\?<\/h2><\/div><p>Каждый этап выполняют люди — от отбора фотографий и дизайна до финальной проверки перед печатью\.<\/p>/);
   assert.match(restoredHtml, /<span class="eyebrow eyebrow-light">Каталог<\/span><h2>Какие фотокниги мы делаем\? Любые!<\/h2><p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы найдём визуальный язык для любого события\.<\/p>/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Почему нам доверяют<\/span><h2>Почему нам можно доверять\?<\/h2><\/div><p>Вы видите будущую книгу ещё до оплаты и участвуете в создании ровно настолько, насколько хотите\.<\/p>/);
-  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Восемь простых шагов<\/span><h2>Фотокнига на заказ всего за 7 дней!<\/h2><\/div><p>Вся работа идёт онлайн, без поездок в офис и долгих встреч\.<\/p>/);
+  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Восемь простых шагов<\/span><h2>Как проходит заказ<\/h2><\/div><p>Вся работа идёт онлайн, без поездок в офис и долгих встреч\.<\/p>/);
+  assert.match(restoredHtml, /class="step-number">0(?:<!-- -->)?1<\/span>/);
+  assert.match(restoredHtml, /class="step-number">0(?:<!-- -->)?7<\/span>/);
+  assert.doesNotMatch(restoredHtml, /class="step-number">0(?:<!-- -->)?8<\/span>/);
+  assert.match(restoredHtml, /<button class="button" data-order-open="true" type="button">Начать заказ<\/button>/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Отзывы<\/span><h2>Отзывы о фотокнигах<\/h2><\/div><p>Сохраняем живые отзывы клиентов без пересказа и редакторских правок\.<\/p>/);
   assert.match(restoredHtml, /<span class="eyebrow">Частые вопросы<\/span><h2>Остались вопросы\?<\/h2>/);
 });

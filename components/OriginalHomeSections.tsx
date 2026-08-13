@@ -102,14 +102,13 @@ const pricing = [
 ] as const;
 
 const steps = [
-  ["prishlite-foto.webp", "1. Пришлите фото", "На почту, WhatsApp/Телеграм/Макс или ссылку на Яндекс диск/Mail облако"],
-  ["consultacia.webp", "2. Консультация", "Решаем по формату, количеству разворотов и стоимости"],
-  ["tree-pasvorota.webp", "3. Три разворота", "Посмотрите и согласуйте первые 3 разворота"],
-  ["oplata.webp", "4. Предоплата", "Внесите предоплату — 50%. Оплата по QR коду/счет для юр.лиц"],
-  ["soglacovanie.webp", "5. Согласование", "Внесите правки в макет при желании"],
-  ["oplata.webp", "6. Оплата", "Оплатите оставшиеся 50% и доставку. Оплата по QR коду/счет для юр.лиц"],
-  ["print.webp", "7. Печать", "Определяемся с доставкой и отправляем в типографию"],
-  ["fotokniga-gotova.webp", "8. Готово!", "Заберите готовую фотокнигу в удобном пункте выдачи Яндекс маркета"],
+  ["prishlite-foto.webp", "Пришлите фото", "В мессенджер, на почту или ссылкой на облако."],
+  ["consultacia.webp", "Консультация", "Определяем формат, количество разворотов и стоимость."],
+  ["tree-pasvorota.webp", "Три разворота", "Показываем первые страницы до оплаты."],
+  ["oplata.webp", "Предоплата", "После согласования первых разворотов — 50%."],
+  ["soglacovanie.webp", "Согласование", "Вносим правки до вашего полного одобрения."],
+  ["print.webp", "Печать", "Отправляем утверждённый макет в типографию."],
+  ["fotokniga-gotova.webp", "Готово", "Доставка в удобный пункт выдачи или курьером."],
 ] as const;
 
 const faqs = [
@@ -196,10 +195,11 @@ export function OriginalHomeSections() {
 
       <section className="section">
         <div className="shell">
-          <div className="section-heading split-heading"><div><span className="eyebrow">Восемь простых шагов</span><h2>Фотокнига на заказ всего за 7 дней!</h2></div><p>Вся работа идёт онлайн, без поездок в офис и долгих встреч.</p></div>
+          <div className="section-heading split-heading"><div><span className="eyebrow">Восемь простых шагов</span><h2>Как проходит заказ</h2></div><p>Вся работа идёт онлайн, без поездок в офис и долгих встреч.</p></div>
           <ol className="steps-grid">
-            {steps.map(([icon, title, text]) => <li key={title}><Image src={`/media/steps/${icon}`} alt="" width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>)}
+            {steps.map(([icon, title, text], index) => <li key={title}><span className="step-number">0{index + 1}</span><Image src={`/media/steps/${icon}`} alt="" width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>)}
           </ol>
+          <div className="center-action"><button className="button" data-order-open type="button">Начать заказ</button></div>
         </div>
       </section>
 
