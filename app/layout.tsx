@@ -1,16 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@/components/Analytics";
-import { CookieNotice } from "@/components/CookieNotice";
-import { Footer } from "@/components/Footer";
 import { OrderDialog } from "@/components/OrderDialog";
-import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://wedfotobook.ru"),
   title: { default: "Фотокниги на заказ в Москве", template: "%s | wedfotobook.ru" },
   description: "Фотокниги на заказ с индивидуальным дизайном, обработкой фотографий и печатью под ключ.",
-  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg", apple: "/favicon.png" },
+  icons: { icon: "/favicon.png", shortcut: "/favicon.png", apple: "/favicon.png" },
   openGraph: {
     type: "website",
     locale: "ru_RU",
@@ -31,5 +28,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#061d31" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ru"><body><SiteHeader />{children}<Footer /><OrderDialog /><CookieNotice /><Analytics /></body></html>;
+  return <html lang="ru"><head><link rel="stylesheet" href="/wp-assets/wordpress.css?v=10" /><link rel="stylesheet" href="/wp-assets/home-original-fix.css?v=11" /><link rel="stylesheet" href="/wp-assets/first-version-home.css?v=19" /></head><body><OrderDialog />{children}<Analytics /></body></html>;
 }
