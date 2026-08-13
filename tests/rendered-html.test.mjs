@@ -118,8 +118,9 @@ test("uses the original Open Sans typography without changing text colors", asyn
   const restoredCss = await readFile(new URL("../public/wp-assets/first-version-home.css", import.meta.url), "utf8");
   const wordpressCss = await readFile(new URL("../public/wp-assets/wordpress.css", import.meta.url), "utf8");
 
-  assert.match(globalCss, /body\s*\{[^}]*font-family:\s*"Open Sans",\s*sans-serif/);
-  assert.match(globalCss, /button, input, textarea, select\s*\{[^}]*font-family:\s*"Open Sans",\s*sans-serif/);
+  assert.match(globalCss, /body\s*\{[^}]*font-family:\s*"Wedfotobook Open Sans",\s*"Open Sans",\s*sans-serif/);
+  assert.match(globalCss, /button, input, textarea, select\s*\{[^}]*font-family:\s*"Wedfotobook Open Sans",\s*"Open Sans",\s*sans-serif/);
+  assert.match(globalCss, /\.legacy-wordpress \.entry-content p,[\s\S]*font-family:\s*"Wedfotobook Open Sans",\s*"Open Sans",\s*sans-serif\s*!important/);
   assert.match(wordpressCss, /body\{font-family:'Open Sans',sans-serif/);
   assert.match(wordpressCss, /font-family:\s*'Oswald'/);
   assert.doesNotMatch(restoredCss, /font-family:\s*(?:Georgia|Inter)\b/i);
