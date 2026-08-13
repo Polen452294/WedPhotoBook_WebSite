@@ -2,6 +2,12 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
+const globalCss = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+
+test("uses Open Sans across the entire site", () => {
+  assert.match(globalCss, /body \* \{\s*font-family: "Open Sans", Arial, sans-serif !important;/);
+});
+
 async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
