@@ -25,6 +25,8 @@ test("keeps the footer links unchanged while arranging them in a structured grid
   assert.match(firstVersionCss, /grid-template-columns: minmax\(0, 1\.35fr\) minmax\(0, 1fr\) minmax\(0, 1\.35fr\) minmax\(0, 1\.2fr\);/);
   assert.match(firstVersionCss, /\.original-footer-grid > div \+ div \{\s*border-left:/);
   assert.match(firstVersionCss, /\.footer-contacts \{\s*text-align: left;/);
+  assert.doesNotMatch(firstVersionCss, /\.original-footer-grid \{[^}]*width:/s);
+  assert.match(firstVersionCss, /\.footer-contact-card \{[^}]*border: 1px solid/s);
 });
 
 async function render(path = "/") {
@@ -70,10 +72,12 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
   assert.match(html, /home-original-fix\.css\?v=12/);
-  assert.match(html, /first-version-home\.css\?v=24/);
+  assert.match(html, /first-version-home\.css\?v=25/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   const footerHtml = restoredHtml.slice(restoredHtml.indexOf('<footer class="site-footer">'), restoredHtml.indexOf("</footer>") + "</footer>".length);
   assert.equal([...footerHtml.matchAll(/<a\b/g)].length, 26);
+  assert.match(footerHtml, /Адрес: Москва, Свободный проспект, д\. 33/);
+  assert.match(footerHtml, /class="footer-contact-card"/);
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
   assert.match(restoredHtml, /class="faq-intro"><span class="eyebrow"/);
