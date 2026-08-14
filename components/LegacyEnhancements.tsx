@@ -124,6 +124,7 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
         name: data.get("your-name") ?? data.get("name") ?? "",
         phone: data.get("your-phone") ?? data.get("phone") ?? "",
         address: data.get("address") ?? "",
+        formStartedAt: Date.now() - 1500,
         consent,
       };
       if (status) status.textContent = "Отправляем…";

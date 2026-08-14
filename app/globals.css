@@ -75,9 +75,10 @@ body * {
 }
 .order-dialog .order-form input:not([type="checkbox"])::placeholder { color: #9aa5ac; }
 .order-dialog .order-form input:not([type="checkbox"]):focus { border-color: #1fa7da; background: #fff; box-shadow: 0 0 0 4px rgba(31, 167, 218, .12); }
-.order-dialog .order-form .checkbox { display: grid; grid-template-columns: 19px 1fr; align-items: start; gap: 11px; color: #66747e; font-size: 12px; font-weight: 400; line-height: 1.5; }
-.order-dialog .checkbox input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: #071d30; }
-.order-dialog .checkbox a { color: #075b86; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.order-dialog .order-form .checkbox { display: grid; grid-template-columns: 19px minmax(0, 1fr); align-items: start; width: 100% !important; gap: 11px; color: #66747e; font-size: 12px; font-weight: 400; line-height: 1.5; }
+.order-dialog .checkbox input { position: static !important; display: block !important; width: 18px; height: 18px; margin: 2px 0 0 !important; opacity: 1 !important; accent-color: #071d30; }
+.order-dialog .order-form .checkbox > span { display: block !important; width: auto !important; min-width: 0; max-width: none !important; margin: 0 !important; padding: 0 !important; float: none !important; white-space: normal; word-break: normal; overflow-wrap: normal; }
+.order-dialog .checkbox a { display: inline !important; width: auto !important; float: none !important; color: #075b86; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
 .order-dialog .honeypot { position: absolute !important; left: -9999px !important; }
 .order-dialog .order-antispam {
   display: flex;

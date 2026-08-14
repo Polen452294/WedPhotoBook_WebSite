@@ -28,10 +28,12 @@ export function OrderDialog() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [phone, setPhone] = useState("");
+  const [formStartedAt, setFormStartedAt] = useState(0);
 
   useEffect(() => {
     const show = () => {
       setStatus("idle");
+      setFormStartedAt(Date.now());
       if (!dialogRef.current?.open) dialogRef.current?.showModal();
     };
     const open = (event: MouseEvent) => {
@@ -86,12 +88,13 @@ export function OrderDialog() {
           <label><span>Телефон</span><input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__" value={phone} onChange={(event) => setPhone(formatPhone(event.target.value))} minLength={18} required /></label>
         </div>
         <label className="honeypot" aria-hidden="true">Адрес<input name="address" tabIndex={-1} autoComplete="off" /></label>
+        <input name="formStartedAt" type="hidden" value={formStartedAt} readOnly />
         <label className="checkbox"><input name="consent" type="checkbox" required />
           <span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span>
         </label>
         <div className="order-antispam" aria-label="Форма защищена от автоматических заявок">
           <span className="order-antispam-icon" aria-hidden="true">✓</span>
-          <span><strong>Антиспам-защита</strong><small>Автоматические заявки отсеиваются</small></span>
+          <span><strong>Антиспам-защита включена</strong><small>Форма проверяется на сервере перед отправкой</small></span>
         </div>
         <button className="button order-submit" disabled={status === "sending"} type="submit">
           {status === "sending" ? "Отправляем…" : "Заказать звонок"}

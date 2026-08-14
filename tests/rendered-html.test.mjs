@@ -17,9 +17,13 @@ test("uses a two-field callback form with consent and spam protection", () => {
   assert.match(orderDialogSource, /<input name="phone" type="tel"/);
   assert.match(orderDialogSource, /<input name="consent" type="checkbox" required/);
   assert.match(orderDialogSource, /className="honeypot"/);
+  assert.match(orderDialogSource, /name="formStartedAt" type="hidden"/);
   assert.match(orderDialogSource, /className="order-antispam"/);
   assert.doesNotMatch(orderDialogSource, /name="(?:photos|message)"/);
   assert.match(globalCss, /\.order-dialog \{[^}]*border-radius: 22px;/s);
+  assert.match(globalCss, /\.order-dialog \.order-form \.checkbox > span \{[^}]*width: auto !important;[^}]*float: none !important;/s);
+  assert.match(contactRouteSource, /FORM_MIN_AGE_MS/);
+  assert.match(contactRouteSource, /RATE_LIMIT_MAX/);
   assert.match(contactRouteSource, /text: `Имя: \$\{name\}\\nТелефон: \$\{phone\}`/);
   assert.doesNotMatch(contactRouteSource, /body\.(?:photos|message)/);
 });
@@ -47,16 +51,35 @@ test("keeps the footer links unchanged while arranging them in a structured grid
   assert.doesNotMatch(firstVersionCss, /\.footer-contact-card \{[^}]*background:/s);
 });
 
-async function render(path = "/") {
+async function render(path = "/", init = {}) {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
   return worker.fetch(
-    new Request(`http://localhost${path}`, { headers: { accept: "text/html" } }),
+    new Request(`http://localhost${path}`, {
+      ...init,
+      headers: { accept: "text/html", ...(init.headers ?? {}) },
+    }),
     { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
     { waitUntil() {}, passThroughOnException() {} },
   );
 }
+
+test("rejects automated callback submissions on the server", async () => {
+  const trapped = await render("/api/contact/", {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-real-ip": "192.0.2.10" },
+    body: JSON.stringify({ address: "spam", name: "Bot", phone: "+7 (999) 111-22-33", consent: "on", formStartedAt: Date.now() - 2000 }),
+  });
+  assert.equal(trapped.status, 200);
+
+  const tooFast = await render("/api/contact/", {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-real-ip": "192.0.2.11" },
+    body: JSON.stringify({ name: "Bot", phone: "+7 (999) 111-22-33", consent: "on", formStartedAt: Date.now() }),
+  });
+  assert.equal(tooFast.status, 429);
+});
 
 test("keeps the original opening screen and restores the first working version below it", async () => {
   const response = await render();
