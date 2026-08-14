@@ -106,11 +106,12 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /<strong>Соглашения<\/strong>/);
   assert.match(restoredHtml, /ИНН 772008137237(?:&nbsp;|\u00a0)ОГРНИП(?:&nbsp;|\u00a0)325774600377441/);
   assert.match(restoredHtml, /class="footer-socials"/);
-  assert.match(restoredHtml, /icon6-optimized\.png/);
-  assert.match(restoredHtml, /icos1-optimized\.png/);
-  assert.match(restoredHtml, /icos3-optimized\.png/);
-  assert.match(restoredHtml, /icos5-optimized\.png/);
-  assert.match(restoredHtml, /logotip_max\.svg_-optimized\.png/);
+  assert.match(html, /\/media\/brand\/logo-wedfotobook\.png/);
+  assert.match(restoredHtml, /\/media\/social\/yandex-wedfotobook\.png/);
+  assert.match(restoredHtml, /\/media\/social\/vk-wedfotobook\.png/);
+  assert.match(restoredHtml, /\/media\/social\/tg-wedfotobook\.png/);
+  assert.match(restoredHtml, /\/media\/social\/wapp-wedfotobook\.png/);
+  assert.match(restoredHtml, /\/media\/social\/max-wedfotobook\.png/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">От снимков к семейной реликвии<\/span><h2>Как мы делаем фотокниги\?<\/h2><\/div><p>Каждый этап выполняют люди — от отбора фотографий и дизайна до финальной проверки перед печатью\.<\/p>/);
   assert.match(restoredHtml, /<span class="eyebrow eyebrow-light">Каталог<\/span><h2>Какие фотокниги мы делаем\? Любые!<\/h2><p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы найдём визуальный язык для любого события\.<\/p>/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Почему нам доверяют<\/span><h2>Почему нам можно доверять\?<\/h2><\/div><p>Вы видите будущую книгу ещё до оплаты и участвуете в создании ровно настолько, насколько хотите\.<\/p>/);
@@ -132,9 +133,12 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
     const response = await render(page.slug ? `/${page.slug}/` : "/");
     assert.equal(response.status, 200, page.slug || "/");
     const html = await response.text();
+    const visibleHtml = html.replace(/<script[\s\S]*?<\/script>/g, "");
     assert.match(html, /class="navbar navbar-default/, page.slug || "/");
     assert.match(html, /home-original-fix\.css\?v=12/, page.slug || "/");
     assert.doesNotMatch(html, /<a\b[^>]*href=["']https?:\/\/(?:www\.)?wedfotobook\.ru/i, page.slug || "/");
+    assert.match(visibleHtml, /\/media\/brand\/logo-wedfotobook\.png/, page.slug || "/");
+    assert.doesNotMatch(visibleHtml, /(?:icon6-optimized|icos[135]-optimized|logotip_max\.svg_|telegram_2019_logo|whatsapp\.svg_)/, page.slug || "/");
 
     for (const match of html.matchAll(/href=["'](\/[^"']*)["']/gi)) {
       const pathname = match[1].split(/[?#]/, 1)[0];
