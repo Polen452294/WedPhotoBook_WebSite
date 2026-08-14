@@ -21,6 +21,12 @@ test("keeps comfortable spacing between the footer service links", () => {
   assert.match(firstVersionCss, /\.footer-service-links,\s*\.restored-first-version \.footer-service-links a \{\s*line-height: 23px;/);
 });
 
+test("keeps the footer links unchanged while arranging them in a structured grid", () => {
+  assert.match(firstVersionCss, /grid-template-columns: minmax\(0, 1\.35fr\) minmax\(0, 1fr\) minmax\(0, 1\.35fr\) minmax\(0, 1\.2fr\);/);
+  assert.match(firstVersionCss, /\.original-footer-grid > div \+ div \{\s*border-left:/);
+  assert.match(firstVersionCss, /\.footer-contacts \{\s*text-align: left;/);
+});
+
 async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
@@ -64,8 +70,10 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
   assert.match(html, /home-original-fix\.css\?v=12/);
-  assert.match(html, /first-version-home\.css\?v=23/);
+  assert.match(html, /first-version-home\.css\?v=24/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
+  const footerHtml = restoredHtml.slice(restoredHtml.indexOf('<footer class="site-footer">'), restoredHtml.indexOf("</footer>") + "</footer>".length);
+  assert.equal([...footerHtml.matchAll(/<a\b/g)].length, 26);
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
   assert.match(restoredHtml, /class="faq-intro"><span class="eyebrow"/);
