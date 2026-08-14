@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LegacyPage } from "@/components/LegacyPage";
+import { OriginalFooter } from "@/components/OriginalHomeSections";
 import { getSnapshot, snapshots } from "@/lib/rendered-pages";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -25,5 +26,10 @@ export default async function SlugPage({ params }: Props) {
   const { slug } = await params;
   const page = getSnapshot(slug);
   if (!page) notFound();
-  return <LegacyPage page={page} />;
+  return (
+    <>
+      <LegacyPage page={page} />
+      <div className="restored-first-version"><OriginalFooter /></div>
+    </>
+  );
 }
