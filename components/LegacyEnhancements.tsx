@@ -47,6 +47,8 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
     const previous = document.body.className;
     document.body.className = `${BODY_CLASSES.join(" ")} ${bodyClass}`.trim();
     initializeImageViewers();
+    const legacyFormStartedAt = new WeakMap<HTMLFormElement, number>();
+    document.querySelectorAll<HTMLFormElement>(".wpcf7-form").forEach((form) => legacyFormStartedAt.set(form, Date.now()));
 
     const click = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
@@ -124,7 +126,7 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
         name: data.get("your-name") ?? data.get("name") ?? "",
         phone: data.get("your-phone") ?? data.get("phone") ?? "",
         address: data.get("address") ?? "",
-        formStartedAt: Date.now() - 1500,
+        formStartedAt: legacyFormStartedAt.get(form) ?? 0,
         consent,
       };
       if (status) status.textContent = "Отправляем…";
