@@ -3,9 +3,22 @@ import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const globalCss = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+const headerCss = await readFile(new URL("../public/wp-assets/home-original-fix.css", import.meta.url), "utf8");
+const firstVersionCss = await readFile(new URL("../public/wp-assets/first-version-home.css", import.meta.url), "utf8");
 
 test("uses Open Sans across the entire site", () => {
   assert.match(globalCss, /body \* \{\s*font-family: "Open Sans", Arial, sans-serif !important;/);
+});
+
+test("uses the home-page header styling on every page", () => {
+  assert.match(headerCss, /\.legacy-wordpress > \.navbar \{/);
+  assert.match(headerCss, /\.legacy-wordpress > \.navbar \.nav-header-container \{/);
+  assert.match(headerCss, /\.legacy-wordpress > \.navbar \.navbar-nav > li > a \{/);
+  assert.doesNotMatch(headerCss, /\.legacy-wordpress\.home > \.navbar/);
+});
+
+test("keeps comfortable spacing between the footer service links", () => {
+  assert.match(firstVersionCss, /\.footer-service-links,\s*\.restored-first-version \.footer-service-links a \{\s*line-height: 23px;/);
 });
 
 async function render(path = "/") {
@@ -37,8 +50,8 @@ test("keeps the original opening screen and restores the first working version b
   assert.doesNotMatch(html, /href="#collapse[2-5]" data-redirect-url=/);
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
-  assert.match(html, /home-original-fix\.css\?v=11/);
-  assert.match(html, /first-version-home\.css\?v=22/);
+  assert.match(html, /home-original-fix\.css\?v=12/);
+  assert.match(html, /first-version-home\.css\?v=23/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
@@ -63,6 +76,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /<strong>Каталог<\/strong>/);
   assert.match(restoredHtml, /<strong>Стоимость<\/strong>/);
   assert.match(restoredHtml, /class="footer-subheading"><strong>Сервисы<\/strong>/);
+  assert.match(restoredHtml, /class="footer-service-links"><a href="\/company\/">О компании<\/a>/);
   assert.match(restoredHtml, /<strong>Соглашения<\/strong>/);
   assert.match(restoredHtml, /ИНН 772008137237(?:&nbsp;|\u00a0)ОГРНИП(?:&nbsp;|\u00a0)325774600377441/);
   assert.match(restoredHtml, /class="footer-socials"/);
@@ -92,6 +106,8 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
     const response = await render(page.slug ? `/${page.slug}/` : "/");
     assert.equal(response.status, 200, page.slug || "/");
     const html = await response.text();
+    assert.match(html, /class="navbar navbar-default/, page.slug || "/");
+    assert.match(html, /home-original-fix\.css\?v=12/, page.slug || "/");
     assert.doesNotMatch(html, /<a\b[^>]*href=["']https?:\/\/(?:www\.)?wedfotobook\.ru/i, page.slug || "/");
 
     for (const match of html.matchAll(/href=["'](\/[^"']*)["']/gi)) {

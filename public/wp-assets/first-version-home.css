@@ -825,9 +825,9 @@
   line-height: 13px;
 }
 
-.restored-first-version .footer-pricing p:last-child,
-.restored-first-version .footer-pricing p:last-child a {
-  line-height: 13px;
+.restored-first-version .footer-service-links,
+.restored-first-version .footer-service-links a {
+  line-height: 23px;
 }
 
 .restored-first-version .footer-contacts p {

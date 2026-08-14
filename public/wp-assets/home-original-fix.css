@@ -1,5 +1,5 @@
 /* Exact desktop layout of the original home-page opening screen. */
-.legacy-wordpress.home > .navbar {
+.legacy-wordpress > .navbar {
   top: 0 !important;
   right: 0 !important;
   left: 0 !important;
@@ -17,20 +17,20 @@
   font-family: "Open Sans", Arial, sans-serif !important;
 }
 
-.legacy-wordpress.home > .navbar .nav-header-container {
+.legacy-wordpress > .navbar .nav-header-container {
   height: 60px !important;
   min-height: 0 !important;
   padding-right: 15px !important;
   padding-left: 15px !important;
 }
 
-.legacy-wordpress.home > .navbar .nav-header-container > .row {
+.legacy-wordpress > .navbar .nav-header-container > .row {
   height: 60px !important;
   min-height: 60px !important;
   align-items: center !important;
 }
 
-.legacy-wordpress.home > .navbar .hcode-header-logo {
+.legacy-wordpress > .navbar .hcode-header-logo {
   display: flex !important;
   align-items: center !important;
   width: 180px !important;
@@ -39,30 +39,30 @@
   padding: 0 15px !important;
 }
 
-.legacy-wordpress.home > .navbar .hcode-header-logo .logo-light {
+.legacy-wordpress > .navbar .hcode-header-logo .logo-light {
   display: flex !important;
   align-items: center !important;
   height: 60px !important;
   padding: 0 !important;
 }
 
-.legacy-wordpress.home > .navbar .hcode-header-logo img {
+.legacy-wordpress > .navbar .hcode-header-logo img {
   width: 150px !important;
   max-width: 150px !important;
   max-height: 50px !important;
   object-fit: contain;
 }
 
-.legacy-wordpress.home > .navbar .hcode-header-logo img.logo {
+.legacy-wordpress > .navbar .hcode-header-logo img.logo {
   display: none !important;
 }
 
-.legacy-wordpress.home > .navbar .hcode-header-logo img.retina-logo {
+.legacy-wordpress > .navbar .hcode-header-logo img.retina-logo {
   display: inline-block !important;
   height: 50px !important;
 }
 
-.legacy-wordpress.home > .navbar .navbar-nav > li > a {
+.legacy-wordpress > .navbar .navbar-nav > li > a {
   min-height: 0 !important;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
@@ -99,7 +99,7 @@
   font-size: 24px !important;
 }
 
-.legacy-wordpress.home > .navbar .navbar-nav > li.current-menu-item > a {
+.legacy-wordpress > .navbar .navbar-nav > li.current-menu-item > a {
   border-bottom: 2px solid #fff !important;
 }
 
