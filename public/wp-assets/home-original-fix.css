@@ -33,7 +33,7 @@
 .legacy-wordpress > .navbar .hcode-header-logo {
   display: flex !important;
   align-items: center !important;
-  width: 180px !important;
+  width: 320px !important;
   height: 60px !important;
   margin-top: 0 !important;
   padding: 0 15px !important;
@@ -47,9 +47,10 @@
 }
 
 .legacy-wordpress > .navbar .hcode-header-logo img {
-  width: 150px !important;
-  max-width: 150px !important;
-  max-height: 50px !important;
+  width: auto !important;
+  max-width: none !important;
+  height: 100% !important;
+  max-height: none !important;
   object-fit: contain;
 }
 
@@ -59,7 +60,8 @@
 
 .legacy-wordpress > .navbar .hcode-header-logo img.retina-logo {
   display: inline-block !important;
-  height: 50px !important;
+  width: auto !important;
+  height: 60px !important;
 }
 
 .legacy-wordpress > .navbar .navbar-nav > li > a {

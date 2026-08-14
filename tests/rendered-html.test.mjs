@@ -14,6 +14,8 @@ test("uses the home-page header styling on every page", () => {
   assert.match(headerCss, /\.legacy-wordpress > \.navbar \{/);
   assert.match(headerCss, /\.legacy-wordpress > \.navbar \.nav-header-container \{/);
   assert.match(headerCss, /\.legacy-wordpress > \.navbar \.navbar-nav > li > a \{/);
+  assert.match(headerCss, /\.hcode-header-logo img \{[^}]*height: 100% !important;/s);
+  assert.match(headerCss, /\.hcode-header-logo img\.retina-logo \{[^}]*height: 60px !important;/s);
   assert.doesNotMatch(headerCss, /\.legacy-wordpress\.home > \.navbar/);
 });
 
@@ -73,7 +75,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.doesNotMatch(html, /href="#collapse[2-5]" data-redirect-url=/);
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
-  assert.match(html, /home-original-fix\.css\?v=12/);
+  assert.match(html, /home-original-fix\.css\?v=13/);
   assert.match(html, /first-version-home\.css\?v=28/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   const footerHtml = restoredHtml.slice(restoredHtml.indexOf('<footer class="site-footer">'), restoredHtml.indexOf("</footer>") + "</footer>".length);
@@ -137,7 +139,7 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
     const html = await response.text();
     const visibleHtml = html.replace(/<script[\s\S]*?<\/script>/g, "");
     assert.match(html, /class="navbar navbar-default/, page.slug || "/");
-    assert.match(html, /home-original-fix\.css\?v=12/, page.slug || "/");
+    assert.match(html, /home-original-fix\.css\?v=13/, page.slug || "/");
     assert.doesNotMatch(html, /<a\b[^>]*href=["']https?:\/\/(?:www\.)?wedfotobook\.ru/i, page.slug || "/");
     assert.match(visibleHtml, /\/media\/brand\/logo-wedfotobook\.png/, page.slug || "/");
     assert.doesNotMatch(visibleHtml, /(?:icon6-optimized|icos[135]-optimized|logotip_max\.svg_|telegram_2019_logo|whatsapp\.svg_)/, page.slug || "/");
