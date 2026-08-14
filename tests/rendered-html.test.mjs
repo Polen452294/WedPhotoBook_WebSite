@@ -26,7 +26,8 @@ test("keeps the footer links unchanged while arranging them in a structured grid
   assert.match(firstVersionCss, /\.original-footer-grid > div \+ div \{\s*border-left:/);
   assert.match(firstVersionCss, /\.footer-contacts \{\s*text-align: left;/);
   assert.doesNotMatch(firstVersionCss, /\.original-footer-grid \{[^}]*width:/s);
-  assert.match(firstVersionCss, /\.footer-contact-card \{[^}]*border: 1px solid/s);
+  assert.doesNotMatch(firstVersionCss, /\.footer-contact-card \{[^}]*border(?:-radius)?:/s);
+  assert.match(firstVersionCss, /\.footer-contact-card \{[^}]*background:/s);
 });
 
 async function render(path = "/") {
@@ -72,7 +73,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
   assert.match(html, /home-original-fix\.css\?v=12/);
-  assert.match(html, /first-version-home\.css\?v=25/);
+  assert.match(html, /first-version-home\.css\?v=26/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   const footerHtml = restoredHtml.slice(restoredHtml.indexOf('<footer class="site-footer">'), restoredHtml.indexOf("</footer>") + "</footer>".length);
   assert.equal([...footerHtml.matchAll(/<a\b/g)].length, 26);
