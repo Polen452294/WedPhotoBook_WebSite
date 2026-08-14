@@ -16,7 +16,7 @@ export function SiteHeader() {
       <div className="shell header-inner">
         <Link className="brand" href="/" aria-label="Фотокниги под ключ — главная">
           <Image
-            src="/media/brand/logo-wedfotobook.png"
+            src="/media/brand/logo-wedfotobook-v2.png"
             alt="Фотокниги под ключ"
             width={300}
             height={62}

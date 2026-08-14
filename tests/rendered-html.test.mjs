@@ -110,7 +110,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /<strong>Соглашения<\/strong>/);
   assert.match(restoredHtml, /ИНН 772008137237(?:&nbsp;|\u00a0)ОГРНИП(?:&nbsp;|\u00a0)325774600377441/);
   assert.match(restoredHtml, /class="footer-socials"/);
-  assert.match(html, /\/media\/brand\/logo-wedfotobook\.png/);
+  assert.match(html, /\/media\/brand\/logo-wedfotobook-v2\.png/);
   assert.match(restoredHtml, /\/media\/social\/yandex-wedfotobook\.png/);
   assert.match(restoredHtml, /\/media\/social\/vk-wedfotobook\.png/);
   assert.match(restoredHtml, /\/media\/social\/tg-wedfotobook\.png/);
@@ -141,7 +141,7 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
     assert.match(html, /class="navbar navbar-default/, page.slug || "/");
     assert.match(html, /home-original-fix\.css\?v=14/, page.slug || "/");
     assert.doesNotMatch(html, /<a\b[^>]*href=["']https?:\/\/(?:www\.)?wedfotobook\.ru/i, page.slug || "/");
-    assert.match(visibleHtml, /\/media\/brand\/logo-wedfotobook\.png/, page.slug || "/");
+    assert.match(visibleHtml, /\/media\/brand\/logo-wedfotobook-v2\.png/, page.slug || "/");
     assert.doesNotMatch(visibleHtml, /(?:icon6-optimized|icos[135]-optimized|logotip_max\.svg_|telegram_2019_logo|whatsapp\.svg_)/, page.slug || "/");
     assert.match(visibleHtml, /class="restored-first-version"/, page.slug || "/");
     const sharedFooter = visibleHtml.slice(visibleHtml.indexOf('<footer class="site-footer">'), visibleHtml.indexOf("</footer>", visibleHtml.indexOf('<footer class="site-footer">')) + "</footer>".length);

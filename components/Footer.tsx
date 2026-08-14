@@ -14,7 +14,7 @@ export function Footer() {
     <footer className="site-footer">
       <div className="shell footer-grid">
         <div className="footer-brand">
-          <Image src="/media/brand/logo-wedfotobook.png" alt="Фотокниги под ключ" width={300} height={62} />
+          <Image src="/media/brand/logo-wedfotobook-v2.png" alt="Фотокниги под ключ" width={300} height={62} />
           <p>Ваши фотографии становятся книгой, которую хочется перелистывать снова и снова.</p>
           <div className="social-row">
             {social.map(([href, src, label]) => (

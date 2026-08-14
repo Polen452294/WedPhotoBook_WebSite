@@ -42,7 +42,7 @@ function withHomepageImages(bodyHtml: string, slug: string): string {
   let localizedHtml = bodyHtml;
 
   const imageReplacements = [
-    ["/wp-content/uploads/2022/03/logotip-copy-optimized.png", "/media/brand/logo-wedfotobook.png"],
+    ["/wp-content/uploads/2022/03/logotip-copy-optimized.png", "/media/brand/logo-wedfotobook-v2.png"],
     ["/wp-content/uploads/2021/04/icon6-optimized.png", "/media/social/yandex-wedfotobook.png"],
     ["/wp-content/uploads/2021/03/icos1-optimized.png", "/media/social/vk-wedfotobook.png"],
     ["/wp-content/uploads/2021/03/icos3-optimized.png", "/media/social/tg-wedfotobook.png"],
