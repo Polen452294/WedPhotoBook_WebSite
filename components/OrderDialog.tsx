@@ -4,20 +4,48 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 
 type Status = "idle" | "sending" | "success" | "error";
 
+function formatPhone(value: string) {
+  let digits = value.replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("8")) digits = `7${digits.slice(1)}`;
+  if (!digits.startsWith("7")) digits = `7${digits}`;
+  digits = digits.slice(0, 11);
+
+  const area = digits.slice(1, 4);
+  const first = digits.slice(4, 7);
+  const second = digits.slice(7, 9);
+  const third = digits.slice(9, 11);
+
+  let formatted = "+7";
+  if (area) formatted += ` (${area}${area.length === 3 ? ")" : ""}`;
+  if (first) formatted += ` ${first}`;
+  if (second) formatted += `-${second}`;
+  if (third) formatted += `-${third}`;
+  return formatted;
+}
+
 export function OrderDialog() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [status, setStatus] = useState<Status>("idle");
+  const [phone, setPhone] = useState("");
 
   useEffect(() => {
+    const show = () => {
+      setStatus("idle");
+      if (!dialogRef.current?.open) dialogRef.current?.showModal();
+    };
     const open = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
       if (!target?.closest("[data-order-open]")) return;
       event.preventDefault();
-      setStatus("idle");
-      dialogRef.current?.showModal();
+      show();
     };
     document.addEventListener("click", open);
-    return () => document.removeEventListener("click", open);
+    window.addEventListener("wedfotobook:open-order", show);
+    return () => {
+      document.removeEventListener("click", open);
+      window.removeEventListener("wedfotobook:open-order", show);
+    };
   }, []);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -35,6 +63,7 @@ export function OrderDialog() {
       });
       if (!response.ok) throw new Error("send_failed");
       form.reset();
+      setPhone("");
       setStatus("success");
     } catch {
       setStatus("error");
@@ -42,24 +71,33 @@ export function OrderDialog() {
   }
 
   return (
-    <dialog className="order-dialog" ref={dialogRef} onClick={(event) => {
+    <dialog className="order-dialog" ref={dialogRef} aria-labelledby="order-dialog-title" onClick={(event) => {
       if (event.target === dialogRef.current) dialogRef.current.close();
     }}>
       <button className="dialog-close" type="button" aria-label="Закрыть" onClick={() => dialogRef.current?.close()}>×</button>
       <form className="order-form" onSubmit={submit}>
-        <label>Ваше имя<input name="name" autoComplete="name" required /></label>
-        <label>Телефон<input name="phone" type="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__" required /></label>
-        <label>Ссылка на фото <small>(можно прислать потом в мессенджере)</small><input name="photos" type="url" /></label>
-        <label>Пожелания<textarea name="message" rows={3} /></label>
+        <header className="order-form-heading">
+          <span className="order-form-kicker">Обратный звонок</span>
+          <h2 id="order-dialog-title">Обсудим вашу фотокнигу</h2>
+          <p>Оставьте имя и номер телефона. Мы перезвоним ежедневно с 9:00 до 21:00.</p>
+        </header>
+        <div className="order-fields">
+          <label><span>Ваше имя</span><input name="name" autoComplete="name" placeholder="Как к вам обращаться?" maxLength={120} required /></label>
+          <label><span>Телефон</span><input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__" value={phone} onChange={(event) => setPhone(formatPhone(event.target.value))} minLength={18} required /></label>
+        </div>
         <label className="honeypot" aria-hidden="true">Адрес<input name="address" tabIndex={-1} autoComplete="off" /></label>
         <label className="checkbox"><input name="consent" type="checkbox" required />
-          <span>Я соглашаюсь на <a href="/soglashenie/">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/">политике конфиденциальности</a></span>
+          <span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span>
         </label>
-        <button className="button" disabled={status === "sending"} type="submit">
-          {status === "sending" ? "Отправка…" : "Отправить"}
+        <div className="order-antispam" aria-label="Форма защищена от автоматических заявок">
+          <span className="order-antispam-icon" aria-hidden="true">✓</span>
+          <span><strong>Антиспам-защита</strong><small>Автоматические заявки отсеиваются</small></span>
+        </div>
+        <button className="button order-submit" disabled={status === "sending"} type="submit">
+          {status === "sending" ? "Отправляем…" : "Заказать звонок"}
         </button>
-        {status === "success" && <p className="form-message success">Спасибо за ваше сообщение. Оно успешно отправлено.</p>}
-        {status === "error" && <p className="form-message error">При отправке сообщения произошла ошибка. Пожалуйста, попробуйте ещё раз позже.</p>}
+        {status === "success" && <p className="form-message success" role="status">Спасибо! Заявка отправлена. Мы скоро свяжемся с вами.</p>}
+        {status === "error" && <p className="form-message error" role="alert">Не удалось отправить заявку. Позвоните нам: <a href="tel:89854342367">8 (985) 434-23-67</a>.</p>}
       </form>
     </dialog>
   );

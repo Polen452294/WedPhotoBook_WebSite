@@ -15,9 +15,8 @@ export async function POST(request: Request) {
   if (clean(body.address)) return Response.json({ ok: true });
   const name = clean(body.name, 120);
   const phone = clean(body.phone, 80);
-  const photos = clean(body.photos, 500);
-  const message = clean(body.message);
-  if (!name || !phone || !body.consent) return Response.json({ error: "Заполните обязательные поля" }, { status: 422 });
+  const phoneDigits = phone.replace(/\D/g, "");
+  if (!name || phoneDigits.length < 11 || !body.consent) return Response.json({ error: "Заполните обязательные поля" }, { status: 422 });
 
   const apiKey = process.env.RESEND_API_KEY;
   const recipient = process.env.CONTACT_TO_EMAIL || "79854342367@yandex.ru";
@@ -31,8 +30,7 @@ export async function POST(request: Request) {
       from: sender,
       to: [recipient],
       subject: `Новая заявка на фотокнигу — ${name}`,
-      text: `Имя: ${name}\nТелефон: ${phone}\nСсылка на фото: ${photos || "не указана"}\nПожелания: ${message || "не указаны"}`,
-      reply_to: EMAIL_PATTERN.test(clean(body.email)) ? clean(body.email) : undefined,
+      text: `Имя: ${name}\nТелефон: ${phone}`,
     }),
   });
   if (!response.ok) return Response.json({ error: "Ошибка почтового сервиса" }, { status: 502 });

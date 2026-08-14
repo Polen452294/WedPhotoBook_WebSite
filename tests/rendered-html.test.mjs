@@ -5,9 +5,23 @@ import test from "node:test";
 const globalCss = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 const headerCss = await readFile(new URL("../public/wp-assets/home-original-fix.css", import.meta.url), "utf8");
 const firstVersionCss = await readFile(new URL("../public/wp-assets/first-version-home.css", import.meta.url), "utf8");
+const orderDialogSource = await readFile(new URL("../components/OrderDialog.tsx", import.meta.url), "utf8");
+const contactRouteSource = await readFile(new URL("../app/api/contact/route.ts", import.meta.url), "utf8");
 
 test("uses Open Sans across the entire site", () => {
   assert.match(globalCss, /body \* \{\s*font-family: "Open Sans", Arial, sans-serif !important;/);
+});
+
+test("uses a two-field callback form with consent and spam protection", () => {
+  assert.match(orderDialogSource, /<input name="name"/);
+  assert.match(orderDialogSource, /<input name="phone" type="tel"/);
+  assert.match(orderDialogSource, /<input name="consent" type="checkbox" required/);
+  assert.match(orderDialogSource, /className="honeypot"/);
+  assert.match(orderDialogSource, /className="order-antispam"/);
+  assert.doesNotMatch(orderDialogSource, /name="(?:photos|message)"/);
+  assert.match(globalCss, /\.order-dialog \{[^}]*border-radius: 22px;/s);
+  assert.match(contactRouteSource, /text: `Имя: \$\{name\}\\nТелефон: \$\{phone\}`/);
+  assert.doesNotMatch(contactRouteSource, /body\.(?:photos|message)/);
 });
 
 test("uses the home-page header styling on every page", () => {

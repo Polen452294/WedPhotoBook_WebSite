@@ -5,7 +5,7 @@ import { useEffect } from "react";
 const BODY_CLASSES = ["wordpress-clone", "cookies-not-set"];
 
 function openOrderDialog() {
-  document.querySelector<HTMLDialogElement>(".order-dialog")?.showModal();
+  window.dispatchEvent(new Event("wedfotobook:open-order"));
 }
 
 function openImage(url: string, alt: string) {
@@ -123,8 +123,6 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
       const payload = {
         name: data.get("your-name") ?? data.get("name") ?? "",
         phone: data.get("your-phone") ?? data.get("phone") ?? "",
-        photos: data.get("your-photo") ?? data.get("your-link") ?? data.get("photos") ?? "",
-        message: data.get("your-message") ?? data.get("message") ?? "",
         address: data.get("address") ?? "",
         consent,
       };
