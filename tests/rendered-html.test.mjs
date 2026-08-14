@@ -43,7 +43,20 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /Мы увеличиваем размеры маленьких снимков с помощью ИИ\./);
   assert.match(html, /Безлимитные правки до вашего/);
   assert.match(html, /Вы работаете с юр\. лицами\?/);
-  assert.match(html, /wp-content\/uploads\/2026\/04\/001-1-1-optimized\.jpg/);
+  const homepagePhotos = [
+    "fotokniga-na-zakaz-wedfotobook-ru.webp",
+    "obrabotka-foto-wedfotobook-ru.webp",
+    "dizain-fotoknigi-wedfotobook-ru.webp",
+    "soglasovanie-maketa-wedfotobook-ru.webp",
+    "print-fotoknig-wedfotobook-ru.webp",
+    "fotokniga-alive-photo-blok-wedfotobook-ru.webp",
+    "fotokniga-premium-wedfotobook-ru.webp",
+    "fotokniga-standart-wedfotobook-ru.webp",
+    "vipusk-albom-1-wedfotobook-ru.webp",
+    "fotokniga-alive-photo-stoimost-wedfotobook-ru.webp",
+  ];
+  for (const photo of homepagePhotos) assert.match(html, new RegExp(`/media/home/${photo.replaceAll(".", "\\.")}`));
+  assert.doesNotMatch(html, /wp-content\/uploads\/2026\/04\/001-1-1-optimized\.jpg/);
   assert.match(html, /class="navbar navbar-default/);
   assert.match(html, /href="\/katalog\/" data-redirect-url="\/katalog\/"/);
   assert.match(html, /href="\/stoimost\/" data-redirect-url="\/stoimost\/"/);

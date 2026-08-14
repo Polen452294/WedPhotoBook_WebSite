@@ -38,11 +38,20 @@ function withNavigableLinks(bodyHtml: string): string {
     .replace(/href=(\/[^\s>]+)/g, (_attribute, href: string) => `href="${normalizeInternalHref(href)}"`);
 }
 
+function withHomepageImages(bodyHtml: string, slug: string): string {
+  if (slug) return bodyHtml;
+
+  return bodyHtml.replace(
+    "/wp-content/uploads/2026/04/001-1-1-optimized.jpg",
+    "/media/home/fotokniga-na-zakaz-wedfotobook-ru.webp",
+  );
+}
+
 export function LegacyPage({ page }: { page: RenderedPage }) {
   return (
     <>
       <LegacyEnhancements bodyClass={page.bodyClass} />
-      <div className={`legacy-wordpress ${page.bodyClass}`} dangerouslySetInnerHTML={{ __html: withNavigableLinks(page.bodyHtml) }} />
+      <div className={`legacy-wordpress ${page.bodyClass}`} dangerouslySetInnerHTML={{ __html: withNavigableLinks(withHomepageImages(page.bodyHtml, page.slug)) }} />
     </>
   );
 }

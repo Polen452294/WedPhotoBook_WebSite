@@ -56,7 +56,7 @@ const catalog = [
   ["vypusknye-fotoknigi", "Выпускной альбом", "— это напоминание об учебе в школе, университете или колледже.", "/media/covers/vipusk-albom-wedfotobook-ru.webp"],
   ["genealogicheskaya-fotokniga", "Родословная книга", "об истории семье может передаваться из поколения в поколение.", "/media/covers/fotokniga-genealogia-wedfotobook-ru.webp"],
   ["fotokniga-na-lyubuyu-temu", "Другая фотокнига", "(корпоративная, семейная, о животных, даче и т.д.)", "/media/covers/fotokbiga-drugaj-wedfotobook-ru.webp"],
-  ["fotokniga-s-dopolnennoj-realnostyu", "Фотокнига с оживающими фото.", "Наведите камеру телефона на фотографии и они оживут.", "/media/covers/fotokniga-alive-photo-wedfotobook-ru.webp"],
+  ["fotokniga-s-dopolnennoj-realnostyu", "Фотокнига с оживающими фото.", "Наведите камеру телефона на фотографии и они оживут.", "/media/home/fotokniga-alive-photo-blok-wedfotobook-ru.webp"],
 ] as const;
 
 const benefits = [
