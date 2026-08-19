@@ -28,6 +28,7 @@ export function Gallery({ images, title }: { images: MediaItem[]; title: string 
           </button>
         ))}
       </div>
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events -- native dialog backdrop click closes the modal */}
       <dialog className="lightbox" ref={dialogRef} onClick={(event) => {
         if (event.target === dialogRef.current) dialogRef.current.close();
       }}>

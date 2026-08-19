@@ -17,6 +17,13 @@ export default function Home() {
     <>
       <LegacyPage page={page} />
       <div className="restored-first-version">
+        <section className="home-redesign-facts-section" aria-label="Преимущества">
+          <div className="shell home-redesign-facts">
+            <div><strong>17 лет</strong><span>опыта работы</span></div>
+            <div><strong>Всё включено</strong><span>обработка фото и печать</span></div>
+            <div><strong>Без шаблонов</strong><span>индивидуальный дизайн</span></div>
+          </div>
+        </section>
         <OriginalHomeSections />
         <OriginalFooter />
       </div>

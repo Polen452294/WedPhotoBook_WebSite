@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const BODY_CLASSES = ["wordpress-clone", "cookies-not-set"];
+const BODY_CLASSES = ["wordpress-clone"];
 
 function openOrderDialog() {
   window.dispatchEvent(new Event("wedfotobook:open-order"));
@@ -42,10 +42,21 @@ function initializeImageViewers() {
   document.querySelectorAll<HTMLElement>(".foogallery-image-viewer").forEach((gallery) => showViewerItem(gallery, 0));
 }
 
+function setLegacyFormStatus(form: HTMLFormElement, state: "sent" | "failed", message: string) {
+  const status = form.querySelector<HTMLElement>(".wpcf7-response-output");
+  form.classList.remove("init", "sent", "failed", "submitting");
+  form.classList.add(state);
+  if (!status) return;
+  status.textContent = message;
+  status.setAttribute("aria-hidden", "false");
+  status.style.display = "block";
+}
+
 export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
   useEffect(() => {
     const previous = document.body.className;
     document.body.className = `${BODY_CLASSES.join(" ")} ${bodyClass}`.trim();
+    document.querySelector("#cookie-notice")?.remove();
     initializeImageViewers();
     const legacyFormStartedAt = new WeakMap<HTMLFormElement, number>();
     document.querySelectorAll<HTMLFormElement>(".wpcf7-form").forEach((form) => legacyFormStartedAt.set(form, Date.now()));
@@ -69,17 +80,6 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
       if (target?.closest(".wpb-pcf-form-fire, .wpb-pcf-button, .fancybox-inline")) {
         event.preventDefault();
         openOrderDialog();
-        return;
-      }
-
-      const cookieButton = target?.closest<HTMLElement>("#cn-accept-cookie, .cn-set-cookie");
-      if (cookieButton) {
-        event.preventDefault();
-        window.localStorage.setItem("wedfotobook-cookie-consent", "accepted");
-        window.dispatchEvent(new Event("wedfotobook:cookie-consent"));
-        document.querySelector("#cookie-notice")?.remove();
-        document.body.classList.remove("cookies-not-set");
-        document.body.classList.add("cookies-set");
         return;
       }
 
@@ -117,30 +117,63 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
 
     const submit = async (event: SubmitEvent) => {
       const form = event.target as HTMLFormElement | null;
+      if (form?.matches(".comment-form")) {
+        event.preventDefault();
+        form.replaceWith(Object.assign(document.createElement("p"), {
+          className: "legacy-comments-closed",
+          textContent: "Комментарии к этой записи закрыты.",
+        }));
+        return;
+      }
       if (!form?.matches(".wpcf7-form")) return;
       event.preventDefault();
       const data = new FormData(form);
       const status = form.querySelector<HTMLElement>(".wpcf7-response-output");
       const consent = [...data.keys()].some((key) => key.startsWith("acceptance"));
+      const email = data.get("your-email") ?? data.get("email") ?? "";
+      const message = data.get("your-message") ?? data.get("message") ?? "";
+      const photoLink = data.get("href_photo");
+      const wishes = data.get("pozhelaniya");
+      const extraMessage = [
+        photoLink ? `Ссылка на фото: ${photoLink}` : "",
+        wishes ? `Пожелания: ${wishes}` : "",
+      ].filter(Boolean).join("\n");
+      const turnstileEntry = [...data.entries()].find(([key]) => key === "turnstileToken" || key === "cf-turnstile-response" || key.startsWith("cf-turnstile-"));
       const payload = {
+        kind: email || message ? "message" : "callback",
         name: data.get("your-name") ?? data.get("name") ?? "",
         phone: data.get("your-phone") ?? data.get("phone") ?? "",
+        email,
+        message: message || extraMessage,
         address: data.get("address") ?? "",
         formStartedAt: legacyFormStartedAt.get(form) ?? 0,
         consent,
+        sourcePath: window.location.pathname,
+        turnstileToken: turnstileEntry?.[1] ?? "",
       };
-      if (status) status.textContent = "Отправляем…";
+      form.classList.remove("init", "sent", "failed");
+      form.classList.add("submitting");
+      if (status) {
+        status.textContent = "Отправляем…";
+        status.setAttribute("aria-hidden", "false");
+        status.style.display = "block";
+      }
       try {
         const response = await fetch("/api/contact/", {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify(payload),
         });
-        if (!response.ok) throw new Error("send_failed");
+        const result = (await response.json()) as { error?: string };
+        if (!response.ok) throw new Error(result.error || "Не удалось отправить форму.");
         form.reset();
-        if (status) status.textContent = "Спасибо! Заявка отправлена. Мы скоро свяжемся с вами.";
-      } catch {
-        if (status) status.innerHTML = "Не удалось отправить форму. Позвоните 8 (985) 434-23-67 или напишите на <a href=\"mailto:79854342367@yandex.ru\">79854342367@yandex.ru</a>.";
+        legacyFormStartedAt.set(form, Date.now());
+        const widget = form.querySelector<HTMLElement>(".cf-turnstile");
+        if (widget && window.turnstile) window.turnstile.reset(widget);
+        setLegacyFormStatus(form, "sent", "Спасибо! Заявка принята. Мы скоро свяжемся с вами.");
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : "Не удалось отправить форму.";
+        setLegacyFormStatus(form, "failed", `${reason} Позвоните 8 (985) 434-23-67 или напишите на 79854342367@yandex.ru.`);
       }
     };
 

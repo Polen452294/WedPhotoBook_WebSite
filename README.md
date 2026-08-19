@@ -23,8 +23,8 @@ This starter does not use `wrangler.jsonc`.
 - edit site code under `app/`
 - `.openai/hosting.json` declares optional Sites D1 and R2 bindings
 - `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
+- `db/schema.ts` stores contact enquiries and persistent rate-limit attempts
+- `drizzle/` contains the D1 migrations used locally and during publishing
 - `drizzle.config.ts` supports local migration generation when needed
 
 ## Workspace Auth Headers
@@ -93,6 +93,13 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 - `npm run build`: verify the vinext build output
 - `npm test`: build the starter and verify its rendered loading skeleton
 - `npm run db:generate`: generate Drizzle migrations after schema changes
+- `npm run db:local`: apply pending migrations to the local D1 database
+
+## Contact form backend
+
+Contact forms save every accepted enquiry to D1 before trying to send an email notification. Copy the variable names from `.env.example` into the runtime environment to enable Resend email notifications and Cloudflare Turnstile. Without email credentials, enquiries remain available in D1 and the form still reports a successful save.
+
+The protected `/admin/zayavki/` page shows the latest enquiries. Configure `ADMIN_EMAILS` with the comma-separated ChatGPT account emails that may open it.
 
 ## Learn More
 

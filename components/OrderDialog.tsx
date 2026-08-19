@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events -- native dialog backdrop clicks close the modal */
+
 import { FormEvent, useEffect, useRef, useState } from "react";
 
 type Status = "idle" | "sending" | "success" | "error";
@@ -27,13 +29,18 @@ function formatPhone(value: string) {
 export function OrderDialog() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
   const [phone, setPhone] = useState("");
   const [formStartedAt, setFormStartedAt] = useState(0);
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   useEffect(() => {
     const show = () => {
       setStatus("idle");
+      setErrorMessage("");
       setFormStartedAt(Date.now());
+      const widget = dialogRef.current?.querySelector<HTMLElement>(".cf-turnstile");
+      if (widget && window.turnstile) window.turnstile.reset(widget);
       if (!dialogRef.current?.open) dialogRef.current?.showModal();
     };
     const open = (event: MouseEvent) => {
@@ -56,6 +63,8 @@ export function OrderDialog() {
     const form = event.currentTarget;
     const data = new FormData(form);
     const payload = Object.fromEntries(data.entries());
+    payload.kind = "callback";
+    payload.sourcePath = window.location.pathname;
 
     try {
       const response = await fetch("/api/contact/", {
@@ -63,11 +72,15 @@ export function OrderDialog() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!response.ok) throw new Error("send_failed");
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) throw new Error(result.error || "Не удалось отправить заявку.");
       form.reset();
       setPhone("");
       setStatus("success");
-    } catch {
+      const widget = dialogRef.current?.querySelector<HTMLElement>(".cf-turnstile");
+      if (widget && window.turnstile) window.turnstile.reset(widget);
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Не удалось отправить заявку.");
       setStatus("error");
     }
   }
@@ -92,6 +105,17 @@ export function OrderDialog() {
         <label className="checkbox"><input name="consent" type="checkbox" required />
           <span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span>
         </label>
+        {turnstileSiteKey && (
+          <div
+            className="cf-turnstile order-turnstile"
+            data-sitekey={turnstileSiteKey}
+            data-theme="light"
+            data-language="ru"
+            data-size="flexible"
+            data-action="callback"
+            data-response-field-name="turnstileToken"
+          />
+        )}
         <div className="order-antispam" aria-label="Форма защищена от автоматических заявок">
           <span className="order-antispam-icon" aria-hidden="true">✓</span>
           <span><strong>Антиспам-защита включена</strong><small>Форма проверяется на сервере перед отправкой</small></span>
@@ -99,9 +123,15 @@ export function OrderDialog() {
         <button className="button order-submit" disabled={status === "sending"} type="submit">
           {status === "sending" ? "Отправляем…" : "Заказать звонок"}
         </button>
-        {status === "success" && <p className="form-message success" role="status">Спасибо! Заявка отправлена. Мы скоро свяжемся с вами.</p>}
-        {status === "error" && <p className="form-message error" role="alert">Не удалось отправить заявку. Позвоните нам: <a href="tel:89854342367">8 (985) 434-23-67</a>.</p>}
+        {status === "success" && <p className="form-message success" role="status">Спасибо! Заявка принята. Мы скоро свяжемся с вами.</p>}
+        {status === "error" && <p className="form-message error" role="alert">{errorMessage} Позвоните нам: <a href="tel:89854342367">8 (985) 434-23-67</a>.</p>}
       </form>
     </dialog>
   );
+}
+
+declare global {
+  interface Window {
+    turnstile?: { reset(widget?: string | HTMLElement): void };
+  }
 }

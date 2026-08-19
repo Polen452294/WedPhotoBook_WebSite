@@ -12,25 +12,25 @@ import {
 
 const craft = [
   {
-    number: "01",
+    number: "01.",
     title: "Профессионально обрабатываем фотографии",
     text: "Делаем снимки светлыми и естественными, исправляем цвет, кадрируем и увеличиваем маленькие фото с помощью ИИ.",
     image: "/media/home/obrabotka-foto-wedfotobook-ru.webp",
   },
   {
-    number: "02",
+    number: "02.",
     title: "Создаём дизайн без шаблонов",
     text: "Собираем вашу историю вручную, добавляем тексты и декоративные детали. Первые три разворота показываем до оплаты.",
     image: "/media/home/dizain-fotoknigi-wedfotobook-ru.webp",
   },
   {
-    number: "03",
+    number: "03.",
     title: "Согласовываем каждый разворот",
     text: "Отправляем макет в удобный мессенджер и вносим правки без ограничений — до вашего полного одобрения.",
     image: "/media/home/soglasovanie-maketa-wedfotobook-ru.webp",
   },
   {
-    number: "04",
+    number: "04.",
     title: "Печатаем и доставляем",
     text: "После утверждения отправляем макет в профессиональную типографию. Доставляем в пункт выдачи, курьером или почтой.",
     image: "/media/home/print-fotoknig-wedfotobook-ru.webp",
@@ -159,7 +159,7 @@ export function HomePage() {
       <section className="section">
         <div className="shell">
           <div className="section-heading split-heading">
-            <div><span className="eyebrow">Восемь простых шагов</span><h2>Как проходит заказ</h2></div>
+            <div><span className="eyebrow">Семь простых шагов</span><h2>Как проходит заказ</h2></div>
             <p>Вся работа идёт онлайн, без поездок в офис и долгих встреч.</p>
           </div>
           <ol className="steps-grid">
@@ -167,7 +167,7 @@ export function HomePage() {
               <li key={title}><span className="step-number">0{index + 1}</span><Image src={`/media/steps/${icon}`} alt="" width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>
             ))}
           </ol>
-          <div className="center-action"><button className="button" data-order-open type="button">Начать заказ</button></div>
+          <div className="center-action"><button className="button" data-order-open type="button">Заказать</button></div>
         </div>
       </section>
 

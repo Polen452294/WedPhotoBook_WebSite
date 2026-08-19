@@ -7,6 +7,12 @@ const ROUTE_ALIASES = new Map([
   ["/vypusknye-fotoknigi-2/", "/vypusknye-fotoknigi/"],
 ]);
 
+export const WHITE_LEGAL_PAGES = new Set([
+  "polzovatelskoe-soglashenie",
+  "politika-obrabotki-personalnyh-dannyh",
+  "soglashenie",
+]);
+
 function normalizeInternalHref(href: string): string {
   if (!href || href.startsWith("#") || href.startsWith("//") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) return href;
 
@@ -64,11 +70,51 @@ function withHomepageImages(bodyHtml: string, slug: string): string {
   );
 }
 
+function withWorkingForms(bodyHtml: string): string {
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const configuredHtml = siteKey
+    ? bodyHtml.replace(/data-sitekey=("|')[^"']*\1/g, `data-sitekey="${siteKey}"`)
+    : bodyHtml;
+
+  return configuredHtml.replace(
+    /<h3 id=("|')reply-title\1[\s\S]*?<\/form>/i,
+    '<h3 id="reply-title" class="comment-reply-title">Комментарии</h3><p class="legacy-comments-closed">Комментарии к этой записи закрыты.</p>',
+  );
+}
+
+function withoutLegacyTracking(bodyHtml: string): string {
+  return bodyHtml
+    .replace(/<!-- Compliance by Hu-manity\.co plugin[\s\S]*?<!-- \/ Compliance by Hu-manity\.co plugin -->/gi, "")
+    .replace(/<!-- Yandex\.Metrika counter -->[\s\S]*?<!-- \/Yandex\.Metrika counter -->/gi, "");
+}
+
+function withUpdatedGenealogyNaming(bodyHtml: string): string {
+  return bodyHtml
+    .replaceAll("Родословные фотокниги", "Родословная фотокнига")
+    .replaceAll("Родословная книга", "Родословная фотокнига");
+}
+
+function withHomepageBenefitLabels(bodyHtml: string, slug: string): string {
+  if (slug) return bodyHtml;
+
+  return bodyHtml
+    .replace(">Опыт работы 17 лет</p>", "><strong>17 лет</strong><span>опыта работы</span></p>")
+    .replace(">Обработка фото и печать уже включены в стоимость</p>", "><strong>Всё включено</strong><span>обработка фото и печать</span></p>")
+    .replace(">Индивидуальный дизайн</p>", "><strong>Без шаблонов</strong><span>индивидуальный дизайн</span></p>");
+}
+
 export function LegacyPage({ page }: { page: RenderedPage }) {
+  const bodyHtml = withUpdatedGenealogyNaming(
+    withHomepageBenefitLabels(
+      withoutLegacyTracking(withWorkingForms(withNavigableLinks(withHomepageImages(page.bodyHtml, page.slug)))),
+      page.slug,
+    ),
+  );
+  const legalPageClass = WHITE_LEGAL_PAGES.has(page.slug) ? " legal-white-page" : "";
   return (
     <>
       <LegacyEnhancements bodyClass={page.bodyClass} />
-      <div className={`legacy-wordpress ${page.bodyClass}`} dangerouslySetInnerHTML={{ __html: withNavigableLinks(withHomepageImages(page.bodyHtml, page.slug)) }} />
+      <div className={`legacy-wordpress ${page.bodyClass}${legalPageClass}`} dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </>
   );
 }

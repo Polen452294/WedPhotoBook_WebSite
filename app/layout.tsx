@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@/components/Analytics";
+import { CookieNotice } from "@/components/CookieNotice";
 import { OrderDialog } from "@/components/OrderDialog";
 import "./globals.css";
+
+/* eslint-disable @next/next/no-css-tags -- captured WordPress stylesheets are static public assets shared by all legacy pages */
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://wedfotobook.ru"),
@@ -28,5 +31,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#061d31" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ru"><head><link rel="stylesheet" href="/wp-assets/wordpress.css?v=10" /><link rel="stylesheet" href="/wp-assets/home-original-fix.css?v=14" /><link rel="stylesheet" href="/wp-assets/first-version-home.css?v=28" /></head><body><OrderDialog />{children}<Analytics /></body></html>;
+  const turnstileEnabled = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
+  return <html lang="ru"><head><link rel="stylesheet" href="/wp-assets/wordpress.css?v=10" /><link rel="stylesheet" href="/wp-assets/home-original-fix.css?v=24" /><link rel="stylesheet" href="/wp-assets/first-version-home.css?v=56" />{turnstileEnabled && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />}</head><body><OrderDialog />{children}<CookieNotice /><Analytics /></body></html>;
 }

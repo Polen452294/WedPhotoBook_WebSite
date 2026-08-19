@@ -117,7 +117,7 @@ export const catalogItems = [
   },
   {
     slug: "genealogicheskaya-fotokniga",
-    title: "Родословные фотокниги",
+    title: "Родословная фотокнига",
     description: "Семейная история с генеалогическим древом и архивными фотографиями.",
     cover: "/media/covers/fotokniga-genealogia-wedfotobook-ru.webp",
     gallery: "gallery/genealogy",
@@ -187,7 +187,7 @@ export const steps = [
   ["oplata.webp", "Предоплата", "После согласования первых разворотов — 50%."],
   ["soglacovanie.webp", "Согласование", "Вносим правки до вашего полного одобрения."],
   ["print.webp", "Печать", "Отправляем утверждённый макет в типографию."],
-  ["fotokniga-gotova.webp", "Готово", "Доставка в удобный пункт выдачи или курьером."],
+  ["fotokniga-gotova.webp", "Готово", "Доставка в удобный пункт выдачи яндекса или курьером."],
 ] as const;
 
 export const faqs = [
