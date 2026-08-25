@@ -201,6 +201,8 @@ function Hero({ page }: { page: BookPricingPage | SimplePricingPage }) {
 }
 
 function Features({ page }: { page: BookPricingPage | SimplePricingPage }) {
+  const galleryInFeatures = (page.kind === "book" && page.galleryInFeatures) || page.kind === "graduation";
+  const featureGalleryImages = page.kind === "graduation" ? page.images.slice(0, 4) : page.images;
   const featureList = (
     <ul className="pricing-detail-feature-list">
       {page.features.map((feature) => <li key={feature}>{feature}</li>)}
@@ -222,15 +224,15 @@ function Features({ page }: { page: BookPricingPage | SimplePricingPage }) {
           </div>
         </div>
       ) : (
-        <div className={page.kind === "book" && page.galleryInFeatures ? "shell" : "shell pricing-detail-feature-layout"}>
-          {page.kind === "book" && page.galleryInFeatures ? (
+        <div className={galleryInFeatures ? "shell" : "shell pricing-detail-feature-layout"}>
+          {galleryInFeatures ? (
             <>
               <div className="pricing-detail-feature-layout">
                 <div><span className="eyebrow">Характеристики</span><h2>{page.title}</h2></div>
                 {featureList}
               </div>
               <div className="pricing-detail-feature-gallery" aria-label={`Фотографии: ${page.title}`}>
-                {page.images.map((src, index) => (
+                {featureGalleryImages.map((src, index) => (
                   <figure key={src}>
                     <Image src={src} alt={`${page.title} — фото ${index + 1}`} width={1200} height={800} loading="lazy" />
                   </figure>
@@ -360,7 +362,7 @@ export function PricingDetailPage({ slug }: { slug: PricingDetailSlug }) {
       <Hero page={page} />
       <Features page={page} />
       {page.kind === "graduation" && <GraduationDetails />}
-      {page.kind !== "alive" && !(page.kind === "book" && page.galleryInFeatures) && <PhotoGallery page={page} />}
+      {page.kind === "book" && !page.galleryInFeatures && <PhotoGallery page={page} />}
       {page.kind === "book" && <PriceTable page={page} />}
       {page.kind === "book" && <Services services={page.services} />}
       {page.kind === "book" && page.faq && <PricingFaq title="О фотокниге «Премиум»" items={page.faq} />}

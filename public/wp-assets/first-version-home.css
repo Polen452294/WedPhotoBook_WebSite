@@ -1684,6 +1684,8 @@
 
 .legacy-wordpress.page-id-19634 {
   overflow: hidden;
+  background: #fffdf9;
+  color: #172431;
 }
 
 .legacy-wordpress.page-id-19634 > .parent-section,
@@ -1692,7 +1694,8 @@
 }
 
 .legacy-wordpress.page-id-19634 .reviews-copy-section {
-  background: #e8ddd0;
+  border-top: 1px solid #dcd7cf;
+  background: #fffdf9;
 }
 
 .legacy-wordpress.page-id-19634 .reviews-gallery-section,
@@ -1712,6 +1715,86 @@
   background: inherit;
   content: "";
   transform: translateX(-50%);
+}
+
+.legacy-wordpress.page-id-19634 .reviews-gallery-section > h1 {
+  color: #071d30 !important;
+  font-size: clamp(2.15rem, 3.2vw, 3.4rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -.04em;
+  line-height: 1.05;
+  text-transform: none !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-gallery-section > p {
+  color: #66717a !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-gallery-section > p span {
+  color: inherit !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-gallery-section > p a {
+  color: #12334d !important;
+  text-decoration: none;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-gallery-section > p strong a {
+  border-bottom: 1px solid #b99769;
+  padding-bottom: 3px;
+  color: #071d30 !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-gallery-section .fiv-inner {
+  overflow: hidden !important;
+  border: 1px solid #dcd7cf !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 18px 44px rgba(7, 29, 48, .1) !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-gallery-section .fiv-inner-container {
+  border-radius: 16px 16px 0 0;
+  background: #fff;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-gallery-section .fiv-prev,
+.legacy-wordpress.page-id-19634 .reviews-gallery-section .fiv-next {
+  border-color: #dcd7cf !important;
+  background: #fff !important;
+  color: #071d30 !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-gallery-section .fiv-prev:hover,
+.legacy-wordpress.page-id-19634 .reviews-gallery-section .fiv-prev:focus-visible,
+.legacy-wordpress.page-id-19634 .reviews-gallery-section .fiv-next:hover,
+.legacy-wordpress.page-id-19634 .reviews-gallery-section .fiv-next:focus-visible {
+  border-color: #b99769 !important;
+  background: #f7f3ed !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-gallery-section .fiv-count {
+  color: #66717a !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-copy-section > p {
+  color: #12334d !important;
+  line-height: 1.75 !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-copy-section > p span {
+  color: inherit !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-copy-section > p[style*="text-align: justify"] {
+  border-left: 3px solid rgba(185, 151, 105, .55);
+  padding-left: clamp(18px, 2vw, 28px);
+  font-size: 15px !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-copy-section > p[style*="text-align: right"] {
+  color: #071d30 !important;
+  font-size: 14px !important;
 }
 
 .restored-first-version .contact-page {
@@ -3127,23 +3210,7 @@
   background: #fff;
 }
 
-.restored-first-version .original-home-sections .section-reviews {
-  background: var(--ink);
-}
-
 .restored-first-version .original-home-sections .section-reviews .reviews-eyebrow {
-  color: var(--gold);
-}
-
-.restored-first-version .original-home-sections .section-reviews .review-navigation button,
-.restored-first-version .original-home-sections .section-reviews .yandex-review-link {
-  color: var(--white);
-}
-
-.restored-first-version .original-home-sections .section-reviews .review-navigation button:hover,
-.restored-first-version .original-home-sections .section-reviews .review-navigation button:focus-visible,
-.restored-first-version .original-home-sections .section-reviews .yandex-review-link:hover,
-.restored-first-version .original-home-sections .section-reviews .yandex-review-link:focus-visible {
   color: var(--gold);
 }
 
@@ -3936,7 +4003,7 @@
 
 .restored-first-version .wedding-detail-page .section-seven-days,
 .restored-first-version .catalog-story-page .section-seven-days {
-  background: #fff;
+  background: var(--cream);
   background-image: none;
 }
 
@@ -3945,7 +4012,8 @@
 .restored-first-version .catalog-story-page-yubilejnaya-fotokniga .price-card.featured,
 .restored-first-version .catalog-story-page-fotokniga-o-puteshestvii .price-card.featured,
 .restored-first-version .catalog-story-page-genealogicheskaya-fotokniga .price-card.featured,
-.restored-first-version .catalog-story-page-fotokniga-na-lyubuyu-temu .price-card.featured {
+.restored-first-version .catalog-story-page-fotokniga-na-lyubuyu-temu .price-card.featured,
+.restored-first-version .catalog-story-page-fotokniga-s-dopolnennoj-realnostyu .price-card.featured {
   transform: none;
 }
 
@@ -4224,7 +4292,7 @@
   position: relative;
   min-height: 102px;
   padding: 27px 20px 25px 46px;
-  background: linear-gradient(135deg, #fff 0%, #fbf8f2 100%);
+  background: #fff;
   color: var(--ink-soft);
   font-size: .96rem;
   line-height: 1.5;
@@ -4462,17 +4530,30 @@
 }
 
 .restored-first-version .pricing-detail-fotokniga-standart .pricing-detail-services-section {
-  background: #9a8062;
-  color: #fff;
+  background: var(--cream);
+  color: var(--ink-soft);
 }
 
 .restored-first-version .pricing-detail-fotokniga-standart .pricing-detail-services-layout h2 {
-  color: #fff;
+  color: var(--ink);
   font-size: clamp(1.9rem, 2.5vw, 2.4rem);
 }
 
+.restored-first-version .pricing-detail-fotokniga-standart .pricing-detail-services-layout .eyebrow-light {
+  color: var(--gold);
+}
+
+.restored-first-version .pricing-detail-fotokniga-standart .pricing-detail-services-layout ul {
+  border-top-color: var(--line);
+}
+
 .restored-first-version .pricing-detail-fotokniga-standart .pricing-detail-services-layout li {
-  color: #fff;
+  border-bottom-color: var(--line);
+  color: var(--ink-soft);
+}
+
+.restored-first-version .pricing-detail-fotokniga-standart .pricing-detail-services-layout li::before {
+  color: var(--gold);
 }
 
 .restored-first-version .pricing-detail-services-layout ul {

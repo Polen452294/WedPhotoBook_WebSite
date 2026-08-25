@@ -52,19 +52,19 @@ const weddingGallery = Array.from({ length: 12 }, (_, index) =>
   `/media/gallery/wedding/svadba-fotokniga-${index + 1}-wedfotobook-ru.webp`,
 );
 
-const threeOptionPricing = [
-  homePricing[0],
-  { ...homePricing[1], features: [...homePricing[1].features, "⋅ Разные форматы"] },
-  {
-    ...homePricing[3],
-    features: [
-      "Связываем фото и видео",
-      "Эффект дополненной реальности",
-      "Работает со смартфона",
-      "Можно оживить фото с ИИ",
-    ],
-  },
-] as const;
+const updatedStandardPricing = { ...homePricing[1], features: [...homePricing[1].features, "⋅ Разные форматы"] };
+const updatedAlivePricing = {
+  ...homePricing[3],
+  features: [
+    "Связываем фото и видео",
+    "Эффект дополненной реальности",
+    "Работает со смартфона",
+    "Можно оживить фото с ИИ",
+  ],
+};
+
+const threeOptionPricing = [homePricing[0], updatedStandardPricing, updatedAlivePricing] as const;
+const alivePagePricing = [homePricing[0], updatedStandardPricing, homePricing[2], updatedAlivePricing] as const;
 
 const graduationPricing = [homePricing[2]] as const;
 
@@ -282,7 +282,9 @@ export function CatalogDetailPage({ page }: { page: RenderedPage }) {
       || page.slug === "fotokniga-o-puteshestvii"
       || page.slug === "genealogicheskaya-fotokniga"
       || page.slug === "fotokniga-na-lyubuyu-temu";
-    const usesApprovalSteps = usesThreeOptionPricing || page.slug === "vypusknye-fotoknigi";
+    const usesApprovalSteps = usesThreeOptionPricing
+      || page.slug === "vypusknye-fotoknigi"
+      || page.slug === "fotokniga-s-dopolnennoj-realnostyu";
 
     return (
       <main className={`catalog-detail-page catalog-story-page catalog-story-page-${page.slug}`}>
@@ -321,6 +323,7 @@ export function CatalogDetailPage({ page }: { page: RenderedPage }) {
         <HomeTrustSection />
         {page.slug === "vypusknye-fotoknigi"
           ? <HomePricingSection items={graduationPricing} />
+          : page.slug === "fotokniga-s-dopolnennoj-realnostyu" ? <HomePricingSection items={alivePagePricing} />
           : usesThreeOptionPricing ? <HomePricingSection items={threeOptionPricing} /> : <HomePricingSection />}
         {usesApprovalSteps ? <HomeSevenDaysSection items={approvalSteps} /> : <HomeSevenDaysSection />}
 

@@ -284,7 +284,11 @@ test("compacts and reorders the graduation pricing page while preserving its FAQ
   assert.ok(start >= 0);
   assert.match(pageHtml, /<span class="eyebrow">Стоимость<\/span><h1>Выпускные альбомы<\/h1>/);
   assert.doesNotMatch(pageHtml, /Стоимость · Выпускные альбомы/);
-  assert.ok(pageHtml.indexOf("pricing-detail-options-section") < pageHtml.indexOf("pricing-detail-gallery-section"));
+  const featureGalleryStart = pageHtml.indexOf('<div class="pricing-detail-feature-gallery"');
+  const featureGalleryEnd = pageHtml.indexOf("</div>", featureGalleryStart);
+  const featureGallery = pageHtml.slice(featureGalleryStart, featureGalleryEnd);
+  assert.equal([...featureGallery.matchAll(/<figure/g)].length, 4);
+  assert.doesNotMatch(pageHtml, /pricing-detail-gallery-section/);
   assert.match(pageHtml, /pricing-detail-options-section[\s\S]*?<span class="eyebrow">Стоимость<\/span>/);
   assert.match(pageHtml, /О выпускных фотокнигах/);
   assert.equal([...pageHtml.matchAll(/<details/g)].length, 5);
@@ -333,6 +337,8 @@ test("compacts the premium pricing page and moves its four photos into character
   assert.match(pageHtml, /Доставка на пункт выдачи Яндекс Маркета \(350 руб\.\) или курьером в пределах МКАД\./);
   assert.match(firstVersionCss, /\.pricing-detail-fotokniga-premium \.pricing-detail-hero::before \{[^}]*display: none;/s);
   assert.match(firstVersionCss, /\.pricing-detail-fotokniga-premium \.pricing-detail-price \{[^}]*font-weight: 400;/s);
+  assert.match(firstVersionCss, /\.pricing-detail-feature-list li \{[^}]*background: #fff;/s);
+  assert.doesNotMatch(firstVersionCss, /\.pricing-detail-feature-list li \{[^}]*linear-gradient/s);
   assert.match(firstVersionCss, /\.pricing-detail-feature-gallery \{[^}]*grid-template-columns: repeat\(4,/s);
 });
 
@@ -354,7 +360,9 @@ test("compacts the standard pricing page and moves its four photos into characte
   assert.doesNotMatch(pageHtml, /Боскберри|Boxberry/i);
   assert.match(firstVersionCss, /\.pricing-detail-fotokniga-standart \.pricing-detail-hero::before \{[^}]*display: none;/s);
   assert.match(firstVersionCss, /\.pricing-detail-fotokniga-standart \.pricing-detail-price \{[^}]*font-weight: 400;/s);
-  assert.match(firstVersionCss, /\.pricing-detail-fotokniga-standart \.pricing-detail-services-section \{[^}]*background: #9a8062;/s);
+  assert.match(firstVersionCss, /\.pricing-detail-fotokniga-standart \.pricing-detail-services-section \{[^}]*background: var\(--cream\);[^}]*color: var\(--ink-soft\);/s);
+  assert.match(firstVersionCss, /\.pricing-detail-fotokniga-standart \.pricing-detail-services-layout h2 \{[^}]*color: var\(--ink\);/s);
+  assert.match(firstVersionCss, /\.pricing-detail-fotokniga-standart \.pricing-detail-services-layout li \{[^}]*border-bottom-color: var\(--line\);[^}]*color: var\(--ink-soft\);/s);
 });
 
 test("reworks every requested catalog detail page with its exact text and adaptive gallery", async () => {
@@ -394,12 +402,19 @@ test("reworks every requested catalog detail page with its exact text and adapti
     } else {
       assert.doesNotMatch(pageHtml, /class="section catalog-story-faq-section"/, pathname);
     }
+    if (slug === "fotokniga-s-dopolnennoj-realnostyu") {
+      assert.match(pageHtml, /Фотокнига «Стандарт»[\s\S]*?Разные форматы/);
+      for (const feature of ["Связываем фото и видео", "Эффект дополненной реальности", "Работает со смартфона", "Можно оживить фото с ИИ"]) {
+        assert.match(pageHtml, new RegExp(feature));
+      }
+      assert.match(pageHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
+    }
   }
 
   assert.match(firstVersionCss, /\.catalog-detail-route \.legacy-wordpress > :not\(\.navbar\)/);
   assert.match(firstVersionCss, /\.restored-first-version \.catalog-story-chapter/);
   assert.match(firstVersionCss, /\.restored-first-version \.catalog-story-gallery\.gallery-count-3/);
-  assert.match(firstVersionCss, /\.restored-first-version \.catalog-story-page \.section-seven-days/);
+  assert.match(firstVersionCss, /\.restored-first-version \.catalog-story-page \.section-seven-days \{[^}]*background: var\(--cream\);/s);
 
   const childrenHtml = await (await render("/detskaya-fotokniga/")).text();
   const childrenStart = childrenHtml.indexOf('<main class="catalog-detail-page catalog-story-page catalog-story-page-detskaya-fotokniga">');
@@ -461,7 +476,8 @@ test("reworks every requested catalog detail page with its exact text and adapti
     assert.match(otherBooksPageHtml, new RegExp(feature));
   }
   assert.match(otherBooksPageHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
-  assert.match(firstVersionCss, /\.catalog-story-page-fotokniga-na-lyubuyu-temu \.price-card\.featured \{[^}]*transform: none;/s);
+  assert.match(firstVersionCss, /\.catalog-story-page-fotokniga-na-lyubuyu-temu \.price-card\.featured,/);
+  assert.match(firstVersionCss, /\.catalog-story-page-fotokniga-s-dopolnennoj-realnostyu \.price-card\.featured \{[^}]*transform: none;/s);
 
   const graduationHtml = await (await render("/vypusknye-fotoknigi/")).text();
   const graduationStart = graduationHtml.indexOf('<main class="catalog-detail-page catalog-story-page catalog-story-page-vypusknye-fotoknigi">');
@@ -517,7 +533,7 @@ test("reworks only the wedding photobook page while preserving its hero and FAQ"
   assert.match(pageHtml, /class="section section-seven-days"/);
   assert.match(firstVersionCss, /\.restored-first-version \.wedding-story-chapter/);
   assert.match(firstVersionCss, /\.restored-first-version \.wedding-faq-content \.wfb-faq/);
-  assert.match(firstVersionCss, /\.restored-first-version \.wedding-detail-page \.section-seven-days,[\s\S]*?background: #fff;/);
+  assert.match(firstVersionCss, /\.restored-first-version \.wedding-detail-page \.section-seven-days,[\s\S]*?background: var\(--cream\);/);
   assert.match(firstVersionCss, /\.restored-first-version \.pricing-grid-three \{[^}]*grid-template-columns: repeat\(3, 1fr\);/s);
   assert.match(firstVersionCss, /\.restored-first-version \.wedding-detail-page \.price-card\.featured,/);
 });
@@ -583,12 +599,15 @@ test("renders all supplied articles without bold or italic article text", async 
   assert.match(firstVersionCss, /\.restored-first-version \.article-page \*,?[\s\S]*?font-style: normal !important;[\s\S]*?font-weight: 400 !important;/);
 });
 
-test("uses two contact-inspired beige backgrounds on the reviews page", async () => {
+test("uses the homepage palette across the reviews page", async () => {
   const html = await (await render("/otzyvy/")).text();
   assert.match(html, /class="reviews-gallery-section"/);
   assert.match(html, /class="reviews-copy-section"/);
   assert.match(firstVersionCss, /\.legacy-wordpress\.page-id-19634 \.reviews-gallery-section \{\s*background: #f7f3ed;/);
-  assert.match(firstVersionCss, /\.legacy-wordpress\.page-id-19634 \.reviews-copy-section \{\s*background: #e8ddd0;/);
+  assert.match(firstVersionCss, /\.legacy-wordpress\.page-id-19634 \.reviews-copy-section \{[^}]*background: #fffdf9;/s);
+  assert.match(firstVersionCss, /\.reviews-gallery-section > h1 \{[^}]*color: #071d30 !important;/s);
+  assert.match(firstVersionCss, /\.reviews-gallery-section \.fiv-inner \{[^}]*border: 1px solid #dcd7cf !important;[^}]*background: #fff !important;[^}]*box-shadow:/s);
+  assert.match(firstVersionCss, /\.reviews-copy-section > p \{[^}]*color: #12334d !important;/s);
 });
 
 test("shows the visit warning below every Yandex map", async () => {
@@ -707,9 +726,10 @@ test("keeps the original opening screen and restores the first working version b
   assert.ok(stepsHtml.indexOf("Оплата") < stepsHtml.indexOf("Печать"));
   assert.match(stepsHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
   assert.match(restoredHtml, /<button class="button" data-order-open="true" type="button">Заказать<\/button>/);
-  assert.match(restoredHtml, /class="section section-reviews section-ink"/);
+  assert.match(restoredHtml, /section-reviews/);
+  assert.doesNotMatch(restoredHtml, /class="section section-reviews section-ink"/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow reviews-eyebrow">Отзывы<\/span><h2>Отзывы о фотокнигах<\/h2><\/div><p>Сохраняем живые отзывы клиентов без пересказа и редакторских правок\.<\/p>/);
-  assert.match(firstVersionCss, /\.original-home-sections \.section-reviews \{[^}]*background: var\(--ink\);/s);
+  assert.match(firstVersionCss, /\.restored-first-version \.section-reviews \{[^}]*background: #fff;/s);
   assert.match(firstVersionCss, /\.original-home-sections \.section-reviews \.reviews-eyebrow \{[^}]*color: var\(--gold\);/s);
   assert.match(restoredHtml, /<span class="eyebrow">Частые вопросы<\/span><h2>Остались вопросы\?<\/h2>/);
   assert.match(restoredHtml, /Прислать фотографии на ватсап, телеграмм, макс, почту 79854342367@yandex\.ru или ссылку на яндекс диск\/Мейл облако\. Согласовать макет\. Забрать фотокнигу в удобном пункте Яндекс маркета\. Все остальное мы сделаем за вас!/);

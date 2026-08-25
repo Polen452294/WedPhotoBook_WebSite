@@ -253,7 +253,7 @@ export function OriginalHomeSections() {
 
       <HomeSevenDaysSection items={homepageSteps} />
 
-      <section className="section section-reviews section-ink">
+      <section className="section section-reviews">
         <div className="shell">
           <div className="section-heading split-heading"><div><span className="eyebrow reviews-eyebrow">Отзывы</span><h2>Отзывы о фотокнигах</h2></div><p>Сохраняем живые отзывы клиентов без пересказа и редакторских правок.</p></div>
           <ReviewCarousel images={reviewImages} />
