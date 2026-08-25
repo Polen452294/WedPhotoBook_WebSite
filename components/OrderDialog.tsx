@@ -121,7 +121,7 @@ export function OrderDialog() {
           <span><strong>Антиспам-защита включена</strong><small>Форма проверяется на сервере перед отправкой</small></span>
         </div>
         <button className="button order-submit" disabled={status === "sending"} type="submit">
-          {status === "sending" ? "Отправляем…" : "Заказать звонок"}
+          {status === "sending" ? "Отправляем…" : "Отправить"}
         </button>
         {status === "success" && <p className="form-message success" role="status">Спасибо! Заявка принята. Мы скоро свяжемся с вами.</p>}
         {status === "error" && <p className="form-message error" role="alert">{errorMessage} Позвоните нам: <a href="tel:89854342367">8 (985) 434-23-67</a>.</p>}

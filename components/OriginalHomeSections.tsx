@@ -72,7 +72,15 @@ const benefits = [
   ["texnology-pechaty.webp", "Современные технологии", "Печать класса Премиум: твердая обложка, плотные листы, панорамный разворот"],
 ] as const;
 
-const pricing = [
+type PricingCard = {
+  title: string;
+  price: string;
+  href: string;
+  image: string;
+  features: readonly string[];
+};
+
+export const homePricing: readonly PricingCard[] = [
   {
     title: "Фотокнига «Премиум»",
     price: "от 8 900 руб.",
@@ -103,7 +111,24 @@ const pricing = [
   },
 ] as const;
 
-const steps = [
+const homepagePricing: readonly PricingCard[] = [
+  homePricing[0],
+  { ...homePricing[1], features: [...homePricing[1].features, "⋅ Разные форматы"] },
+  homePricing[2],
+  {
+    ...homePricing[3],
+    features: [
+      "Связываем фото и видео",
+      "Эффект дополненной реальности",
+      "Работает со смартфона",
+      "Можно оживить фото с ИИ",
+    ],
+  },
+] as const;
+
+type HomeStep = readonly [string, string, string];
+
+export const homeSteps: readonly HomeStep[] = [
   ["prishlite-foto.webp", "Пришлите фото", "В мессенджер, на почту или ссылкой на облако."],
   ["tree-pasvorota.webp", "Три разворота", "Показываем первые страницы до оплаты."],
   ["oplata.webp", "Предоплата", "После согласования первых разворотов — 50%."],
@@ -113,12 +138,18 @@ const steps = [
   ["fotokniga-gotova.webp", "Готово", "Доставка в пункт выдачи яндекс маркета или курьером."],
 ] as const;
 
+const homepageSteps: readonly HomeStep[] = homeSteps.map((step, index) =>
+  index === 3
+    ? ["soglacovanie.webp", "Согласование макета", "Присылаем макет, вносим правки до вашего полного одобрения."]
+    : step,
+);
+
 const faqs = [
   ["1. Есть ли у вас конструктор по созданию фотокниг?", "Конструктора у нас нет. Все макеты делаются дизайнерами вручную, без шаблонов, только с индивидуальным дизайном. Мы создаем красивые истории из ваших фотографий."],
   ["2. Что значит обработка фотографий?", "Мы делаем цветокоррекцию фотографий, чтобы в фотокниге не было темных или неярких фотографий. Также делаем кадрирование, т.е. при необходимости обрезаем лишнее пустое пространство."],
   ["3. У меня фотографии только в телефоне. Подойдут ли они для фотокниги?", "Сейчас практически у всех фотографии только из телефона. Современное качество смартфонов позволяет делать снимки хорошего качества. Если разрешения фотографии недостаточно, мы можем увеличить ее с помощью искусственного интеллекта."],
   ["4. Сколько стоит добавить тексты в фотокнигу?", "Это бесплатно. Вы можете прислать свои тексты, и мы добавим их в фотокнигу. Если вы хотите сделать надписи на страницах, но не можете придумать их, мы сами подберем красивые надписи и разместим в фотокниге."],
-  ["5. Что нужно при заказе фотокниги у вас?", "Прислать фотографии на вотсап, телеграмм, почту 79854342367@yandex.ru или ссылку на яндекс диск/Мейл облако. Согласовать макет. Забрать фотокнигу в удобном пункте Яндекс маркета. Все остальное мы сделаем за вас!"],
+  ["5. Что нужно при заказе фотокниги у вас?", "Прислать фотографии на ватсап, телеграмм, макс, почту 79854342367@yandex.ru или ссылку на яндекс диск/Мейл облако. Согласовать макет. Забрать фотокнигу в удобном пункте Яндекс маркета. Все остальное мы сделаем за вас!"],
   ["6. Могу я увидеть макет до оплаты?", "После того, как вы пришлете фотографии, мы сделаем 3 разворота до внесения предоплаты, чтобы вы увидели, какой будет ваша фотокнига. Если что-то не понравится, можно внести правки. Вы ничем не рискуете!"],
   ["7. Можно ли что-то изменить в макете?", "Да, конечно, вы можете написать нам, что хотите изменить, и мы внесем правки. Изменения можно вносить в любой момент до отправки фотокниги в печать."],
   ["8. Как происходит работа над фотокнигой?", "Все работа происходит онлайн в удобное для вас время. Мы делаем макет, отправляем его вам (почта, вотсап, телеграм, макс). Вы оцениваете его, пишите правки. Мы их вносим и высылаем вам макет с правками еще раз. И так до полного одобрения."],
@@ -131,9 +162,9 @@ const faqs = [
   ["15. Вы работаете с юр. лицами?", "Да, конечно. Можем прислать договор, выставить счет на оплату и сделать закрывающие документы."],
 ] as const;
 
-export function HomeTrustSection() {
+export function HomeTrustSection({ className = "" }: { className?: string } = {}) {
   return (
-    <section className="section">
+    <section className={`section ${className}`.trim()}>
       <div className="shell">
         <div className="section-heading split-heading"><div><span className="eyebrow">Почему нам доверяют</span><h2>Почему нам можно доверять?</h2></div><p>Вы видите будущую книгу ещё до оплаты и участвуете в создании ровно настолько, насколько хотите.</p></div>
         <div className="benefit-grid">
@@ -144,26 +175,29 @@ export function HomeTrustSection() {
   );
 }
 
-export function HomePricingSection() {
+export function HomePricingSection({ items = homePricing }: { items?: readonly PricingCard[] }) {
   return (
     <section className="section section-warm">
       <div className="shell">
         <div className="section-heading split-heading"><div><span className="eyebrow">Стоимость</span><h2>Хотите узнать стоимость фотокниги?</h2></div><p>Можем сделать фотокнигу в кожаной или тканевой обложке</p></div>
-        <div className="pricing-grid">
-          {pricing.map((item, index) => <article className={`price-card ${index === 0 ? "featured" : ""}`} key={item.title}>{index === 0 && <span className="price-badge">Чаще выбирают</span>}<Image src={item.image} alt={item.title} width={960} height={518} /><div className="price-card-copy"><h3>{item.title}</h3><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature.replace(/^⋅\s*/, "")}</li>)}</ul><Link href={item.href}>Подробнее →</Link></div></article>)}
+        <div className={`pricing-grid ${items.length === 3 ? "pricing-grid-three" : items.length === 1 ? "pricing-grid-one" : ""}`}>
+          {items.map((item, index) => {
+            const featured = index === 0 && items.length > 1;
+            return <article className={featured ? "price-card featured" : "price-card"} key={item.title}>{featured && <span className="price-badge">Чаще выбирают</span>}<Image src={item.image} alt={item.title} width={960} height={518} /><div className="price-card-copy"><h3>{item.title}</h3><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature.replace(/^⋅\s*/, "")}</li>)}</ul><Link href={item.href}>Подробнее →</Link></div></article>;
+          })}
         </div>
       </div>
     </section>
   );
 }
 
-export function HomeSevenDaysSection() {
+export function HomeSevenDaysSection({ items = homeSteps }: { items?: readonly HomeStep[] }) {
   return (
     <section className="section section-seven-days">
       <div className="shell">
         <div className="section-heading split-heading"><div><span className="eyebrow">Семь простых шагов</span><h2>Как проходит заказ</h2></div><p>Вся работа идёт онлайн, без поездок в офис и долгих встреч.</p></div>
         <ol className="steps-grid">
-          {steps.map(([icon, title, text], index) => <li key={title}><span className="step-number">0{index + 1}</span><Image src={`/media/steps/${icon}`} alt="" width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>)}
+          {items.map(([icon, title, text], index) => <li key={title}><span className="step-number">0{index + 1}</span><Image src={`/media/steps/${icon}`} alt="" width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>)}
         </ol>
         <div className="center-action"><button className="button" data-order-open type="button">Заказать</button></div>
       </div>
@@ -213,15 +247,15 @@ export function OriginalHomeSections() {
         </div>
       </section>
 
-      <HomeTrustSection />
+      <HomeTrustSection className="home-trust-section" />
 
-      <HomePricingSection />
+      <HomePricingSection items={homepagePricing} />
 
-      <HomeSevenDaysSection />
+      <HomeSevenDaysSection items={homepageSteps} />
 
-      <section className="section section-reviews">
+      <section className="section section-reviews section-ink">
         <div className="shell">
-          <div className="section-heading split-heading"><div><span className="eyebrow">Отзывы</span><h2>Отзывы о фотокнигах</h2></div><p>Сохраняем живые отзывы клиентов без пересказа и редакторских правок.</p></div>
+          <div className="section-heading split-heading"><div><span className="eyebrow reviews-eyebrow">Отзывы</span><h2>Отзывы о фотокнигах</h2></div><p>Сохраняем живые отзывы клиентов без пересказа и редакторских правок.</p></div>
           <ReviewCarousel images={reviewImages} />
           <div className="center-action action-row"><a className="text-link yandex-review-link" href={contacts.yandex} target="_blank" rel="noreferrer"><span>Отзывы на яндекс услугах</span><strong>ЧИТАТЬ ЗДЕСЬ</strong></a></div>
         </div>
@@ -241,9 +275,9 @@ export function OriginalFooter() {
   return (
     <footer className="site-footer">
       <div className="shell footer-grid original-footer-grid">
-        <div className="footer-catalog"><p><strong>Каталог</strong><br /><a href="/wedding-fotoknig/">Свадебные фотокниги</a><br /><a href="/detskaya-fotokniga/">Детские фотокниги</a><br /><a href="/yubilejnaya-fotokniga/">Фотокниги на юбилей</a><br /><a href="/fotokniga-o-puteshestvii/">Фотокниги путешествий</a><br /><a href="/vypusknye-fotoknigi/">Выпускные альбомы</a><br /><a href="/genealogicheskaya-fotokniga/">Родословная фотокнига</a><br /><a href="/fotokniga-na-lyubuyu-temu/">Фотокниги на любую тему</a><br /><a href="/fotokniga-s-dopolnennoj-realnostyu/">Фотокниги с оживающими фото</a></p></div>
-        <div className="footer-pricing"><p><strong>Стоимость</strong><br /><a href="/fotokniga-premium/">Фотокниги Премиум</a><br /><a href="/fotokniga-standart/">Фотокниги Стандарт</a><br /><a href="/vypusknye-fotoknigi-stoimost/">Выпускные альбомы</a><br /><a href="/fotoknigi-s-dopolnennoj-realnostju-stoim/">Фотокниги с оживающими фото</a></p><p className="footer-subheading"><strong>Сервисы</strong></p><p className="footer-service-links"><a href="/company/">О компании</a><br /><a href="/otzyvy/">Отзывы о фотокнигах</a><br /><a href="/blog_fotoknigi/">Блог о фотокнигах</a><br /><a href="/kontakty/">Контакты</a></p></div>
-        <div className="footer-agreements"><p><strong>Соглашения</strong></p><p><a href="/polzovatelskoe-soglashenie/">Пользовательское соглашение</a><br /><a href="/politika-obrabotki-personalnyh-dannyh/">Политика обработки персональных данных</a><br /><a href="/soglashenie/">Согласие на обработку персональных данных</a></p><p><br />ИП Ардашева Елена Викторовна<br />ИНН 772008137237<br />ОГРНИП 325774600377441</p></div>
+        <div className="footer-catalog"><p><a className="footer-heading-link" href="/katalog/"><strong>Каталог</strong></a><br /><a href="/wedding-fotoknig/">Свадебные фотокниги</a><br /><a href="/detskaya-fotokniga/">Детские фотокниги</a><br /><a href="/yubilejnaya-fotokniga/">Фотокниги на юбилей</a><br /><a href="/fotokniga-o-puteshestvii/">Фотокниги путешествий</a><br /><a href="/vypusknye-fotoknigi/">Выпускные альбомы</a><br /><a href="/genealogicheskaya-fotokniga/">Родословная фотокнига</a><br /><a href="/fotokniga-na-lyubuyu-temu/">Фотокниги на любую тему</a><br /><a href="/fotokniga-s-dopolnennoj-realnostyu/">Фотокниги с оживающими фото</a></p></div>
+        <div className="footer-pricing"><p><a className="footer-heading-link" href="/stoimost/"><strong>Стоимость</strong></a><br /><a href="/fotokniga-premium/">Фотокниги Премиум</a><br /><a href="/fotokniga-standart/">Фотокниги Стандарт</a><br /><a href="/vypusknye-fotoknigi-stoimost/">Выпускные альбомы</a><br /><a href="/fotoknigi-s-dopolnennoj-realnostju-stoim/">Фотокниги с оживающими фото</a></p><p className="footer-subheading"><a className="footer-heading-link" href="/company/"><strong>Сервисы</strong></a></p><p className="footer-service-links"><a href="/company/">О компании</a><br /><a href="/otzyvy/">Отзывы о фотокнигах</a><br /><a href="/blog_fotoknigi/">Блог о фотокнигах</a><br /><a href="/kontakty/">Контакты</a></p></div>
+        <div className="footer-agreements"><p><a className="footer-heading-link" href="/polzovatelskoe-soglashenie/"><strong>Соглашения</strong></a></p><p><a href="/polzovatelskoe-soglashenie/">Пользовательское соглашение</a><br /><a href="/politika-obrabotki-personalnyh-dannyh/">Политика обработки персональных данных</a><br /><a href="/soglashenie/">Согласие на обработку персональных данных</a></p><p><br />ИП Ардашева Елена Викторовна<br />ИНН 772008137237<br />ОГРНИП 325774600377441</p></div>
         <div className="footer-contacts"><div className="footer-contact-card"><p>Телефон:&nbsp; <a href={contacts.phoneHref}>8 (985) 434-23-67</a></p><p>Почта: <a href={`mailto:${contacts.email}`}>{contacts.email}</a></p><p>Адрес: Москва, Свободный проспект, д. 33</p><p>Режим работы: с 9 до 21, без выходных</p><p className="footer-socials"><a href={contacts.yandex} target="_blank" rel="noopener noreferrer"><Image src="/media/social/yandex-wedfotobook.png" alt="Фотокниги на заказ в Москве — wedfotobook" width={40} height={40} /></a><a href={contacts.vk} target="_blank" rel="noopener noreferrer"><Image src="/media/social/vk-wedfotobook.png" alt="Фотокниги на заказ в Москве — wedfotobook" width={40} height={40} /></a><a href={contacts.telegram} target="_blank" rel="noopener noreferrer"><Image src="/media/social/tg-wedfotobook.png" alt="Телеграм" width={40} height={40} /></a><a href={contacts.whatsapp} target="_blank" rel="noopener noreferrer"><Image src="/media/social/wapp-wedfotobook.png" alt="Вотсап" width={40} height={40} /></a><a href={contacts.max} target="_blank" rel="noopener noreferrer"><Image src="/media/social/max-wedfotobook.png" alt="Max" width={40} height={40} /></a></p></div></div>
       </div>
     </footer>

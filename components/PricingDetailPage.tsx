@@ -25,6 +25,7 @@ type BookPricingPage = {
   rows: PriceRow[];
   services: string[];
   faq?: [string, string][];
+  galleryInFeatures?: boolean;
 };
 
 type SimplePricingPage = {
@@ -60,7 +61,7 @@ const graduationImages = Array.from(
 const pages: Record<PricingDetailSlug, BookPricingPage | SimplePricingPage> = {
   "fotokniga-premium": {
     kind: "book",
-    eyebrow: "Стоимость · Фотокнига Премиум",
+    eyebrow: "Стоимость",
     title: "Фотокнига Премиум",
     price: "от 8 900 руб.",
     description: "Обработка фотографий, индивидуальный дизайн фотокниги, согласование макета и печать уже входят в стоимость.",
@@ -74,39 +75,41 @@ const pages: Record<PricingDetailSlug, BookPricingPage | SimplePricingPage> = {
       "Панорамный разворот (180 градусов)",
       "Повышенная прочность и долговечность",
       "Скидка 30% со второго экземпляра",
+      "Разные форматы",
     ],
+    galleryInFeatures: true,
     tableTitle: "Стоимость фотокниги Премиум",
     rows: [
-      { pages: "20 (10 развор.)", photos: "30–60 шт.", prices: ["8 900", "9 700", "9 900", "10 600"] },
-      { pages: "30 (15 развор.)", photos: "60–90 шт.", prices: ["12 700", "13 700", "14 000", "14 900"] },
-      { pages: "40 (20 развор.)", photos: "90–120 шт.", prices: ["16 400", "17 700", "18 100", "19 300"] },
-      { pages: "50 (25 развор.)", photos: "120–150 шт.", prices: ["20 200", "21 700", "22 200", "23 600"] },
-      { pages: "60 (30 развор.)", photos: "150–180 шт.", prices: ["24 100", "25 800", "26 300", "28 000"] },
-      { pages: "70 (35 развор.)", photos: "180–210 шт.", prices: ["27 700", "29 800", "30 400", "32 300"] },
-      { pages: "80 (40 развор.)", photos: "210–240 шт.", prices: ["31 400", "33 900", "34 500", "36 700"] },
-      { pages: "90 (45 развор.)", photos: "240–270 шт.", prices: ["35 200", "38 000", "38 700", "41 000"] },
-      { pages: "100 (50 развор.)", photos: "270–300 шт.", prices: ["38 900", "42 100", "42 800", "45 400"] },
-      { pages: "110 (55 развор.)", photos: "300–330 шт.", prices: ["42 600", "46 100", "46 900", "49 800"] },
-      { pages: "120 (60 развор.)", photos: "330–360 шт.", prices: ["46 400", "50 200", "51 000", "54 100"] },
+      { pages: "20 (10 РАЗВОРОТОВ)", photos: "30–60 шт.", prices: ["8 900", "9 700", "9 900", "10 600"] },
+      { pages: "30 (15 РАЗВОРОТОВ)", photos: "60–90 шт.", prices: ["12 700", "13 700", "14 000", "14 900"] },
+      { pages: "40 (20 РАЗВОРОТОВ)", photos: "90–120 шт.", prices: ["16 400", "17 700", "18 100", "19 300"] },
+      { pages: "50 (25 РАЗВОРОТОВ)", photos: "120–150 шт.", prices: ["20 200", "21 700", "22 200", "23 600"] },
+      { pages: "60 (30 РАЗВОРОТОВ)", photos: "150–180 шт.", prices: ["24 100", "25 800", "26 300", "28 000"] },
+      { pages: "70 (35 РАЗВОРОТОВ)", photos: "180–210 шт.", prices: ["27 700", "29 800", "30 400", "32 300"] },
+      { pages: "80 (40 РАЗВОРОТОВ)", photos: "210–240 шт.", prices: ["31 400", "33 900", "34 500", "36 700"] },
+      { pages: "90 (45 РАЗВОРОТОВ)", photos: "240–270 шт.", prices: ["35 200", "38 000", "38 700", "41 000"] },
+      { pages: "100 (50 РАЗВОРОТОВ)", photos: "270–300 шт.", prices: ["38 900", "42 100", "42 800", "45 400"] },
+      { pages: "110 (55 РАЗВОРОТОВ)", photos: "300–330 шт.", prices: ["42 600", "46 100", "46 900", "49 800"] },
+      { pages: "120 (60 РАЗВОРОТОВ)", photos: "330–360 шт.", prices: ["46 400", "50 200", "51 000", "54 100"] },
     ],
     services: [
       "Ретушь фотографий — 100 руб/фото",
       "Декоративные элементы в дизайне (сердечки, цветы, голуби и т.д.) — 100 руб./разворот",
       "Восстановление старых черно-белых фотографий — от 150 руб.",
       "Срочный заказ (фотокниги через 4 дня) — на 50% больше",
-      "Доставка на пункт выдачи Боксберри (50–350 руб.) или курьером в пределах МКАД (350 руб.)",
+      "Доставка на пункт выдачи Яндекс Маркета (350 руб.) или курьером в пределах МКАД.",
     ],
     faq: [
       ["Чем «Премиум» отличается от «Стандарта»?", "У «Премиум» твёрдая фотообложка, плотные листы и панорамный разворот, который раскрывается без разрыва по центру. У «Стандарта» — твёрдая обложка и «мягкие» листы."],
       ["Что такое панорамный разворот?", "Это разворот, где фото или коллаж занимает обе страницы целиком, без белой полосы и обрыва по линии сгиба — идеально для крупных кадров."],
-      ["Сколько стоит фотокнига «Премиум»?", "От 8 900 ₽; обработка фото и печать включены, а правки макета — без доплат."],
+      ["Сколько стоит фотокнига «Премиум»?", "От 8 900 руб.; обработка фото и печать включены, а правки макета — без доплат."],
       ["Можно ли выбрать кожаную или тканевую обложку?", "Да, обложку можно сделать в коже или ткани — звоните или пишите, подберём вариант."],
       ["За сколько дней изготовите «Премиум»?", "В среднем за 7 дней; есть срочный заказ за 4 дня (дороже на 50%)."],
     ],
   },
   "fotokniga-standart": {
     kind: "book",
-    eyebrow: "Стоимость · Фотокнига Стандарт",
+    eyebrow: "Стоимость",
     title: "Фотокнига Стандарт",
     price: "от 9 800 руб.",
     description: "Обработка фотографий, индивидуальный дизайн фотокниги, согласование макета и печать уже входят в стоимость.",
@@ -120,6 +123,7 @@ const pages: Record<PricingDetailSlug, BookPricingPage | SimplePricingPage> = {
       "Повышенная прочность и долговечность",
       "Скидка 30% со второго экземпляра",
     ],
+    galleryInFeatures: true,
     tableTitle: "Стоимость фотокниги Стандарт",
     rows: [
       { pages: "24", photos: "50–70 шт.", prices: ["9 800", "10 800", "11 300", "12 800"] },
@@ -135,29 +139,27 @@ const pages: Record<PricingDetailSlug, BookPricingPage | SimplePricingPage> = {
       "Декоративные элементы в дизайне (сердечки, цветы, голуби и т.д.) — 100 руб./разворот",
       "Восстановление старых черно-белых фотографий — от 150 руб.",
       "Срочный заказ (фотокниги через 4 дня) — на 50% больше",
-      "Доставка на пункт выдачи Боскберри (50–350 руб.) или курьером в пределах МКАД (350 руб.)",
+      "Доставка на пункт выдачи Яндекс Маркета (350 руб.) или курьером в пределах МКАД.",
     ],
   },
   "vypusknye-fotoknigi-stoimost": {
     kind: "graduation",
-    eyebrow: "Стоимость · Выпускные альбомы",
+    eyebrow: "Стоимость",
     title: "Выпускные альбомы",
     price: "от 1 500 руб.",
     description: "Можно сделать фотокнигу Премиум (плотные листы) или Стандарт (журнальные листы).",
     hero: graduationImages[0],
     images: graduationImages,
     features: [
-      "Фотокнига Премиум (плотные листы) или Стандарт (журнальные листы)",
-      "Количество разворотов от 1 до 60",
-      "Форматы 20×20, 20×28 и 28×20",
-      "Заказ от 10 экземпляров",
-      "Индивидуальный дизайн",
-      "Согласование каждого макета",
+      "Твердая фотообложка",
+      "Премиум или Стандарт",
+      "От 1 разворота",
+      "Заказ от 10 экз.",
     ],
   },
   "fotoknigi-s-dopolnennoj-realnostju-stoim": {
     kind: "alive",
-    eyebrow: "Стоимость · Оживающие фото",
+    eyebrow: "Стоимость",
     title: "Оживающие фото",
     price: "300 руб. за фото",
     description: "В фотокнигу «Премиум» или «Стандарт» можно добавить любое количество оживающих фотографий.",
@@ -188,7 +190,7 @@ function Hero({ page }: { page: BookPricingPage | SimplePricingPage }) {
           <h1>{page.title}</h1>
           <p>{page.description}</p>
           <div className="pricing-detail-price">{page.price}</div>
-          <OrderButton children="Рассчитать стоимость" />
+          <OrderButton>Рассчитать стоимость</OrderButton>
         </div>
         <figure className="pricing-detail-hero-image">
           <Image src={page.hero} alt={page.title} width={1200} height={800} priority />
@@ -220,9 +222,27 @@ function Features({ page }: { page: BookPricingPage | SimplePricingPage }) {
           </div>
         </div>
       ) : (
-        <div className="shell pricing-detail-feature-layout">
-          <div><span className="eyebrow">Характеристики</span><h2>{page.title}</h2></div>
-          {featureList}
+        <div className={page.kind === "book" && page.galleryInFeatures ? "shell" : "shell pricing-detail-feature-layout"}>
+          {page.kind === "book" && page.galleryInFeatures ? (
+            <>
+              <div className="pricing-detail-feature-layout">
+                <div><span className="eyebrow">Характеристики</span><h2>{page.title}</h2></div>
+                {featureList}
+              </div>
+              <div className="pricing-detail-feature-gallery" aria-label={`Фотографии: ${page.title}`}>
+                {page.images.map((src, index) => (
+                  <figure key={src}>
+                    <Image src={src} alt={`${page.title} — фото ${index + 1}`} width={1200} height={800} loading="lazy" />
+                  </figure>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <div><span className="eyebrow">Характеристики</span><h2>{page.title}</h2></div>
+              {featureList}
+            </>
+          )}
         </div>
       )}
     </section>
@@ -263,13 +283,13 @@ function PriceTable({ page }: { page: BookPricingPage }) {
               {page.rows.map((row) => (
                 <tr key={row.pages}>
                   <th scope="row">{row.pages}</th><td>{row.photos}</td>
-                  {row.prices.map((price, index) => <td key={`${row.pages}-${index}`}>{price} ₽</td>)}
+                  {row.prices.map((price, index) => <td key={`${row.pages}-${index}`}>{price} руб.</td>)}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <div className="pricing-detail-table-action"><OrderButton children="Заказать фотокнигу" /></div>
+        <div className="pricing-detail-table-action"><OrderButton>Заказать фотокнигу</OrderButton></div>
       </div>
     </section>
   );
@@ -286,11 +306,11 @@ function Services({ services }: { services: string[] }) {
   );
 }
 
-function PremiumFaq({ items }: { items: [string, string][] }) {
+function PricingFaq({ title, items }: { title: string; items: [string, string][] }) {
   return (
     <section className="pricing-detail-section pricing-detail-faq-section">
       <div className="shell pricing-detail-faq-layout">
-        <div><span className="eyebrow">Частые вопросы</span><h2>О фотокниге «Премиум»</h2></div>
+        <div><span className="eyebrow">Частые вопросы</span><h2>{title}</h2></div>
         <div className="pricing-detail-faq-list">
           {items.map(([question, answer], index) => <details key={question} open={index === 0}><summary>{question}<span>+</span></summary><p>{answer}</p></details>)}
         </div>
@@ -298,6 +318,14 @@ function PremiumFaq({ items }: { items: [string, string][] }) {
     </section>
   );
 }
+
+const graduationFaq: [string, string][] = [
+  ["Делаете ли вы выпускные фотокниги на весь класс или группу?", "Да, работаем с тиражами — заказ от 10 экземпляров, цена за книгу от 1 500 руб."],
+  ["Можно ли сделать персональный разворот каждому выпускнику?", "Да, добавим индивидуальную страницу каждому ребёнку в общем дизайне книги."],
+  ["Подойдёт для детского сада, школы, колледжа или вуза?", "Да, делаем выпускные альбомы для любой ступени — от детского сада до университета."],
+  ["За сколько дней изготовите тираж?", "Обычно около 7 дней; точные сроки на большой тираж уточним при заказе."],
+  ["Что нужно для заказа выпускного альбома?", "Прислать фотографии и список выпускников. Остальное — отбор кадров, дизайн и печать — сделаем мы."],
+];
 
 function GraduationDetails() {
   const options = [
@@ -311,7 +339,7 @@ function GraduationDetails() {
     <section className="pricing-detail-section pricing-detail-options-section">
       <div className="shell pricing-detail-options-layout">
         <div>
-          <span className="eyebrow">Варианты</span>
+          <span className="eyebrow">Стоимость</span>
           <h2>Варианты выпускных альбомов</h2>
           <p>Услуга фотографа в стоимость фотокниги не входит. Но мы может порекомендовать вам отличного фотографа, с которым сотрудничаем уже много лет.</p>
         </div>
@@ -319,7 +347,7 @@ function GraduationDetails() {
       </div>
       <div className="shell pricing-detail-note">
         <p>Цена зависит от того, нужен ли вам фотограф, от вида выпускного альбома, формата, количества разворотов и количества экземпляров. Напишите мне в вотаспе 8-985-434-23-67, мы с вами обсудим, что вы хотите, и я сразу посчитаю по стоимости. Наши цены вас приятно удивят!</p>
-        <OrderButton children="Получить расчёт" />
+        <OrderButton>Получить расчёт</OrderButton>
       </div>
     </section>
   );
@@ -331,11 +359,12 @@ export function PricingDetailPage({ slug }: { slug: PricingDetailSlug }) {
     <main className={`pricing-detail-page pricing-detail-${page.kind} pricing-detail-${slug}`}>
       <Hero page={page} />
       <Features page={page} />
-      {page.kind !== "alive" && <PhotoGallery page={page} />}
+      {page.kind === "graduation" && <GraduationDetails />}
+      {page.kind !== "alive" && !(page.kind === "book" && page.galleryInFeatures) && <PhotoGallery page={page} />}
       {page.kind === "book" && <PriceTable page={page} />}
       {page.kind === "book" && <Services services={page.services} />}
-      {page.kind === "book" && page.faq && <PremiumFaq items={page.faq} />}
-      {page.kind === "graduation" && <GraduationDetails />}
+      {page.kind === "book" && page.faq && <PricingFaq title="О фотокниге «Премиум»" items={page.faq} />}
+      {page.kind === "graduation" && <PricingFaq title="О выпускных фотокнигах" items={graduationFaq} />}
     </main>
   );
 }

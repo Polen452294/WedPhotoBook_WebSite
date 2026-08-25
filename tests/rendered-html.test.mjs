@@ -13,9 +13,31 @@ const cookieNoticeSource = await readFile(new URL("../components/CookieNotice.ts
 const analyticsSource = await readFile(new URL("../components/Analytics.tsx", import.meta.url), "utf8");
 const cookieConsentSource = await readFile(new URL("../lib/cookie-consent.ts", import.meta.url), "utf8");
 const databaseSchemaSource = await readFile(new URL("../db/schema.ts", import.meta.url), "utf8");
+const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
+const articleRoutes = [
+  "/article-genealogy/",
+  "/article-vipysk/",
+  "/article-travell/",
+  "/article-alivefoto/",
+  "/article-otziv/",
+  "/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/",
+  "/article-wedding/",
+  "/article-children/",
+  "/article-anniversary/",
+];
 
 test("uses Open Sans across the entire site", () => {
   assert.match(globalCss, /body \* \{\s*font-family: "Open Sans", Arial, sans-serif !important;/);
+});
+
+test("publishes branded favicon assets", async () => {
+  assert.match(layoutSource, /url: "\/favicon\.ico", sizes: "24x24", type: "image\/x-icon"/);
+  assert.match(layoutSource, /url: "\/favicon-32x32\.png", sizes: "32x32", type: "image\/png"/);
+  assert.match(layoutSource, /url: "\/apple-touch-icon\.png", sizes: "180x180", type: "image\/png"/);
+  assert.doesNotMatch(layoutSource, /url: "\/favicon\.svg"/);
+  for (const file of ["favicon.ico", "favicon.png", "favicon-32x32.png", "apple-touch-icon.png"]) {
+    await access(new URL(`../public/${file}`, import.meta.url));
+  }
 });
 
 test("uses a two-field callback form with consent and spam protection", () => {
@@ -25,6 +47,7 @@ test("uses a two-field callback form with consent and spam protection", () => {
   assert.match(orderDialogSource, /className="honeypot"/);
   assert.match(orderDialogSource, /name="formStartedAt" type="hidden"/);
   assert.match(orderDialogSource, /className="order-antispam"/);
+  assert.match(orderDialogSource, /status === "sending" \? "Отправляем…" : "Отправить"/);
   assert.doesNotMatch(orderDialogSource, /name="(?:photos|message)"/);
   assert.match(globalCss, /\.order-dialog \{[^}]*border-radius: 22px;/s);
   assert.match(globalCss, /\.order-dialog \.order-form \.checkbox > span \{[^}]*width: auto !important;[^}]*float: none !important;/s);
@@ -239,12 +262,99 @@ test("builds a dedicated pricing page from the home pricing cards", async () => 
   const pricingHtml = html.slice(start, end);
 
   assert.ok(start >= 0);
-  assert.match(pricingHtml, /Цены на фотокниги на заказ в Москве/);
+  assert.match(pricingHtml, /Цены на фотокниги на заказ/);
   assert.match(pricingHtml, /Цена фотокниги зависит от вида печати\./);
   assert.equal([...pricingHtml.matchAll(/class="price-card(?: featured)?"/g)].length, 4);
-  assert.match(pricingHtml, /class="button" data-order-open="true" type="button">Заказать<\/button>/);
+  assert.match(pricingHtml, /Разные форматы/);
+  assert.match(pricingHtml, /Твердая фотообложка/);
+  assert.match(pricingHtml, /От 1 разворота/);
+  assert.doesNotMatch(pricingHtml, /₽/);
+  assert.match(pricingHtml, /class="button" data-order-open="true" type="button">Рассчитать стоимость<\/button>/);
   assert.match(firstVersionCss, /\.legacy-wordpress\.page-id-20303 > :not\(\.navbar\)/);
   assert.match(firstVersionCss, /\.restored-first-version \.pricing-page-section[\s\S]*background: var\(--cream\)/);
+  assert.match(firstVersionCss, /\.restored-first-version \.pricing-page \.price-card\.featured \{[^}]*transform: none;/s);
+});
+
+test("compacts and reorders the graduation pricing page while preserving its FAQ", async () => {
+  const html = await (await render("/vypusknye-fotoknigi-stoimost/")).text();
+  const start = html.indexOf('<main class="pricing-detail-page pricing-detail-graduation');
+  const end = html.indexOf("</main>", start);
+  const pageHtml = html.slice(start, end);
+
+  assert.ok(start >= 0);
+  assert.match(pageHtml, /<span class="eyebrow">Стоимость<\/span><h1>Выпускные альбомы<\/h1>/);
+  assert.doesNotMatch(pageHtml, /Стоимость · Выпускные альбомы/);
+  assert.ok(pageHtml.indexOf("pricing-detail-options-section") < pageHtml.indexOf("pricing-detail-gallery-section"));
+  assert.match(pageHtml, /pricing-detail-options-section[\s\S]*?<span class="eyebrow">Стоимость<\/span>/);
+  assert.match(pageHtml, /О выпускных фотокнигах/);
+  assert.equal([...pageHtml.matchAll(/<details/g)].length, 5);
+  assert.match(pageHtml, /цена за книгу от 1 500 руб\./);
+  assert.doesNotMatch(pageHtml, /1 200/);
+  assert.match(pageHtml, /Да, добавим индивидуальную страницу каждому ребёнку в общем дизайне книги\./);
+  assert.match(firstVersionCss, /\.pricing-detail-graduation \.pricing-detail-hero::before \{[^}]*display: none;/s);
+  assert.match(firstVersionCss, /\.pricing-detail-graduation \.pricing-detail-price \{[^}]*font-weight: 400;/s);
+  assert.match(firstVersionCss, /\.pricing-detail-graduation \.pricing-detail-section \{[^}]*padding: clamp\(54px, 5\.5vw, 84px\) 0;/s);
+  assert.match(firstVersionCss, /\.pricing-detail-graduation \.pricing-detail-faq-layout h2/);
+});
+
+test("compacts the alive photo pricing page", async () => {
+  const html = await (await render("/fotoknigi-s-dopolnennoj-realnostju-stoim/")).text();
+  const start = html.indexOf('<main class="pricing-detail-page pricing-detail-alive');
+  const end = html.indexOf("</main>", start);
+  const pageHtml = html.slice(start, end);
+
+  assert.ok(start >= 0);
+  assert.match(pageHtml, /<span class="eyebrow">Стоимость<\/span><h1>Оживающие фото<\/h1>/);
+  assert.doesNotMatch(pageHtml, /Стоимость · Оживающие фото/);
+  assert.match(pageHtml, /<div class="pricing-detail-price">300 руб\. за фото<\/div>/);
+  assert.match(firstVersionCss, /\.pricing-detail-alive \.pricing-detail-hero::before \{[^}]*display: none;/s);
+  assert.match(firstVersionCss, /\.pricing-detail-alive \.pricing-detail-price \{[^}]*font-weight: 400;/s);
+  assert.match(firstVersionCss, /\.pricing-detail-alive \.pricing-detail-section \{[^}]*padding: clamp\(54px, 5\.5vw, 84px\) 0;/s);
+});
+
+test("compacts the premium pricing page and moves its four photos into characteristics", async () => {
+  const html = await (await render("/fotokniga-premium/")).text();
+  const start = html.indexOf('<main class="pricing-detail-page pricing-detail-book pricing-detail-fotokniga-premium">');
+  const end = html.indexOf("</main>", start);
+  const pageHtml = html.slice(start, end);
+  const galleryStart = pageHtml.indexOf('<div class="pricing-detail-feature-gallery"');
+  const galleryEnd = pageHtml.indexOf("</div>", galleryStart);
+  const featureGallery = pageHtml.slice(galleryStart, galleryEnd);
+
+  assert.ok(start >= 0);
+  assert.match(pageHtml, /<span class="eyebrow">Стоимость<\/span><h1>Фотокнига Премиум<\/h1>/);
+  assert.doesNotMatch(pageHtml, /Стоимость · Фотокнига Премиум/);
+  assert.equal([...pageHtml.matchAll(/class="pricing-detail-feature-list"[\s\S]*?<\/ul>/g)][0][0].match(/<li/g).length, 8);
+  assert.match(pageHtml, /Разные форматы/);
+  assert.equal([...featureGallery.matchAll(/<figure/g)].length, 4);
+  assert.doesNotMatch(pageHtml, /pricing-detail-gallery-section/);
+  assert.match(pageHtml, /20 \(10 РАЗВОРОТОВ\)/);
+  assert.doesNotMatch(pageHtml, /развор\./i);
+  assert.match(pageHtml, /Доставка на пункт выдачи Яндекс Маркета \(350 руб\.\) или курьером в пределах МКАД\./);
+  assert.match(firstVersionCss, /\.pricing-detail-fotokniga-premium \.pricing-detail-hero::before \{[^}]*display: none;/s);
+  assert.match(firstVersionCss, /\.pricing-detail-fotokniga-premium \.pricing-detail-price \{[^}]*font-weight: 400;/s);
+  assert.match(firstVersionCss, /\.pricing-detail-feature-gallery \{[^}]*grid-template-columns: repeat\(4,/s);
+});
+
+test("compacts the standard pricing page and moves its four photos into characteristics", async () => {
+  const html = await (await render("/fotokniga-standart/")).text();
+  const start = html.indexOf('<main class="pricing-detail-page pricing-detail-book pricing-detail-fotokniga-standart">');
+  const end = html.indexOf("</main>", start);
+  const pageHtml = html.slice(start, end);
+  const galleryStart = pageHtml.indexOf('<div class="pricing-detail-feature-gallery"');
+  const galleryEnd = pageHtml.indexOf("</div>", galleryStart);
+  const featureGallery = pageHtml.slice(galleryStart, galleryEnd);
+
+  assert.ok(start >= 0);
+  assert.match(pageHtml, /<span class="eyebrow">Стоимость<\/span><h1>Фотокнига Стандарт<\/h1>/);
+  assert.doesNotMatch(pageHtml, /Стоимость · Фотокнига Стандарт/);
+  assert.equal([...featureGallery.matchAll(/<figure/g)].length, 4);
+  assert.doesNotMatch(pageHtml, /pricing-detail-gallery-section/);
+  assert.match(pageHtml, /Доставка на пункт выдачи Яндекс Маркета \(350 руб\.\) или курьером в пределах МКАД\./);
+  assert.doesNotMatch(pageHtml, /Боскберри|Boxberry/i);
+  assert.match(firstVersionCss, /\.pricing-detail-fotokniga-standart \.pricing-detail-hero::before \{[^}]*display: none;/s);
+  assert.match(firstVersionCss, /\.pricing-detail-fotokniga-standart \.pricing-detail-price \{[^}]*font-weight: 400;/s);
+  assert.match(firstVersionCss, /\.pricing-detail-fotokniga-standart \.pricing-detail-services-section \{[^}]*background: #9a8062;/s);
 });
 
 test("reworks every requested catalog detail page with its exact text and adaptive gallery", async () => {
@@ -292,8 +402,81 @@ test("reworks every requested catalog detail page with its exact text and adapti
   assert.match(firstVersionCss, /\.restored-first-version \.catalog-story-page \.section-seven-days/);
 
   const childrenHtml = await (await render("/detskaya-fotokniga/")).text();
-  assert.ok(childrenHtml.indexOf("children-07-wedfotobook-ru.webp") < childrenHtml.indexOf("children-05-wedfotobook-ru.webp"));
-  assert.ok(childrenHtml.indexOf("children-04-wedfotobook-ru.webp") > childrenHtml.indexOf("children-06-wedfotobook-ru.webp"));
+  const childrenStart = childrenHtml.indexOf('<main class="catalog-detail-page catalog-story-page catalog-story-page-detskaya-fotokniga">');
+  const childrenPageHtml = childrenHtml.slice(childrenStart, childrenHtml.indexOf("</main>", childrenStart));
+  assert.ok(childrenPageHtml.indexOf("children-05-wedfotobook-ru.webp") < childrenPageHtml.indexOf("children-07-wedfotobook-ru.webp"));
+  assert.ok(childrenPageHtml.indexOf("children-04-wedfotobook-ru.webp") > childrenPageHtml.indexOf("children-06-wedfotobook-ru.webp"));
+  assert.equal([...childrenPageHtml.matchAll(/class="price-card(?: featured)?"/g)].length, 3);
+  assert.doesNotMatch(childrenPageHtml, /Выпускные альбомы/);
+  assert.match(childrenPageHtml, /Фотокнига «Стандарт»[\s\S]*?Разные форматы/);
+  for (const feature of ["Связываем фото и видео", "Эффект дополненной реальности", "Работает со смартфона", "Можно оживить фото с ИИ"]) {
+    assert.match(childrenPageHtml, new RegExp(feature));
+  }
+  assert.match(childrenPageHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
+  assert.match(firstVersionCss, /\.catalog-story-page-detskaya-fotokniga \.price-card\.featured,/);
+
+  const anniversaryHtml = await (await render("/yubilejnaya-fotokniga/")).text();
+  const anniversaryStart = anniversaryHtml.indexOf('<main class="catalog-detail-page catalog-story-page catalog-story-page-yubilejnaya-fotokniga">');
+  const anniversaryPageHtml = anniversaryHtml.slice(anniversaryStart, anniversaryHtml.indexOf("</main>", anniversaryStart));
+  assert.equal([...anniversaryPageHtml.matchAll(/class="price-card(?: featured)?"/g)].length, 3);
+  assert.doesNotMatch(anniversaryPageHtml, /Выпускные альбомы/);
+  assert.match(anniversaryPageHtml, /Фотокнига «Стандарт»[\s\S]*?Разные форматы/);
+  for (const feature of ["Связываем фото и видео", "Эффект дополненной реальности", "Работает со смартфона", "Можно оживить фото с ИИ"]) {
+    assert.match(anniversaryPageHtml, new RegExp(feature));
+  }
+  assert.match(anniversaryPageHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
+  assert.match(firstVersionCss, /\.catalog-story-page-yubilejnaya-fotokniga \.price-card\.featured,/);
+
+  const travelHtml = await (await render("/fotokniga-o-puteshestvii/")).text();
+  const travelStart = travelHtml.indexOf('<main class="catalog-detail-page catalog-story-page catalog-story-page-fotokniga-o-puteshestvii">');
+  const travelPageHtml = travelHtml.slice(travelStart, travelHtml.indexOf("</main>", travelStart));
+  assert.equal([...travelPageHtml.matchAll(/class="price-card(?: featured)?"/g)].length, 3);
+  assert.doesNotMatch(travelPageHtml, /Выпускные альбомы/);
+  assert.match(travelPageHtml, /Фотокнига «Стандарт»[\s\S]*?Разные форматы/);
+  for (const feature of ["Связываем фото и видео", "Эффект дополненной реальности", "Работает со смартфона", "Можно оживить фото с ИИ"]) {
+    assert.match(travelPageHtml, new RegExp(feature));
+  }
+  assert.match(travelPageHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
+  assert.match(firstVersionCss, /\.catalog-story-page-fotokniga-o-puteshestvii \.price-card\.featured,/);
+
+  const genealogyHtml = await (await render("/genealogicheskaya-fotokniga/")).text();
+  const genealogyStart = genealogyHtml.indexOf('<main class="catalog-detail-page catalog-story-page catalog-story-page-genealogicheskaya-fotokniga">');
+  const genealogyPageHtml = genealogyHtml.slice(genealogyStart, genealogyHtml.indexOf("</main>", genealogyStart));
+  assert.equal([...genealogyPageHtml.matchAll(/class="price-card(?: featured)?"/g)].length, 3);
+  assert.doesNotMatch(genealogyPageHtml, /Выпускные альбомы/);
+  assert.match(genealogyPageHtml, /Фотокнига «Стандарт»[\s\S]*?Разные форматы/);
+  for (const feature of ["Связываем фото и видео", "Эффект дополненной реальности", "Работает со смартфона", "Можно оживить фото с ИИ"]) {
+    assert.match(genealogyPageHtml, new RegExp(feature));
+  }
+  assert.match(genealogyPageHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
+  assert.match(firstVersionCss, /\.catalog-story-page-genealogicheskaya-fotokniga \.price-card\.featured,/);
+
+  const otherBooksHtml = await (await render("/fotokniga-na-lyubuyu-temu/")).text();
+  const otherBooksStart = otherBooksHtml.indexOf('<main class="catalog-detail-page catalog-story-page catalog-story-page-fotokniga-na-lyubuyu-temu">');
+  const otherBooksPageHtml = otherBooksHtml.slice(otherBooksStart, otherBooksHtml.indexOf("</main>", otherBooksStart));
+  assert.equal([...otherBooksPageHtml.matchAll(/class="price-card(?: featured)?"/g)].length, 3);
+  assert.doesNotMatch(otherBooksPageHtml, /Выпускные альбомы/);
+  assert.match(otherBooksPageHtml, /Фотокнига «Стандарт»[\s\S]*?Разные форматы/);
+  for (const feature of ["Связываем фото и видео", "Эффект дополненной реальности", "Работает со смартфона", "Можно оживить фото с ИИ"]) {
+    assert.match(otherBooksPageHtml, new RegExp(feature));
+  }
+  assert.match(otherBooksPageHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
+  assert.match(firstVersionCss, /\.catalog-story-page-fotokniga-na-lyubuyu-temu \.price-card\.featured \{[^}]*transform: none;/s);
+
+  const graduationHtml = await (await render("/vypusknye-fotoknigi/")).text();
+  const graduationStart = graduationHtml.indexOf('<main class="catalog-detail-page catalog-story-page catalog-story-page-vypusknye-fotoknigi">');
+  const graduationPageHtml = graduationHtml.slice(graduationStart, graduationHtml.indexOf("</main>", graduationStart));
+  const graduationPricingStart = graduationPageHtml.indexOf('<section class="section section-warm">');
+  const graduationPricingHtml = graduationPageHtml.slice(graduationPricingStart, graduationPageHtml.indexOf('<section class="section section-seven-days">', graduationPricingStart));
+  assert.equal([...graduationPricingHtml.matchAll(/class="price-card(?: featured)?"/g)].length, 1);
+  assert.match(graduationPricingHtml, /class="pricing-grid pricing-grid-one"/);
+  assert.match(graduationPricingHtml, /<h3>Выпускные альбомы<\/h3>/);
+  assert.doesNotMatch(graduationPricingHtml, /Фотокнига «Премиум»|Фотокнига «Стандарт»|Фотокниги с оживающими фото/);
+  assert.doesNotMatch(graduationPricingHtml, /Чаще выбирают/);
+  assert.match(graduationPageHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
+  assert.match(graduationPageHtml, /цена за книгу от 1 500 ₽\./);
+  assert.doesNotMatch(graduationPageHtml, /1 200/);
+  assert.match(firstVersionCss, /\.catalog-story-page-vypusknye-fotoknigi \.pricing-grid-one \.price-card \{[^}]*grid-template-columns: minmax\(0, 1\.15fr\) minmax\(320px, \.85fr\);/s);
 });
 
 test("reworks only the wedding photobook page while preserving its hero and FAQ", async () => {
@@ -308,7 +491,7 @@ test("reworks only the wedding photobook page while preserving its hero and FAQ"
   assert.match(pageHtml, /class="button" data-order-open="true" type="button">Рассчитать стоимость<\/button>/);
   assert.match(pageHtml, /История вашей свадьбы в книге с индивидуальным дизайном\./);
   assert.match(pageHtml, /\/media\/covers\/svadba-fotokniga-wedfotobook-ru\.webp/);
-  assert.match(pageHtml, /Свадебная фотокнига — это не просто альбом с фотографиями, а настоящая история любви/);
+  assert.match(pageHtml, /Свадебная фотокнига(?:&nbsp;|\u00a0)—(?:&nbsp;|\u00a0)это не просто альбом с фотографиями, а настоящая история любви/);
   assert.match(pageHtml, /Наши дизайнеры знают, как выстроить повествование так, чтобы каждая страница раскрывала отдельную главу/);
   assert.match(pageHtml, /Свадебная фотокнига на заказ создаётся с учётом всех ваших пожеланий\./);
   assert.equal([...pageHtml.matchAll(/\/media\/gallery\/wedding\/svadba-fotokniga-\d+-wedfotobook-ru\.webp/g)].length, 12);
@@ -319,16 +502,27 @@ test("reworks only the wedding photobook page while preserving its hero and FAQ"
   const sevenDaysIndex = pageHtml.indexOf("Семь простых шагов");
   const faqIndex = pageHtml.indexOf("Частые вопросы о свадебной фотокниге");
   assert.ok(storyIndex < trustIndex && trustIndex < pricingIndex && pricingIndex < sevenDaysIndex && sevenDaysIndex < faqIndex);
+  assert.equal([...pageHtml.matchAll(/class="price-card(?: featured)?"/g)].length, 3);
+  assert.doesNotMatch(pageHtml, /Выпускные альбомы/);
+  assert.match(pageHtml, /Фотокнига «Стандарт»[\s\S]*?Разные форматы/);
+  for (const feature of ["Связываем фото и видео", "Эффект дополненной реальности", "Работает со смартфона", "Можно оживить фото с ИИ"]) {
+    assert.match(pageHtml, new RegExp(feature));
+  }
+  assert.match(pageHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
   assert.match(pageHtml, /Сколько фотографий нужно для свадебной фотокниги\?/);
   assert.match(pageHtml, /Можно ли заказать дополнительные копии для родителей\?/);
+  assert.match(pageHtml, /Да, печатаем любое количество копий той же книги — это частый заказ для родителей\. Начиная со второго экземпляра скидка 30%\./);
+  assert.doesNotMatch(pageHtml, /Стоимость копий уточним при заказе\./);
   assert.doesNotMatch(pageHtml, /День свадьбы — это история, которую хочется пересматривать снова и снова\./);
   assert.match(pageHtml, /class="section section-seven-days"/);
   assert.match(firstVersionCss, /\.restored-first-version \.wedding-story-chapter/);
   assert.match(firstVersionCss, /\.restored-first-version \.wedding-faq-content \.wfb-faq/);
   assert.match(firstVersionCss, /\.restored-first-version \.wedding-detail-page \.section-seven-days,[\s\S]*?background: #fff;/);
+  assert.match(firstVersionCss, /\.restored-first-version \.pricing-grid-three \{[^}]*grid-template-columns: repeat\(3, 1fr\);/s);
+  assert.match(firstVersionCss, /\.restored-first-version \.wedding-detail-page \.price-card\.featured,/);
 });
 
-test("uses the genealogy photobook name consistently across the site", async () => {
+test("uses the catalog genealogy name while preserving the supplied article title", async () => {
   const html = await (await render("/genealogicheskaya-fotokniga/")).text();
   const start = html.indexOf('<main class="catalog-detail-page catalog-story-page catalog-story-page-genealogicheskaya-fotokniga">');
   const end = html.indexOf("</main>", start);
@@ -337,11 +531,64 @@ test("uses the genealogy photobook name consistently across the site", async () 
   assert.match(pageHtml, /<h1>Родословная фотокнига<\/h1>/);
   assert.doesNotMatch(pageHtml, /<h1>Генеалогическое древо/);
 
-  for (const pathname of ["/", "/katalog/", "/blog_fotoknigi/", "/article-genealogy/"]) {
+  for (const pathname of ["/", "/katalog/"]) {
     const routeHtml = await (await render(pathname)).text();
     assert.match(routeHtml, /Родословная фотокнига/, pathname);
     assert.doesNotMatch(routeHtml, /Родословная книга|Родословные фотокниги/, pathname);
   }
+
+  const articleHtml = await (await render("/article-genealogy/")).text();
+  const articleStart = articleHtml.indexOf('<main class="article-page article-page-1">');
+  const articleMain = articleHtml.slice(articleStart, articleHtml.indexOf("</main>", articleStart));
+  assert.match(articleMain, /<h1>Родословная книга – идеальный подарок и семейная реликвия<\/h1>/);
+});
+
+test("renders all supplied articles without bold or italic article text", async () => {
+  const expectedText = new Map([
+    ["/article-genealogy/", "Фотокнига, в которой собраны снимки разных поколений"],
+    ["/article-vipysk/", "Кажется, будто 11 лет — это целая эпоха"],
+    ["/article-travell/", "После путешествия остаётся не только багаж впечатлений"],
+    ["/article-alivefoto/", "Ещё недавно идея, что фотография может «ожить»"],
+    ["/article-otziv/", "Отзывы клиентов о WedFotoBook"],
+    ["/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/", "Какие фотокниги можно заказать"],
+    ["/article-wedding/", "Свадебная фотокнига: мгновения, которые останутся навсегда"],
+    ["/article-children/", "Детская фотокнига: история взросления в каждом кадре"],
+    ["/article-anniversary/", "Фотокнига к юбилею — способ с любовью оглянуться на пройденный путь"],
+  ]);
+
+  for (const pathname of articleRoutes) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, pathname);
+    const html = await response.text();
+    const start = html.indexOf('<main class="article-page');
+    const articleHtml = html.slice(start, html.indexOf("</main>", start));
+    assert.ok(start >= 0, pathname);
+    assert.match(articleHtml, new RegExp(expectedText.get(pathname).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), pathname);
+    assert.doesNotMatch(articleHtml, /<\/?(?:strong|b|em|i)\b/i, pathname);
+    assert.doesNotMatch(articleHtml, /PickPoint|Boxberry/i, pathname);
+  }
+
+  const blogHtml = await (await render("/blog_fotoknigi/")).text();
+  const blogStart = blogHtml.indexOf('<main class="blog-page">');
+  const blogMain = blogHtml.slice(blogStart, blogHtml.indexOf("</main>", blogStart));
+  assert.doesNotMatch(blogMain, /class="blog-hero"/);
+  assert.doesNotMatch(blogMain, /материалов/i);
+  assert.match(blogMain, /class="section-kicker">Статьи<\/span><h1>Блог о фотокнигах<\/h1>/);
+  assert.equal([...blogMain.matchAll(/class="blog-card"/g)].length, 9);
+  assert.doesNotMatch(blogMain, /blog-card-featured/);
+  assert.match(firstVersionCss, /\.blog-section-heading \.section-kicker \{[^}]*color: var\(--gold\);/s);
+  assert.match(blogMain, /href="\/article-wedding\/"/);
+  assert.match(blogMain, /href="\/article-children\/"/);
+  assert.match(blogMain, /href="\/article-anniversary\/"/);
+  assert.match(firstVersionCss, /\.restored-first-version \.article-page \*,?[\s\S]*?font-style: normal !important;[\s\S]*?font-weight: 400 !important;/);
+});
+
+test("uses two contact-inspired beige backgrounds on the reviews page", async () => {
+  const html = await (await render("/otzyvy/")).text();
+  assert.match(html, /class="reviews-gallery-section"/);
+  assert.match(html, /class="reviews-copy-section"/);
+  assert.match(firstVersionCss, /\.legacy-wordpress\.page-id-19634 \.reviews-gallery-section \{\s*background: #f7f3ed;/);
+  assert.match(firstVersionCss, /\.legacy-wordpress\.page-id-19634 \.reviews-copy-section \{\s*background: #e8ddd0;/);
 });
 
 test("shows the visit warning below every Yandex map", async () => {
@@ -355,6 +602,9 @@ test("shows the visit warning below every Yandex map", async () => {
     assert.ok(mapIndex >= 0, pathname);
     assert.ok(noticeIndex > mapIndex, pathname);
     assert.equal([...pageHtml.matchAll(/Пожалуйста, не приезжайте без предварительного звонка\./g)].length, 1, pathname);
+    if (pathname === "/company/") {
+      assert.match(pageHtml, /class="company-story"><h2>О нас<\/h2>/);
+    }
   }
 });
 
@@ -392,16 +642,26 @@ test("keeps the original opening screen and restores the first working version b
   assert.doesNotMatch(html, /href="#collapse[2-5]" data-redirect-url=/);
   assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.match(html, /class="restored-first-version"/);
-  assert.match(html, /home-original-fix\.css\?v=15/);
-  assert.match(html, /first-version-home\.css\?v=41/);
+  assert.match(html, /home-original-fix\.css\?v=\d+/);
+  assert.match(html, /first-version-home\.css\?v=\d+/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   const footerHtml = restoredHtml.slice(restoredHtml.indexOf('<footer class="site-footer">'), restoredHtml.indexOf("</footer>") + "</footer>".length);
-  assert.equal([...footerHtml.matchAll(/<a\b/g)].length, 26);
+  assert.equal([...footerHtml.matchAll(/<a\b/g)].length, 30);
   assert.match(footerHtml, /Адрес: Москва, Свободный проспект, д\. 33/);
   assert.ok(footerHtml.indexOf("Адрес: Москва, Свободный проспект, д. 33") < footerHtml.indexOf("Режим работы: с 9 до 21, без выходных"));
   assert.match(footerHtml, /class="footer-contact-card"/);
   assert.match(restoredHtml, /class="price-card featured"/);
   assert.match(restoredHtml, /class="price-badge"/);
+  const homePricingStart = restoredHtml.indexOf('<section class="section section-warm">', restoredHtml.indexOf("Почему нам можно доверять?"));
+  const homePricingHtml = restoredHtml.slice(homePricingStart, restoredHtml.indexOf('<section class="section section-seven-days">', homePricingStart));
+  assert.equal([...homePricingHtml.matchAll(/class="price-card(?: featured)?"/g)].length, 4);
+  assert.match(homePricingHtml, /Фотокнига «Стандарт»[\s\S]*?Разные форматы/);
+  for (const feature of ["Связываем фото и видео", "Эффект дополненной реальности", "Работает со смартфона", "Можно оживить фото с ИИ"]) {
+    assert.match(homePricingHtml, new RegExp(feature));
+  }
+  assert.match(restoredHtml, /class="section home-trust-section"/);
+  assert.match(firstVersionCss, /\.original-home-sections \.home-trust-section \{[^}]*background: var\(--cream\);/s);
+  assert.match(firstVersionCss, /\.original-home-sections \.pricing-grid \.price-card\.featured \{[^}]*transform: none;/s);
   assert.match(restoredHtml, /class="faq-intro"><span class="eyebrow"/);
   assert.match(restoredHtml, /Как мы делаем фотокниги\?/);
   assert.match(restoredHtml, /Фотокнига — это больше, чем просто фотографии/);
@@ -421,11 +681,11 @@ test("keeps the original opening screen and restores the first working version b
   assert.doesNotMatch(restoredHtml, /class="review-strip"/);
   assert.ok(restoredHtml.indexOf("Как проходит заказ") < restoredHtml.indexOf("Отзывы о фотокнигах"));
   assert.match(restoredHtml, /class="craft-number">01<\/span><h3>Профессиональная обработка фотографий<\/h3>/);
-  assert.match(restoredHtml, /<strong>Каталог<\/strong>/);
-  assert.match(restoredHtml, /<strong>Стоимость<\/strong>/);
-  assert.match(restoredHtml, /class="footer-subheading"><strong>Сервисы<\/strong>/);
+  assert.match(restoredHtml, /class="footer-heading-link" href="\/katalog\/"><strong>Каталог<\/strong><\/a>/);
+  assert.match(restoredHtml, /class="footer-heading-link" href="\/stoimost\/"><strong>Стоимость<\/strong><\/a>/);
+  assert.match(restoredHtml, /class="footer-subheading"><a class="footer-heading-link" href="\/company\/"><strong>Сервисы<\/strong><\/a>/);
   assert.match(restoredHtml, /class="footer-service-links"><a href="\/company\/">О компании<\/a>/);
-  assert.match(restoredHtml, /<strong>Соглашения<\/strong>/);
+  assert.match(restoredHtml, /class="footer-heading-link" href="\/polzovatelskoe-soglashenie\/"><strong>Соглашения<\/strong><\/a>/);
   assert.match(restoredHtml, /ИНН 772008137237(?:&nbsp;|\u00a0)ОГРНИП(?:&nbsp;|\u00a0)325774600377441/);
   assert.match(restoredHtml, /class="footer-socials"/);
   assert.match(html, /\/media\/brand\/logo-wedfotobook-v2\.png/);
@@ -445,14 +705,22 @@ test("keeps the original opening screen and restores the first working version b
   const stepsHtml = restoredHtml.slice(restoredHtml.indexOf('<ol class="steps-grid">'), restoredHtml.indexOf("</ol>", restoredHtml.indexOf('<ol class="steps-grid">')));
   assert.doesNotMatch(stepsHtml, /Консультация/);
   assert.ok(stepsHtml.indexOf("Оплата") < stepsHtml.indexOf("Печать"));
+  assert.match(stepsHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
   assert.match(restoredHtml, /<button class="button" data-order-open="true" type="button">Заказать<\/button>/);
-  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Отзывы<\/span><h2>Отзывы о фотокнигах<\/h2><\/div><p>Сохраняем живые отзывы клиентов без пересказа и редакторских правок\.<\/p>/);
+  assert.match(restoredHtml, /class="section section-reviews section-ink"/);
+  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow reviews-eyebrow">Отзывы<\/span><h2>Отзывы о фотокнигах<\/h2><\/div><p>Сохраняем живые отзывы клиентов без пересказа и редакторских правок\.<\/p>/);
+  assert.match(firstVersionCss, /\.original-home-sections \.section-reviews \{[^}]*background: var\(--ink\);/s);
+  assert.match(firstVersionCss, /\.original-home-sections \.section-reviews \.reviews-eyebrow \{[^}]*color: var\(--gold\);/s);
   assert.match(restoredHtml, /<span class="eyebrow">Частые вопросы<\/span><h2>Остались вопросы\?<\/h2>/);
+  assert.match(restoredHtml, /Прислать фотографии на ватсап, телеграмм, макс, почту 79854342367@yandex\.ru или ссылку на яндекс диск\/Мейл облако\. Согласовать макет\. Забрать фотокнигу в удобном пункте Яндекс маркета\. Все остальное мы сделаем за вас!/);
 });
 
 test("keeps all internal navigation local and resolves known legacy aliases", async () => {
   const snapshots = JSON.parse(await readFile(new URL("../data/rendered-pages.json", import.meta.url), "utf8"));
-  const routeSet = new Set(snapshots.map((page) => `/${page.slug ? `${page.slug}/` : ""}`));
+  const routeSet = new Set([
+    ...snapshots.map((page) => `/${page.slug ? `${page.slug}/` : ""}`),
+    ...articleRoutes,
+  ]);
   const checkedPaths = new Set(["/"]);
 
   for (const page of snapshots) {
@@ -461,13 +729,13 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
     const html = await response.text();
     const visibleHtml = html.replace(/<script[\s\S]*?<\/script>/g, "");
     assert.match(html, /class="navbar navbar-default/, page.slug || "/");
-    assert.match(html, /home-original-fix\.css\?v=15/, page.slug || "/");
+    assert.match(html, /home-original-fix\.css\?v=\d+/, page.slug || "/");
     assert.doesNotMatch(html, /<a\b[^>]*href=["']https?:\/\/(?:www\.)?wedfotobook\.ru/i, page.slug || "/");
     assert.match(visibleHtml, /\/media\/brand\/logo-wedfotobook-v2\.png/, page.slug || "/");
     assert.doesNotMatch(visibleHtml, /(?:icon6-optimized|icos[135]-optimized|logotip_max\.svg_|telegram_2019_logo|whatsapp\.svg_)/, page.slug || "/");
     assert.match(visibleHtml, /class="restored-first-version"/, page.slug || "/");
     const sharedFooter = visibleHtml.slice(visibleHtml.indexOf('<footer class="site-footer">'), visibleHtml.indexOf("</footer>", visibleHtml.indexOf('<footer class="site-footer">')) + "</footer>".length);
-    assert.equal([...sharedFooter.matchAll(/<a\b/g)].length, 26, page.slug || "/");
+    assert.equal([...sharedFooter.matchAll(/<a\b/g)].length, 30, page.slug || "/");
     assert.ok(sharedFooter.indexOf("Адрес: Москва, Свободный проспект, д. 33") < sharedFooter.indexOf("Режим работы: с 9 до 21, без выходных"), page.slug || "/");
 
     for (const match of html.matchAll(/href=["'](\/[^"']*)["']/gi)) {

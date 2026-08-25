@@ -103,12 +103,38 @@ function withHomepageBenefitLabels(bodyHtml: string, slug: string): string {
     .replace(">Индивидуальный дизайн</p>", "><strong>Без шаблонов</strong><span>индивидуальный дизайн</span></p>");
 }
 
+function withReviewBackgroundBands(bodyHtml: string, slug: string): string {
+  if (slug !== "otzyvy") return bodyHtml;
+
+  const titleTextIndex = bodyHtml.indexOf("Отзывы о фотокнигах");
+  const galleryStartIndex = bodyHtml.lastIndexOf("<h1", titleTextIndex);
+  const galleryIndex = bodyHtml.indexOf('id="foogallery-gallery-22276"', galleryStartIndex);
+  const reviewStartIndex = bodyHtml.indexOf(
+    '<div class="vc_empty_space"   style="height: 20px">',
+    galleryIndex,
+  );
+  const sectionEndIndex = bodyHtml.indexOf("</section>", reviewStartIndex);
+  const closingMatch = bodyHtml
+    .slice(reviewStartIndex, sectionEndIndex)
+    .match(/<\/div>\s*<\/div>\s*<\/div>\s*<\/div>\s*$/);
+
+  if (galleryStartIndex < 0 || galleryIndex < 0 || reviewStartIndex < 0 || sectionEndIndex < 0 || !closingMatch || closingMatch.index === undefined) {
+    return bodyHtml;
+  }
+
+  const reviewEndIndex = reviewStartIndex + closingMatch.index;
+  return `${bodyHtml.slice(0, galleryStartIndex)}<div class="reviews-gallery-section">${bodyHtml.slice(galleryStartIndex, reviewStartIndex)}</div><div class="reviews-copy-section">${bodyHtml.slice(reviewStartIndex, reviewEndIndex)}</div>${bodyHtml.slice(reviewEndIndex)}`;
+}
+
 export function LegacyPage({ page }: { page: RenderedPage }) {
-  const bodyHtml = withUpdatedGenealogyNaming(
-    withHomepageBenefitLabels(
-      withoutLegacyTracking(withWorkingForms(withNavigableLinks(withHomepageImages(page.bodyHtml, page.slug)))),
-      page.slug,
+  const bodyHtml = withReviewBackgroundBands(
+    withUpdatedGenealogyNaming(
+      withHomepageBenefitLabels(
+        withoutLegacyTracking(withWorkingForms(withNavigableLinks(withHomepageImages(page.bodyHtml, page.slug)))),
+        page.slug,
+      ),
     ),
+    page.slug,
   );
   const legalPageClass = WHITE_LEGAL_PAGES.has(page.slug) ? " legal-white-page" : "";
   return (

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ArticlePage } from "@/components/ArticlePage";
 import { BlogPage } from "@/components/BlogPage";
 import { CatalogPage } from "@/components/CatalogPage";
 import { CatalogDetailPage, catalogDetailDisplayTitles } from "@/components/CatalogDetailPage";
@@ -9,6 +10,7 @@ import { LegacyPage, WHITE_LEGAL_PAGES } from "@/components/LegacyPage";
 import { OriginalFooter } from "@/components/OriginalHomeSections";
 import { PricingDetailPage, type PricingDetailSlug } from "@/components/PricingDetailPage";
 import { PricingPage } from "@/components/PricingPage";
+import { articleSlugs, getArticle } from "@/lib/articles";
 import { getSnapshot, snapshots } from "@/lib/rendered-pages";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -57,11 +59,22 @@ const PRICING_DETAIL_SLUGS = new Set<PricingDetailSlug>([
 ]);
 
 export function generateStaticParams() {
-  return snapshots.filter((page) => page.slug).map((page) => ({ slug: page.slug }));
+  return [...new Set([...snapshots.map((page) => page.slug), ...articleSlugs])]
+    .filter(Boolean)
+    .map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const article = getArticle(slug);
+  if (article) {
+    return {
+      title: article.title,
+      description: article.description,
+      alternates: { canonical: `/${article.slug}/` },
+      openGraph: { title: article.title, description: article.description, url: `/${article.slug}/`, type: "article" },
+    };
+  }
   const page = getSnapshot(slug);
   if (!page) return {};
   if (slug === "company") {
@@ -93,10 +106,40 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+function withOnlyLegacyHeader<T extends { bodyHtml: string }>(page: T): T {
+  const contentStart = page.bodyHtml.indexOf('<section class="parent-section');
+  return contentStart < 0 ? page : { ...page, bodyHtml: page.bodyHtml.slice(0, contentStart) };
+}
+
 export default async function SlugPage({ params }: Props) {
   const { slug } = await params;
-  const page = getSnapshot(slug);
+  const article = getArticle(slug);
+  const snapshot = getSnapshot(slug);
+  const articleTemplate = article && !snapshot ? getSnapshot("article-genealogy") : undefined;
+  const page = snapshot ?? (article && articleTemplate ? {
+    ...articleTemplate,
+    slug: article.slug,
+    title: article.title,
+    description: article.description,
+    sourceUrl: `https://wedfotobook.ru/${article.slug}/`,
+    visibleText: article.blocks.map((block) => block.type === "list"
+      ? block.items.join(" ")
+      : block.type === "qa"
+        ? block.items.map((item) => `${item.question} ${item.answer}`).join(" ")
+        : block.text).join(" "),
+  } : undefined);
   if (!page) notFound();
+  if (article) {
+    return (
+      <div className="article-route">
+        <LegacyPage page={withOnlyLegacyHeader(page)} />
+        <div className="restored-first-version">
+          <ArticlePage article={article} />
+          <OriginalFooter />
+        </div>
+      </div>
+    );
+  }
   if (PRICING_DETAIL_SLUGS.has(slug as PricingDetailSlug)) {
     return (
       <div className="pricing-detail-route">

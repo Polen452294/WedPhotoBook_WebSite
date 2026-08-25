@@ -10,7 +10,14 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://wedfotobook.ru"),
   title: { default: "Фотокниги на заказ в Москве", template: "%s | wedfotobook.ru" },
   description: "Фотокниги на заказ с индивидуальным дизайном, обработкой фотографий и печатью под ключ.",
-  icons: { icon: "/favicon.png", shortcut: "/favicon.png", apple: "/favicon.png" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "24x24", type: "image/x-icon" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   openGraph: {
     type: "website",
     locale: "ru_RU",
@@ -32,5 +39,5 @@ export const viewport: Viewport = { width: "device-width", initialScale: 1, them
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const turnstileEnabled = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
-  return <html lang="ru"><head><link rel="stylesheet" href="/wp-assets/wordpress.css?v=10" /><link rel="stylesheet" href="/wp-assets/home-original-fix.css?v=24" /><link rel="stylesheet" href="/wp-assets/first-version-home.css?v=56" />{turnstileEnabled && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />}</head><body><OrderDialog />{children}<CookieNotice /><Analytics /></body></html>;
+  return <html lang="ru"><head><link rel="stylesheet" href="/wp-assets/wordpress.css?v=10" /><link rel="stylesheet" href="/wp-assets/home-original-fix.css?v=50" /><link rel="stylesheet" href="/wp-assets/first-version-home.css?v=68" />{turnstileEnabled && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />}</head><body><OrderDialog />{children}<CookieNotice /><Analytics /></body></html>;
 }

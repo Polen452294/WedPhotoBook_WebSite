@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { HomePricingSection, HomeSevenDaysSection, HomeTrustSection } from "@/components/OriginalHomeSections";
+import { HomePricingSection, HomeSevenDaysSection, HomeTrustSection, homePricing, homeSteps } from "@/components/OriginalHomeSections";
 import { catalogItems } from "@/lib/site-data";
 import type { RenderedPage } from "@/lib/rendered-pages";
 
@@ -52,6 +52,28 @@ const weddingGallery = Array.from({ length: 12 }, (_, index) =>
   `/media/gallery/wedding/svadba-fotokniga-${index + 1}-wedfotobook-ru.webp`,
 );
 
+const threeOptionPricing = [
+  homePricing[0],
+  { ...homePricing[1], features: [...homePricing[1].features, "⋅ Разные форматы"] },
+  {
+    ...homePricing[3],
+    features: [
+      "Связываем фото и видео",
+      "Эффект дополненной реальности",
+      "Работает со смартфона",
+      "Можно оживить фото с ИИ",
+    ],
+  },
+] as const;
+
+const graduationPricing = [homePricing[2]] as const;
+
+const approvalSteps = homeSteps.map((step, index) =>
+  index === 3
+    ? (["soglacovanie.webp", "Согласование макета", "Присылаем макет, вносим правки до вашего полного одобрения."] as const)
+    : step,
+);
+
 type CatalogStory = {
   paragraphs: readonly string[];
   images: readonly string[];
@@ -66,7 +88,7 @@ const catalogStories: Record<string, CatalogStory> = {
       "Детская фотокнига на заказ гарантирует индивидуальный подход. Можно добавить подписи: возраст, рост, первые слова. Можно заказать детскую фотокнигу «От рождения до года», «От рождения до 16», «От рождения до 40» и т.д.",
       "Детский фотоальбом может быть ярким и игривым либо лаконичным и нежным — всё зависит от ваших пожеланий.  Пусть воспоминания о детстве останутся не в телефоне, а в красивой фотокниге, которую приятно листать и показывать близким. Свяжитесь с нами — поможем воплотить вашу идею!",
     ],
-    images: [1, 2, 3, 7, 5, 6, 4, 8].map(
+    images: [1, 2, 3, 5, 7, 6, 4, 8].map(
       (imageNumber) => `/media/gallery/children/children-${String(imageNumber).padStart(2, "0")}-wedfotobook-ru.webp`,
     ),
     imageWidth: 2000,
@@ -157,6 +179,17 @@ function extractPageFaq(html: string) {
   return /<section class="wfb-faq">[\s\S]*?<\/section>/i.exec(html)?.[0] ?? "";
 }
 
+function updateWeddingFaq(html: string) {
+  return html.replace(
+    /(<summary>Можно ли заказать дополнительные копии для родителей\?<\/summary>\s*<div class="wfb-a">)[\s\S]*?(<\/div>)/i,
+    "$1Да, печатаем любое количество копий той же книги — это частый заказ для родителей. Начиная со второго экземпляра скидка 30%.$2",
+  );
+}
+
+function updateGraduationFaq(html: string) {
+  return html.replace("1 200 ₽", "1 500 ₽");
+}
+
 export const catalogDetailDisplayTitles: Record<string, string> = {
   "detskaya-fotokniga": "Детская фотокнига",
   "yubilejnaya-fotokniga": "Фотокнига на юбилей",
@@ -192,7 +225,7 @@ export function CatalogDetailPage({ page }: { page: RenderedPage }) {
   );
 
   if (page.slug === "wedding-fotoknig") {
-    const faqHtml = extractPageFaq(content.html);
+    const faqHtml = updateWeddingFaq(extractPageFaq(content.html));
 
     return (
       <main className="catalog-detail-page wedding-detail-page">
@@ -225,8 +258,8 @@ export function CatalogDetailPage({ page }: { page: RenderedPage }) {
         </section>
 
         <HomeTrustSection />
-        <HomePricingSection />
-        <HomeSevenDaysSection />
+        <HomePricingSection items={threeOptionPricing} />
+        <HomeSevenDaysSection items={approvalSteps} />
 
         {faqHtml && (
           <section className="section wedding-faq-section">
@@ -242,7 +275,14 @@ export function CatalogDetailPage({ page }: { page: RenderedPage }) {
     const chapterCount = Math.min(story.paragraphs.length, story.images.length);
     const paragraphGroups = splitEvenly(story.paragraphs, chapterCount);
     const imageGroups = splitEvenly(story.images, chapterCount);
-    const faqHtml = extractPageFaq(content.html);
+    const extractedFaqHtml = extractPageFaq(content.html);
+    const faqHtml = page.slug === "vypusknye-fotoknigi" ? updateGraduationFaq(extractedFaqHtml) : extractedFaqHtml;
+    const usesThreeOptionPricing = page.slug === "detskaya-fotokniga"
+      || page.slug === "yubilejnaya-fotokniga"
+      || page.slug === "fotokniga-o-puteshestvii"
+      || page.slug === "genealogicheskaya-fotokniga"
+      || page.slug === "fotokniga-na-lyubuyu-temu";
+    const usesApprovalSteps = usesThreeOptionPricing || page.slug === "vypusknye-fotoknigi";
 
     return (
       <main className={`catalog-detail-page catalog-story-page catalog-story-page-${page.slug}`}>
@@ -279,8 +319,10 @@ export function CatalogDetailPage({ page }: { page: RenderedPage }) {
         </section>
 
         <HomeTrustSection />
-        <HomePricingSection />
-        <HomeSevenDaysSection />
+        {page.slug === "vypusknye-fotoknigi"
+          ? <HomePricingSection items={graduationPricing} />
+          : usesThreeOptionPricing ? <HomePricingSection items={threeOptionPricing} /> : <HomePricingSection />}
+        {usesApprovalSteps ? <HomeSevenDaysSection items={approvalSteps} /> : <HomeSevenDaysSection />}
 
         {faqHtml && (
           <section className="section catalog-story-faq-section">

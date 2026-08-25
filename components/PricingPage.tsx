@@ -29,7 +29,7 @@ export function PricingPage() {
           </div>
 
           <div className="center-action pricing-page-action">
-            <button className="button" data-order-open type="button">Заказать</button>
+            <button className="button" data-order-open type="button">Рассчитать стоимость</button>
           </div>
         </div>
       </section>

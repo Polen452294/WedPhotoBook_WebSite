@@ -13,7 +13,7 @@ export function CompanyPage() {
       <section className="company-details">
         <div className="shell company-details-grid">
           <article className="company-story">
-            <h2>О компании</h2>
+            <h2>О нас</h2>
             <p>Компания работает на рынке более 17 лет, что подтверждает её опыт и надёжность. Владелец — ИП Ардашева Елена Викторовна. ИНН: 772008137237, ОГРНИП: 325774600377441.</p>
           </article>
 
