@@ -33,6 +33,7 @@ function normalizeInternalHref(href: string): string {
 
 function withNavigableLinks(bodyHtml: string): string {
   return bodyHtml
+    .replace(/href=("|')javascript:void\(0\);?\1/g, (_attribute, quote: string) => `href=${quote}#top${quote}`)
     .replace(
       /href="#collapse\d+"(?=\s+data-redirect-url="([^"]+)")/g,
       (_href, destination: string) => `href="${normalizeInternalHref(destination)}"`,
@@ -68,6 +69,33 @@ function withHomepageImages(bodyHtml: string, slug: string): string {
     "/wp-content/uploads/2026/04/001-1-1-optimized.jpg",
     "/media/home/fotokniga-na-zakaz-wedfotobook-ru.webp",
   );
+}
+
+function withResponsiveLegacyImages(bodyHtml: string): string {
+  const allowedWidths = [384, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
+
+  return bodyHtml.replace(/<img\b[^>]*>/gi, (tag) => {
+    const src = /\bsrc=("|')([^"']+)\1/i.exec(tag)?.[2];
+    const width = Number(/\bwidth=("|')(\d+)\1/i.exec(tag)?.[2]);
+    if (!src?.startsWith("/") || !Number.isFinite(width) || width < 384 || /\bsrcset=/i.test(tag) || /\.(?:gif|svg)(?:\?|$)/i.test(src)) {
+      return tag;
+    }
+
+    const widths = allowedWidths.filter((candidate) => candidate <= width);
+    if (!widths.length) return tag;
+    const srcset = widths
+      .map((candidate) => `/_vinext/image?url=${encodeURIComponent(src)}&amp;w=${candidate}&amp;q=75 ${candidate}w`)
+      .join(", ");
+    const sizes = "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px";
+    return tag.replace(/\s*\/?>(?=$)/, ` srcset="${srcset}" sizes="${sizes}" />`);
+  });
+}
+
+function withLogoDimensions(bodyHtml: string): string {
+  return bodyHtml.replace(/<img\b[^>]*\bsrc=("|')\/media\/brand\/logo-wedfotobook-v2\.png\1[^>]*>/gi, (tag) => {
+    if (/\bwidth=/i.test(tag) && /\bheight=/i.test(tag)) return tag;
+    return tag.replace("<img", '<img width="962" height="198" decoding="async"');
+  });
 }
 
 function withWorkingForms(bodyHtml: string): string {
@@ -130,7 +158,13 @@ export function LegacyPage({ page }: { page: RenderedPage }) {
   const bodyHtml = withReviewBackgroundBands(
     withUpdatedGenealogyNaming(
       withHomepageBenefitLabels(
-        withoutLegacyTracking(withWorkingForms(withNavigableLinks(withHomepageImages(page.bodyHtml, page.slug)))),
+        withoutLegacyTracking(
+          withWorkingForms(
+            withNavigableLinks(
+              withResponsiveLegacyImages(withLogoDimensions(withHomepageImages(page.bodyHtml, page.slug))),
+            ),
+          ),
+        ),
         page.slug,
       ),
     ),

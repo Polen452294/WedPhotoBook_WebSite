@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { contacts } from "@/lib/site-data";
+import { renderTurnstile } from "@/lib/turnstile";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -17,12 +18,29 @@ const mapAddress = "%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%A1%D0%B2%D0%BE
 
 export function ContactPage() {
   const formRef = useRef<HTMLFormElement>(null);
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetId = useRef<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [formStartedAt, setFormStartedAt] = useState(0);
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
-  useEffect(() => setFormStartedAt(Date.now()), []);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setFormStartedAt(Date.now()), 0);
+    if (turnstileSiteKey && turnstileRef.current) {
+      void renderTurnstile(turnstileRef.current, {
+        sitekey: turnstileSiteKey,
+        theme: "light",
+        language: "ru",
+        size: "flexible",
+        action: "message",
+        "response-field-name": "turnstileToken",
+      }).then((widgetId) => {
+        turnstileWidgetId.current = widgetId;
+      }).catch(() => undefined);
+    }
+    return () => window.clearTimeout(timer);
+  }, [turnstileSiteKey]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -47,8 +65,7 @@ export function ContactPage() {
       form.reset();
       setFormStartedAt(Date.now());
       setStatus("success");
-      const widget = formRef.current?.querySelector<HTMLElement>(".cf-turnstile");
-      if (widget && window.turnstile) window.turnstile.reset(widget);
+      if (turnstileWidgetId.current) window.turnstile?.reset(turnstileWidgetId.current);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Не удалось отправить сообщение.");
       setStatus("error");
@@ -86,7 +103,7 @@ export function ContactPage() {
                   <span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span>
                 </label>
                 {turnstileSiteKey && (
-                  <div className="cf-turnstile contact-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-language="ru" data-size="flexible" data-action="message" data-response-field-name="turnstileToken" />
+                  <div className="contact-turnstile" ref={turnstileRef} />
                 )}
                 <div className="contact-form-action">
                   <button type="submit" disabled={status === "sending"}>{status === "sending" ? "Отправляем…" : "Отправить"}</button>

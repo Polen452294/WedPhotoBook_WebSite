@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { renderTurnstile } from "@/lib/turnstile";
 
 const BODY_CLASSES = ["wordpress-clone"];
 
@@ -42,6 +43,21 @@ function initializeImageViewers() {
   document.querySelectorAll<HTMLElement>(".foogallery-image-viewer").forEach((gallery) => showViewerItem(gallery, 0));
 }
 
+function initializeLegacyTurnstile(target: EventTarget | null) {
+  const form = target instanceof HTMLElement ? target.closest<HTMLFormElement>(".wpcf7-form") : null;
+  const widget = form?.querySelector<HTMLElement>(".cf-turnstile");
+  const sitekey = widget?.dataset.sitekey;
+  if (!widget || !sitekey) return;
+
+  void renderTurnstile(widget, {
+    sitekey,
+    theme: widget.dataset.theme === "dark" ? "dark" : "light",
+    language: widget.dataset.language || "ru",
+    action: widget.dataset.action,
+    "response-field-name": widget.dataset.responseFieldName || "turnstileToken",
+  }).catch(() => undefined);
+}
+
 function setLegacyFormStatus(form: HTMLFormElement, state: "sent" | "failed", message: string) {
   const status = form.querySelector<HTMLElement>(".wpcf7-response-output");
   form.classList.remove("init", "sent", "failed", "submitting");
@@ -62,6 +78,7 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
     document.querySelectorAll<HTMLFormElement>(".wpcf7-form").forEach((form) => legacyFormStartedAt.set(form, Date.now()));
 
     const click = (event: MouseEvent) => {
+      initializeLegacyTurnstile(event.target);
       const target = event.target as HTMLElement | null;
       const menuToggle = target?.closest<HTMLButtonElement>(".navbar-toggle");
       if (menuToggle) {
@@ -177,10 +194,14 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
       }
     };
 
+    const focus = (event: FocusEvent) => initializeLegacyTurnstile(event.target);
+
     document.addEventListener("click", click, true);
+    document.addEventListener("focusin", focus);
     document.addEventListener("submit", submit);
     return () => {
       document.removeEventListener("click", click, true);
+      document.removeEventListener("focusin", focus);
       document.removeEventListener("submit", submit);
       document.body.className = previous;
     };

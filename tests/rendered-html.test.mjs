@@ -14,6 +14,7 @@ const analyticsSource = await readFile(new URL("../components/Analytics.tsx", im
 const cookieConsentSource = await readFile(new URL("../lib/cookie-consent.ts", import.meta.url), "utf8");
 const databaseSchemaSource = await readFile(new URL("../db/schema.ts", import.meta.url), "utf8");
 const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
+const nextConfigSource = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
 const articleRoutes = [
   "/article-genealogy/",
   "/article-vipysk/",
@@ -115,6 +116,53 @@ async function render(path = "/", init = {}) {
     { waitUntil() {}, passThroughOnException() {} },
   );
 }
+
+test("publishes complete technical SEO and GEO signals", async () => {
+  const rootHtml = await (await render()).text();
+  const jsonLdBlocks = [...rootHtml.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)]
+    .map((match) => JSON.parse(match[1]));
+  assert.equal(jsonLdBlocks.length, 2);
+  const graphTypes = jsonLdBlocks.flatMap((block) => block["@graph"].map((item) => item["@type"]));
+  assert.ok(graphTypes.includes("LocalBusiness"));
+  assert.ok(graphTypes.includes("WebSite"));
+  assert.ok(graphTypes.includes("WebPage"));
+  assert.match(rootHtml, /"streetAddress":"Свободный проспект, д\. 33"/);
+  assert.match(rootHtml, /"telephone":"\+7-985-434-23-67"/);
+  assert.match(rootHtml, /<html[^>]*id="top"[^>]*lang="ru"/);
+  assert.doesNotMatch(rootHtml, /href="javascript:void\(0\);?"/);
+
+  const sitemapResponse = await render("/sitemap.xml");
+  assert.equal(sitemapResponse.status, 200);
+  const sitemap = await sitemapResponse.text();
+  assert.equal([...sitemap.matchAll(/<loc>/g)].length, 32);
+  for (const route of ["article-wedding", "article-children", "article-anniversary"]) {
+    assert.match(sitemap, new RegExp(`<loc>https://wedfotobook\\.ru/${route}/</loc>`));
+  }
+  assert.match(sitemap, /<image:loc>https:\/\/wedfotobook\.ru\/media\/covers\/svadba-fotokniga-wedfotobook-ru\.webp<\/image:loc>/);
+
+  const robots = await (await render("/robots.txt")).text();
+  assert.match(robots, /User-Agent: YandexAdditionalBot/);
+  assert.match(robots, /Disallow: \/admin\//);
+  assert.match(robots, /Sitemap: https:\/\/wedfotobook\.ru\/sitemap\.xml/);
+
+  const articleHtml = await (await render("/article-wedding/")).text();
+  assert.match(articleHtml, /<meta property="og:image" content="https:\/\/wedfotobook\.ru\/media\/covers\/svadba-fotokniga-wedfotobook-ru\.webp"/);
+  assert.match(articleHtml, /"@type":"Article"/);
+});
+
+test("serves responsive images without loading Turnstile globally", async () => {
+  const html = await (await render()).text();
+  const imageTags = [...html.matchAll(/<img\b[^>]*>/gi)].map((match) => match[0]);
+  assert.ok(imageTags.length > 100);
+  assert.ok(imageTags.every((tag) => /\bwidth=/.test(tag) && /\bheight=/.test(tag)));
+  assert.ok(imageTags.filter((tag) => /\bsrcset=/i.test(tag)).length > 100);
+  assert.match(html, /\/_vinext\/image\?url=/);
+  const logoTag = imageTags.find((tag) => tag.includes("logo-wedfotobook-v2.png"));
+  assert.match(logoTag ?? "", /width="962" height="198"/);
+  assert.doesNotMatch(nextConfigSource, /unoptimized:\s*true/);
+  assert.doesNotMatch(layoutSource, /challenges\.cloudflare\.com\/turnstile/);
+  assert.match(orderDialogSource, /renderTurnstile/);
+});
 
 test("rejects automated callback submissions on the server", async () => {
   const trapped = await render("/api/contact/", {
@@ -389,7 +437,12 @@ test("reworks every requested catalog detail page with its exact text and adapti
     assert.match(pageHtml, /class="button" data-order-open="true" type="button">Рассчитать стоимость<\/button>/, pathname);
     assert.match(pageHtml, /class="catalog-story-section"/, pathname);
     assert.ok(pageHtml.includes(text), pathname);
-    assert.equal([...pageHtml.matchAll(new RegExp(`/media/gallery/${gallery}/${gallery}-\\d{2}-wedfotobook-ru\\.webp`, "g"))].length, images, pathname);
+    const normalizedAssetPaths = pageHtml.replace(/%2F/gi, "/");
+    const galleryAssets = new Set(
+      [...normalizedAssetPaths.matchAll(new RegExp(`/media/gallery/${gallery}/${gallery}-\\d{2}-wedfotobook-ru\\.webp`, "g"))]
+        .map((match) => match[0]),
+    );
+    assert.equal(galleryAssets.size, images, pathname);
     assert.match(pageHtml, /data-order-open="true"/, pathname);
     assert.match(pageHtml, /<img[^>]+width="720"[^>]+height="720"/, pathname);
     const storyIndex = pageHtml.indexOf("catalog-story-section");
@@ -506,11 +559,16 @@ test("reworks only the wedding photobook page while preserving its hero and FAQ"
   assert.match(pageHtml, /<h1>Свадебная фотокнига<\/h1>/);
   assert.match(pageHtml, /class="button" data-order-open="true" type="button">Рассчитать стоимость<\/button>/);
   assert.match(pageHtml, /История вашей свадьбы в книге с индивидуальным дизайном\./);
-  assert.match(pageHtml, /\/media\/covers\/svadba-fotokniga-wedfotobook-ru\.webp/);
+  const normalizedAssetPaths = pageHtml.replace(/%2F/gi, "/");
+  assert.match(normalizedAssetPaths, /\/media\/covers\/svadba-fotokniga-wedfotobook-ru\.webp/);
   assert.match(pageHtml, /Свадебная фотокнига(?:&nbsp;|\u00a0)—(?:&nbsp;|\u00a0)это не просто альбом с фотографиями, а настоящая история любви/);
   assert.match(pageHtml, /Наши дизайнеры знают, как выстроить повествование так, чтобы каждая страница раскрывала отдельную главу/);
   assert.match(pageHtml, /Свадебная фотокнига на заказ создаётся с учётом всех ваших пожеланий\./);
-  assert.equal([...pageHtml.matchAll(/\/media\/gallery\/wedding\/svadba-fotokniga-\d+-wedfotobook-ru\.webp/g)].length, 12);
+  const weddingAssets = new Set(
+    [...normalizedAssetPaths.matchAll(/\/media\/gallery\/wedding\/svadba-fotokniga-\d+-wedfotobook-ru\.webp/g)]
+      .map((match) => match[0]),
+  );
+  assert.equal(weddingAssets.size, 12);
 
   const storyIndex = pageHtml.indexOf("wedding-story-section");
   const trustIndex = pageHtml.indexOf("Почему нам можно доверять?");

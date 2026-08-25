@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LegacyPage } from "@/components/LegacyPage";
 import { OriginalFooter, OriginalHomeSections } from "@/components/OriginalHomeSections";
 import { getSnapshot } from "@/lib/rendered-pages";
+import { PageStructuredData } from "@/lib/seo";
 
 const page = getSnapshot("")!;
 
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
+      <PageStructuredData title={page.title} description={page.description || undefined} path="/" service />
       <LegacyPage page={page} />
       <div className="restored-first-version">
         <section className="home-redesign-facts-section" aria-label="Преимущества">

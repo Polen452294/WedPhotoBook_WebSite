@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events -- native dialog backdrop clicks close the modal */
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { renderTurnstile } from "@/lib/turnstile";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -28,6 +29,8 @@ function formatPhone(value: string) {
 
 export function OrderDialog() {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetId = useRef<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [phone, setPhone] = useState("");
@@ -39,9 +42,20 @@ export function OrderDialog() {
       setStatus("idle");
       setErrorMessage("");
       setFormStartedAt(Date.now());
-      const widget = dialogRef.current?.querySelector<HTMLElement>(".cf-turnstile");
-      if (widget && window.turnstile) window.turnstile.reset(widget);
       if (!dialogRef.current?.open) dialogRef.current?.showModal();
+      if (turnstileSiteKey && turnstileRef.current) {
+        void renderTurnstile(turnstileRef.current, {
+          sitekey: turnstileSiteKey,
+          theme: "light",
+          language: "ru",
+          size: "flexible",
+          action: "callback",
+          "response-field-name": "turnstileToken",
+        }).then((widgetId) => {
+          turnstileWidgetId.current = widgetId;
+          window.turnstile?.reset(widgetId);
+        }).catch(() => undefined);
+      }
     };
     const open = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
@@ -55,7 +69,7 @@ export function OrderDialog() {
       document.removeEventListener("click", open);
       window.removeEventListener("wedfotobook:open-order", show);
     };
-  }, []);
+  }, [turnstileSiteKey]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -77,8 +91,7 @@ export function OrderDialog() {
       form.reset();
       setPhone("");
       setStatus("success");
-      const widget = dialogRef.current?.querySelector<HTMLElement>(".cf-turnstile");
-      if (widget && window.turnstile) window.turnstile.reset(widget);
+      if (turnstileWidgetId.current) window.turnstile?.reset(turnstileWidgetId.current);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Не удалось отправить заявку.");
       setStatus("error");
@@ -107,13 +120,8 @@ export function OrderDialog() {
         </label>
         {turnstileSiteKey && (
           <div
-            className="cf-turnstile order-turnstile"
-            data-sitekey={turnstileSiteKey}
-            data-theme="light"
-            data-language="ru"
-            data-size="flexible"
-            data-action="callback"
-            data-response-field-name="turnstileToken"
+            className="order-turnstile"
+            ref={turnstileRef}
           />
         )}
         <div className="order-antispam" aria-label="Форма защищена от автоматических заявок">
@@ -128,10 +136,4 @@ export function OrderDialog() {
       </form>
     </dialog>
   );
-}
-
-declare global {
-  interface Window {
-    turnstile?: { reset(widget?: string | HTMLElement): void };
-  }
 }

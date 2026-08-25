@@ -1,10 +1,12 @@
 import { desc } from "drizzle-orm";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { requireChatGPTUser } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
 import { enquiries } from "@/db/schema";
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = { robots: { index: false, follow: false, noarchive: true, nocache: true } };
 
 function allowedAdminEmails(): Set<string> {
   const configured = process.env.ADMIN_EMAILS || process.env.CONTACT_TO_EMAIL || "79854342367@yandex.ru";

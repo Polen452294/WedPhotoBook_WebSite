@@ -12,10 +12,13 @@ export function CookieNotice() {
   const [analytics, setAnalytics] = useState(false);
 
   useEffect(() => {
-    const stored = readCookieConsent();
-    setAnalytics(stored?.analytics ?? false);
-    setNoticeOpen(!stored);
-    setReady(true);
+    const timer = window.setTimeout(() => {
+      const stored = readCookieConsent();
+      setAnalytics(stored?.analytics ?? false);
+      setNoticeOpen(!stored);
+      setReady(true);
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   function choose(value: boolean) {

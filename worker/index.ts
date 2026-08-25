@@ -19,12 +19,35 @@ interface ExecutionContext {
   passThroughOnException(): void;
 }
 
-function withSecurityHeaders(response: Response): Response {
+function withResponseHeaders(request: Request, response: Response): Response {
   const headers = new Headers(response.headers);
+  const url = new URL(request.url);
+  const isPrivateRoute = ["/api/", "/admin/", "/signin-with-chatgpt", "/signout-with-chatgpt", "/callback"]
+    .some((path) => url.pathname.startsWith(path));
+
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("X-Frame-Options", "SAMEORIGIN");
   headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  headers.set("X-DNS-Prefetch-Control", "on");
+  if (url.protocol === "https:") headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+
+  if (isPrivateRoute) {
+    headers.set("Cache-Control", "private, no-store");
+    headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
+  } else if (url.pathname.startsWith("/_next/static/")) {
+    headers.set("Cache-Control", "public, max-age=31536000, immutable");
+  } else if (url.pathname === "/_vinext/image" || url.pathname === "/_next/image") {
+    headers.set("Cache-Control", "public, max-age=2592000, stale-while-revalidate=86400");
+  } else if (
+    url.pathname.startsWith("/media/")
+    || url.pathname.startsWith("/wp-content/")
+    || url.pathname.startsWith("/wp-assets/")
+    || /\.(?:avif|gif|ico|jpe?g|png|svg|webp|woff2?|ttf)$/i.test(url.pathname)
+  ) {
+    headers.set("Cache-Control", "public, max-age=604800, stale-while-revalidate=86400");
+  }
+
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
 }
 
@@ -38,7 +61,7 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
-    if (url.pathname === "/_vinext/image") {
+    if (url.pathname === "/_vinext/image" || url.pathname === "/_next/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
       const imageResponse = await handleImageOptimization(request, {
         fetchAsset: (path) => env.ASSETS.fetch(new Request(new URL(path, request.url))),
@@ -47,10 +70,10 @@ const worker = {
           return result.response();
         },
       }, allowedWidths);
-      return withSecurityHeaders(imageResponse);
+      return withResponseHeaders(request, imageResponse);
     }
 
-    return withSecurityHeaders(await handler.fetch(request, env, ctx));
+    return withResponseHeaders(request, await handler.fetch(request, env, ctx));
   },
 };
 
