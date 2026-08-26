@@ -15,6 +15,7 @@ const cookieConsentSource = await readFile(new URL("../lib/cookie-consent.ts", i
 const databaseSchemaSource = await readFile(new URL("../db/schema.ts", import.meta.url), "utf8");
 const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
 const nextConfigSource = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
+const workerSource = await readFile(new URL("../worker/index.ts", import.meta.url), "utf8");
 const articleRoutes = [
   "/article-genealogy/",
   "/article-vipysk/",
@@ -162,6 +163,8 @@ test("serves responsive images without loading Turnstile globally", async () => 
   assert.doesNotMatch(nextConfigSource, /unoptimized:\s*true/);
   assert.doesNotMatch(layoutSource, /challenges\.cloudflare\.com\/turnstile/);
   assert.match(orderDialogSource, /renderTurnstile/);
+  assert.match(workerSource, /"\.webp": "image\/webp"/);
+  assert.match(workerSource, /fetchAsset: async \(path\) => withStaticContentType/);
 });
 
 test("rejects automated callback submissions on the server", async () => {

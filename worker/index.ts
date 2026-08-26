@@ -19,9 +19,36 @@ interface ExecutionContext {
   passThroughOnException(): void;
 }
 
-function withResponseHeaders(request: Request, response: Response): Response {
+const STATIC_CONTENT_TYPES: Record<string, string> = {
+  ".avif": "image/avif",
+  ".css": "text/css; charset=utf-8",
+  ".gif": "image/gif",
+  ".ico": "image/x-icon",
+  ".jpeg": "image/jpeg",
+  ".jpg": "image/jpeg",
+  ".js": "text/javascript; charset=utf-8",
+  ".png": "image/png",
+  ".svg": "image/svg+xml",
+  ".ttf": "font/ttf",
+  ".webp": "image/webp",
+  ".woff": "font/woff",
+  ".woff2": "font/woff2",
+};
+
+function withStaticContentType(pathname: string, response: Response): Response {
+  const dotIndex = pathname.lastIndexOf(".");
+  const contentType = dotIndex >= 0 ? STATIC_CONTENT_TYPES[pathname.slice(dotIndex).toLowerCase()] : undefined;
+  if (!contentType) return response;
+
   const headers = new Headers(response.headers);
+  headers.set("Content-Type", contentType);
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+}
+
+function withResponseHeaders(request: Request, response: Response): Response {
   const url = new URL(request.url);
+  const typedResponse = withStaticContentType(url.pathname, response);
+  const headers = new Headers(typedResponse.headers);
   const isPrivateRoute = ["/api/", "/admin/", "/signin-with-chatgpt", "/signout-with-chatgpt", "/callback"]
     .some((path) => url.pathname.startsWith(path));
 
@@ -48,7 +75,7 @@ function withResponseHeaders(request: Request, response: Response): Response {
     headers.set("Cache-Control", "public, max-age=604800, stale-while-revalidate=86400");
   }
 
-  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+  return new Response(typedResponse.body, { status: typedResponse.status, statusText: typedResponse.statusText, headers });
 }
 
 // Image security config. SVG sources with .svg extension auto-skip the
@@ -64,7 +91,10 @@ const worker = {
     if (url.pathname === "/_vinext/image" || url.pathname === "/_next/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
       const imageResponse = await handleImageOptimization(request, {
-        fetchAsset: (path) => env.ASSETS.fetch(new Request(new URL(path, request.url))),
+        fetchAsset: async (path) => withStaticContentType(
+          new URL(path, request.url).pathname,
+          await env.ASSETS.fetch(new Request(new URL(path, request.url))),
+        ),
         transformImage: async (body, { width, format, quality }) => {
           const result = await env.IMAGES.input(body).transform(width > 0 ? { width } : {}).output({ format, quality });
           return result.response();
