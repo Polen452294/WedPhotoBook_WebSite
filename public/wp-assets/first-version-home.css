@@ -1314,7 +1314,7 @@
 
 .restored-first-version .article-page {
   overflow: hidden;
-  background: #fff;
+  background: var(--cream);
   color: var(--text);
 }
 
@@ -1328,7 +1328,7 @@
   position: relative;
   border-bottom: 1px solid var(--line);
   padding: clamp(78px, 8vw, 124px) 0 clamp(62px, 7vw, 100px);
-  background: #fff;
+  background: var(--cream);
 }
 
 .restored-first-version .article-hero::after {
@@ -1383,7 +1383,7 @@
 
 .restored-first-version .article-body-section {
   padding: clamp(68px, 8vw, 112px) 0 clamp(86px, 9vw, 132px);
-  background: #fff;
+  background: var(--cream);
 }
 
 .restored-first-version .article-copy {
@@ -1724,6 +1724,10 @@
   letter-spacing: -.04em;
   line-height: 1.05;
   text-transform: none !important;
+}
+
+.legacy-wordpress.page-id-19634 .reviews-gallery-section > h1 > span {
+  font-size: inherit !important;
 }
 
 .legacy-wordpress.page-id-19634 .reviews-gallery-section > p {
