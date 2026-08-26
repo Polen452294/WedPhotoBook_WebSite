@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { HomeGalleryCarousel } from "@/components/HomeGalleryCarousel";
 import { ReviewCarousel } from "@/components/ReviewCarousel";
 import { contacts, getMediaGroup } from "@/lib/site-data";
 
@@ -249,11 +250,21 @@ export function OriginalHomeSections() {
 
       <HomeTrustSection className="home-trust-section" />
 
+      <section className="section home-gallery-section" aria-labelledby="home-gallery-title">
+        <div className="shell">
+          <div className="section-heading split-heading">
+            <div><span className="eyebrow">Галерея</span><h2 id="home-gallery-title">Посмотрите готовые фотокниги</h2></div>
+            <p>Листайте фотографии, чтобы рассмотреть обложки и готовые развороты.</p>
+          </div>
+          <HomeGalleryCarousel />
+        </div>
+      </section>
+
       <HomePricingSection items={homepagePricing} />
 
       <HomeSevenDaysSection items={homepageSteps} />
 
-      <section className="section section-reviews">
+      <section className="section section-reviews section-ink">
         <div className="shell">
           <div className="section-heading split-heading"><div><span className="eyebrow reviews-eyebrow">Отзывы</span><h2>Отзывы о фотокнигах</h2></div><p>Сохраняем живые отзывы клиентов без пересказа и редакторских правок.</p></div>
           <ReviewCarousel images={reviewImages} />

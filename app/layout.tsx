@@ -39,5 +39,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#061d31" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html id="top" lang="ru"><head><link rel="stylesheet" href="/wp-assets/wordpress.css?v=10" /><link rel="stylesheet" href="/wp-assets/home-original-fix.css?v=50" /><link rel="stylesheet" href="/wp-assets/first-version-home.css?v=68" /><BusinessStructuredData /></head><body><OrderDialog />{children}<CookieNotice /><Analytics /></body></html>;
+  return <html id="top" lang="ru"><head><link rel="stylesheet" href="/wp-assets/wordpress.css?v=10" /><link rel="stylesheet" href="/wp-assets/home-original-fix.css?v=50" /><link rel="stylesheet" href="/wp-assets/first-version-home.css?v=73" /><BusinessStructuredData /></head><body><OrderDialog />{children}<CookieNotice /><Analytics /></body></html>;
 }

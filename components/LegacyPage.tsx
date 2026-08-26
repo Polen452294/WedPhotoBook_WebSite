@@ -72,6 +72,8 @@ function withHomepageImages(bodyHtml: string, slug: string): string {
 }
 
 function withResponsiveLegacyImages(bodyHtml: string): string {
+  if (process.env.NODE_ENV === "development") return bodyHtml;
+
   const allowedWidths = [384, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
 
   return bodyHtml.replace(/<img\b[^>]*>/gi, (tag) => {
