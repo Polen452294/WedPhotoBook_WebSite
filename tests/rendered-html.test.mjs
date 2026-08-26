@@ -16,6 +16,7 @@ const databaseSchemaSource = await readFile(new URL("../db/schema.ts", import.me
 const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
 const nextConfigSource = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
 const workerSource = await readFile(new URL("../worker/index.ts", import.meta.url), "utf8");
+const staticHeadersSource = await readFile(new URL("../public/_headers", import.meta.url), "utf8");
 const articleRoutes = [
   "/article-genealogy/",
   "/article-vipysk/",
@@ -165,6 +166,8 @@ test("serves responsive images without loading Turnstile globally", async () => 
   assert.match(orderDialogSource, /renderTurnstile/);
   assert.match(workerSource, /"\.webp": "image\/webp"/);
   assert.match(workerSource, /fetchAsset: async \(path\) => withStaticContentType/);
+  assert.match(staticHeadersSource, /\/_next\/static\/\*[\s\S]*max-age=31536000, immutable/);
+  assert.match(staticHeadersSource, /\/media\/\*[\s\S]*max-age=604800, stale-while-revalidate=86400/);
 });
 
 test("rejects automated callback submissions on the server", async () => {
