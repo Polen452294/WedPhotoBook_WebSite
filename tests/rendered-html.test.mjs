@@ -865,8 +865,8 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /class="review-carousel"/);
   assert.match(restoredHtml, /id="review-carousel-track" class="review-carousel-track"/);
   assert.match(normalizeMediaPaths(restoredHtml), /\/media\/reviews-selected\/Otziv o fotoknige 01 wedfotobook\.webp/);
-  assert.match(restoredHtml, /aria-label="Следующий отзыв"/);
-  assert.match(restoredHtml, /aria-label="Предыдущий отзыв"/);
+  assert.match(restoredHtml, /aria-controls="review-carousel-track"[^>]*><span aria-hidden="true">←<\/span><span>Назад<\/span>/);
+  assert.match(restoredHtml, /aria-controls="review-carousel-track"[^>]*><span aria-hidden="true">→<\/span><span>Далее<\/span>/);
   assert.doesNotMatch(restoredHtml, /class="review-strip"/);
   assert.ok(restoredHtml.indexOf("Как проходит заказ") < restoredHtml.indexOf("Отзывы о фотокнигах"));
   assert.match(restoredHtml, /class="craft-number">01<\/span><h3>Профессиональная обработка фотографий<\/h3>/);
