@@ -4,7 +4,7 @@ import { absoluteUrl } from "@/lib/seo";
 import { catalogItems, pages, pricing } from "@/lib/site-data";
 
 function pageImage(slug: string): string | undefined {
-  if (!slug) return "/media/home/fotokniga-na-zakaz-wedfotobook-ru.webp";
+  if (!slug) return "/media/home/Fotokniga na zakaz wedfotobook ru.webp";
   return articles.find((article) => article.slug === slug)?.image
     ?? catalogItems.find((item) => item.slug === slug)?.cover
     ?? pricing.find((item) => item.href === `/${slug}/`)?.image;
@@ -33,6 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter((article) => !pageSlugs.has(article.slug))
     .map((article) => ({
       url: absoluteUrl(`/${article.slug}/`),
+      lastModified: new Date(article.dateModified),
       changeFrequency: "monthly",
       priority: 0.7,
       images: [absoluteUrl(article.image)],

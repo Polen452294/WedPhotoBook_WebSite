@@ -1,0 +1,37 @@
+# WedFotoBook
+
+> WedFotoBook создаёт фотокниги на заказ в Москве: от обработки фотографий и индивидуального дизайна до согласования макета, печати и доставки готовой книги.
+
+Сайт работает на русском языке. Основные темы: свадебные, детские, выпускные, юбилейные, родословные фотокниги, фотокниги о путешествиях и книги с оживающими фотографиями.
+
+## Основные страницы
+
+- [Главная](https://wedfotobook.ru/): обзор услуг, процесса работы, преимуществ и ответов на частые вопросы.
+- [Каталог](https://wedfotobook.ru/katalog/): виды фотокниг и ссылки на тематические страницы.
+- [Стоимость](https://wedfotobook.ru/stoimost/): варианты фотокниг, комплектация и цены.
+- [Блог](https://wedfotobook.ru/blog_fotoknigi/): статьи о подготовке фотографий и создании фотокниг.
+- [О компании](https://wedfotobook.ru/company/): сведения о WedFotoBook, опыте и владельце.
+- [Контакты](https://wedfotobook.ru/kontakty/): телефон, электронная почта, мессенджеры, адрес и режим работы.
+- [Политика конфиденциальности](https://wedfotobook.ru/privacy-policy/): правила обработки персональных данных.
+
+## Каталог фотокниг
+
+- [Свадебные фотокниги](https://wedfotobook.ru/wedding-fotoknig/)
+- [Детские фотокниги](https://wedfotobook.ru/detskaya-fotokniga/)
+- [Фотокниги на юбилей](https://wedfotobook.ru/yubilejnaya-fotokniga/)
+- [Фотокниги о путешествиях](https://wedfotobook.ru/fotokniga-o-puteshestvii/)
+- [Выпускные альбомы](https://wedfotobook.ru/vypusknye-fotoknigi/)
+- [Родословные фотокниги](https://wedfotobook.ru/genealogicheskaya-fotokniga/)
+- [Фотокниги на любую тему](https://wedfotobook.ru/fotokniga-na-lyubuyu-temu/)
+- [Фотокниги с оживающими фотографиями](https://wedfotobook.ru/fotokniga-s-dopolnennoj-realnostyu/)
+
+## Техническая информация
+
+- [Карта сайта](https://wedfotobook.ru/sitemap.xml): список индексируемых страниц.
+- [Правила для роботов](https://wedfotobook.ru/robots.txt): правила обхода публичных и служебных страниц.
+- [Описание сайта для агентов](https://wedfotobook.ru/.well-known/agents.json): машиночитаемые ссылки и контактные сведения.
+
+## Optional
+
+- [Пользовательское соглашение](https://wedfotobook.ru/polzovatelskoe-soglashenie/)
+- [Согласие на обработку персональных данных](https://wedfotobook.ru/soglashenie/)

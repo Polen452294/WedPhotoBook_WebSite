@@ -49,7 +49,7 @@ const weddingStory = [
 ] as const;
 
 const weddingGallery = Array.from({ length: 12 }, (_, index) =>
-  `/media/gallery/wedding/svadba-fotokniga-${index + 1}-wedfotobook-ru.webp`,
+  `/media/gallery/wedding/Svadba fotokniga ${index + 1} wedfotobook ru.webp`,
 );
 
 const updatedStandardPricing = { ...homePricing[1], features: [...homePricing[1].features, "⋅ Разные форматы"] };
@@ -70,7 +70,7 @@ const graduationPricing = [homePricing[2]] as const;
 
 const approvalSteps = homeSteps.map((step, index) =>
   index === 3
-    ? (["soglacovanie.webp", "Согласование макета", "Присылаем макет, вносим правки до вашего полного одобрения."] as const)
+    ? (["Soglacovanie.webp", "Согласование макета", "Присылаем макет, вносим правки до вашего полного одобрения."] as const)
     : step,
 );
 
@@ -89,7 +89,7 @@ const catalogStories: Record<string, CatalogStory> = {
       "Детский фотоальбом может быть ярким и игривым либо лаконичным и нежным — всё зависит от ваших пожеланий.  Пусть воспоминания о детстве останутся не в телефоне, а в красивой фотокниге, которую приятно листать и показывать близким. Свяжитесь с нами — поможем воплотить вашу идею!",
     ],
     images: [1, 2, 3, 5, 7, 6, 4, 8].map(
-      (imageNumber) => `/media/gallery/children/children-${String(imageNumber).padStart(2, "0")}-wedfotobook-ru.webp`,
+      (imageNumber) => `/media/gallery/children/Dety fotokniga ${imageNumber} wedfotobok ru.webp`,
     ),
     imageWidth: 2000,
     imageHeight: 993,
@@ -100,7 +100,7 @@ const catalogStories: Record<string, CatalogStory> = {
       "Фотоальбом на юбилей может отражать разные этапы: первые достижения, важные события, любимые места, тёплые моменты с родными. Фотокнига поможет сохранить не только изображения, но и атмосферу: можно добавить подписи, даты, трогательные цитаты и пожелания от близких — так книга станет по-настоящему личной.",
       "Фотокнига на юбилей на заказ станет лучшим подарком: её будут пересматривать снова и снова, каждый раз заново переживая счастливые мгновения. Свяжитесь с нами — создадим издание, которое станет семейной ценностью!",
     ],
-    images: Array.from({ length: 8 }, (_, index) => `/media/gallery/anniversary/anniversary-${String(index + 1).padStart(2, "0")}-wedfotobook-ru.webp`),
+    images: Array.from({ length: 8 }, (_, index) => `/media/gallery/anniversary/Ubiley fotokniga ${index + 1} wedfotobook ru.webp`),
     imageWidth: 2000,
     imageHeight: 1283,
   },
@@ -111,7 +111,7 @@ const catalogStories: Record<string, CatalogStory> = {
       "Заказать фотокнигу путешествий стоит, чтобы не потерять ни одного важного кадра: в ней найдётся место и для панорамных видов, и для смешных бытовых моментов.",
       "Пусть каждое путешествие живёт не только в памяти, но и в красивой, тактильно приятной книге — обращайтесь, и мы воплотим вашу задумку в реальность!",
     ],
-    images: Array.from({ length: 8 }, (_, index) => `/media/gallery/travel/travel-${String(index + 1).padStart(2, "0")}-wedfotobook-ru.webp`),
+    images: Array.from({ length: 8 }, (_, index) => `/media/gallery/travel/Fotokniga puteshedtvij ${index + 1} wedfotobook ru.webp`),
     imageWidth: 2000,
     imageHeight: 993,
   },
@@ -121,7 +121,7 @@ const catalogStories: Record<string, CatalogStory> = {
       "Выпускной альбом на заказ разрабатывается индивидуально: дизайнеры подберут композицию, гармонично разместят портреты и групповые снимки, добавят цитаты учеников, тёплые слова педагогов и памятные даты. Для детского сада сделаем оформление игривым и уютным, для 4 класса — лёгким и динамичным, а для 9 и 11 классов — стильным и современным, подчёркивающим взросление ребят.",
       "Заказать выпускной альбом стоит, чтобы сохранить не только образы, но и атмосферу праздника: в книгу можно включить фото с линейки, репетиций, творческих номеров и неформальных моментов.  Свяжитесь с нами — поможем воплотить идею и создать историю, которую захочется пересматривать снова и снова!",
     ],
-    images: Array.from({ length: 12 }, (_, index) => `/media/gallery/graduation/graduation-${String(index + 1).padStart(2, "0")}-wedfotobook-ru.webp`),
+    images: Array.from({ length: 12 }, (_, index) => `/media/gallery/graduation/Vipusk albom ${index + 1} wedfotobook ru.webp`),
     imageWidth: 2000,
     imageHeight: 1283,
   },
@@ -132,7 +132,7 @@ const catalogStories: Record<string, CatalogStory> = {
       "Заказать родословную фотокнигу стоит, если вы хотите зафиксировать не только лица предков, но и их судьбы: добавить генеалогическое древо, краткие биографии, важные даты, описания традиций и даже рецепты, передающиеся из поколения в поколение.",
       "Родословная фотокнига — не просто альбом, а летопись рода. Закажите её, чтобы сохранить память о предках и подарить близким ощущение связи времён. Свяжитесь с нами — поможем воплотить семейную историю в красивой и долговечной книге!",
     ],
-    images: Array.from({ length: 12 }, (_, index) => `/media/gallery/genealogy/genealogy-${String(index + 1).padStart(2, "0")}-wedfotobook-ru.webp`),
+    images: Array.from({ length: 12 }, (_, index) => `/media/gallery/genealogy/Fotokniga genealogia ${index + 1} wedfotobook ru.webp`),
     imageWidth: 2000,
     imageHeight: 1283,
   },
@@ -142,7 +142,7 @@ const catalogStories: Record<string, CatalogStory> = {
       "Корпоративная фотокнига станет стильным подарком партнёрам и сотрудникам, подчеркнёт ценности и историю бренда. Фотокнига о животных сохранит забавные и душевные моменты: от первых дней в доме до любимых ритуалов. Также мы делаем фотокниги про хобби, спортивные достижения, тематические фотосессии и даже про любимые городские маршруты.",
       "Расскажите о своей задумке — и мы поможем превратить фотографии в уникальную историю!",
     ],
-    images: Array.from({ length: 8 }, (_, index) => `/media/gallery/custom/custom-${String(index + 1).padStart(2, "0")}-wedfotobook-ru.webp`),
+    images: Array.from({ length: 8 }, (_, index) => `/media/gallery/custom/Fotokbiga drugaj ${index + 1} wedfotobook ru.webp`),
     imageWidth: 2000,
     imageHeight: 1283,
   },
@@ -154,7 +154,7 @@ const catalogStories: Record<string, CatalogStory> = {
       "Заказать фотоальбом с оживающими фото стоит для свадьбы, выпускного, первого года малыша или семейного путешествия — там, где важны не только кадры, но и атмосфера. ",
       "Пусть воспоминания станут по-настоящему живыми — обращайтесь, и мы поможем превратить ваши фото и видео в уникальный альбом, который удивит каждого!",
     ],
-    images: Array.from({ length: 2 }, (_, index) => `/media/gallery/alive/alive-${String(index + 1).padStart(2, "0")}-wedfotobook-ru.webp`),
+    images: Array.from({ length: 2 }, (_, index) => `/media/gallery/alive/Alive foto ${index + 1} wedfotobook ru.webp`),
     imageWidth: 1280,
     imageHeight: 720,
   },
@@ -218,7 +218,7 @@ export function CatalogDetailPage({ page }: { page: RenderedPage }) {
           <button className="button" data-order-open type="button">{heroButtonLabel}</button>
         </div>
         <div className="catalog-detail-cover">
-          <Image src={item.cover} alt={displayTitle} width={720} height={720} priority />
+          <Image src={item.cover} alt={item.coverAlt} width={720} height={720} priority />
         </div>
       </div>
     </section>
@@ -244,7 +244,7 @@ export function CatalogDetailPage({ page }: { page: RenderedPage }) {
                     <figure key={image}>
                       <Image
                         src={image}
-                        alt={`Пример свадебной фотокниги, разворот ${chapterIndex * 4 + imageIndex + 1}`}
+                        alt={`Разворот свадебной фотокниги с индивидуальным дизайном №${chapterIndex * 4 + imageIndex + 1}`}
                         width={2000}
                         height={993}
                         sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
@@ -306,7 +306,7 @@ export function CatalogDetailPage({ page }: { page: RenderedPage }) {
                       <figure key={image}>
                         <Image
                           src={image}
-                          alt={`${displayTitle}, пример ${imageGroups.slice(0, chapterIndex).flat().length + imageIndex + 1}`}
+                          alt={`Разворот «${displayTitle}» с индивидуальным дизайном №${imageGroups.slice(0, chapterIndex).flat().length + imageIndex + 1}`}
                           width={story.imageWidth}
                           height={story.imageHeight}
                           sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"

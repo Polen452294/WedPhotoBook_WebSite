@@ -8,10 +8,10 @@ import { renderTurnstile } from "@/lib/turnstile";
 type Status = "idle" | "sending" | "success" | "error";
 
 const messengers = [
-  { href: contacts.telegram, src: "/media/social/tg-wedfotobook.png", label: "Telegram" },
-  { href: contacts.whatsapp, src: "/media/social/wapp-wedfotobook.png", label: "WhatsApp" },
-  { href: contacts.max, src: "/media/social/max-wedfotobook.png", label: "Max" },
-  { href: contacts.vk, src: "/media/social/vk-wedfotobook.png", label: "ВКонтакте" },
+  { href: contacts.telegram, src: "/media/social/Tg wedfotobook .png", label: "Telegram", alt: "Написать в Telegram" },
+  { href: contacts.whatsapp, src: "/media/social/Wapp wedfotobook .png", label: "WhatsApp", alt: "Написать в WhatsApp" },
+  { href: contacts.max, src: "/media/social/Max wedfotobook .png", label: "MAX", alt: "Написать в мессенджере MAX" },
+  { href: contacts.vk, src: "/media/social/Vk wedfotobook .png", label: "ВКонтакте", alt: "Страница WedFotoBook во ВКонтакте" },
 ] as const;
 
 const mapAddress = "%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%A1%D0%B2%D0%BE%D0%B1%D0%BE%D0%B4%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%2C%20%D0%B4.%2033";
@@ -78,10 +78,10 @@ export function ContactPage() {
         <div className="shell">
           <header className="contact-page-heading">
             <span className="section-kicker">Связаться с нами</span>
-            <h2>
+            <h1>
               <span className="contact-title-main">Контакты</span>
               <span className="contact-title-detail"><span className="contact-title-dash">—</span> фотокниги на заказ в Москве</span>
-            </h2>
+            </h1>
           </header>
 
           <div className="contact-layout-grid">
@@ -124,7 +124,7 @@ export function ContactPage() {
                   <div className="contact-social-list">
                     {messengers.map((messenger) => (
                       <a className={messenger.label === "WhatsApp" ? "contact-social-whatsapp" : undefined} href={messenger.href} target="_blank" rel="noopener noreferrer" aria-label={messenger.label} key={messenger.label}>
-                        <Image src={messenger.src} alt="" width={46} height={46} />
+                        <Image src={messenger.src} alt={messenger.alt} width={46} height={46} />
                       </a>
                     ))}
                   </div>

@@ -2,15 +2,67 @@ import Image from "next/image";
 import Link from "next/link";
 import { HomeGalleryCarousel } from "@/components/HomeGalleryCarousel";
 import { ReviewCarousel } from "@/components/ReviewCarousel";
+import { directMediaImageProps } from "@/lib/media-path";
 import { contacts, getMediaGroup } from "@/lib/site-data";
 
 /* eslint-disable @next/next/no-html-link-for-pages -- plain anchors preserve the captured footer markup and remain fully functional */
+/* eslint-disable @next/next/no-img-element -- pre-generated srcsets are required because the Vinext VPS image endpoint is passthrough-only */
+
+const optimizedHomeImageStems: Record<string, string> = {
+  "/media/home/Obrabotka foto wedfotobook ru.webp": "/media/optimized/home/craft-processing",
+  "/media/home/Dizain fotoknigi wedfotobook ru.webp": "/media/optimized/home/craft-design",
+  "/media/home/soglasovanie-maketa-optimized.webp": "/media/optimized/home/craft-approval",
+  "/media/home/Print fotoknig wedfotobook ru.webp": "/media/optimized/home/craft-print",
+  "/media/home/Fotokniga Premium wedfotobook ru.webp": "/media/optimized/home/price-premium",
+  "/media/home/Fotokniga Standart wedfotobook ru.webp": "/media/optimized/home/price-standard",
+  "/media/home/Vipusk albom stoimost wedfotobook ru.webp": "/media/optimized/home/price-graduation",
+  "/media/home/Fotokniga alive photo stoimost wedfotobook ru.webp": "/media/optimized/home/price-alive",
+  "/media/covers/Svadba fotokniga wedfotobook ru.webp": "/media/optimized/covers/wedding",
+  "/media/covers/Dety fotokniga wedfotobook ru.webp": "/media/optimized/covers/children",
+  "/media/covers/Ubiley fotokniga wedfotobook ru.webp": "/media/optimized/covers/anniversary",
+  "/media/covers/Fotokniga puteshedtvij wedfotobook ru.webp": "/media/optimized/covers/travel",
+  "/media/covers/Vipusk albom wedfotobook ru.webp": "/media/optimized/covers/graduation",
+  "/media/covers/Fotokniga genealogia wedfotobook ru.webp": "/media/optimized/covers/genealogy",
+  "/media/covers/Fotokbiga drugaj wedfotobook ru.webp": "/media/optimized/covers/custom",
+  "/media/home/Fotokniga alive photo blok wedfotobook ru.webp": "/media/optimized/covers/alive",
+};
+
+function OptimizedHomeImage({
+  src,
+  alt,
+  width,
+  height,
+  widths,
+  sizes,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  widths: readonly number[];
+  sizes: string;
+}) {
+  const stem = optimizedHomeImageStems[src];
+  const largestWidth = widths.at(-1)!;
+  return (
+    <img
+      src={`${stem}-${largestWidth}.webp`}
+      srcSet={widths.map((candidate) => `${stem}-${candidate}.webp ${candidate}w`).join(", ")}
+      sizes={sizes}
+      alt={alt}
+      width={width}
+      height={height}
+      loading="lazy"
+      decoding="async"
+    />
+  );
+}
 
 const craft = [
   {
     number: "01",
     title: "Профессиональная обработка фотографий",
-    image: "/media/home/obrabotka-foto-wedfotobook-ru.webp",
+    image: "/media/home/Obrabotka foto wedfotobook ru.webp",
     text: [
       "⋅ Хотите, чтобы ваша фотокнига выглядела как топовое издание? Доверьте обработку снимков нам.",
       "⋅ Фото на страницах будут естественными — светлыми и не тусклыми.",
@@ -21,7 +73,7 @@ const craft = [
   {
     number: "02",
     title: "Дизайн фотокниги",
-    image: "/media/home/dizain-fotoknigi-wedfotobook-ru.webp",
+    image: "/media/home/Dizain fotoknigi wedfotobook ru.webp",
     text: [
       "⋅ Создаём фотокниги с уникальным дизайном — без использования шаблонов.",
       "⋅ Мы настолько уверены в результате, что готовы начать работу без предоплаты. Мы бесплатно подготовим для вас дизайн первых 3 разворотов.",
@@ -31,7 +83,7 @@ const craft = [
   {
     number: "03",
     title: "Согласование макета",
-    image: "/media/home/soglasovanie-maketa-wedfotobook-ru.webp",
+    image: "/media/home/soglasovanie-maketa-optimized.webp",
     text: [
       "⋅ После того как макет будет готов, вы получите его для просмотра. Проверьте, все ли фотографии на месте, нет ли опечаток в тексте.",
       "⋅ Если что‑то хочется поменять, просто сообщите — мы внесём правки.",
@@ -42,7 +94,7 @@ const craft = [
   {
     number: "04",
     title: "Печать фотокниги и доставка",
-    image: "/media/home/print-fotoknig-wedfotobook-ru.webp",
+    image: "/media/home/Print fotoknig wedfotobook ru.webp",
     text: [
       "⋅ После утверждения макета, мы сразу отправляем его в печать.",
       "⋅ Мы используем качественные материалы и современные технологии — так каждая страница получается яркой, чёткой и долговечной.",
@@ -52,25 +104,25 @@ const craft = [
 ] as const;
 
 const catalog = [
-  ["wedding-fotoknig", "Свадебная фотокнига", "С индивидуальным дизайном сохранит память об этом прекрасном событии!", "/media/covers/svadba-fotokniga-wedfotobook-ru.webp"],
-  ["detskaya-fotokniga", "Детская фотокнига", "От рождения до года или от рождения до 18 — это память о детстве.", "/media/covers/dety-fotokniga-wedfotobook-ru.webp"],
-  ["yubilejnaya-fotokniga", "Фотокнига на юбилей", "Станет настоящим семейным сокровищем, хранящим воспоминания.", "/media/covers/ubiley-fotokniga-wedfotobook-ru.webp"],
-  ["fotokniga-o-puteshestvii", "Фотокнига путешествий", "Это прекрасный способ сохранить яркие моменты вашего путешествия.", "/media/covers/fotokniga-puteshedtvij-wedfotobook-ru.webp"],
-  ["vypusknye-fotoknigi", "Выпускной альбом", "Это напоминание об учебе в школе, университете или колледже.", "/media/covers/vipusk-albom-wedfotobook-ru.webp"],
-  ["genealogicheskaya-fotokniga", "Родословная фотокнига", "Об истории семье может передаваться из поколения в поколение.", "/media/covers/fotokniga-genealogia-wedfotobook-ru.webp"],
-  ["fotokniga-na-lyubuyu-temu", "Другая фотокнига", "Корпоративная, семейная, о животных, даче и т.д.", "/media/covers/fotokbiga-drugaj-wedfotobook-ru.webp"],
-  ["fotokniga-s-dopolnennoj-realnostyu", "Фотокнига с оживающими фото", "Наведите камеру телефона на фотографии и они оживут.", "/media/home/fotokniga-alive-photo-blok-wedfotobook-ru.webp"],
+  ["wedding-fotoknig", "Свадебная фотокнига", "С индивидуальным дизайном сохранит память об этом прекрасном событии!", "/media/covers/Svadba fotokniga wedfotobook ru.webp", "Обложка свадебной фотокниги с индивидуальным дизайном"],
+  ["detskaya-fotokniga", "Детская фотокнига", "От рождения до года или от рождения до 18 — это память о детстве.", "/media/covers/Dety fotokniga wedfotobook ru.webp", "Обложка детской фотокниги с индивидуальным дизайном"],
+  ["yubilejnaya-fotokniga", "Фотокнига на юбилей", "Станет настоящим семейным сокровищем, хранящим воспоминания.", "/media/covers/Ubiley fotokniga wedfotobook ru.webp", "Обложка фотокниги на юбилей"],
+  ["fotokniga-o-puteshestvii", "Фотокнига путешествий", "Это прекрасный способ сохранить яркие моменты вашего путешествия.", "/media/covers/Fotokniga puteshedtvij wedfotobook ru.webp", "Обложка фотокниги о путешествии"],
+  ["vypusknye-fotoknigi", "Выпускной альбом", "Это напоминание об учебе в школе, университете или колледже.", "/media/covers/Vipusk albom wedfotobook ru.webp", "Обложка выпускного альбома"],
+  ["genealogicheskaya-fotokniga", "Родословная фотокнига", "Об истории семье может передаваться из поколения в поколение.", "/media/covers/Fotokniga genealogia wedfotobook ru.webp", "Обложка родословной фотокниги с семейной историей"],
+  ["fotokniga-na-lyubuyu-temu", "Другая фотокнига", "Корпоративная, семейная, о животных, даче и т.д.", "/media/covers/Fotokbiga drugaj wedfotobook ru.webp", "Обложка фотокниги на любую тему с индивидуальным дизайном"],
+  ["fotokniga-s-dopolnennoj-realnostyu", "Фотокнига с оживающими фото", "Наведите камеру телефона на фотографии и они оживут.", "/media/home/Fotokniga alive photo blok wedfotobook ru.webp", "Фотокнига с оживающими фотографиями"],
 ] as const;
 
 const benefits = [
-  ["dizain-bez-shablonov.webp", "Дизайн без шаблонов", "Только ваша история, ваш стиль, ваши эмоции"],
-  ["proboval-sam.webp", "Пробовал сам, получилось плохо", "Не нужно ничего делать самому. Просто пришлите фото — дизайнеры все сделают за вас"],
-  ["a-vdryg-ne-ponpavica.webp", "А вдруг не понравится?", "Вы увидите 3 разворота до внесения предоплаты"],
-  ["pezultat-100.webp", "Результат на 100%", "Вносим правки до полного одобрения макета. Без ограничений"],
-  ["bez-ploxix-foto.webp", "Без плохих фото", "Цветокоррекция фото. При низком качестве увеличение фото с помощью ИИ"],
-  ["pabota-onlain.webp", "Вся работа онлайн", "В любое удобное время через любой мессенджер. Без выходных"],
-  ["fotokniga-za-7-day.webp", "Фотокнига за 7 дней", "Пришлите фото и через 7 дней заберите готовую фотокнигу. Срочный заказ? Сделаем за 4 дня"],
-  ["texnology-pechaty.webp", "Современные технологии", "Печать класса Премиум: твердая обложка, плотные листы, панорамный разворот"],
+  ["Dizain bez shablonov.webp", "Дизайн без шаблонов", "Только ваша история, ваш стиль, ваши эмоции"],
+  ["Proboval sam.webp", "Пробовал сам, получилось плохо", "Не нужно ничего делать самому. Просто пришлите фото — дизайнеры все сделают за вас"],
+  ["A vdryg ne ponpavica.webp", "А вдруг не понравится?", "Вы увидите 3 разворота до внесения предоплаты"],
+  ["Pezultat 100%.webp", "Результат на 100%", "Вносим правки до полного одобрения макета. Без ограничений"],
+  ["Bez ploxix foto.webp", "Без плохих фото", "Цветокоррекция фото. При низком качестве увеличение фото с помощью ИИ"],
+  ["Pabota onlain.webp", "Вся работа онлайн", "В любое удобное время через любой мессенджер. Без выходных"],
+  ["Fotokniga za 7 day.webp", "Фотокнига за 7 дней", "Пришлите фото и через 7 дней заберите готовую фотокнигу. Срочный заказ? Сделаем за 4 дня"],
+  ["Texnology pechaty.webp", "Современные технологии", "Печать класса Премиум: твердая обложка, плотные листы, панорамный разворот"],
 ] as const;
 
 type PricingCard = {
@@ -78,6 +130,7 @@ type PricingCard = {
   price: string;
   href: string;
   image: string;
+  imageAlt: string;
   features: readonly string[];
 };
 
@@ -86,28 +139,32 @@ export const homePricing: readonly PricingCard[] = [
     title: "Фотокнига «Премиум»",
     price: "от 8 900 руб.",
     href: "/fotokniga-premium/",
-    image: "/media/home/fotokniga-premium-wedfotobook-ru.webp",
+    image: "/media/home/Fotokniga Premium wedfotobook ru.webp",
+    imageAlt: "Фотокнига Премиум с плотными панорамными разворотами",
     features: ["⋅ Твердая фотообложка", "⋅ Плотные листы", "⋅ Панорамный разворот", "⋅ От 10 разворотов"],
   },
   {
     title: "Фотокнига «Стандарт»",
     price: "от 9 800 руб.",
     href: "/fotokniga-standart/",
-    image: "/media/home/fotokniga-standart-wedfotobook-ru.webp",
+    image: "/media/home/Fotokniga Standart wedfotobook ru.webp",
+    imageAlt: "Фотокнига Стандарт с журнальными страницами",
     features: ["⋅ Твердая фотообложка", "⋅ Журнальные листы", "⋅ От 24 страниц"],
   },
   {
     title: "Выпускные альбомы",
     price: "от 1 500 руб.",
     href: "/vypusknye-fotoknigi-stoimost/",
-    image: "/media/home/vipusk-albom-1-wedfotobook-ru.webp",
+    image: "/media/home/Vipusk albom stoimost wedfotobook ru.webp",
+    imageAlt: "Выпускной альбом на заказ с индивидуальным дизайном",
     features: ["⋅Твердая фотообложка", "⋅ Премиум или Стандарт", "⋅ От 1 разворота", "⋅ Заказ от 10 экз."],
   },
   {
     title: "Фотокниги с оживающими фото",
     price: "от 9 200 руб.",
     href: "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
-    image: "/media/home/fotokniga-alive-photo-stoimost-wedfotobook-ru.webp",
+    image: "/media/home/Fotokniga alive photo stoimost wedfotobook ru.webp",
+    imageAlt: "Пример фотокниги с оживающими фотографиями",
     features: ["Мы можем связать фото и видео.", "Если видео нет, можем оживать фотографии с помощью ИИ."],
   },
 ] as const;
@@ -130,18 +187,18 @@ const homepagePricing: readonly PricingCard[] = [
 type HomeStep = readonly [string, string, string];
 
 export const homeSteps: readonly HomeStep[] = [
-  ["prishlite-foto.webp", "Пришлите фото", "В мессенджер, на почту или ссылкой на облако."],
-  ["tree-pasvorota.webp", "Три разворота", "Показываем первые страницы до оплаты."],
-  ["oplata.webp", "Предоплата", "После согласования первых разворотов — 50%."],
-  ["soglacovanie.webp", "Согласование", "Вносим правки до вашего полного одобрения."],
-  ["oplata.webp", "Оплата", "Оплата оставшиихся 50% и доставки."],
-  ["print.webp", "Печать", "Отправляем утверждённый макет в типографию."],
-  ["fotokniga-gotova.webp", "Готово", "Доставка в пункт выдачи яндекс маркета или курьером."],
+  ["Prishlite foto.webp", "Пришлите фото", "В мессенджер, на почту или ссылкой на облако."],
+  ["Tree pasvorota.webp", "Три разворота", "Показываем первые страницы до оплаты."],
+  ["Oplata.webp", "Предоплата", "После согласования первых разворотов — 50%."],
+  ["Soglacovanie.webp", "Согласование", "Вносим правки до вашего полного одобрения."],
+  ["Oplata.webp", "Оплата", "Оплата оставшиихся 50% и доставки."],
+  ["Print.webp", "Печать", "Отправляем утверждённый макет в типографию."],
+  ["Fotokniga gotova.webp", "Готово", "Доставка в пункт выдачи яндекс маркета или курьером."],
 ] as const;
 
 const homepageSteps: readonly HomeStep[] = homeSteps.map((step, index) =>
   index === 3
-    ? ["soglacovanie.webp", "Согласование макета", "Присылаем макет, вносим правки до вашего полного одобрения."]
+    ? ["Soglacovanie.webp", "Согласование макета", "Присылаем макет, вносим правки до вашего полного одобрения."]
     : step,
 );
 
@@ -169,7 +226,7 @@ export function HomeTrustSection({ className = "" }: { className?: string } = {}
       <div className="shell">
         <div className="section-heading split-heading"><div><span className="eyebrow">Почему нам доверяют</span><h2>Почему нам можно доверять?</h2></div><p>Вы видите будущую книгу ещё до оплаты и участвуете в создании ровно настолько, насколько хотите.</p></div>
         <div className="benefit-grid">
-          {benefits.map(([icon, title, text]) => <article className="benefit-card" key={title}><Image src={`/media/benefits/${icon}`} alt="" width={118} height={122} /><h3>{title}</h3><p>{text}</p></article>)}
+          {benefits.map(([icon, title, text]) => <article className="benefit-card" key={title}><Image {...directMediaImageProps(`/media/benefits/${icon}`)} alt={`Иконка преимущества: ${title.toLocaleLowerCase("ru-RU")}`} width={118} height={122} /><h3>{title}</h3><p>{text}</p></article>)}
         </div>
       </div>
     </section>
@@ -180,11 +237,11 @@ export function HomePricingSection({ items = homePricing }: { items?: readonly P
   return (
     <section className="section section-warm">
       <div className="shell">
-        <div className="section-heading split-heading"><div><span className="eyebrow">Стоимость</span><h2>Хотите узнать стоимость фотокниги?</h2></div><p>Можем сделать фотокнигу в кожаной или тканевой обложке</p></div>
+        <div className="section-heading split-heading"><div><span className="eyebrow">Стоимость</span><h2 className="pricing-question-title">Хотите узнать стоимость фотокниги?</h2></div><p>Можем сделать фотокнигу в кожаной или тканевой обложке</p></div>
         <div className={`pricing-grid ${items.length === 3 ? "pricing-grid-three" : items.length === 1 ? "pricing-grid-one" : ""}`}>
           {items.map((item, index) => {
             const featured = index === 0 && items.length > 1;
-            return <article className={featured ? "price-card featured" : "price-card"} key={item.title}>{featured && <span className="price-badge">Чаще выбирают</span>}<Image src={item.image} alt={item.title} width={960} height={518} /><div className="price-card-copy"><h3>{item.title}</h3><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature.replace(/^⋅\s*/, "")}</li>)}</ul><Link href={item.href}>Подробнее →</Link></div></article>;
+            return <article className={featured ? "price-card featured" : "price-card"} key={item.title}>{featured && <span className="price-badge">Чаще выбирают</span>}<OptimizedHomeImage src={item.image} alt={item.imageAlt} width={960} height={518} widths={[320, 560, 800]} sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px" /><div className="price-card-copy"><h3>{item.title}</h3><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature.replace(/^⋅\s*/, "")}</li>)}</ul><Link href={item.href}>Подробнее →</Link></div></article>;
           })}
         </div>
       </div>
@@ -198,7 +255,7 @@ export function HomeSevenDaysSection({ items = homeSteps }: { items?: readonly H
       <div className="shell">
         <div className="section-heading split-heading"><div><span className="eyebrow">Семь простых шагов</span><h2>Как проходит заказ</h2></div><p>Вся работа идёт онлайн, без поездок в офис и долгих встреч.</p></div>
         <ol className="steps-grid">
-          {items.map(([icon, title, text], index) => <li key={title}><span className="step-number">0{index + 1}</span><Image src={`/media/steps/${icon}`} alt="" width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>)}
+          {items.map(([icon, title, text], index) => <li key={title}><span className="step-number">0{index + 1}</span><Image src={`/media/steps/${icon}`} alt={`Иконка этапа заказа: ${title.toLocaleLowerCase("ru-RU")}`} width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>)}
         </ol>
         <div className="center-action"><button className="button" data-order-open type="button">Заказать</button></div>
       </div>
@@ -217,7 +274,7 @@ export function OriginalHomeSections() {
           <div className="craft-list">
             {craft.map((item, index) => (
               <article className={`craft-item ${index % 2 ? "reverse" : ""}`} key={item.title}>
-                <div className="craft-image"><Image src={item.image} alt="" width={996} height={561} /></div>
+                <div className="craft-image"><OptimizedHomeImage src={item.image} alt={`${item.title} при создании фотокниги на заказ`} width={996} height={561} widths={[460, 690, 900]} sizes={`(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, ${index % 2 ? 460 : 690}px`} /></div>
                 <div className="craft-copy"><span className="craft-number">{item.number}</span><h3>{item.title}</h3><div className="craft-body">{item.text.map((text) => text.startsWith("⋅ ") ? <p className="craft-point" key={text}><span className="craft-check" aria-hidden="true">✓</span><span>{text.slice(2)}</span></p> : <p key={text}>{text}</p>)}</div></div>
               </article>
             ))}
@@ -237,9 +294,9 @@ export function OriginalHomeSections() {
         <div className="shell">
           <div className="section-heading split-heading"><div><span className="eyebrow eyebrow-light">Каталог</span><h2>Какие фотокниги мы делаем? Любые!</h2></div><p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы найдём визуальный язык для любого события.</p></div>
           <div className="catalog-grid">
-            {catalog.map(([slug, title, description, cover]) => (
+            {catalog.map(([slug, title, description, cover, coverAlt]) => (
               <Link className="catalog-card" href={`/${slug}/`} key={slug}>
-                <Image src={cover} alt={title} width={500} height={500} />
+                <OptimizedHomeImage src={cover} alt={coverAlt} width={500} height={500} widths={[320, 500]} sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 290px" />
                 <div><h3>{title} <small>{description}</small></h3></div>
               </Link>
             ))}
@@ -288,8 +345,8 @@ export function OriginalFooter() {
       <div className="shell footer-grid original-footer-grid">
         <div className="footer-catalog"><p><a className="footer-heading-link" href="/katalog/"><strong>Каталог</strong></a><br /><a href="/wedding-fotoknig/">Свадебные фотокниги</a><br /><a href="/detskaya-fotokniga/">Детские фотокниги</a><br /><a href="/yubilejnaya-fotokniga/">Фотокниги на юбилей</a><br /><a href="/fotokniga-o-puteshestvii/">Фотокниги путешествий</a><br /><a href="/vypusknye-fotoknigi/">Выпускные альбомы</a><br /><a href="/genealogicheskaya-fotokniga/">Родословная фотокнига</a><br /><a href="/fotokniga-na-lyubuyu-temu/">Фотокниги на любую тему</a><br /><a href="/fotokniga-s-dopolnennoj-realnostyu/">Фотокниги с оживающими фото</a></p></div>
         <div className="footer-pricing"><p><a className="footer-heading-link" href="/stoimost/"><strong>Стоимость</strong></a><br /><a href="/fotokniga-premium/">Фотокниги Премиум</a><br /><a href="/fotokniga-standart/">Фотокниги Стандарт</a><br /><a href="/vypusknye-fotoknigi-stoimost/">Выпускные альбомы</a><br /><a href="/fotoknigi-s-dopolnennoj-realnostju-stoim/">Фотокниги с оживающими фото</a></p><p className="footer-subheading"><a className="footer-heading-link" href="/company/"><strong>Сервисы</strong></a></p><p className="footer-service-links"><a href="/company/">О компании</a><br /><a href="/otzyvy/">Отзывы о фотокнигах</a><br /><a href="/blog_fotoknigi/">Блог о фотокнигах</a><br /><a href="/kontakty/">Контакты</a></p></div>
-        <div className="footer-agreements"><p><a className="footer-heading-link" href="/polzovatelskoe-soglashenie/"><strong>Соглашения</strong></a></p><p><a href="/polzovatelskoe-soglashenie/">Пользовательское соглашение</a><br /><a href="/politika-obrabotki-personalnyh-dannyh/">Политика обработки персональных данных</a><br /><a href="/soglashenie/">Согласие на обработку персональных данных</a></p><p><br />ИП Ардашева Елена Викторовна<br />ИНН 772008137237<br />ОГРНИП 325774600377441</p></div>
-        <div className="footer-contacts"><div className="footer-contact-card"><p>Телефон:&nbsp; <a href={contacts.phoneHref}>8 (985) 434-23-67</a></p><p>Почта: <a href={`mailto:${contacts.email}`}>{contacts.email}</a></p><p>Адрес: Москва, Свободный проспект, д. 33</p><p>Режим работы: с 9 до 21, без выходных</p><p className="footer-socials"><a href={contacts.yandex} target="_blank" rel="noopener noreferrer"><Image src="/media/social/yandex-wedfotobook.png" alt="Фотокниги на заказ в Москве — wedfotobook" width={40} height={40} /></a><a href={contacts.vk} target="_blank" rel="noopener noreferrer"><Image src="/media/social/vk-wedfotobook.png" alt="Фотокниги на заказ в Москве — wedfotobook" width={40} height={40} /></a><a href={contacts.telegram} target="_blank" rel="noopener noreferrer"><Image src="/media/social/tg-wedfotobook.png" alt="Телеграм" width={40} height={40} /></a><a href={contacts.whatsapp} target="_blank" rel="noopener noreferrer"><Image src="/media/social/wapp-wedfotobook.png" alt="Вотсап" width={40} height={40} /></a><a href={contacts.max} target="_blank" rel="noopener noreferrer"><Image src="/media/social/max-wedfotobook.png" alt="Max" width={40} height={40} /></a></p></div></div>
+        <div className="footer-agreements"><p><a className="footer-heading-link" href="/polzovatelskoe-soglashenie/"><strong>Соглашения</strong></a></p><p><a href="/polzovatelskoe-soglashenie/">Пользовательское соглашение</a><br /><a href="/privacy-policy/">Политика конфиденциальности</a><br /><a href="/soglashenie/">Согласие на обработку персональных данных</a></p><p><br />ИП Ардашева Елена Викторовна<br />ИНН 772008137237<br />ОГРНИП 325774600377441</p></div>
+        <div className="footer-contacts"><div className="footer-contact-card"><p>Телефон:&nbsp; <a href={contacts.phoneHref}>8 (985) 434-23-67</a></p><p>Почта: <a href={`mailto:${contacts.email}`}>{contacts.email}</a></p><p>Адрес: Москва, Свободный проспект, д. 33</p><p>Режим работы: с 9 до 21, без выходных</p><p className="footer-socials"><a href={contacts.yandex} target="_blank" rel="noopener noreferrer"><Image src="/media/optimized/social/yandex-64.webp" alt="Отзывы о WedFotoBook на Яндекс Услугах" width={40} height={40} sizes="40px" /></a><a href={contacts.vk} target="_blank" rel="noopener noreferrer"><Image src="/media/optimized/social/vk-64.webp" alt="Страница WedFotoBook во ВКонтакте" width={40} height={40} sizes="40px" /></a><a href={contacts.telegram} target="_blank" rel="noopener noreferrer"><Image src="/media/optimized/social/telegram-64.webp" alt="Написать в Telegram" width={40} height={40} sizes="40px" /></a><a href={contacts.whatsapp} target="_blank" rel="noopener noreferrer"><Image src="/media/optimized/social/whatsapp-64.webp" alt="Написать в WhatsApp" width={40} height={40} sizes="40px" /></a><a href={contacts.max} target="_blank" rel="noopener noreferrer"><Image src="/media/optimized/social/max-64.webp" alt="Написать в мессенджере MAX" width={40} height={40} sizes="40px" /></a></p></div></div>
       </div>
     </footer>
   );

@@ -9,31 +9,32 @@ import {
   pricing,
   steps,
 } from "@/lib/site-data";
+import { directMediaImageProps } from "@/lib/media-path";
 
 const craft = [
   {
     number: "01.",
     title: "Профессионально обрабатываем фотографии",
     text: "Делаем снимки светлыми и естественными, исправляем цвет, кадрируем и увеличиваем маленькие фото с помощью ИИ.",
-    image: "/media/home/obrabotka-foto-wedfotobook-ru.webp",
+    image: "/media/home/Obrabotka foto wedfotobook ru.webp",
   },
   {
     number: "02.",
     title: "Создаём дизайн без шаблонов",
     text: "Собираем вашу историю вручную, добавляем тексты и декоративные детали. Первые три разворота показываем до оплаты.",
-    image: "/media/home/dizain-fotoknigi-wedfotobook-ru.webp",
+    image: "/media/home/Dizain fotoknigi wedfotobook ru.webp",
   },
   {
     number: "03.",
     title: "Согласовываем каждый разворот",
     text: "Отправляем макет в удобный мессенджер и вносим правки без ограничений — до вашего полного одобрения.",
-    image: "/media/home/soglasovanie-maketa-wedfotobook-ru.webp",
+    image: "/media/home/soglasovanie-maketa-optimized.webp",
   },
   {
     number: "04.",
     title: "Печатаем и доставляем",
     text: "После утверждения отправляем макет в профессиональную типографию. Доставляем в пункт выдачи, курьером или почтой.",
-    image: "/media/home/print-fotoknig-wedfotobook-ru.webp",
+    image: "/media/home/Print fotoknig wedfotobook ru.webp",
   },
 ] as const;
 
@@ -62,7 +63,7 @@ export function HomePage() {
           <div className="hero-visual">
             <div className="hero-image-frame">
               <Image
-                src="/media/home/fotokniga-na-zakaz-wedfotobook-ru.webp"
+                src="/media/home/Fotokniga na zakaz wedfotobook ru.webp"
                 alt="Фотокнига на заказ с индивидуальным дизайном"
                 width={960}
                 height={518}
@@ -93,7 +94,7 @@ export function HomePage() {
           <div className="craft-list">
             {craft.map((item, index) => (
               <article className={`craft-item ${index % 2 ? "reverse" : ""}`} key={item.title}>
-                <div className="craft-image"><Image src={item.image} alt={item.title} width={996} height={561} /></div>
+                <div className="craft-image"><Image src={item.image} alt={`${item.title} при создании фотокниги на заказ`} width={996} height={561} /></div>
                 <div className="craft-copy"><span>{item.number}</span><h3>{item.title}</h3><p>{item.text}</p></div>
               </article>
             ))}
@@ -111,7 +112,7 @@ export function HomePage() {
           <div className="catalog-grid">
             {catalogItems.map((item) => (
               <Link className="catalog-card" href={`/${item.slug}/`} key={item.slug}>
-                <Image src={item.cover} alt={item.title} width={500} height={500} />
+                <Image src={item.cover} alt={item.coverAlt} width={500} height={500} />
                 <div><h3>{item.title}</h3><p>{item.description}</p><span>Посмотреть работы →</span></div>
               </Link>
             ))}
@@ -129,7 +130,7 @@ export function HomePage() {
           <div className="benefit-grid">
             {benefits.map(([icon, title, text]) => (
               <article className="benefit-card" key={title}>
-                <Image src={`/media/benefits/${icon}`} alt="" width={118} height={122} />
+                <Image {...directMediaImageProps(`/media/benefits/${icon}`)} alt={`Иконка преимущества: ${title.toLocaleLowerCase("ru-RU")}`} width={118} height={122} />
                 <h3>{title}</h3><p>{text}</p>
               </article>
             ))}
@@ -147,7 +148,7 @@ export function HomePage() {
             {pricing.map((item, index) => (
               <article className={`price-card ${index === 0 ? "featured" : ""}`} key={item.title}>
                 {index === 0 && <span className="price-badge">Чаще выбирают</span>}
-                <Image src={item.image} alt={item.title} width={960} height={518} />
+                <Image src={item.image} alt={item.imageAlt} width={960} height={518} />
                 <div className="price-card-copy"><h3>{item.title}</h3><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature}</li>)}</ul><Link href={item.href}>Подробнее →</Link></div>
               </article>
             ))}
@@ -164,7 +165,7 @@ export function HomePage() {
           </div>
           <ol className="steps-grid">
             {steps.map(([icon, title, text], index) => (
-              <li key={title}><span className="step-number">0{index + 1}</span><Image src={`/media/steps/${icon}`} alt="" width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>
+              <li key={title}><span className="step-number">0{index + 1}</span><Image src={`/media/steps/${icon}`} alt={`Иконка этапа заказа: ${title.toLocaleLowerCase("ru-RU")}`} width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>
             ))}
           </ol>
           <div className="center-action"><button className="button" data-order-open type="button">Заказать</button></div>

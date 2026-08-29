@@ -16,6 +16,20 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       { userAgent: "*", allow: "/", disallow: privatePaths },
       { userAgent: ["YandexAdditional", "YandexAdditionalBot"], allow: "/", disallow: privatePaths },
+      {
+        userAgent: [
+          "GPTBot",
+          "ChatGPT-User",
+          "OAI-SearchBot",
+          "ClaudeBot",
+          "Claude-SearchBot",
+          "Google-Extended",
+          "PerplexityBot",
+          "Applebot-Extended",
+        ],
+        allow: "/",
+        disallow: privatePaths,
+      },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,

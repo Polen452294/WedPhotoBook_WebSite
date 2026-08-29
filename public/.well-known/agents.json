@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "name": "WedFotoBook",
+  "description": "Сайт сервиса фотокниг на заказ с индивидуальным дизайном, обработкой фотографий, печатью и доставкой.",
+  "url": "https://wedfotobook.ru/",
+  "language": "ru-RU",
+  "contact": {
+    "email": "79854342367@yandex.ru",
+    "telephone": "+7-985-434-23-67"
+  },
+  "resources": {
+    "llms": "https://wedfotobook.ru/llms.txt",
+    "robots": "https://wedfotobook.ru/robots.txt",
+    "sitemap": "https://wedfotobook.ru/sitemap.xml",
+    "privacyPolicy": "https://wedfotobook.ru/privacy-policy/"
+  }
+}

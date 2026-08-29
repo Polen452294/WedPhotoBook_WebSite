@@ -43,7 +43,7 @@ body * {
 .cookie-consent-kicker {
   display: block;
   margin-bottom: 4px;
-  color: #9b6d35;
+  color: #805a25;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: .15em;
@@ -87,6 +87,20 @@ body * {
 .cookie-preference-row strong { color: #071d30; font-size: 13px; }
 .cookie-preference-row small { margin-top: 3px; color: #697780; font-size: 11px; line-height: 1.45; }
 .cookie-status { color: #9b6d35; font-size: 10px; font-weight: 800; white-space: nowrap; }
+
+/* Keep the restored homepage palette while meeting Lighthouse contrast and tap-target checks. */
+.restored-first-version .craft-copy > .craft-number,
+.restored-first-version .step-number { color: #755027 !important; }
+.restored-first-version .price-badge { background: #755027 !important; }
+.restored-first-version .original-home-sections .section-reviews .review-navigation strong { color: #d6dde2 !important; }
+.restored-first-version .original-footer-grid .footer-catalog a,
+.restored-first-version .original-footer-grid .footer-pricing a,
+.restored-first-version .original-footer-grid .footer-agreements p:not(:first-child) a {
+  display: inline-flex !important;
+  align-items: center;
+  min-height: 26px;
+  line-height: 26px !important;
+}
 .cookie-preference-toggle { cursor: pointer; }
 .cookie-preference-toggle input {
   width: 42px;

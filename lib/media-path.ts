@@ -1,0 +1,10 @@
+export function directMediaImageProps(src: string) {
+  if (!src.includes("%")) return { src };
+
+  // Vinext's local static handler decodes the URL twice. Double-encode only the
+  // exceptional source filename containing a literal percent sign.
+  return {
+    src: src.replaceAll("%", "%2525").replaceAll(" ", "%2520"),
+    unoptimized: true,
+  };
+}

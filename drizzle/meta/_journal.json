@@ -8,6 +8,34 @@
       "when": 1786729752303,
       "tag": "0000_magenta_next_avengers",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1787829959463,
+      "tag": "0001_easy_chameleon",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1787856244501,
+      "tag": "0002_thin_retro_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1787901523135,
+      "tag": "0003_regular_menace",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1787918734930,
+      "tag": "0004_smart_scarlet_witch",
+      "breakpoints": true
     }
   ]
 }

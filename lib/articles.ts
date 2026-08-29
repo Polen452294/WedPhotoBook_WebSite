@@ -10,6 +10,8 @@ export type Article = {
   title: string;
   description: string;
   image: string;
+  datePublished: string;
+  dateModified: string;
   blocks: ArticleBlock[];
 };
 
@@ -19,7 +21,9 @@ export const articles: Article[] = [
     number: 1,
     title: "Родословная книга – идеальный подарок и семейная реликвия",
     description: "Фотокнига со снимками разных поколений становится семейной реликвией, которую будут листать дети, внуки и правнуки.",
-    image: "/media/covers/fotokniga-genealogia-wedfotobook-ru.webp",
+    image: "/media/covers/Fotokniga genealogia wedfotobook ru.webp",
+    datePublished: "2021-12-27T20:35:04+03:00",
+    dateModified: "2026-08-03T15:57:02+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -60,7 +64,9 @@ export const articles: Article[] = [
     number: 2,
     title: "11 лет за пару оборотов фотокниги: выпускной альбом на заказ как летопись взросления",
     description: "Выпускной альбом собирает одиннадцать школьных лет в цельную хронику взросления.",
-    image: "/media/covers/vipusk-albom-wedfotobook-ru.webp",
+    image: "/media/covers/Vipusk albom wedfotobook ru.webp",
+    datePublished: "2021-12-27T20:41:31+03:00",
+    dateModified: "2023-09-18T09:57:19+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -101,7 +107,9 @@ export const articles: Article[] = [
     number: 3,
     title: "Фотокнига путешествий – увлекательная история поездки",
     description: "Фотокнига путешествий превращает разрозненные кадры в цельную историю поездки.",
-    image: "/media/covers/fotokniga-puteshedtvij-wedfotobook-ru.webp",
+    image: "/media/covers/Fotokniga puteshedtvij wedfotobook ru.webp",
+    datePublished: "2022-01-16T13:11:54+03:00",
+    dateModified: "2023-09-18T09:56:41+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -138,7 +146,9 @@ export const articles: Article[] = [
     number: 4,
     title: "Оживающие фотографии – сказка или реальность?",
     description: "Как дополненная реальность превращает фотографию на странице фотокниги в видеоролик или анимацию.",
-    image: "/media/covers/fotokniga-alive-photo-wedfotobook-ru.webp",
+    image: "/media/covers/Fotokniga alive photo wedfotobook ru.webp",
+    datePublished: "2022-01-16T13:18:16+03:00",
+    dateModified: "2023-09-18T09:56:03+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -171,7 +181,9 @@ export const articles: Article[] = [
     number: 5,
     title: "Отзывы о фотокнигах WedFotoBook",
     description: "Особенности сервиса WedFotoBook и отзывы заказчиков о готовых фотокнигах.",
-    image: "/media/home/dizain-fotoknigi-wedfotobook-ru.webp",
+    image: "/media/home/Dizain fotoknigi wedfotobook ru.webp",
+    datePublished: "2022-02-12T12:07:16+03:00",
+    dateModified: "2023-09-18T09:55:23+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -251,7 +263,9 @@ export const articles: Article[] = [
     number: 6,
     title: "Фотокнига на заказ: сохраните яркие моменты",
     description: "Фотокнига на заказ от WedFotoBook превращает разрозненные кадры в цельную и долговечную историю.",
-    image: "/media/home/fotokniga-na-zakaz-wedfotobook-ru.webp",
+    image: "/media/home/Fotokniga na zakaz wedfotobook ru.webp",
+    datePublished: "2026-06-19T17:32:55+03:00",
+    dateModified: "2026-07-12T17:36:44+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -381,7 +395,9 @@ export const articles: Article[] = [
     number: 7,
     title: "Свадебная фотокнига: мгновения, которые останутся навсегда",
     description: "Свадебная фотокнига превращает снимки главного дня в цельную историю, которую хочется пересматривать.",
-    image: "/media/covers/svadba-fotokniga-wedfotobook-ru.webp",
+    image: "/media/covers/Svadba fotokniga wedfotobook ru.webp",
+    datePublished: "2026-08-25T14:55:50+03:00",
+    dateModified: "2026-08-25T14:55:50+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -418,7 +434,9 @@ export const articles: Article[] = [
     number: 8,
     title: "Детская фотокнига: история взросления в каждом кадре",
     description: "Детская фотокнига сохраняет этапы взросления, первые слова и важные семейные воспоминания.",
-    image: "/media/covers/dety-fotokniga-wedfotobook-ru.webp",
+    image: "/media/covers/Dety fotokniga wedfotobook ru.webp",
+    datePublished: "2026-08-25T14:55:50+03:00",
+    dateModified: "2026-08-25T14:55:50+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -463,7 +481,9 @@ export const articles: Article[] = [
     number: 9,
     title: "Фотокнига к юбилею — способ с любовью оглянуться на пройденный путь",
     description: "Фотокнига к юбилею собирает важные события и семейные воспоминания в личную летопись.",
-    image: "/media/covers/ubiley-fotokniga-wedfotobook-ru.webp",
+    image: "/media/covers/Ubiley fotokniga wedfotobook ru.webp",
+    datePublished: "2026-08-25T14:55:50+03:00",
+    dateModified: "2026-08-25T14:55:50+03:00",
     blocks: [
       {
         type: "paragraph",

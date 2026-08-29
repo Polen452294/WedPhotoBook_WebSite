@@ -33,7 +33,7 @@ export function CookieNotice() {
   return (
     <>
       {(noticeOpen || preferencesOpen) && (
-        <aside
+        <div
           className={`cookie-consent ${preferencesOpen ? "cookie-consent-expanded" : ""}`}
           role="dialog"
           aria-modal="false"
@@ -91,7 +91,7 @@ export function CookieNotice() {
               </>
             )}
           </div>
-        </aside>
+        </div>
       )}
 
     </>

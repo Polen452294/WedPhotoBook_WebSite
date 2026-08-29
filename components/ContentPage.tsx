@@ -20,7 +20,7 @@ function PageHero({ page, image }: { page: SitePage; image?: string }) {
     <section className={`page-hero ${image ? "with-image" : ""}`}>
       <div className="shell page-hero-grid">
         <div><Breadcrumbs page={page} /><span className="eyebrow">Фотокниги под ключ · Москва</span><h1>{page.name.replace(/^Статья \d+\.\s*/, "")}</h1>{page.description && <p>{page.description}</p>}<button className="button" data-order-open type="button">Рассчитать стоимость</button></div>
-        {image && <div className="page-hero-image"><Image src={image} alt={page.name} width={500} height={500} priority /></div>}
+        {image && <div className="page-hero-image"><Image src={image} alt={`Обложка: ${page.name.replace(/^Статья \d+\.\s*/, "")}`} width={500} height={500} priority /></div>}
       </div>
     </section>
   );
@@ -29,7 +29,7 @@ function PageHero({ page, image }: { page: SitePage; image?: string }) {
 function CatalogIndex() {
   return (
     <section className="section"><div className="shell"><div className="catalog-grid light-catalog">
-      {catalogItems.map((item) => <Link className="catalog-card" href={`/${item.slug}/`} key={item.slug}><Image src={item.cover} alt={item.title} width={500} height={500} /><div><h2>{item.title}</h2><p>{item.description}</p><span>Открыть галерею →</span></div></Link>)}
+      {catalogItems.map((item) => <Link className="catalog-card" href={`/${item.slug}/`} key={item.slug}><Image src={item.cover} alt={item.coverAlt} width={500} height={500} /><div><h2>{item.title}</h2><p>{item.description}</p><span>Открыть галерею →</span></div></Link>)}
     </div></div></section>
   );
 }
@@ -37,7 +37,7 @@ function CatalogIndex() {
 function PricingIndex() {
   return (
     <section className="section section-warm"><div className="shell"><div className="pricing-grid">
-      {pricing.map((item, index) => <article className={`price-card ${index === 0 ? "featured" : ""}`} key={item.title}>{index === 0 && <span className="price-badge">Чаще выбирают</span>}<Image src={item.image} alt={item.title} width={960} height={518} /><div className="price-card-copy"><h2>{item.title}</h2><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature}</li>)}</ul><Link href={item.href}>Подробная таблица цен →</Link></div></article>)}
+      {pricing.map((item, index) => <article className={`price-card ${index === 0 ? "featured" : ""}`} key={item.title}>{index === 0 && <span className="price-badge">Чаще выбирают</span>}<Image src={item.image} alt={item.imageAlt} width={960} height={518} /><div className="price-card-copy"><h2>{item.title}</h2><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature}</li>)}</ul><Link href={item.href}>Подробная таблица цен →</Link></div></article>)}
     </div></div></section>
   );
 }

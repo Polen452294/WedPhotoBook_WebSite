@@ -12,7 +12,7 @@ import { PricingDetailPage, type PricingDetailSlug } from "@/components/PricingD
 import { PricingPage } from "@/components/PricingPage";
 import { articleSlugs, getArticle } from "@/lib/articles";
 import { getSnapshot, snapshots } from "@/lib/rendered-pages";
-import { PageStructuredData } from "@/lib/seo";
+import { ARTICLE_AUTHOR_URL, PageStructuredData } from "@/lib/seo";
 import { catalogItems, pricing } from "@/lib/site-data";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -70,12 +70,31 @@ function socialMetadata(
   description: string | undefined,
   path: string,
   image: string | undefined,
-  type: "article" | "website" = "website",
+  article?: ReturnType<typeof getArticle>,
 ): Pick<Metadata, "openGraph" | "twitter"> {
-  const images = image ? [{ url: image, alt: title }] : undefined;
+  const images = [
+    { url: "/og-1200x630.png", width: 1200, height: 630, alt: "Фотокниги на заказ — WedFotoBook" },
+    ...(image ? [{ url: image, alt: title }] : []),
+  ];
+  const openGraph = article ? {
+    title,
+    description,
+    url: path,
+    type: "article" as const,
+    images,
+    publishedTime: article.datePublished,
+    modifiedTime: article.dateModified,
+    authors: [ARTICLE_AUTHOR_URL],
+  } : {
+    title,
+    description,
+    url: path,
+    type: "website" as const,
+    images,
+  };
   return {
-    openGraph: { title, description, url: path, type, images },
-    twitter: { card: "summary_large_image", title, description, images: image ? [image] : undefined },
+    openGraph,
+    twitter: { card: "summary_large_image", title, description, images: ["/og-1200x630.png"] },
   };
 }
 
@@ -94,7 +113,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: article.title,
       description: article.description,
       alternates: { canonical: path },
-      ...socialMetadata(article.title, article.description, path, article.image, "article"),
+      ...socialMetadata(article.title, article.description, path, article.image, article),
     };
   }
   const page = getSnapshot(slug);
@@ -165,6 +184,8 @@ export default async function SlugPage({ params }: Props) {
       kind={article ? "Article" : slug === "blog_fotoknigi" || slug === "katalog" ? "CollectionPage" : "WebPage"}
       image={article?.image ?? getPageImage(slug)}
       service={CATALOG_DETAIL_SLUGS.has(slug) || PRICING_DETAIL_SLUGS.has(slug as PricingDetailSlug)}
+      datePublished={article?.datePublished}
+      dateModified={article?.dateModified}
     />
   );
   if (article) {
@@ -186,7 +207,7 @@ export default async function SlugPage({ params }: Props) {
       <>
         {structuredData}
         <div className="pricing-detail-route">
-          <LegacyPage page={page} />
+          <LegacyPage page={withOnlyLegacyHeader(page)} />
           <div className="restored-first-version">
             <PricingDetailPage slug={slug as PricingDetailSlug} />
             <OriginalFooter />
@@ -196,9 +217,15 @@ export default async function SlugPage({ params }: Props) {
     );
   }
   const isCatalogDetail = CATALOG_DETAIL_SLUGS.has(slug);
+  const usesRestoredContent = isCatalogDetail
+    || slug === "blog_fotoknigi"
+    || slug === "katalog"
+    || slug === "stoimost"
+    || slug === "company"
+    || slug === "kontakty";
   const content = (
     <div className={isCatalogDetail ? "catalog-detail-route" : undefined}>
-      <LegacyPage page={page} />
+      <LegacyPage page={usesRestoredContent ? withOnlyLegacyHeader(page) : page} />
       <div className="restored-first-version">
         {slug === "blog_fotoknigi" && <BlogPage />}
         {slug === "katalog" && <CatalogPage />}

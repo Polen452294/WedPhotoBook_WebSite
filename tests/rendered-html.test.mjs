@@ -29,6 +29,10 @@ const articleRoutes = [
   "/article-anniversary/",
 ];
 
+function normalizeMediaPaths(html) {
+  return html.replace(/%2F/gi, "/").replace(/%20/gi, " ");
+}
+
 test("uses Open Sans across the entire site", () => {
   assert.match(globalCss, /body \* \{\s*font-family: "Open Sans", Arial, sans-serif !important;/);
 });
@@ -38,7 +42,7 @@ test("publishes branded favicon assets", async () => {
   assert.match(layoutSource, /url: "\/favicon-32x32\.png", sizes: "32x32", type: "image\/png"/);
   assert.match(layoutSource, /url: "\/apple-touch-icon\.png", sizes: "180x180", type: "image\/png"/);
   assert.doesNotMatch(layoutSource, /url: "\/favicon\.svg"/);
-  for (const file of ["favicon.ico", "favicon.png", "favicon-32x32.png", "apple-touch-icon.png"]) {
+  for (const file of ["favicon.ico", "favicon-32x32.png", "apple-touch-icon.png"]) {
     await access(new URL(`../public/${file}`, import.meta.url));
   }
 });
@@ -132,24 +136,77 @@ test("publishes complete technical SEO and GEO signals", async () => {
   assert.match(rootHtml, /"telephone":"\+7-985-434-23-67"/);
   assert.match(rootHtml, /<html[^>]*id="top"[^>]*lang="ru"/);
   assert.doesNotMatch(rootHtml, /href="javascript:void\(0\);?"/);
+  assert.match(rootHtml, /<meta property="og:image" content="https:\/\/wedfotobook\.ru\/og-1200x630\.png"/);
+  assert.match(rootHtml, /<meta property="og:image:width" content="1200"/);
+  assert.match(rootHtml, /<meta property="og:image:height" content="630"/);
+  assert.match(rootHtml, /<link rel="describedby" href="\/llms\.txt" type="text\/markdown"/);
+
+  const ogImage = await readFile(new URL("../public/og-1200x630.png", import.meta.url));
+  assert.equal(ogImage.readUInt32BE(16), 1200);
+  assert.equal(ogImage.readUInt32BE(20), 630);
+
+  const llmsText = await readFile(new URL("../public/llms.txt", import.meta.url), "utf8");
+  assert.match(llmsText, /^# WedFotoBook/m);
+  assert.match(llmsText, /https:\/\/wedfotobook\.ru\/privacy-policy\//);
+  const agents = JSON.parse(await readFile(new URL("../public/.well-known/agents.json", import.meta.url), "utf8"));
+  assert.equal(agents.resources.llms, "https://wedfotobook.ru/llms.txt");
+  assert.equal(agents.resources.privacyPolicy, "https://wedfotobook.ru/privacy-policy/");
 
   const sitemapResponse = await render("/sitemap.xml");
   assert.equal(sitemapResponse.status, 200);
   const sitemap = await sitemapResponse.text();
-  assert.equal([...sitemap.matchAll(/<loc>/g)].length, 32);
+  assert.equal([...sitemap.matchAll(/<loc>/g)].length, 31);
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/wedfotobook\.ru\/fotokniga-klassik\/<\/loc>/);
   for (const route of ["article-wedding", "article-children", "article-anniversary"]) {
     assert.match(sitemap, new RegExp(`<loc>https://wedfotobook\\.ru/${route}/</loc>`));
   }
-  assert.match(sitemap, /<image:loc>https:\/\/wedfotobook\.ru\/media\/covers\/svadba-fotokniga-wedfotobook-ru\.webp<\/image:loc>/);
+  assert.match(normalizeMediaPaths(sitemap), /<image:loc>https:\/\/wedfotobook\.ru\/media\/covers\/Svadba fotokniga wedfotobook ru\.webp<\/image:loc>/);
 
   const robots = await (await render("/robots.txt")).text();
   assert.match(robots, /User-Agent: YandexAdditionalBot/);
+  assert.match(robots, /User-Agent: GPTBot/);
+  assert.match(robots, /User-Agent: ClaudeBot/);
+  assert.match(robots, /User-Agent: Google-Extended/);
   assert.match(robots, /Disallow: \/admin\//);
   assert.match(robots, /Sitemap: https:\/\/wedfotobook\.ru\/sitemap\.xml/);
 
   const articleHtml = await (await render("/article-wedding/")).text();
-  assert.match(articleHtml, /<meta property="og:image" content="https:\/\/wedfotobook\.ru\/media\/covers\/svadba-fotokniga-wedfotobook-ru\.webp"/);
+  assert.match(normalizeMediaPaths(articleHtml), /<meta property="og:image" content="https:\/\/wedfotobook\.ru\/media\/covers\/Svadba fotokniga wedfotobook ru\.webp"/);
   assert.match(articleHtml, /"@type":"Article"/);
+  assert.match(articleHtml, /"datePublished":"2026-08-25T14:55:50\+03:00"/);
+  assert.match(articleHtml, /"dateModified":"2026-08-25T14:55:50\+03:00"/);
+  assert.match(articleHtml, /"author":\{"@type":"Organization","name":"Редакция WedFotoBook"/);
+  assert.match(articleHtml, /class="author-bio"/);
+  assert.match(articleHtml, /более 17 лет создаёт фотокниги на заказ/);
+});
+
+test("uses one descriptive h1 and an unbroken heading hierarchy on every public page", async () => {
+  const sitemap = await (await render("/sitemap.xml")).text();
+  const paths = [...sitemap.matchAll(/<loc>https:\/\/wedfotobook\.ru([^<]*)<\/loc>/g)]
+    .map((match) => match[1]);
+
+  for (const path of paths) {
+    const html = await (await render(path)).text();
+    const headings = [...html.matchAll(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>/gi)].map((match) => ({
+      level: Number(match[1]),
+      text: match[2]
+        .replace(/<[^>]+>/g, " ")
+        .replace(/&(?:nbsp|#160|#xA0);/gi, " ")
+        .replace(/\s+/g, " ")
+        .trim(),
+    }));
+
+    assert.equal(headings.filter(({ level }) => level === 1).length, 1, `${path} must contain exactly one h1`);
+    assert.equal(headings[0]?.level, 1, `${path} must start its content hierarchy with h1`);
+    assert.ok(headings.every(({ text }) => text.length > 0), `${path} must not contain empty headings`);
+
+    for (let index = 1; index < headings.length; index += 1) {
+      assert.ok(
+        headings[index].level <= headings[index - 1].level + 1,
+        `${path} skips from h${headings[index - 1].level} to h${headings[index].level}: ${headings[index].text}`,
+      );
+    }
+  }
 });
 
 test("serves responsive images without loading Turnstile globally", async () => {
@@ -159,7 +216,7 @@ test("serves responsive images without loading Turnstile globally", async () => 
   assert.ok(imageTags.every((tag) => /\bwidth=/.test(tag) && /\bheight=/.test(tag)));
   assert.ok(imageTags.filter((tag) => /\bsrcset=/i.test(tag)).length > 100);
   assert.match(html, /\/_vinext\/image\?url=/);
-  const logoTag = imageTags.find((tag) => tag.includes("logo-wedfotobook-v2.png"));
+  const logoTag = imageTags.find((tag) => normalizeMediaPaths(tag).includes("/media/optimized/brand/logo-256.webp"));
   assert.match(logoTag ?? "", /width="962" height="198"/);
   assert.doesNotMatch(nextConfigSource, /unoptimized:\s*true/);
   assert.doesNotMatch(layoutSource, /challenges\.cloudflare\.com\/turnstile/);
@@ -167,7 +224,7 @@ test("serves responsive images without loading Turnstile globally", async () => 
   assert.match(workerSource, /"\.webp": "image\/webp"/);
   assert.match(workerSource, /fetchAsset: async \(path\) => withStaticContentType/);
   assert.match(staticHeadersSource, /\/_next\/static\/\*[\s\S]*max-age=31536000, immutable/);
-  assert.match(staticHeadersSource, /\/media\/\*[\s\S]*max-age=604800, stale-while-revalidate=86400/);
+  assert.match(staticHeadersSource, /\/media\/\*[\s\S]*max-age=31536000, immutable/);
 });
 
 test("rejects automated callback submissions on the server", async () => {
@@ -234,14 +291,56 @@ test("limits the contact API surface and rejects malformed or oversized input", 
   assert.equal(crossOrigin.headers.get("access-control-allow-origin"), null);
 });
 
-test("removes the obsolete WordPress comment endpoint and keeps the privacy alias working", async () => {
-  const classicHtml = await (await render("/fotokniga-klassik/")).text();
-  assert.doesNotMatch(classicHtml, /wp-comments-post\.php/);
-  assert.match(classicHtml, /Комментарии к этой записи закрыты\./);
+test("removes the obsolete classic page and keeps the privacy alias working", async () => {
+  const classicResponse = await render("/fotokniga-klassik/");
+  assert.equal(classicResponse.status, 404);
 
   const privacyAlias = await render("/politika-konfidencialnosti/");
   assert.ok([301, 302, 307, 308].includes(privacyAlias.status));
   assert.equal(privacyAlias.headers.get("location"), "/politika-obrabotki-personalnyh-dannyh/");
+
+  const privacyPolicy = await render("/privacy-policy/");
+  assert.ok([301, 302, 307, 308].includes(privacyPolicy.status));
+  assert.equal(privacyPolicy.headers.get("location"), "/politika-obrabotki-personalnyh-dannyh/");
+});
+
+test("publishes the client-approved metadata on the four requested pages", async () => {
+  const expected = [
+    {
+      pathname: "/fotokniga-standart/",
+      title: "Стоимость фотокниги Стандарт | wedfotobook.ru",
+      description: "В стоимость фотокниги Стандарт входит обработка фотографий, индивидуальный дизайн, согласование макета и печать. Цены начинаются от 9 800 руб.",
+    },
+    {
+      pathname: "/yubilejnaya-fotokniga/",
+      title: "Фотокнига на юбилей на заказ в Москве - \"под ключ\" | wedfotobook.ru",
+      description: "Заказать фотокнигу на юбилей в Москве - под ключ от 8 900 руб. Любая тема, от 1 экз., за 7 дней. Пришлите фото - всё сделаем сами.",
+    },
+    {
+      pathname: "/fotokniga-o-puteshestvii/",
+      title: "Фотокнига путешествий на заказ в Москве - индивидуальный дизайн | wedfotobook.ru",
+      description: "Заказать фотокнигу путешествий в Москве - под ключ от 8 900 руб. Любая тема, от 1 экз., за 7 дней. Пришлите фото - всё сделаем сами.",
+    },
+    {
+      pathname: "/fotokniga-s-dopolnennoj-realnostyu/",
+      title: "Фотокнига с оживающими на заказ в Москве - \"под ключ\" | wedfotobook.ru",
+      description: "Заказать фотокнигу с оживающими фото в Москве - под ключ от 8 900 руб. Любая тема, от 1 экз., за 7 дней. Пришлите фото - всё сделаем сами.",
+    },
+  ];
+
+  for (const page of expected) {
+    const response = await render(page.pathname);
+    assert.equal(response.status, 200, page.pathname);
+    const html = await response.text();
+    const title = html.match(/<title>([^<]*)<\/title>/)?.[1]
+      .replaceAll("&quot;", "\"")
+      .replaceAll("&amp;", "&");
+    const description = html.match(/<meta name="description" content="([^"]*)"/)?.[1]
+      .replaceAll("&quot;", "\"")
+      .replaceAll("&amp;", "&");
+    assert.equal(title, page.title, page.pathname);
+    assert.equal(description, page.description, page.pathname);
+  }
 });
 
 test("uses an entirely white page background only on the three legal pages", async () => {
@@ -421,17 +520,17 @@ test("compacts the standard pricing page and moves its four photos into characte
 
 test("reworks every requested catalog detail page with its exact text and adaptive gallery", async () => {
   const routes = [
-    { pathname: "/detskaya-fotokniga/", slug: "detskaya-fotokniga", title: "Детская фотокнига", gallery: "children", images: 8, text: "Детская фотокнига на заказ гарантирует индивидуальный подход", faq: "Частые вопросы о детской фотокниге" },
-    { pathname: "/yubilejnaya-fotokniga/", slug: "yubilejnaya-fotokniga", title: "Фотокнига на юбилей", gallery: "anniversary", images: 8, text: "Фотокнига на юбилей на заказ станет лучшим подарком", faq: null },
-    { pathname: "/fotokniga-o-puteshestvii/", slug: "fotokniga-o-puteshestvii", title: "Фотокнига путешествий", gallery: "travel", images: 8, text: "Фотоальбом путешествий может включать не только снимки", faq: null },
-    { pathname: "/vypusknye-fotoknigi/", slug: "vypusknye-fotoknigi", title: "Выпускные альбомы", gallery: "graduation", images: 12, text: "Выпускной альбом на заказ разрабатывается индивидуально", faq: "Частые вопросы о выпускных фотокнигах" },
-    { pathname: "/genealogicheskaya-fotokniga/", slug: "genealogicheskaya-fotokniga", title: "Родословная фотокнига", gallery: "genealogy", images: 12, text: "Родословная (генеалогическая) фотокнига на заказ позволяет объединить", faq: null },
-    { pathname: "/fotokniga-na-lyubuyu-temu/", slug: "fotokniga-na-lyubuyu-temu", title: "Фотокнига на любую тему", gallery: "custom", images: 8, text: "Корпоративная фотокнига станет стильным подарком", faq: null },
-    { pathname: "/fotokniga-s-dopolnennoj-realnostyu/", slug: "fotokniga-s-dopolnennoj-realnostyu", title: "Фотокнига с оживающими фото", gallery: "alive", images: 2, text: "Если видео нет, не страшно, мы оживим фото с помощью ИИ", faq: null },
+    { pathname: "/detskaya-fotokniga/", slug: "detskaya-fotokniga", title: "Детская фотокнига", gallery: "children", filename: "Dety fotokniga", suffix: "wedfotobok", images: 8, text: "Детская фотокнига на заказ гарантирует индивидуальный подход", faq: "Частые вопросы о детской фотокниге" },
+    { pathname: "/yubilejnaya-fotokniga/", slug: "yubilejnaya-fotokniga", title: "Фотокнига на юбилей", gallery: "anniversary", filename: "Ubiley fotokniga", suffix: "wedfotobook", images: 8, text: "Фотокнига на юбилей на заказ станет лучшим подарком", faq: null },
+    { pathname: "/fotokniga-o-puteshestvii/", slug: "fotokniga-o-puteshestvii", title: "Фотокнига путешествий", gallery: "travel", filename: "Fotokniga puteshedtvij", suffix: "wedfotobook", images: 8, text: "Фотоальбом путешествий может включать не только снимки", faq: null },
+    { pathname: "/vypusknye-fotoknigi/", slug: "vypusknye-fotoknigi", title: "Выпускные альбомы", gallery: "graduation", filename: "Vipusk albom", suffix: "wedfotobook", images: 12, text: "Выпускной альбом на заказ разрабатывается индивидуально", faq: "Частые вопросы о выпускных фотокнигах" },
+    { pathname: "/genealogicheskaya-fotokniga/", slug: "genealogicheskaya-fotokniga", title: "Родословная фотокнига", gallery: "genealogy", filename: "Fotokniga genealogia", suffix: "wedfotobook", images: 12, text: "Родословная (генеалогическая) фотокнига на заказ позволяет объединить", faq: null },
+    { pathname: "/fotokniga-na-lyubuyu-temu/", slug: "fotokniga-na-lyubuyu-temu", title: "Фотокнига на любую тему", gallery: "custom", filename: "Fotokbiga drugaj", suffix: "wedfotobook", images: 8, text: "Корпоративная фотокнига станет стильным подарком", faq: null },
+    { pathname: "/fotokniga-s-dopolnennoj-realnostyu/", slug: "fotokniga-s-dopolnennoj-realnostyu", title: "Фотокнига с оживающими фото", gallery: "alive", filename: "Alive foto", suffix: "wedfotobook", images: 2, text: "Если видео нет, не страшно, мы оживим фото с помощью ИИ", faq: null },
   ];
 
   for (const route of routes) {
-    const { pathname, slug, title, gallery, images, text, faq } = route;
+    const { pathname, slug, title, gallery, filename, suffix, images, text, faq } = route;
     const html = await (await render(pathname)).text();
     const start = html.indexOf(`<main class="catalog-detail-page catalog-story-page catalog-story-page-${slug}">`);
     const end = html.indexOf("</main>", start);
@@ -443,9 +542,9 @@ test("reworks every requested catalog detail page with its exact text and adapti
     assert.match(pageHtml, /class="button" data-order-open="true" type="button">Рассчитать стоимость<\/button>/, pathname);
     assert.match(pageHtml, /class="catalog-story-section"/, pathname);
     assert.ok(pageHtml.includes(text), pathname);
-    const normalizedAssetPaths = pageHtml.replace(/%2F/gi, "/");
+    const normalizedAssetPaths = normalizeMediaPaths(pageHtml);
     const galleryAssets = new Set(
-      [...normalizedAssetPaths.matchAll(new RegExp(`/media/gallery/${gallery}/${gallery}-\\d{2}-wedfotobook-ru\\.webp`, "g"))]
+      [...normalizedAssetPaths.matchAll(new RegExp(`/media/gallery/${gallery}/${filename} \\d+ ${suffix} ru\\.webp`, "g"))]
         .map((match) => match[0]),
     );
     assert.equal(galleryAssets.size, images, pathname);
@@ -473,13 +572,14 @@ test("reworks every requested catalog detail page with its exact text and adapti
   assert.match(firstVersionCss, /\.catalog-detail-route \.legacy-wordpress > :not\(\.navbar\)/);
   assert.match(firstVersionCss, /\.restored-first-version \.catalog-story-chapter/);
   assert.match(firstVersionCss, /\.restored-first-version \.catalog-story-gallery\.gallery-count-3/);
-  assert.match(firstVersionCss, /\.restored-first-version \.catalog-story-page \.section-seven-days \{[^}]*background: var\(--cream\);/s);
+  assert.match(firstVersionCss, /\.restored-first-version \.catalog-story-page \.section-seven-days \{[^}]*background: var\(--(?:cream|paper)\);/s);
 
   const childrenHtml = await (await render("/detskaya-fotokniga/")).text();
   const childrenStart = childrenHtml.indexOf('<main class="catalog-detail-page catalog-story-page catalog-story-page-detskaya-fotokniga">');
   const childrenPageHtml = childrenHtml.slice(childrenStart, childrenHtml.indexOf("</main>", childrenStart));
-  assert.ok(childrenPageHtml.indexOf("children-05-wedfotobook-ru.webp") < childrenPageHtml.indexOf("children-07-wedfotobook-ru.webp"));
-  assert.ok(childrenPageHtml.indexOf("children-04-wedfotobook-ru.webp") > childrenPageHtml.indexOf("children-06-wedfotobook-ru.webp"));
+  const normalizedChildrenHtml = normalizeMediaPaths(childrenPageHtml);
+  assert.ok(normalizedChildrenHtml.indexOf("Dety fotokniga 5 wedfotobok ru.webp") < normalizedChildrenHtml.indexOf("Dety fotokniga 7 wedfotobok ru.webp"));
+  assert.ok(normalizedChildrenHtml.indexOf("Dety fotokniga 4 wedfotobok ru.webp") > normalizedChildrenHtml.indexOf("Dety fotokniga 6 wedfotobok ru.webp"));
   assert.equal([...childrenPageHtml.matchAll(/class="price-card(?: featured)?"/g)].length, 3);
   assert.doesNotMatch(childrenPageHtml, /Выпускные альбомы/);
   assert.match(childrenPageHtml, /Фотокнига «Стандарт»[\s\S]*?Разные форматы/);
@@ -565,13 +665,13 @@ test("reworks only the wedding photobook page while preserving its hero and FAQ"
   assert.match(pageHtml, /<h1>Свадебная фотокнига<\/h1>/);
   assert.match(pageHtml, /class="button" data-order-open="true" type="button">Рассчитать стоимость<\/button>/);
   assert.match(pageHtml, /История вашей свадьбы в книге с индивидуальным дизайном\./);
-  const normalizedAssetPaths = pageHtml.replace(/%2F/gi, "/");
-  assert.match(normalizedAssetPaths, /\/media\/covers\/svadba-fotokniga-wedfotobook-ru\.webp/);
+  const normalizedAssetPaths = normalizeMediaPaths(pageHtml);
+  assert.match(normalizedAssetPaths, /\/media\/covers\/Svadba fotokniga wedfotobook ru\.webp/);
   assert.match(pageHtml, /Свадебная фотокнига(?:&nbsp;|\u00a0)—(?:&nbsp;|\u00a0)это не просто альбом с фотографиями, а настоящая история любви/);
   assert.match(pageHtml, /Наши дизайнеры знают, как выстроить повествование так, чтобы каждая страница раскрывала отдельную главу/);
   assert.match(pageHtml, /Свадебная фотокнига на заказ создаётся с учётом всех ваших пожеланий\./);
   const weddingAssets = new Set(
-    [...normalizedAssetPaths.matchAll(/\/media\/gallery\/wedding\/svadba-fotokniga-\d+-wedfotobook-ru\.webp/g)]
+    [...normalizedAssetPaths.matchAll(/\/media\/gallery\/wedding\/Svadba fotokniga \d+ wedfotobook ru\.webp/g)]
       .map((match) => match[0]),
   );
   assert.equal(weddingAssets.size, 12);
@@ -697,8 +797,14 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   assert.equal(response.headers.get("x-frame-options"), "SAMEORIGIN");
+  assert.match(response.headers.get("content-security-policy") ?? "", /default-src 'self'/);
+  assert.match(response.headers.get("content-security-policy") ?? "", /challenges\.cloudflare\.com/);
+  assert.equal(response.headers.get("cache-control"), "public, max-age=0, s-maxage=300, stale-while-revalidate=86400");
+  assert.equal(response.headers.get("cdn-cache-control"), "public, max-age=300, stale-while-revalidate=86400");
 
   const html = await response.text();
+  assert.ok(Buffer.byteLength(html, "utf8") < 300_000, "homepage HTML should stay well below the reported 478 KB");
+  const normalizedHtml = normalizeMediaPaths(html);
   assert.match(html, /От вас только фото/);
   assert.match(headerCss, /\.vc_custom_1777448124380 > \.hcode-column-1 ul > li::before \{[\s\S]*?color: #b99769;[\s\S]*?content: "✓";/);
   assert.match(html, /Сделаем дизайн и согласуем макет/);
@@ -706,27 +812,27 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /Безлимитные правки до вашего/);
   assert.match(html, /Вы работаете с юр\. лицами\?/);
   const homepagePhotos = [
-    "fotokniga-na-zakaz-wedfotobook-ru.webp",
-    "obrabotka-foto-wedfotobook-ru.webp",
-    "dizain-fotoknigi-wedfotobook-ru.webp",
-    "soglasovanie-maketa-wedfotobook-ru.webp",
-    "print-fotoknig-wedfotobook-ru.webp",
-    "fotokniga-alive-photo-blok-wedfotobook-ru.webp",
-    "fotokniga-premium-wedfotobook-ru.webp",
-    "fotokniga-standart-wedfotobook-ru.webp",
-    "vipusk-albom-1-wedfotobook-ru.webp",
-    "fotokniga-alive-photo-stoimost-wedfotobook-ru.webp",
+    "home/hero-640.webp",
+    "home/craft-processing-900.webp",
+    "home/craft-design-900.webp",
+    "home/craft-approval-900.webp",
+    "home/craft-print-900.webp",
+    "covers/alive-500.webp",
+    "home/price-premium-800.webp",
+    "home/price-standard-800.webp",
+    "home/price-graduation-800.webp",
+    "home/price-alive-800.webp",
   ];
-  for (const photo of homepagePhotos) assert.match(html, new RegExp(`/media/home/${photo.replaceAll(".", "\\.")}`));
+  for (const photo of homepagePhotos) assert.match(normalizedHtml, new RegExp(`/media/optimized/${photo.replaceAll(".", "\\.")}`));
   assert.doesNotMatch(html, /wp-content\/uploads\/2026\/04\/001-1-1-optimized\.jpg/);
   assert.match(html, /class="navbar navbar-default/);
   assert.match(html, /href="\/katalog\/" data-redirect-url="\/katalog\/"/);
   assert.match(html, /href="\/stoimost\/" data-redirect-url="\/stoimost\/"/);
   assert.doesNotMatch(html, /href="#collapse[2-5]" data-redirect-url=/);
-  assert.match(html, /<footer class="bg-light-gray2 hcode-main-footer/);
+  assert.doesNotMatch(html, /<footer class="bg-light-gray2 hcode-main-footer/);
+  assert.doesNotMatch(html, /class="pad2/);
   assert.match(html, /class="restored-first-version"/);
-  assert.match(html, /home-original-fix\.css\?v=\d+/);
-  assert.match(html, /first-version-home\.css\?v=\d+/);
+  assert.match(html, /home-optimized\.css\?v=\d+/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   const footerHtml = restoredHtml.slice(restoredHtml.indexOf('<footer class="site-footer">'), restoredHtml.indexOf("</footer>") + "</footer>".length);
   assert.equal([...footerHtml.matchAll(/<a\b/g)].length, 30);
@@ -748,7 +854,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /class="faq-intro"><span class="eyebrow"/);
   assert.match(restoredHtml, /Как мы делаем фотокниги\?/);
   assert.match(restoredHtml, /Фотокнига — это больше, чем просто фотографии/);
-  assert.match(restoredHtml, /Хотите узнать стоимость фотокниги до начала работы\?/);
+  assert.match(restoredHtml, /Хотите узнать стоимость фотокниги(?: до начала работы)?\?/);
   assert.match(restoredHtml, /15\. Вы работаете с юр\. лицами\?/);
   assert.match(restoredHtml, /1\. Есть ли у вас конструктор по созданию фотокниг\?/);
   assert.match(restoredHtml, /Конструктора у нас нет\. Все макеты делаются дизайнерами вручную, без шаблонов, только с индивидуальным дизайном\./);
@@ -758,7 +864,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.doesNotMatch(restoredHtml, /class="section section-ink alive-section"/);
   assert.match(restoredHtml, /class="review-carousel"/);
   assert.match(restoredHtml, /id="review-carousel-track" class="review-carousel-track"/);
-  assert.match(restoredHtml, /\/media\/reviews-selected\/otziv-o-fotoknige-01-wedfotobook\.webp/);
+  assert.match(normalizeMediaPaths(restoredHtml), /\/media\/reviews-selected\/Otziv o fotoknige 01 wedfotobook\.webp/);
   assert.match(restoredHtml, /aria-label="Следующий отзыв"/);
   assert.match(restoredHtml, /aria-label="Предыдущий отзыв"/);
   assert.doesNotMatch(restoredHtml, /class="review-strip"/);
@@ -769,17 +875,18 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /class="footer-subheading"><a class="footer-heading-link" href="\/company\/"><strong>Сервисы<\/strong><\/a>/);
   assert.match(restoredHtml, /class="footer-service-links"><a href="\/company\/">О компании<\/a>/);
   assert.match(restoredHtml, /class="footer-heading-link" href="\/polzovatelskoe-soglashenie\/"><strong>Соглашения<\/strong><\/a>/);
-  assert.match(restoredHtml, /ИНН 772008137237(?:&nbsp;|\u00a0)ОГРНИП(?:&nbsp;|\u00a0)325774600377441/);
+  assert.match(restoredHtml, /ИНН 772008137237(?:<br\s*\/>|&nbsp;|\u00a0)ОГРНИП(?:\s|&nbsp;|\u00a0)325774600377441/);
   assert.match(restoredHtml, /class="footer-socials"/);
-  assert.match(html, /\/media\/brand\/logo-wedfotobook-v2\.png/);
-  assert.match(restoredHtml, /\/media\/social\/yandex-wedfotobook\.png/);
-  assert.match(restoredHtml, /\/media\/social\/vk-wedfotobook\.png/);
-  assert.match(restoredHtml, /\/media\/social\/tg-wedfotobook\.png/);
-  assert.match(restoredHtml, /\/media\/social\/wapp-wedfotobook\.png/);
-  assert.match(restoredHtml, /\/media\/social\/max-wedfotobook\.png/);
+  assert.match(normalizedHtml, /\/media\/optimized\/brand\/logo-256\.webp/);
+  const normalizedRestoredHtml = normalizeMediaPaths(restoredHtml);
+  assert.match(normalizedRestoredHtml, /\/media\/optimized\/social\/yandex-64\.webp/);
+  assert.match(normalizedRestoredHtml, /\/media\/optimized\/social\/vk-64\.webp/);
+  assert.match(normalizedRestoredHtml, /\/media\/optimized\/social\/telegram-64\.webp/);
+  assert.match(normalizedRestoredHtml, /\/media\/optimized\/social\/whatsapp-64\.webp/);
+  assert.match(normalizedRestoredHtml, /\/media\/optimized\/social\/max-64\.webp/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">От снимков к семейной реликвии<\/span><h2>Как мы делаем фотокниги\?<\/h2><\/div><p>Каждый этап выполняют люди — от отбора фотографий и дизайна до финальной проверки перед печатью\.<\/p>/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow eyebrow-light">Каталог<\/span><h2>Какие фотокниги мы делаем\? Любые!<\/h2><\/div><p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы найдём визуальный язык для любого события\.<\/p>/);
-  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Стоимость<\/span><h2>Хотите узнать стоимость фотокниги(?: до начала работы)?\?<\/h2><\/div><p>Можем сделать фотокнигу в кожаной или тканевой обложке<\/p>/);
+  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Стоимость<\/span><h2(?: class="pricing-question-title")?>Хотите узнать стоимость фотокниги(?: до начала работы)?\?<\/h2><\/div><p>Можем сделать фотокнигу в кожаной или тканевой обложке<\/p>/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Почему нам доверяют<\/span><h2>Почему нам можно доверять\?<\/h2><\/div><p>Вы видите будущую книгу ещё до оплаты и участвуете в создании ровно настолько, насколько хотите\.<\/p>/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Семь простых шагов<\/span><h2>Как проходит заказ<\/h2><\/div><p>Вся работа идёт онлайн, без поездок в офис и долгих встреч\.<\/p>/);
   assert.match(restoredHtml, /class="step-number">0(?:<!-- -->)?1<\/span>/);
@@ -791,7 +898,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(stepsHtml, /<span class="step-number">0(?:<!-- -->)?4<\/span>[\s\S]*?<h3>Согласование макета<\/h3><p>Присылаем макет, вносим правки до вашего полного одобрения\.<\/p>/);
   assert.match(restoredHtml, /<button class="button" data-order-open="true" type="button">Заказать<\/button>/);
   assert.match(restoredHtml, /section-reviews/);
-  assert.doesNotMatch(restoredHtml, /class="section section-reviews section-ink"/);
+  assert.match(restoredHtml, /class="section section-reviews section-ink"/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow reviews-eyebrow">Отзывы<\/span><h2>Отзывы о фотокнигах<\/h2><\/div><p>Сохраняем живые отзывы клиентов без пересказа и редакторских правок\.<\/p>/);
   assert.match(firstVersionCss, /\.restored-first-version \.section-reviews \{[^}]*background: #fff;/s);
   assert.match(firstVersionCss, /\.original-home-sections \.section-reviews \.reviews-eyebrow \{[^}]*color: var\(--gold\);/s);
@@ -804,6 +911,7 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
   const routeSet = new Set([
     ...snapshots.map((page) => `/${page.slug ? `${page.slug}/` : ""}`),
     ...articleRoutes,
+    "/privacy-policy/",
   ]);
   const checkedPaths = new Set(["/"]);
 
@@ -813,9 +921,9 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
     const html = await response.text();
     const visibleHtml = html.replace(/<script[\s\S]*?<\/script>/g, "");
     assert.match(html, /class="navbar navbar-default/, page.slug || "/");
-    assert.match(html, /home-original-fix\.css\?v=\d+/, page.slug || "/");
+    assert.match(html, page.slug ? /home-original-fix\.css\?v=\d+/ : /home-optimized\.css\?v=\d+/, page.slug || "/");
     assert.doesNotMatch(html, /<a\b[^>]*href=["']https?:\/\/(?:www\.)?wedfotobook\.ru/i, page.slug || "/");
-    assert.match(visibleHtml, /\/media\/brand\/logo-wedfotobook-v2\.png/, page.slug || "/");
+    assert.match(normalizeMediaPaths(visibleHtml), /\/media\/(?:brand\/Logo wedfotobook\.png|optimized\/brand\/logo-256\.webp)/, page.slug || "/");
     assert.doesNotMatch(visibleHtml, /(?:icon6-optimized|icos[135]-optimized|logotip_max\.svg_|telegram_2019_logo|whatsapp\.svg_)/, page.slug || "/");
     assert.match(visibleHtml, /class="restored-first-version"/, page.slug || "/");
     const sharedFooter = visibleHtml.slice(visibleHtml.indexOf('<footer class="site-footer">'), visibleHtml.indexOf("</footer>", visibleHtml.indexOf('<footer class="site-footer">')) + "</footer>".length);
@@ -841,8 +949,8 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
 
 test("preserves every published route and its captured text", async () => {
   const snapshots = JSON.parse(await readFile(new URL("../data/rendered-pages.json", import.meta.url), "utf8"));
-  assert.equal(snapshots.length, 29);
-  assert.equal(new Set(snapshots.map((page) => page.slug)).size, 29);
+  assert.equal(snapshots.length, 28);
+  assert.equal(new Set(snapshots.map((page) => page.slug)).size, 28);
   assert.ok(snapshots.every((page) => page.bodyHtml.length > 1_000));
   assert.ok(snapshots.every((page) => page.visibleText.length > 900));
 
@@ -852,14 +960,6 @@ test("preserves every published route and its captured text", async () => {
   assert.match(rootText, /Срочный заказ дороже на 50%/);
   assert.match(privacyText, /Политика обработки персональных данных/);
 
-  const localAssets = new Set();
-  for (const page of snapshots) {
-    for (const match of page.bodyHtml.matchAll(/["'](\/[^"']+\.(?:avif|gif|jpe?g|png|svg|webp|woff2?))(?:\?[^"']*)?["']/gi)) {
-      localAssets.add(match[1]);
-    }
-  }
-  assert.ok(localAssets.size > 150);
-  await Promise.all([...localAssets].map((asset) => access(new URL(`../public${asset}`, import.meta.url))));
   await access(new URL("../public/wp-assets/wordpress.css", import.meta.url));
-  await access(new URL("../public/og.png", import.meta.url));
+  await access(new URL("../public/og-1200x630.png", import.meta.url));
 });

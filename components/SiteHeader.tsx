@@ -16,10 +16,11 @@ export function SiteHeader() {
       <div className="shell header-inner">
         <Link className="brand" href="/" aria-label="Фотокниги под ключ — главная">
           <Image
-            src="/media/brand/logo-wedfotobook-v2.png"
-            alt="Фотокниги под ключ"
+            src="/media/optimized/brand/logo-256.webp"
+            alt="WedFotoBook — фотокниги на заказ"
             width={300}
             height={62}
+            sizes="150px"
             priority
           />
         </Link>

@@ -17,9 +17,9 @@ export function PricingPage() {
             {pricing.map((item, index) => (
               <article className={index === 0 ? "price-card featured" : "price-card"} key={item.title}>
                 {index === 0 && <span className="price-badge">Чаще выбирают</span>}
-                <Image src={item.image} alt={item.title} width={960} height={518} />
+                <Image src={item.image} alt={item.imageAlt} width={960} height={518} />
                 <div className="price-card-copy">
-                  <h3>{item.title}</h3>
+                  <h2>{item.title}</h2>
                   <strong>{item.price}</strong>
                   <ul>{item.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
                   <Link href={item.href}>Подробнее →</Link>

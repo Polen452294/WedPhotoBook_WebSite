@@ -21,7 +21,7 @@ export function BlogPage() {
                 </a>
                 <div className="blog-card-copy">
                   <span>Статья {article.number}</span>
-                  <h3><a href={`/${article.slug}/`}>{article.title}</a></h3>
+                  <h2><a href={`/${article.slug}/`}>{article.title}</a></h2>
                   <a className="blog-card-link" href={`/${article.slug}/`}>Читать статью <span aria-hidden="true">→</span></a>
                 </div>
               </article>

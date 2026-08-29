@@ -99,7 +99,9 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 
 Contact forms save every accepted enquiry to D1 before trying to send an email notification. Copy the variable names from `.env.example` into the runtime environment to enable Resend email notifications and Cloudflare Turnstile. Without email credentials, enquiries remain available in D1 and the form still reports a successful save.
 
-The protected `/admin/zayavki/` page shows the latest enquiries. Configure `ADMIN_EMAILS` with the comma-separated ChatGPT account emails that may open it.
+The protected `/admin/` panel includes traffic analytics, a live editor for public site text, the latest enquiries, and a security audit view. Its dedicated `/admin/login/` page asks for one password and no username. Configure `ADMIN_PASSWORD_HASH`, `ADMIN_SESSION_SECRET`, and `ADMIN_LOGIN_SALT`; if any required value is missing or weak, password access fails closed. Set independent long random values for `ADMIN_AUDIT_SALT` and `RATE_LIMIT_SALT`; never commit real values. `ADMIN_EMAILS` remains an optional fallback for a Cloudflare Sites deployment using Sign in with ChatGPT. Content changes and first-party analytics are stored in D1; analytics events are collected only after the visitor accepts analytics cookies.
+
+Production and server-start commands are documented in [`docs/deploy.md`](docs/deploy.md).
 
 ## Learn More
 

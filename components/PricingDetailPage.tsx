@@ -55,7 +55,7 @@ const standardImages = [
 
 const graduationImages = Array.from(
   { length: 12 },
-  (_, index) => `/media/gallery/graduation/graduation-${String(index + 1).padStart(2, "0")}-wedfotobook-ru.webp`,
+  (_, index) => `/media/gallery/graduation/Vipusk albom ${index + 1} wedfotobook ru.webp`,
 );
 
 const pages: Record<PricingDetailSlug, BookPricingPage | SimplePricingPage> = {
@@ -163,7 +163,7 @@ const pages: Record<PricingDetailSlug, BookPricingPage | SimplePricingPage> = {
     title: "Оживающие фото",
     price: "300 руб. за фото",
     description: "В фотокнигу «Премиум» или «Стандарт» можно добавить любое количество оживающих фотографий.",
-    hero: "/media/home/fotokniga-alive-photo-stoimost-wedfotobook-ru.webp",
+    hero: "/media/home/Fotokniga alive photo stoimost wedfotobook ru.webp",
     images: [
       "/wp-content/uploads/2021/04/D-001-optimized.jpg",
       "/wp-content/uploads/2021/04/D-002-optimized.jpg",
@@ -193,7 +193,7 @@ function Hero({ page }: { page: BookPricingPage | SimplePricingPage }) {
           <OrderButton>Рассчитать стоимость</OrderButton>
         </div>
         <figure className="pricing-detail-hero-image">
-          <Image src={page.hero} alt={page.title} width={1200} height={800} priority />
+          <Image src={page.hero} alt={`${page.title}: пример готовой фотокниги`} width={1200} height={800} priority />
         </figure>
       </div>
     </section>
@@ -217,7 +217,7 @@ function Features({ page }: { page: BookPricingPage | SimplePricingPage }) {
           <div className="pricing-detail-feature-layout pricing-detail-feature-layout-alive">
             {page.images[1] && (
             <figure className="pricing-detail-feature-image">
-              <Image src={page.images[1]} alt={`${page.title} — пример`} width={1200} height={800} loading="lazy" />
+              <Image src={page.images[1]} alt={`${page.title}: пример страницы с оживающей фотографией`} width={1200} height={800} loading="lazy" />
             </figure>
             )}
             {featureList}
@@ -234,7 +234,7 @@ function Features({ page }: { page: BookPricingPage | SimplePricingPage }) {
               <div className="pricing-detail-feature-gallery" aria-label={`Фотографии: ${page.title}`}>
                 {featureGalleryImages.map((src, index) => (
                   <figure key={src}>
-                    <Image src={src} alt={`${page.title} — фото ${index + 1}`} width={1200} height={800} loading="lazy" />
+                    <Image src={src} alt={`${page.title}: пример разворота №${index + 1}`} width={1200} height={800} loading="lazy" />
                   </figure>
                 ))}
               </div>
@@ -261,7 +261,7 @@ function PhotoGallery({ page }: { page: BookPricingPage | SimplePricingPage }) {
         <div className={`pricing-detail-gallery pricing-detail-gallery-${page.images.length}`}>
           {page.images.map((src, index) => (
             <figure key={src}>
-              <Image src={src} alt={`${page.title} — фото ${index + 1}`} width={1200} height={800} loading="lazy" />
+              <Image src={src} alt={`${page.title}: пример разворота №${index + 1}`} width={1200} height={800} loading="lazy" />
             </figure>
           ))}
         </div>

@@ -3,10 +3,10 @@ import Link from "next/link";
 import { catalogItems, contacts } from "@/lib/site-data";
 
 const social = [
-  [contacts.telegram, "/media/social/tg-wedfotobook.png", "Telegram"],
-  [contacts.whatsapp, "/media/social/wapp-wedfotobook.png", "WhatsApp"],
-  [contacts.max, "/media/social/max-wedfotobook.png", "Max"],
-  [contacts.vk, "/media/social/vk-wedfotobook.png", "ВКонтакте"],
+  [contacts.telegram, "/media/optimized/social/telegram-64.webp", "Написать в Telegram"],
+  [contacts.whatsapp, "/media/optimized/social/whatsapp-64.webp", "Написать в WhatsApp"],
+  [contacts.max, "/media/optimized/social/max-64.webp", "Написать в мессенджере MAX"],
+  [contacts.vk, "/media/optimized/social/vk-64.webp", "Страница WedFotoBook во ВКонтакте"],
 ] as const;
 
 export function Footer() {
@@ -14,12 +14,12 @@ export function Footer() {
     <footer className="site-footer">
       <div className="shell footer-grid">
         <div className="footer-brand">
-          <Image src="/media/brand/logo-wedfotobook-v2.png" alt="Фотокниги под ключ" width={300} height={62} />
+          <Image src="/media/optimized/brand/logo-256.webp" alt="WedFotoBook — фотокниги на заказ" width={300} height={62} sizes="150px" />
           <p>Ваши фотографии становятся книгой, которую хочется перелистывать снова и снова.</p>
           <div className="social-row">
             {social.map(([href, src, label]) => (
               <a href={href} key={label} aria-label={label} target="_blank" rel="noreferrer">
-                <Image src={src} alt="" width={42} height={42} />
+                <Image src={src} alt={label} width={42} height={42} sizes="42px" />
               </a>
             ))}
           </div>
@@ -41,7 +41,7 @@ export function Footer() {
             <li><Link href="/otzyvy/">Отзывы</Link></li>
             <li><Link href="/blog_fotoknigi/">Блог</Link></li>
             <li><Link href="/kontakty/">Контакты</Link></li>
-            <li><Link href="/politika-obrabotki-personalnyh-dannyh/">Политика конфиденциальности</Link></li>
+            <li><Link href="/privacy-policy/">Политика конфиденциальности</Link></li>
           </ul>
         </div>
 

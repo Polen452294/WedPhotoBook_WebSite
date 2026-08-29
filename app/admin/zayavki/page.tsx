@@ -1,17 +1,10 @@
 import { desc } from "drizzle-orm";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { requireChatGPTUser } from "@/app/chatgpt-auth";
+import { AdminShell } from "@/components/AdminShell";
 import { getDb } from "@/db";
 import { enquiries } from "@/db/schema";
+import { requireAdminUser } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { robots: { index: false, follow: false, noarchive: true, nocache: true } };
-
-function allowedAdminEmails(): Set<string> {
-  const configured = process.env.ADMIN_EMAILS || process.env.CONTACT_TO_EMAIL || "79854342367@yandex.ru";
-  return new Set(configured.split(",").map((email) => email.trim().toLowerCase()).filter(Boolean));
-}
 
 function formatDate(value: Date): string {
   return new Intl.DateTimeFormat("ru-RU", {
@@ -22,17 +15,15 @@ function formatDate(value: Date): string {
 }
 
 export default async function EnquiriesAdminPage() {
-  const user = await requireChatGPTUser("/admin/zayavki/");
-  if (!allowedAdminEmails().has(user.email.toLowerCase())) notFound();
+  const user = await requireAdminUser("/admin/zayavki/");
 
   const db = await getDb();
   const rows = await db.select().from(enquiries).orderBy(desc(enquiries.createdAt)).limit(200);
 
   return (
-    <main className="admin-enquiries">
-      <header>
-        <div><span>WedFotoBook</span><h1>Заявки с сайта</h1></div>
-        <p>Последние 200 обращений. Все даты указаны по Москве.</p>
+    <AdminShell user={user}><main className="admin-page admin-enquiries">
+      <header className="admin-page-heading">
+        <div><span className="admin-kicker">Обращения клиентов</span><h1>Заявки с сайта</h1><p>Последние 200 обращений. Все даты указаны по Москве.</p></div>
       </header>
       <div className="admin-table-wrap">
         <table>
@@ -53,6 +44,6 @@ export default async function EnquiriesAdminPage() {
           </tbody>
         </table>
       </div>
-    </main>
+    </main></AdminShell>
   );
 }

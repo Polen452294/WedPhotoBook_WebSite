@@ -3,6 +3,8 @@ import { contacts } from "@/lib/site-data";
 export const SITE_URL = "https://wedfotobook.ru";
 export const BUSINESS_ID = `${SITE_URL}/#business`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
+export const ARTICLE_AUTHOR_NAME = "Редакция WedFotoBook";
+export const ARTICLE_AUTHOR_URL = `${SITE_URL}/company/`;
 
 type JsonLdValue = Record<string, unknown> | Record<string, unknown>[];
 
@@ -31,8 +33,8 @@ export function BusinessStructuredData() {
             alternateName: "wedfotobook.ru",
             legalName: "ИП Ардашева Елена Викторовна",
             url: `${SITE_URL}/`,
-            logo: absoluteUrl("/media/brand/logo-wedfotobook-v2.png"),
-            image: absoluteUrl("/og.png"),
+            logo: absoluteUrl("/media/brand/Logo wedfotobook.png"),
+            image: absoluteUrl("/og-1200x630.png"),
             telephone: "+7-985-434-23-67",
             email: contacts.email,
             taxID: "772008137237",
@@ -87,6 +89,8 @@ type PageStructuredDataProps = {
   kind?: "WebPage" | "CollectionPage" | "Article";
   image?: string;
   service?: boolean;
+  datePublished?: string;
+  dateModified?: string;
 };
 
 export function PageStructuredData({
@@ -96,6 +100,8 @@ export function PageStructuredData({
   kind = "WebPage",
   image,
   service = false,
+  datePublished,
+  dateModified,
 }: PageStructuredDataProps) {
   const url = absoluteUrl(path);
   const pageId = `${url}#webpage`;
@@ -110,7 +116,17 @@ export function PageStructuredData({
       inLanguage: "ru-RU",
       isPartOf: { "@id": WEBSITE_ID },
       publisher: { "@id": BUSINESS_ID },
-      ...(kind === "Article" ? { headline: title, mainEntityOfPage: { "@id": pageId } } : {}),
+      ...(kind === "Article" ? {
+        headline: title,
+        mainEntityOfPage: { "@id": pageId },
+        author: {
+          "@type": "Organization",
+          name: ARTICLE_AUTHOR_NAME,
+          url: ARTICLE_AUTHOR_URL,
+        },
+        ...(datePublished ? { datePublished } : {}),
+        ...(dateModified ? { dateModified } : {}),
+      } : {}),
     },
   ];
 
