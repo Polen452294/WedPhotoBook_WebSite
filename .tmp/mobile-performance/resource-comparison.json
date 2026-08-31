@@ -1,0 +1,61 @@
+{
+  "before": {
+    "htmlBytes": 192434,
+    "htmlGzip": 32507,
+    "imageElements": 116,
+    "modulePreloads": 17,
+    "modules": [
+      "/_next/static/chunks/index-D0xLKTpt.js",
+      "/_next/static/chunks/layout-segment-context-CQ0sfj68.js",
+      "/_next/static/chunks/OrderDialog-oQAZuqVE.js",
+      "/_next/static/chunks/turnstile-B_hGoXRa.js",
+      "/_next/static/chunks/CookieNotice-CNXQ6tz6.js",
+      "/_next/static/chunks/cookie-consent-B6_1IvdF.js",
+      "/_next/static/chunks/link-8kFyhf0r.js",
+      "/_next/static/chunks/app-route-prefetch-policy-DJUC9v2g.js",
+      "/_next/static/chunks/query-DjjKiJXE.js",
+      "/_next/static/chunks/Analytics-BTwf80SZ.js",
+      "/_next/static/chunks/SiteContentManager-fW49X9_f.js",
+      "/_next/static/chunks/SiteCodeManager-Bh-hwFLs.js",
+      "/_next/static/chunks/LegacyEnhancements-B9f5PPUN.js",
+      "/_next/static/chunks/SiteImage-ByaGcd0Q.js",
+      "/_next/static/chunks/image-DmBA6sed.js",
+      "/_next/static/chunks/HomeGalleryCarousel-CU5xL84n.js",
+      "/_next/static/chunks/ReviewCarousel-C55yO3YO.js"
+    ],
+    "heroDiscoveryByteOffset": 18824
+  },
+  "after": {
+    "htmlBytes": 184067,
+    "htmlGzip": 32529,
+    "imageElements": 48,
+    "modulePreloads": 13,
+    "modules": [
+      "/_next/static/chunks/index-BSi0Z2L1.js",
+      "/_next/static/chunks/layout-segment-context--V_HBbGr.js",
+      "/_next/static/chunks/OrderDialog-DKC_YhhM.js",
+      "/_next/static/chunks/turnstile-D08xrZHL.js",
+      "/_next/static/chunks/CookieNotice-C0F3CPel.js",
+      "/_next/static/chunks/cookie-consent-B6_1IvdF.js",
+      "/_next/static/chunks/Analytics-BTwf80SZ.js",
+      "/_next/static/chunks/SiteContentManager-BNdYGWxk.js",
+      "/_next/static/chunks/SiteCodeManager-B4Prwt9w.js",
+      "/_next/static/chunks/LegacyEnhancements-NzdsHoQH.js",
+      "/_next/static/chunks/HomeGalleryCarousel-k3eT2BpR.js",
+      "/_next/static/chunks/SiteImage-BRI2lxm_.js",
+      "/_next/static/chunks/ReviewCarousel-CtkSuVrm.js"
+    ],
+    "heroDiscoveryByteOffset": 524
+  },
+  "fonts": {
+    "beforeRaw": 176816,
+    "beforeGzip": 116972,
+    "afterRaw": 92840
+  },
+  "heroOriginalBytes": 822412,
+  "heroCandidates": {
+    "320": 22446,
+    "480": 42958,
+    "640": 67518
+  }
+}

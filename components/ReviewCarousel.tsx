@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import { useState } from "react";
 import type { MediaItem } from "@/lib/site-data";
 
@@ -18,8 +18,8 @@ export function ReviewCarousel({ images }: { images: MediaItem[] }) {
       <div className="review-carousel-viewport">
         <div id="review-carousel-track" className="review-carousel-track" style={{ transform: `translate3d(-${selected * 100}%, 0, 0)` }}>
           {images.map((image, index) => (
-            <figure className="review-carousel-frame" aria-hidden={index !== selected} key={image.src}>
-              <Image src={image.src} alt={image.alt || `Отзыв клиента №${index + 1} о фотокниге`} width={image.width} height={image.height} sizes="(max-width: 767px) calc(100vw - 48px), 760px" loading="lazy" />
+            <figure className="review-carousel-frame" style={{ aspectRatio: `${image.width} / ${image.height}` }} aria-hidden={index !== selected} key={image.src}>
+              {Math.abs(index - selected) <= 1 && <Image src={image.src} alt={image.alt || `Отзыв клиента №${index + 1} о фотокниге`} width={image.width} height={image.height} sizes="(max-width: 767px) calc(100vw - 48px), 760px" loading="lazy" />}
             </figure>
           ))}
         </div>

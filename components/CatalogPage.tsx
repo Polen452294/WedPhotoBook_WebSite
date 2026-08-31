@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import Link from "next/link";
 
 const catalogItems = [
@@ -27,7 +27,7 @@ export function CatalogPage() {
             {catalogItems.map(([slug, title, description, cover, coverAlt]) => (
               <Link className="catalog-card" href={`/${slug}/`} key={slug}>
                 <Image src={cover} alt={coverAlt} width={500} height={500} />
-                <div><h2>{title} <small>{description}</small></h2></div>
+                <div><h2>{title}</h2><small className="catalog-card-description">{description}</small></div>
               </Link>
             ))}
           </div>

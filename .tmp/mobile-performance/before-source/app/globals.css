@@ -1,0 +1,268 @@
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+body:has(dialog[open]) { overflow: hidden; }
+#cookie-notice { display: none !important; }
+
+html,
+body,
+body * {
+  font-family: "Open Sans", Arial, sans-serif !important;
+}
+
+.cookie-consent {
+  position: fixed;
+  z-index: 2147483000;
+  right: 22px;
+  bottom: 22px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: start;
+  width: min(860px, calc(100% - 44px));
+  box-sizing: border-box;
+  gap: 18px;
+  border: 1px solid rgba(183, 134, 72, .38);
+  border-radius: 18px;
+  padding: 22px;
+  background: #f7f4ee;
+  color: #071d30;
+  box-shadow: 0 24px 70px rgba(1, 27, 52, .28);
+}
+.cookie-consent-expanded { grid-template-columns: 42px minmax(0, 1fr); width: min(760px, calc(100% - 44px)); }
+.cookie-consent-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 50%;
+  background: #b78648;
+  color: #fff;
+  font-size: 21px;
+  font-weight: 800;
+}
+.cookie-consent-content { min-width: 0; }
+.cookie-consent-kicker {
+  display: block;
+  margin-bottom: 4px;
+  color: #805a25;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.cookie-consent h2 { margin: 0; color: #071d30; font-size: 22px; font-weight: 800; line-height: 1.2; text-align: left; }
+.cookie-consent-content > p { max-width: 570px; margin: 7px 0 0; color: #5f6d76; font-size: 13px; line-height: 1.55; }
+.cookie-consent-actions { display: grid; min-width: 218px; gap: 8px; }
+.cookie-consent-expanded .cookie-consent-actions { grid-column: 2; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cookie-button {
+  min-height: 42px;
+  border-radius: 9px;
+  padding: 10px 16px;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: border-color .2s ease, background .2s ease, color .2s ease, transform .2s ease;
+}
+.cookie-button:hover { transform: translateY(-1px); }
+.cookie-button:focus-visible,
+.cookie-preference-toggle input:focus-visible { outline: 3px solid rgba(31, 167, 218, .35); outline-offset: 2px; }
+.cookie-button-primary { border: 1px solid #071d30; background: #071d30; color: #fff; }
+.cookie-button-primary:hover { background: #0c2c47; }
+.cookie-button-secondary { border: 1px solid #9cabb3; background: transparent; color: #071d30; }
+.cookie-button-secondary:hover { border-color: #071d30; background: #fff; }
+.cookie-button-link { min-height: 30px; border: 0; padding: 4px; background: transparent; color: #075b86; text-decoration: underline; text-underline-offset: 3px; }
+.cookie-preferences { display: grid; gap: 10px; margin-top: 18px; }
+.cookie-preference-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid #ded9cf;
+  border-radius: 11px;
+  padding: 13px 14px;
+  background: rgba(255, 255, 255, .68);
+}
+.cookie-preference-row strong,
+.cookie-preference-row small { display: block; }
+.cookie-preference-row strong { color: #071d30; font-size: 13px; }
+.cookie-preference-row small { margin-top: 3px; color: #697780; font-size: 11px; line-height: 1.45; }
+.cookie-status { color: #9b6d35; font-size: 10px; font-weight: 800; white-space: nowrap; }
+
+/* Keep the restored homepage palette while meeting Lighthouse contrast and tap-target checks. */
+.restored-first-version .craft-copy > .craft-number,
+.restored-first-version .step-number { color: #755027 !important; }
+.restored-first-version .price-badge { background: #755027 !important; }
+.restored-first-version .original-home-sections .section-reviews .review-navigation strong { color: #d6dde2 !important; }
+.restored-first-version .original-footer-grid .footer-catalog a,
+.restored-first-version .original-footer-grid .footer-pricing a,
+.restored-first-version .original-footer-grid .footer-agreements p:not(:first-child) a {
+  display: inline-flex !important;
+  align-items: center;
+  min-height: 26px;
+  line-height: 26px !important;
+}
+.cookie-preference-toggle { cursor: pointer; }
+.cookie-preference-toggle input {
+  width: 42px;
+  height: 22px;
+  margin: 0;
+  accent-color: #071d30;
+  cursor: pointer;
+}
+.cookie-consent .cookie-details { max-width: none; margin: 2px 0 0; color: #687680; font-size: 10px; line-height: 1.5; }
+.cookie-details a { color: #075b86; text-decoration: underline; text-underline-offset: 2px; }
+.order-dialog {
+  width: min(610px, calc(100% - 28px));
+  max-width: none;
+  max-height: calc(100vh - 28px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, .65);
+  border-radius: 22px;
+  padding: 0;
+  background: #f7f4ee;
+  color: #071d30;
+  box-shadow: 0 30px 90px rgba(1, 27, 52, .35);
+}
+.order-dialog::backdrop, .legacy-lightbox::backdrop { background: rgba(1, 18, 32, .74); }
+.order-dialog::backdrop { backdrop-filter: blur(4px); }
+.order-dialog .dialog-close {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  right: 18px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid rgba(7, 29, 48, .12);
+  border-radius: 50%;
+  padding: 0;
+  background: rgba(255, 255, 255, .72);
+  color: #071d30;
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+}
+.order-dialog .dialog-close:hover { background: #fff; transform: rotate(5deg); }
+.order-dialog .dialog-close:focus-visible { outline: 3px solid rgba(31, 167, 218, .35); outline-offset: 2px; }
+.order-dialog .order-form { display: grid; gap: 20px; padding: 48px 52px 42px; }
+.order-dialog .order-form-heading { padding-right: 42px; }
+.order-dialog .order-form-kicker {
+  display: block;
+  margin-bottom: 8px;
+  color: #b78648;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.order-dialog .order-form h2 { margin: 0; color: #071d30; font-size: clamp(28px, 5vw, 38px); font-weight: 700; line-height: 1.15; text-align: left; }
+.order-dialog .order-form-heading p { max-width: 470px; margin: 12px 0 0; color: #65737d; font-size: 15px; line-height: 1.55; }
+.order-dialog .order-fields { display: grid; gap: 15px; }
+.order-dialog .order-form label { display: grid; gap: 8px; margin: 0; color: #071d30; font-size: 14px; font-weight: 700; text-transform: none; }
+.order-dialog .order-form input:not([type="checkbox"]) {
+  box-sizing: border-box;
+  width: 100%;
+  height: 54px;
+  border: 1px solid #cdd5d9;
+  border-radius: 12px;
+  padding: 0 16px;
+  outline: none;
+  background: rgba(255, 255, 255, .88);
+  color: #071d30;
+  font-size: 16px;
+  font-weight: 400;
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.order-dialog .order-form input:not([type="checkbox"])::placeholder { color: #9aa5ac; }
+.order-dialog .order-form input:not([type="checkbox"]):focus { border-color: #1fa7da; background: #fff; box-shadow: 0 0 0 4px rgba(31, 167, 218, .12); }
+.order-dialog .order-form .checkbox { display: grid; grid-template-columns: 19px minmax(0, 1fr); align-items: start; width: 100% !important; gap: 11px; color: #66747e; font-size: 12px; font-weight: 400; line-height: 1.5; }
+.order-dialog .checkbox input { position: static !important; display: block !important; width: 18px; height: 18px; margin: 2px 0 0 !important; opacity: 1 !important; accent-color: #071d30; }
+.order-dialog .order-form .checkbox > span { display: block !important; width: auto !important; min-width: 0; max-width: none !important; margin: 0 !important; padding: 0 !important; float: none !important; white-space: normal; word-break: normal; overflow-wrap: normal; }
+.order-dialog .checkbox a { display: inline !important; width: auto !important; float: none !important; color: #075b86; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.order-dialog .honeypot { position: absolute !important; left: -9999px !important; }
+.order-dialog .order-turnstile { min-height: 65px; }
+.order-dialog .order-antispam {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(7, 29, 48, .1);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, .55);
+  color: #52626d;
+}
+.order-dialog .order-antispam-icon { display: grid; flex: 0 0 34px; width: 34px; height: 34px; place-items: center; border-radius: 50%; background: #1d9a61; color: #fff; font-size: 18px; font-weight: 800; }
+.order-dialog .order-antispam > span:last-child { display: grid; gap: 2px; }
+.order-dialog .order-antispam strong { color: #243846; font-size: 12px; }
+.order-dialog .order-antispam small { color: #75838c; font-size: 11px; }
+.order-dialog .button.order-submit {
+  min-height: 56px;
+  border: 1px solid #071d30;
+  border-radius: 12px;
+  padding: 14px 20px;
+  background: #071d30;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.order-dialog .button.order-submit:hover { background: #0c2c47; box-shadow: 0 12px 24px rgba(7, 29, 48, .16); transform: translateY(-1px); }
+.order-dialog .button.order-submit:disabled { cursor: wait; opacity: .7; transform: none; }
+.order-dialog .form-message { margin: -4px 0 0; border-radius: 10px; padding: 11px 13px; font-size: 12px; line-height: 1.45; text-align: center; }
+.order-dialog .form-message.success { background: #e8f6ee; color: #17713b; }
+.order-dialog .form-message.error { background: #faeaea; color: #922d2d; }
+.order-dialog .form-message.error a { color: inherit; font-weight: 700; }
+
+.legacy-lightbox { width: min(1200px, calc(100% - 30px)); max-width: none; border: 0; padding: 40px 18px 18px; background: #111; }
+.legacy-lightbox img { display: block; width: 100%; max-height: 85vh; object-fit: contain; }
+.legacy-lightbox button { position: absolute; top: 2px; right: 8px; border: 0; background: transparent; color: #fff; font-size: 30px; cursor: pointer; }
+
+.admin-enquiries { min-height: 100vh; box-sizing: border-box; padding: 48px clamp(18px, 4vw, 64px); background: #f7f4ee; color: #071d30; }
+.admin-enquiries header { display: flex; align-items: end; justify-content: space-between; gap: 24px; max-width: 1500px; margin: 0 auto 28px; }
+.admin-enquiries header span { color: #b78648; font-size: 12px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+.admin-enquiries h1 { margin: 6px 0 0; font-size: clamp(30px, 5vw, 50px); line-height: 1; }
+.admin-enquiries header p { max-width: 390px; margin: 0; color: #66747e; }
+.admin-table-wrap { max-width: 1500px; margin: 0 auto; overflow-x: auto; border: 1px solid #d9d5cc; border-radius: 14px; background: #fff; box-shadow: 0 16px 45px rgba(7, 29, 48, .08); }
+.admin-enquiries table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.admin-enquiries th, .admin-enquiries td { min-width: 130px; border-bottom: 1px solid #e8e4dc; padding: 14px 16px; vertical-align: top; text-align: left; }
+.admin-enquiries th { background: #071d30; color: #fff; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.admin-enquiries td:nth-child(5) { min-width: 260px; white-space: pre-wrap; }
+.admin-enquiries td a, .admin-enquiries td small { display: block; color: inherit; }
+.admin-enquiries td small { margin-top: 5px; color: #849099; font-size: 10px; }
+.admin-enquiries .admin-empty { padding: 42px; color: #66747e; text-align: center; }
+
+@media (max-width: 560px) {
+  .cookie-consent,
+  .cookie-consent-expanded {
+    right: 10px;
+    bottom: 10px;
+    grid-template-columns: 34px minmax(0, 1fr);
+    width: calc(100% - 20px);
+    max-height: calc(100vh - 20px);
+    overflow-y: auto;
+    gap: 12px;
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .cookie-consent-mark { width: 34px; height: 34px; font-size: 17px; }
+  .cookie-consent h2 { font-size: 19px; }
+  .cookie-consent-content > p { font-size: 12px; }
+  .cookie-consent-actions,
+  .cookie-consent-expanded .cookie-consent-actions { grid-column: 1 / -1; grid-template-columns: 1fr; min-width: 0; }
+  .cookie-preference-row { grid-template-columns: 1fr; gap: 9px; }
+  .cookie-preference-toggle { grid-template-columns: minmax(0, 1fr) auto; }
+  .cookie-status { white-space: normal; }
+  .order-dialog { border-radius: 16px; }
+  .order-dialog .dialog-close { top: 12px; right: 12px; width: 36px; height: 36px; }
+  .order-dialog .order-form { gap: 17px; padding: 38px 22px 26px; }
+  .order-dialog .order-form-heading { padding-right: 34px; }
+  .order-dialog .order-form h2 { font-size: 28px; }
+  .order-dialog .order-form-heading p { font-size: 14px; }
+  .admin-enquiries header { align-items: start; flex-direction: column; }
+}

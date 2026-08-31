@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import { useRef, useState } from "react";
 import type { MediaItem } from "@/lib/site-data";
 

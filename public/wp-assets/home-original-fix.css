@@ -206,7 +206,7 @@
   }
 
   .legacy-wordpress.home .first_big_block_butt .tel1,
-  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p {
+  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p:not(.tel1) {
     text-align: right !important;
   }
 
@@ -217,7 +217,7 @@
     line-height: 30.8px !important;
   }
 
-  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p {
+  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p:not(.tel1) {
     font-family: "Open Sans", Arial, sans-serif !important;
     font-size: clamp(10px, 1.025vw, 14px) !important;
     line-height: 23px !important;
@@ -338,7 +338,7 @@
     line-height: 1.15 !important;
   }
 
-  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p {
+  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p:not(.tel1) {
     margin: 2px 0 8px !important;
     line-height: 1.3 !important;
   }
@@ -694,7 +694,7 @@
   }
 
   .legacy-wordpress.home .first_big_block_butt .tel1,
-  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p {
+  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p:not(.tel1) {
     margin: 0 !important;
     color: #fff !important;
     text-align: center !important;
@@ -707,11 +707,11 @@
 
   .legacy-wordpress.home .first_big_block_butt .tel1 a,
   .legacy-wordpress.home .first_big_block_butt .tel1 span,
-  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p span {
+  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p:not(.tel1) span {
     color: #fff !important;
   }
 
-  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p {
+  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p:not(.tel1) {
     margin-top: 7px !important;
     color: #cbd7df !important;
     font-size: 13px !important;
@@ -855,7 +855,7 @@
   }
 
   .legacy-wordpress.home .first_big_block_butt .tel1,
-  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p {
+  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p:not(.tel1) {
     text-align: right !important;
   }
 
@@ -870,13 +870,13 @@
     color: #071d30 !important;
   }
 
-  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p {
+  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p:not(.tel1) {
     margin-top: 4px !important;
     font-size: clamp(8px, 2.2vw, 10px) !important;
     line-height: 1.35 !important;
   }
 
-  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p span {
+  .legacy-wordpress.home .first_big_block_butt > .vc-column-innner-wrapper > p:not(.tel1) span {
     color: #66717a !important;
   }
 

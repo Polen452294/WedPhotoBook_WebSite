@@ -1,0 +1,996 @@
+[
+  {
+    "source": "public/media/covers/Fotokbiga drugaj wedfotobook ru.webp",
+    "width": 500,
+    "height": 500,
+    "matches": [
+      {
+        "path": "public/media/home-gallery/13_Dety_fotokniga_wedfotobok_ru-converted.webp",
+        "width": 1000,
+        "height": 497,
+        "mae": 64.5234375
+      },
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 8 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 64.81510416666667
+      }
+    ]
+  },
+  {
+    "source": "public/media/covers/Fotokniga alive photo wedfotobook ru.webp",
+    "width": 500,
+    "height": 500,
+    "matches": [
+      {
+        "path": "public/media/home/Fotokniga alive photo blok wedfotobook ru.webp",
+        "width": 900,
+        "height": 600,
+        "mae": 53.09288194444444
+      },
+      {
+        "path": "public/media/gallery/alive/Alive foto 1 wedfotobook ru.webp",
+        "width": 1280,
+        "height": 720,
+        "mae": 62.484085648148145
+      }
+    ]
+  },
+  {
+    "source": "public/media/covers/Dety fotokniga wedfotobook ru.webp",
+    "width": 500,
+    "height": 500,
+    "matches": [
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 8 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 60.74117476851852
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 5 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 60.859230324074076
+      }
+    ]
+  },
+  {
+    "source": "public/media/covers/Ubiley fotokniga wedfotobook ru.webp",
+    "width": 500,
+    "height": 500,
+    "matches": [
+      {
+        "path": "public/media/pricing-details/premium/premium-03-wedfotobook-ru.webp",
+        "width": 1200,
+        "height": 800,
+        "mae": 63.3677662037037
+      },
+      {
+        "path": "public/media/home/Obrabotka foto wedfotobook ru.webp",
+        "width": 900,
+        "height": 600,
+        "mae": 65.54239004629629
+      }
+    ]
+  },
+  {
+    "source": "public/media/covers/Fotokniga genealogia wedfotobook ru.webp",
+    "width": 500,
+    "height": 500,
+    "matches": [
+      {
+        "path": "public/media/home-gallery/14_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+        "width": 1000,
+        "height": 497,
+        "mae": 60.827401620370374
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 1 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 61.38440393518518
+      }
+    ]
+  },
+  {
+    "source": "public/media/covers/Fotokniga puteshedtvij wedfotobook ru.webp",
+    "width": 500,
+    "height": 500,
+    "matches": [
+      {
+        "path": "public/media/home-gallery/28_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+        "width": 1000,
+        "height": 497,
+        "mae": 58.747829861111114
+      },
+      {
+        "path": "public/media/home-gallery/14_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+        "width": 1000,
+        "height": 497,
+        "mae": 62.09620949074074
+      }
+    ]
+  },
+  {
+    "source": "public/media/covers/Svadba fotokniga wedfotobook ru.webp",
+    "width": 500,
+    "height": 500,
+    "matches": [
+      {
+        "path": "public/media/home/Obrabotka foto wedfotobook ru.webp",
+        "width": 900,
+        "height": 600,
+        "mae": 61.276186342592595
+      },
+      {
+        "path": "public/media/pricing-details/premium/premium-03-wedfotobook-ru.webp",
+        "width": 1200,
+        "height": 800,
+        "mae": 64.79658564814815
+      }
+    ]
+  },
+  {
+    "source": "public/media/home/Dizain fotoknigi wedfotobook ru.webp",
+    "width": 900,
+    "height": 600,
+    "matches": [
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 6 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 13.102575231481481
+      },
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 4 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 61.62803819444444
+      }
+    ]
+  },
+  {
+    "source": "public/media/covers/Vipusk albom wedfotobook ru.webp",
+    "width": 500,
+    "height": 500,
+    "matches": [
+      {
+        "path": "public/media/gallery/graduation/Vipusk albom 8 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 56.23394097222222
+      },
+      {
+        "path": "public/media/gallery/graduation/Vipusk albom 1 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 60.37702546296296
+      }
+    ]
+  },
+  {
+    "source": "public/media/home/Fotokniga alive photo stoimost wedfotobook ru.webp",
+    "width": 450,
+    "height": 300,
+    "matches": [
+      {
+        "path": "public/media/gallery/alive/Alive foto 1 wedfotobook ru.webp",
+        "width": 1280,
+        "height": 720,
+        "mae": 57.86024305555556
+      },
+      {
+        "path": "public/media/home/Fotokniga alive photo blok wedfotobook ru.webp",
+        "width": 900,
+        "height": 600,
+        "mae": 61.55555555555556
+      }
+    ]
+  },
+  {
+    "source": "public/media/home/Fotokniga alive photo blok wedfotobook ru.webp",
+    "width": 900,
+    "height": 600,
+    "matches": [
+      {
+        "path": "public/media/gallery/alive/Alive foto 1 wedfotobook ru.webp",
+        "width": 1280,
+        "height": 720,
+        "mae": 34.57609953703704
+      },
+      {
+        "path": "public/media/gallery/alive/Alive foto 2 wedfotobook ru.webp",
+        "width": 1280,
+        "height": 720,
+        "mae": 65.43938078703704
+      }
+    ]
+  },
+  {
+    "source": "public/media/home/Fotokniga Premium wedfotobook ru.webp",
+    "width": 450,
+    "height": 300,
+    "matches": [
+      {
+        "path": "public/media/gallery/custom/Fotokbiga drugaj 5 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 44.94184027777778
+      },
+      {
+        "path": "public/media/gallery/custom/Fotokbiga drugaj 1 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 59.019386574074076
+      }
+    ]
+  },
+  {
+    "source": "public/media/home/Fotokniga Standart wedfotobook ru.webp",
+    "width": 450,
+    "height": 300,
+    "matches": [
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 10 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 49.009548611111114
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 8 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 49.33680555555556
+      }
+    ]
+  },
+  {
+    "source": "public/media/home/Fotokniga na zakaz wedfotobook ru.webp",
+    "width": 1767,
+    "height": 1255,
+    "matches": []
+  },
+  {
+    "source": "public/media/home/Obrabotka foto wedfotobook ru.webp",
+    "width": 900,
+    "height": 600,
+    "matches": [
+      {
+        "path": "public/media/pricing-details/premium/premium-03-wedfotobook-ru.webp",
+        "width": 1200,
+        "height": 800,
+        "mae": 58.3951099537037
+      },
+      {
+        "path": "public/media/gallery/alive/Alive foto 2 wedfotobook ru.webp",
+        "width": 1280,
+        "height": 720,
+        "mae": 64.88425925925925
+      }
+    ]
+  },
+  {
+    "source": "public/media/home/Соglasovanie maketa wedfotobook ru.webp",
+    "width": 900,
+    "height": 600,
+    "matches": [
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 5 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 21.08984375
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 8 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 34.0228587962963
+      }
+    ]
+  },
+  {
+    "source": "public/media/home/Print fotoknig wedfotobook ru.webp",
+    "width": 900,
+    "height": 600,
+    "matches": [
+      {
+        "path": "public/media/pricing-details/standard/standard-04-wedfotobook-ru.webp",
+        "width": 1200,
+        "height": 800,
+        "mae": 69.99710648148148
+      },
+      {
+        "path": "public/media/home/Fotokniga na zakaz wedfotobook ru.webp",
+        "width": 1767,
+        "height": 1255,
+        "mae": 73.14322916666667
+      }
+    ]
+  },
+  {
+    "source": "public/media/home/Vipusk albom stoimost wedfotobook ru.webp",
+    "width": 450,
+    "height": 300,
+    "matches": [
+      {
+        "path": "public/wp-content/uploads/2026/02/otziv-034-optimized.jpg",
+        "width": 959,
+        "height": 564,
+        "mae": 33.268807870370374
+      },
+      {
+        "path": "public/wp-content/uploads/2026/02/otziv-036-optimized.jpg",
+        "width": 989,
+        "height": 545,
+        "mae": 33.42100694444444
+      }
+    ]
+  },
+  {
+    "source": "public/media/home/soglasovanie-maketa-optimized.webp",
+    "width": 900,
+    "height": 600,
+    "matches": [
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 5 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 21.089699074074073
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 8 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 33.9888599537037
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/02_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/anniversary/Ubiley fotokniga 2 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 48.230179398148145
+      },
+      {
+        "path": "public/media/gallery/custom/Fotokbiga drugaj 3 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 62.08680555555556
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/01_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/wp-content/uploads/2021/04/D-002-optimized.jpg",
+        "width": 1200,
+        "height": 691,
+        "mae": 75.25390625
+      },
+      {
+        "path": "public/media/gallery/anniversary/Ubiley fotokniga 1 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 76.3683449074074
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/04_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/anniversary/Ubiley fotokniga 6 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 31.574074074074073
+      },
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 7 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 47.20891203703704
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/03_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/anniversary/Ubiley fotokniga 4 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 37.255642361111114
+      },
+      {
+        "path": "public/media/gallery/custom/Fotokbiga drugaj 6 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 48.70355902777778
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/06_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/alive/Alive foto 1 wedfotobook ru.webp",
+        "width": 1280,
+        "height": 720,
+        "mae": 73.39048032407408
+      },
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 8 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 74.50028935185185
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/07_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 2 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.3470775462962963
+      },
+      {
+        "path": "public/media/gallery/travel/Fotokniga puteshedtvij 8 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 40.16796875
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/05_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/anniversary/Ubiley fotokniga 8 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 44.010416666666664
+      },
+      {
+        "path": "public/media/gallery/custom/Fotokbiga drugaj 7 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 58.816116898148145
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/08_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 3 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.4545717592592593
+      },
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 2 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 44.705295138888886
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/10_Dety_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/anniversary/Ubiley fotokniga 2 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 68.16160300925925
+      },
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 10 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 68.31192129629629
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/09_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 4 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.3392650462962963
+      },
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 5 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 45.14612268518518
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/12_Dety_fotokniga_wedfotobok_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 7 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.3297164351851851
+      },
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 2 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 39.24117476851852
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/11_Dety_fotokniga_wedfotobok_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 6 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.4418402777777777
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 3 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 40.01707175925926
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/13_Dety_fotokniga_wedfotobok_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 8 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.3619791666666667
+      },
+      {
+        "path": "public/media/gallery/travel/Fotokniga puteshedtvij 7 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 39.57711226851852
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/14_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 4 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 67.9871238425926
+      },
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 10 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 68.40697337962963
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/15_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/travel/Fotokniga puteshedtvij 2 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.5121527777777777
+      },
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 8 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 46.136863425925924
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/16_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/travel/Fotokniga puteshedtvij 4 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.4728009259259258
+      },
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 8 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 41.7337962962963
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/17_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/travel/Fotokniga puteshedtvij 5 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.4291087962962963
+      },
+      {
+        "path": "public/media/gallery/travel/Fotokniga puteshedtvij 6 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 43.265769675925924
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/19_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 8 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.3132233796296295
+      },
+      {
+        "path": "public/media/pricing-details/premium/premium-01-wedfotobook-ru.webp",
+        "width": 1200,
+        "height": 800,
+        "mae": 38.83159722222222
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/20_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 9 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.4618055555555556
+      },
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 6 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 43.507523148148145
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/18_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/travel/Fotokniga puteshedtvij 7 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.3735532407407407
+      },
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 8 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 38.890480324074076
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/24_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/alive/Alive foto 1 wedfotobook ru.webp",
+        "width": 1280,
+        "height": 720,
+        "mae": 73.91015625
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 6 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 75.66782407407408
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/23_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 12 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.4182581018518519
+      },
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 10 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 45.90075231481482
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/21_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 10 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.3627025462962963
+      },
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 6 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 39.115451388888886
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/22_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 11 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 1.3540219907407407
+      },
+      {
+        "path": "public/media/gallery/wedding/Svadba fotokniga 10 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 42.25679976851852
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/26_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 3 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 20.82320601851852
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 5 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 26.858796296296298
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/25_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 2 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 24.70876736111111
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 3 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 33.34215856481482
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/27_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 4 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 21.298900462962962
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 3 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 25.95992476851852
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/28_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/home/Fotokniga na zakaz wedfotobook ru.webp",
+        "width": 1767,
+        "height": 1255,
+        "mae": 59.51996527777778
+      },
+      {
+        "path": "public/media/gallery/children/Dety fotokniga 4 wedfotobok ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 61.88903356481482
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/29_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/custom/Fotokbiga drugaj 3 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 30.58709490740741
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 1 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 44.0189525462963
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/30_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/custom/Fotokbiga drugaj 4 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 30.68706597222222
+      },
+      {
+        "path": "public/media/gallery/custom/Fotokbiga drugaj 1 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 42.816695601851855
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/31_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/alive/Alive foto 2 wedfotobook ru.webp",
+        "width": 1280,
+        "height": 720,
+        "mae": 68.51707175925925
+      },
+      {
+        "path": "public/media/gallery/travel/Fotokniga puteshedtvij 3 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 993,
+        "mae": 69.37210648148148
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/32_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/custom/Fotokbiga drugaj 6 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 23.87847222222222
+      },
+      {
+        "path": "public/media/gallery/genealogy/Fotokniga genealogia 4 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 36.47424768518518
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/33_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/custom/Fotokbiga drugaj 7 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 38.86762152777778
+      },
+      {
+        "path": "public/media/gallery/graduation/Vipusk albom 1 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 44.24522569444444
+      }
+    ]
+  },
+  {
+    "source": "public/media/home-gallery/34_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "width": 1000,
+    "height": 497,
+    "matches": [
+      {
+        "path": "public/media/gallery/custom/Fotokbiga drugaj 8 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 30.29253472222222
+      },
+      {
+        "path": "public/media/gallery/graduation/Vipusk albom 1 wedfotobook ru.webp",
+        "width": 2000,
+        "height": 1283,
+        "mae": 41.925925925925924
+      }
+    ]
+  }
+]

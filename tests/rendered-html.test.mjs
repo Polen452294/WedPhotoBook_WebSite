@@ -5,6 +5,7 @@ import test from "node:test";
 const globalCss = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 const headerCss = await readFile(new URL("../public/wp-assets/home-original-fix.css", import.meta.url), "utf8");
 const firstVersionCss = await readFile(new URL("../public/wp-assets/first-version-home.css", import.meta.url), "utf8");
+const optimizedHomeCss = await readFile(new URL("../public/wp-assets/home-optimized.css", import.meta.url), "utf8");
 const orderDialogSource = await readFile(new URL("../components/OrderDialog.tsx", import.meta.url), "utf8");
 const contactRouteSource = await readFile(new URL("../app/api/contact/route.ts", import.meta.url), "utf8");
 const legacyEnhancementsSource = await readFile(new URL("../components/LegacyEnhancements.tsx", import.meta.url), "utf8");
@@ -31,6 +32,10 @@ const articleRoutes = [
 
 function normalizeMediaPaths(html) {
   return html.replace(/%2F/gi, "/").replace(/%20/gi, " ");
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 test("uses Open Sans across the entire site", () => {
@@ -123,6 +128,44 @@ async function render(path = "/", init = {}) {
   );
 }
 
+test("does not cache missing images or mislabel an error page as an image", async () => {
+  for (const path of [
+    "/media/__missing_asset_test__.webp",
+    "/_vinext/image?url=%2Fmedia%2F__missing_asset_test__.webp&w=256&q=75",
+    "/_next/image?url=%2Fmedia%2F__missing_asset_test__.webp&w=256&q=75",
+  ]) {
+    const response = await render(path);
+    assert.equal(response.status, 404, path);
+    assert.equal(response.headers.get("cache-control"), "no-store", path);
+    assert.equal(response.headers.get("cdn-cache-control"), "no-store", path);
+    assert.ok(!response.headers.get("content-type")?.startsWith("image/"), path);
+  }
+});
+
+test("versions restored images and every responsive candidate to bypass cached failures", async () => {
+  const sitemap = await (await render("/sitemap.xml")).text();
+  const paths = [...sitemap.matchAll(/<loc>https:\/\/wedfotobook\.ru([^<]*)<\/loc>/g)].map((match) => match[1]);
+  let restoredImages = 0;
+  for (const path of paths) {
+    const html = await (await render(path)).text();
+    for (const tag of html.matchAll(/<(?:img|source|link)\b[^>]*>/gi)) {
+      for (const attribute of tag[0].matchAll(/\b(src|srcset|imageSrcSet)="([^"]+)"/gi)) {
+        const values = attribute[1].toLowerCase() === "src" ? [attribute[2]]
+          : attribute[2].split(/,\s*/).map((value) => value.replace(/\s+\d+(?:\.\d+)?[wx]$/, ""));
+        for (const value of values) {
+          const url = new URL(value.replaceAll("&amp;", "&"), "https://wedfotobook.ru");
+          const source = ["/_next/image", "/_vinext/image"].includes(url.pathname)
+            ? new URL(url.searchParams.get("url"), url) : url;
+          if (!source.pathname.startsWith("/media/optimized/")) continue;
+          restoredImages++;
+          assert.equal(source.searchParams.get("v"), "20260830", `${path}: ${value}`);
+        }
+      }
+    }
+  }
+  assert.ok(restoredImages > 100);
+});
+
 test("publishes complete technical SEO and GEO signals", async () => {
   const rootHtml = await (await render()).text();
   const jsonLdBlocks = [...rootHtml.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)]
@@ -209,14 +252,33 @@ test("uses one descriptive h1 and an unbroken heading hierarchy on every public 
   }
 });
 
-test("serves responsive images without loading Turnstile globally", async () => {
+test("serves responsive photos with full-resolution originals without loading Turnstile globally", async () => {
   const html = await (await render()).text();
   const imageTags = [...html.matchAll(/<img\b[^>]*>/gi)].map((match) => match[0]);
-  assert.ok(imageTags.length > 100);
+  assert.ok(imageTags.length > 40);
   assert.ok(imageTags.every((tag) => /\bwidth=/.test(tag) && /\bheight=/.test(tag)));
-  assert.ok(imageTags.filter((tag) => /\bsrcset=/i.test(tag)).length > 100);
+  const photoTags = imageTags.filter((tag) => /\bsrc="\/media\/(?:home|covers|gallery|home-gallery|reviews-selected|originals)\//.test(tag));
+  assert.ok(photoTags.length >= 20);
+  assert.ok(photoTags.every((tag) => /\?v=20260831/.test(tag)));
+  const hero = photoTags.find((tag) => tag.includes("/media/originals/22969.jpg"));
+  assert.match(hero, /fetchpriority="high"/i);
+  assert.match(hero, /srcset="[^"]+320w,[^"]+480w,[^"]+640w/);
+  assert.match(hero, /22969\.jpg\?v=20260831 1767w/);
+  assert.match(hero, /sizes="[^"]+calc\(61vw - 44px\)/);
+  const preload = [...html.matchAll(/<link\b[^>]*>/g)].map((match) => match[0])
+    .find((tag) => /rel="preload"/.test(tag) && /as="image"/.test(tag) && /22969/.test(tag));
+  assert.ok(preload, "LCP image must be discovered in the head before body markup");
+  assert.equal(/imageSrcSet="([^"]+)"/i.exec(preload)?.[1], /srcset="([^"]+)"/i.exec(hero)?.[1]);
+  assert.equal(/imageSizes="([^"]+)"/i.exec(preload)?.[1], /sizes="([^"]+)"/i.exec(hero)?.[1]);
+  for (const track of ["home-gallery-carousel-track", "review-carousel-track"]) {
+    const start = html.indexOf(`id="${track}"`);
+    const end = html.indexOf('class="review-navigation"', start);
+    const slides = html.slice(start, end);
+    assert.equal([...slides.matchAll(/<img\b/g)].length, 2, "only the active and adjacent slide should have image sources initially");
+  }
+  assert.ok(imageTags.some((tag) => /\bsrcset=/i.test(tag)));
   assert.match(html, /\/_vinext\/image\?url=/);
-  const logoTag = imageTags.find((tag) => normalizeMediaPaths(tag).includes("/media/optimized/brand/logo-256.webp"));
+  const logoTag = imageTags.find((tag) => normalizeMediaPaths(tag).includes("/media/brand/Logo wedfotobook.png"));
   assert.match(logoTag ?? "", /width="962" height="198"/);
   assert.doesNotMatch(nextConfigSource, /unoptimized:\s*true/);
   assert.doesNotMatch(layoutSource, /challenges\.cloudflare\.com\/turnstile/);
@@ -365,6 +427,34 @@ test("uses an entirely white page background only on the three legal pages", asy
   );
   assert.match(legalWhiteCss, /\.legal-white-route[\s\S]*?background: #fff !important;[\s\S]*?background-image: none !important;/);
   assert.doesNotMatch(legalWhiteCss, /\.navbar|\.site-footer|\.footer-/);
+});
+
+test("keeps catalog descriptions and legal labels out of heading elements", async () => {
+  const homeHtml = await (await render("/")).text();
+  const catalogHtml = await (await render("/katalog/")).text();
+  const description = "С индивидуальным дизайном сохранит память об этом прекрасном событии!";
+
+  assert.ok(homeHtml.includes(`<h3>Свадебная фотокнига</h3><small class="catalog-card-description">${description}</small>`));
+  assert.ok(catalogHtml.includes(`<h2>Свадебная фотокнига</h2><small class="catalog-card-description">${description}</small>`));
+  const homeHeadings = [...homeHtml.matchAll(/<h3\b[^>]*>[\s\S]*?<\/h3>/gi)].map((match) => match[0]);
+  const catalogHeadings = [...catalogHtml.matchAll(/<h[23]\b[^>]*>[\s\S]*?<\/h[23]>/gi)].map((match) => match[0]);
+  assert.ok(homeHeadings.every((heading) => !heading.includes("<small")));
+  assert.ok(catalogHeadings.every((heading) => !heading.includes("<small")));
+  assert.match(firstVersionCss, /\.catalog-card-description/);
+  assert.match(optimizedHomeCss, /\.catalog-card-description/);
+  assert.doesNotMatch(optimizedHomeCss, /\.catalog-card h3 small/);
+
+  const termsHtml = await (await render("/polzovatelskoe-soglashenie/")).text();
+  const policyHtml = await (await render("/politika-obrabotki-personalnyh-dannyh/")).text();
+  const operatorDetails = "11. РЕКВИЗИТЫ ОПЕРАТОРА (ОПЕРАТОРА ПЕРСОНАЛЬНЫХ ДАННЫХ)";
+  const thirdPartySubtitle = "персональных данных, передаваемых третьим лицам Оператором";
+  const policySubtitle = "на основании пункта 8.1 Политики обработки и защиты персональных данных";
+
+  assert.match(termsHtml, new RegExp(`<p[^>]*>${escapeRegExp(operatorDetails)}</p>`));
+  assert.doesNotMatch(termsHtml, new RegExp(`<h[1-6][^>]*>${escapeRegExp(operatorDetails)}</h[1-6]>`));
+  assert.match(policyHtml, new RegExp(`<p[^>]*>${escapeRegExp(thirdPartySubtitle)}</p>`));
+  assert.match(policyHtml, new RegExp(`<p[^>]*>${escapeRegExp(policySubtitle)}</p>`));
+  assert.doesNotMatch(policyHtml, new RegExp(`<h[1-6][^>]*>(?:${escapeRegExp(thirdPartySubtitle)}|${escapeRegExp(policySubtitle)})</h[1-6]>`));
 });
 
 test("uses the original contact information order with one heading and a Yandex map", async () => {
@@ -666,7 +756,7 @@ test("reworks only the wedding photobook page while preserving its hero and FAQ"
   assert.match(pageHtml, /class="button" data-order-open="true" type="button">Рассчитать стоимость<\/button>/);
   assert.match(pageHtml, /История вашей свадьбы в книге с индивидуальным дизайном\./);
   const normalizedAssetPaths = normalizeMediaPaths(pageHtml);
-  assert.match(normalizedAssetPaths, /\/media\/covers\/Svadba fotokniga wedfotobook ru\.webp/);
+  assert.match(normalizedAssetPaths, /\/media\/originals\/22954\.jpg/);
   assert.match(pageHtml, /Свадебная фотокнига(?:&nbsp;|\u00a0)—(?:&nbsp;|\u00a0)это не просто альбом с фотографиями, а настоящая история любви/);
   assert.match(pageHtml, /Наши дизайнеры знают, как выстроить повествование так, чтобы каждая страница раскрывала отдельную главу/);
   assert.match(pageHtml, /Свадебная фотокнига на заказ создаётся с учётом всех ваших пожеланий\./);
@@ -812,18 +902,19 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /Безлимитные правки до вашего/);
   assert.match(html, /Вы работаете с юр\. лицами\?/);
   const homepagePhotos = [
-    "home/hero-640.webp",
-    "home/craft-processing-900.webp",
-    "home/craft-design-900.webp",
-    "home/craft-approval-900.webp",
-    "home/craft-print-900.webp",
-    "covers/alive-500.webp",
-    "home/price-premium-800.webp",
-    "home/price-standard-800.webp",
-    "home/price-graduation-800.webp",
-    "home/price-alive-800.webp",
+    "/media/originals/22969.jpg",
+    "/media/originals/22962.jpg",
+    "/media/home/Dizain fotoknigi wedfotobook ru.webp",
+    "/media/originals/22967.jpg",
+    "/media/home/Print fotoknig wedfotobook ru.webp",
+    "/media/home/Fotokniga alive photo blok wedfotobook ru.webp",
+    "/media/originals/22963.jpg",
+    "/media/originals/22964.jpg",
+    "/media/home/Vipusk albom stoimost wedfotobook ru.webp",
+    "/media/home/Fotokniga alive photo stoimost wedfotobook ru.webp",
   ];
-  for (const photo of homepagePhotos) assert.match(normalizedHtml, new RegExp(`/media/optimized/${photo.replaceAll(".", "\\.")}`));
+  for (const photo of homepagePhotos) assert.ok(normalizedHtml.includes(photo), photo);
+  assert.doesNotMatch(normalizedHtml, /\/media\/optimized\/(?:home|covers)\//);
   assert.doesNotMatch(html, /wp-content\/uploads\/2026\/04\/001-1-1-optimized\.jpg/);
   assert.match(html, /class="navbar navbar-default/);
   assert.match(html, /href="\/katalog\/" data-redirect-url="\/katalog\/"/);
@@ -877,7 +968,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(restoredHtml, /class="footer-heading-link" href="\/polzovatelskoe-soglashenie\/"><strong>Соглашения<\/strong><\/a>/);
   assert.match(restoredHtml, /ИНН 772008137237(?:<br\s*\/>|&nbsp;|\u00a0)ОГРНИП(?:\s|&nbsp;|\u00a0)325774600377441/);
   assert.match(restoredHtml, /class="footer-socials"/);
-  assert.match(normalizedHtml, /\/media\/optimized\/brand\/logo-256\.webp/);
+  assert.match(normalizedHtml, /\/media\/brand\/Logo wedfotobook\.png/);
   const normalizedRestoredHtml = normalizeMediaPaths(restoredHtml);
   assert.match(normalizedRestoredHtml, /\/media\/optimized\/social\/yandex-64\.webp/);
   assert.match(normalizedRestoredHtml, /\/media\/optimized\/social\/vk-64\.webp/);

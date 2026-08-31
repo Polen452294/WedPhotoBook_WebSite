@@ -1,0 +1,28 @@
+[
+  {
+    "source": "public/media/home/Fotokniga Premium wedfotobook ru.webp",
+    "width": 450,
+    "height": 300,
+    "match": {
+      "id": 22963,
+      "file": ".tmp/photo-remote-previews/22963.jpg",
+      "width": 900,
+      "height": 600,
+      "url": "https://wedfotobook.ru/wp-content/uploads/2026/08/061-1.jpg",
+      "mae": 3.0697337962962963
+    }
+  },
+  {
+    "source": "public/media/home/Fotokniga Standart wedfotobook ru.webp",
+    "width": 450,
+    "height": 300,
+    "match": {
+      "id": 22964,
+      "file": ".tmp/photo-remote-previews/22964.jpg",
+      "width": 900,
+      "height": 600,
+      "url": "https://wedfotobook.ru/wp-content/uploads/2026/08/062-1.jpg",
+      "mae": 2.7317708333333335
+    }
+  }
+]

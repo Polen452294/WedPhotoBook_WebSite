@@ -1,63 +1,10 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from "@/components/SiteImage";
 import { HomeGalleryCarousel } from "@/components/HomeGalleryCarousel";
 import { ReviewCarousel } from "@/components/ReviewCarousel";
-import { directMediaImageProps } from "@/lib/media-path";
+import { directMediaImageProps, optimizedMediaUrl } from "@/lib/media-path";
 import { contacts, getMediaGroup } from "@/lib/site-data";
 
 /* eslint-disable @next/next/no-html-link-for-pages -- plain anchors preserve the captured footer markup and remain fully functional */
-/* eslint-disable @next/next/no-img-element -- pre-generated srcsets are required because the Vinext VPS image endpoint is passthrough-only */
-
-const optimizedHomeImageStems: Record<string, string> = {
-  "/media/home/Obrabotka foto wedfotobook ru.webp": "/media/optimized/home/craft-processing",
-  "/media/home/Dizain fotoknigi wedfotobook ru.webp": "/media/optimized/home/craft-design",
-  "/media/home/soglasovanie-maketa-optimized.webp": "/media/optimized/home/craft-approval",
-  "/media/home/Print fotoknig wedfotobook ru.webp": "/media/optimized/home/craft-print",
-  "/media/home/Fotokniga Premium wedfotobook ru.webp": "/media/optimized/home/price-premium",
-  "/media/home/Fotokniga Standart wedfotobook ru.webp": "/media/optimized/home/price-standard",
-  "/media/home/Vipusk albom stoimost wedfotobook ru.webp": "/media/optimized/home/price-graduation",
-  "/media/home/Fotokniga alive photo stoimost wedfotobook ru.webp": "/media/optimized/home/price-alive",
-  "/media/covers/Svadba fotokniga wedfotobook ru.webp": "/media/optimized/covers/wedding",
-  "/media/covers/Dety fotokniga wedfotobook ru.webp": "/media/optimized/covers/children",
-  "/media/covers/Ubiley fotokniga wedfotobook ru.webp": "/media/optimized/covers/anniversary",
-  "/media/covers/Fotokniga puteshedtvij wedfotobook ru.webp": "/media/optimized/covers/travel",
-  "/media/covers/Vipusk albom wedfotobook ru.webp": "/media/optimized/covers/graduation",
-  "/media/covers/Fotokniga genealogia wedfotobook ru.webp": "/media/optimized/covers/genealogy",
-  "/media/covers/Fotokbiga drugaj wedfotobook ru.webp": "/media/optimized/covers/custom",
-  "/media/home/Fotokniga alive photo blok wedfotobook ru.webp": "/media/optimized/covers/alive",
-};
-
-function OptimizedHomeImage({
-  src,
-  alt,
-  width,
-  height,
-  widths,
-  sizes,
-}: {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  widths: readonly number[];
-  sizes: string;
-}) {
-  const stem = optimizedHomeImageStems[src];
-  const largestWidth = widths.at(-1)!;
-  return (
-    <img
-      src={`${stem}-${largestWidth}.webp`}
-      srcSet={widths.map((candidate) => `${stem}-${candidate}.webp ${candidate}w`).join(", ")}
-      sizes={sizes}
-      alt={alt}
-      width={width}
-      height={height}
-      loading="lazy"
-      decoding="async"
-    />
-  );
-}
-
 const craft = [
   {
     number: "01",
@@ -241,7 +188,7 @@ export function HomePricingSection({ items = homePricing }: { items?: readonly P
         <div className={`pricing-grid ${items.length === 3 ? "pricing-grid-three" : items.length === 1 ? "pricing-grid-one" : ""}`}>
           {items.map((item, index) => {
             const featured = index === 0 && items.length > 1;
-            return <article className={featured ? "price-card featured" : "price-card"} key={item.title}>{featured && <span className="price-badge">Чаще выбирают</span>}<OptimizedHomeImage src={item.image} alt={item.imageAlt} width={960} height={518} widths={[320, 560, 800]} sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px" /><div className="price-card-copy"><h3>{item.title}</h3><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature.replace(/^⋅\s*/, "")}</li>)}</ul><Link href={item.href}>Подробнее →</Link></div></article>;
+            return <article className={featured ? "price-card featured" : "price-card"} key={item.title}>{featured && <span className="price-badge">Чаще выбирают</span>}<Image src={item.image} alt={item.imageAlt} width={960} height={518} sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px" /><div className="price-card-copy"><h3>{item.title}</h3><strong>{item.price}</strong><ul>{item.features.map((feature) => <li key={feature}>{feature.replace(/^⋅\s*/, "")}</li>)}</ul><a href={item.href}>Подробнее →</a></div></article>;
           })}
         </div>
       </div>
@@ -274,7 +221,7 @@ export function OriginalHomeSections() {
           <div className="craft-list">
             {craft.map((item, index) => (
               <article className={`craft-item ${index % 2 ? "reverse" : ""}`} key={item.title}>
-                <div className="craft-image"><OptimizedHomeImage src={item.image} alt={`${item.title} при создании фотокниги на заказ`} width={996} height={561} widths={[460, 690, 900]} sizes={`(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, ${index % 2 ? 460 : 690}px`} /></div>
+                <div className="craft-image"><Image src={item.image} alt={`${item.title} при создании фотокниги на заказ`} width={996} height={561} sizes={`(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, ${index % 2 ? 460 : 690}px`} /></div>
                 <div className="craft-copy"><span className="craft-number">{item.number}</span><h3>{item.title}</h3><div className="craft-body">{item.text.map((text) => text.startsWith("⋅ ") ? <p className="craft-point" key={text}><span className="craft-check" aria-hidden="true">✓</span><span>{text.slice(2)}</span></p> : <p key={text}>{text}</p>)}</div></div>
               </article>
             ))}
@@ -295,10 +242,10 @@ export function OriginalHomeSections() {
           <div className="section-heading split-heading"><div><span className="eyebrow eyebrow-light">Каталог</span><h2>Какие фотокниги мы делаем? Любые!</h2></div><p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы найдём визуальный язык для любого события.</p></div>
           <div className="catalog-grid">
             {catalog.map(([slug, title, description, cover, coverAlt]) => (
-              <Link className="catalog-card" href={`/${slug}/`} key={slug}>
-                <OptimizedHomeImage src={cover} alt={coverAlt} width={500} height={500} widths={[320, 500]} sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 290px" />
-                <div><h3>{title} <small>{description}</small></h3></div>
-              </Link>
+              <a className="catalog-card" href={`/${slug}/`} key={slug}>
+                <Image src={cover} alt={coverAlt} width={500} height={500} sizes="(max-width: 767px) calc(50vw - 34px), (max-width: 1199px) 50vw, 290px" />
+                <div><h3>{title}</h3><small className="catalog-card-description">{description}</small></div>
+              </a>
             ))}
           </div>
           <div className="center-action"><button className="button button-light" data-order-open type="button">Хочу фотокнигу</button></div>
@@ -346,7 +293,7 @@ export function OriginalFooter() {
         <div className="footer-catalog"><p><a className="footer-heading-link" href="/katalog/"><strong>Каталог</strong></a><br /><a href="/wedding-fotoknig/">Свадебные фотокниги</a><br /><a href="/detskaya-fotokniga/">Детские фотокниги</a><br /><a href="/yubilejnaya-fotokniga/">Фотокниги на юбилей</a><br /><a href="/fotokniga-o-puteshestvii/">Фотокниги путешествий</a><br /><a href="/vypusknye-fotoknigi/">Выпускные альбомы</a><br /><a href="/genealogicheskaya-fotokniga/">Родословная фотокнига</a><br /><a href="/fotokniga-na-lyubuyu-temu/">Фотокниги на любую тему</a><br /><a href="/fotokniga-s-dopolnennoj-realnostyu/">Фотокниги с оживающими фото</a></p></div>
         <div className="footer-pricing"><p><a className="footer-heading-link" href="/stoimost/"><strong>Стоимость</strong></a><br /><a href="/fotokniga-premium/">Фотокниги Премиум</a><br /><a href="/fotokniga-standart/">Фотокниги Стандарт</a><br /><a href="/vypusknye-fotoknigi-stoimost/">Выпускные альбомы</a><br /><a href="/fotoknigi-s-dopolnennoj-realnostju-stoim/">Фотокниги с оживающими фото</a></p><p className="footer-subheading"><a className="footer-heading-link" href="/company/"><strong>Сервисы</strong></a></p><p className="footer-service-links"><a href="/company/">О компании</a><br /><a href="/otzyvy/">Отзывы о фотокнигах</a><br /><a href="/blog_fotoknigi/">Блог о фотокнигах</a><br /><a href="/kontakty/">Контакты</a></p></div>
         <div className="footer-agreements"><p><a className="footer-heading-link" href="/polzovatelskoe-soglashenie/"><strong>Соглашения</strong></a></p><p><a href="/polzovatelskoe-soglashenie/">Пользовательское соглашение</a><br /><a href="/privacy-policy/">Политика конфиденциальности</a><br /><a href="/soglashenie/">Согласие на обработку персональных данных</a></p><p><br />ИП Ардашева Елена Викторовна<br />ИНН 772008137237<br />ОГРНИП 325774600377441</p></div>
-        <div className="footer-contacts"><div className="footer-contact-card"><p>Телефон:&nbsp; <a href={contacts.phoneHref}>8 (985) 434-23-67</a></p><p>Почта: <a href={`mailto:${contacts.email}`}>{contacts.email}</a></p><p>Адрес: Москва, Свободный проспект, д. 33</p><p>Режим работы: с 9 до 21, без выходных</p><p className="footer-socials"><a href={contacts.yandex} target="_blank" rel="noopener noreferrer"><Image src="/media/optimized/social/yandex-64.webp" alt="Отзывы о WedFotoBook на Яндекс Услугах" width={40} height={40} sizes="40px" /></a><a href={contacts.vk} target="_blank" rel="noopener noreferrer"><Image src="/media/optimized/social/vk-64.webp" alt="Страница WedFotoBook во ВКонтакте" width={40} height={40} sizes="40px" /></a><a href={contacts.telegram} target="_blank" rel="noopener noreferrer"><Image src="/media/optimized/social/telegram-64.webp" alt="Написать в Telegram" width={40} height={40} sizes="40px" /></a><a href={contacts.whatsapp} target="_blank" rel="noopener noreferrer"><Image src="/media/optimized/social/whatsapp-64.webp" alt="Написать в WhatsApp" width={40} height={40} sizes="40px" /></a><a href={contacts.max} target="_blank" rel="noopener noreferrer"><Image src="/media/optimized/social/max-64.webp" alt="Написать в мессенджере MAX" width={40} height={40} sizes="40px" /></a></p></div></div>
+        <div className="footer-contacts"><div className="footer-contact-card"><p>Телефон:&nbsp; <a href={contacts.phoneHref}>8 (985) 434-23-67</a></p><p>Почта: <a href={`mailto:${contacts.email}`}>{contacts.email}</a></p><p>Адрес: Москва, Свободный проспект, д. 33</p><p>Режим работы: с 9 до 21, без выходных</p><p className="footer-socials"><a href={contacts.yandex} target="_blank" rel="noopener noreferrer"><Image src={optimizedMediaUrl("/media/optimized/social/yandex-64.webp")} alt="Отзывы о WedFotoBook на Яндекс Услугах" width={40} height={40} sizes="40px" /></a><a href={contacts.vk} target="_blank" rel="noopener noreferrer"><Image src={optimizedMediaUrl("/media/optimized/social/vk-64.webp")} alt="Страница WedFotoBook во ВКонтакте" width={40} height={40} sizes="40px" /></a><a href={contacts.telegram} target="_blank" rel="noopener noreferrer"><Image src={optimizedMediaUrl("/media/optimized/social/telegram-64.webp")} alt="Написать в Telegram" width={40} height={40} sizes="40px" /></a><a href={contacts.whatsapp} target="_blank" rel="noopener noreferrer"><Image src={optimizedMediaUrl("/media/optimized/social/whatsapp-64.webp")} alt="Написать в WhatsApp" width={40} height={40} sizes="40px" /></a><a href={contacts.max} target="_blank" rel="noopener noreferrer"><Image src={optimizedMediaUrl("/media/optimized/social/max-64.webp")} alt="Написать в мессенджере MAX" width={40} height={40} sizes="40px" /></a></p></div></div>
       </div>
     </footer>
   );

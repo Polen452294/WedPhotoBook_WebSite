@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+/* eslint-disable @next/next/no-html-link-for-pages -- a native legal link needs no router preload */
 import { useEffect, useId, useState } from "react";
 import { readCookieConsent, saveCookieConsent } from "@/lib/cookie-consent";
 
@@ -71,7 +71,7 @@ export function CookieNotice() {
                 </label>
                 <p className="cookie-details">
                   Поставщик аналитики — ООО «ЯНДЕКС». Сохранённый выбор можно удалить в настройках браузера. Подробнее — в{" "}
-                  <Link href="/politika-obrabotki-personalnyh-dannyh/">политике обработки персональных данных</Link>.
+                  <a href="/politika-obrabotki-personalnyh-dannyh/">политике обработки персональных данных</a>.
                 </p>
               </div>
             )}

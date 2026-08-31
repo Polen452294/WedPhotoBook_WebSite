@@ -1,4 +1,5 @@
 import { LegacyEnhancements } from "@/components/LegacyEnhancements";
+import { HOME_HERO_SIZES, HOME_HERO_SOURCE, isPhotoSource, optimizedMediaUrl, responsivePhotoProps } from "@/lib/media-path";
 import type { RenderedPage } from "@/lib/rendered-pages";
 
 /* eslint-disable @next/next/no-css-tags -- route-scoped static styles avoid loading the full WordPress bundle on every page */
@@ -51,7 +52,10 @@ function withHomepageImages(bodyHtml: string, slug: string): string {
   let localizedHtml = bodyHtml;
 
   const imageReplacements = [
-    ["/wp-content/uploads/2022/03/logotip-copy-optimized.png", "/media/optimized/brand/logo-256.webp"],
+    [
+      "/wp-content/uploads/2022/03/logotip-copy-optimized.png",
+      slug ? "/media/optimized/brand/logo-256.webp" : "/media/brand/Logo wedfotobook.png",
+    ],
     ["/wp-content/uploads/2021/04/icon6-optimized.png", "/media/optimized/social/yandex-64.webp"],
     ["/wp-content/uploads/2021/03/icos1-optimized.png", "/media/optimized/social/vk-64.webp"],
     ["/wp-content/uploads/2021/03/icos3-optimized.png", "/media/optimized/social/telegram-64.webp"],
@@ -62,55 +66,58 @@ function withHomepageImages(bodyHtml: string, slug: string): string {
   ] as const;
 
   for (const [source, replacement] of imageReplacements) {
-    localizedHtml = localizedHtml.replaceAll(source, replacement);
+    localizedHtml = localizedHtml.replaceAll(source, optimizedMediaUrl(replacement));
   }
 
   if (slug) return localizedHtml;
 
   return localizedHtml.replace(
     "/wp-content/uploads/2026/04/001-1-1-optimized.jpg",
-    "/media/optimized/home/hero-640.webp",
+    "/media/home/Fotokniga na zakaz wedfotobook ru.webp",
   );
 }
 
 function withResponsiveLegacyImages(bodyHtml: string, slug: string): string {
-  if (process.env.NODE_ENV === "development") return bodyHtml;
-
   const allowedWidths = [64, 128, 256, 384, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
 
   return bodyHtml.replace(/<img\b[^>]*>/gi, (tag) => {
     const src = /\bsrc=("|')([^"']+)\1/i.exec(tag)?.[2];
+    if (src && isPhotoSource(src)) {
+      const photo = responsivePhotoProps(src, !slug && src === HOME_HERO_SOURCE ? HOME_HERO_SIZES : "100vw");
+      const responsive = photo.srcSet ? ` srcset="${photo.srcSet.replaceAll("&", "&amp;")}" sizes="${photo.sizes}"` : "";
+      return tag
+        .replace(/\bsrc=("|')([^"']+)\1/i, `src="${photo.src.replaceAll("&", "&amp;")}"`)
+        .replace(/\s+(?:srcset|sizes)=("|')[^"']*\1/gi, "")
+        .replace(/\s*\/?>(?=$)/, `${responsive} />`);
+    }
+    if (process.env.NODE_ENV === "development") return tag;
+
     const width = Number(/\bwidth=("|')(\d+)\1/i.exec(tag)?.[2]);
     if (!src?.startsWith("/") || !Number.isFinite(width) || /\bsrcset=/i.test(tag) || /\.(?:gif|svg)(?:\?|$)/i.test(src)) {
       return tag;
     }
 
+    // Serve the small, lossless homepage logo at its full source resolution.
+    if (!slug && src.split("?", 1)[0] === "/media/brand/Logo wedfotobook.png") return tag;
+
     const widths = allowedWidths.filter((candidate) => candidate <= Math.max(width, 64));
     if (!widths.length) return tag;
     const isLogo = src.includes("/brand/");
     const isSocialIcon = src.includes("/social/");
-    const isHomepageHero = !slug && src === "/media/optimized/home/hero-640.webp";
-    const quality = isHomepageHero ? 72 : 75;
-    const srcset = isHomepageHero
-      ? [384, 640, 828, 1080]
-        .map((candidate) => `/media/optimized/home/hero-${candidate}.webp ${candidate}w`)
-        .join(", ")
-      : widths
-        .map((candidate) => `/_vinext/image?url=${encodeURIComponent(src)}&amp;w=${candidate}&amp;q=${quality} ${candidate}w`)
-        .join(", ");
+    const srcset = widths
+      .map((candidate) => `/_vinext/image?url=${encodeURIComponent(src)}&amp;w=${candidate}&amp;q=75 ${candidate}w`)
+      .join(", ");
     const sizes = isLogo
       ? "150px"
       : isSocialIcon
         ? "40px"
-        : isHomepageHero
-          ? "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 560px"
-          : "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px";
+        : "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px";
     return tag.replace(/\s*\/?>(?=$)/, ` srcset="${srcset}" sizes="${sizes}" />`);
   });
 }
 
 function withLogoDimensions(bodyHtml: string): string {
-  return bodyHtml.replace(/<img\b[^>]*\bsrc=("|')\/media\/(?:brand\/Logo wedfotobook\.png|optimized\/brand\/logo-256\.webp)\1[^>]*>/gi, (tag) => {
+  return bodyHtml.replace(/<img\b[^>]*\bsrc=("|')\/media\/(?:brand\/Logo wedfotobook\.png|optimized\/brand\/logo-256\.webp)(?:\?v=\d+)?\1[^>]*>/gi, (tag) => {
     if (/\bwidth=/i.test(tag) && /\bheight=/i.test(tag)) return tag;
     return tag.replace("<img", '<img width="962" height="198" decoding="async"');
   });
@@ -280,6 +287,19 @@ function withSeoHeadingHierarchy(bodyHtml: string, slug: string): string {
       const text = headingText(innerHtml);
       if (!text) return `<div${attributes} data-heading-spacer aria-hidden="true"></div>`;
 
+      if (WHITE_LEGAL_PAGES.has(slug)) {
+        const isOperatorDetailsLabel = (level === "2" || level === "3")
+          && text === "11. РЕКВИЗИТЫ ОПЕРАТОРА (ОПЕРАТОРА ПЕРСОНАЛЬНЫХ ДАННЫХ)";
+        const isThirdPartyListSubtitle = level === "3" && (
+          text === "персональных данных, передаваемых третьим лицам Оператором"
+          || text === "на основании пункта 8.1 Политики обработки и защиты персональных данных"
+        );
+
+        if (isOperatorDetailsLabel || isThirdPartyListSubtitle) {
+          return `<p${attributes}>${innerHtml}</p>`;
+        }
+      }
+
       if (WHITE_LEGAL_PAGES.has(slug) && level === "3") {
         if (/^Настоящий перечень содержит сведения/i.test(text)) {
           return `<p${attributes}>${innerHtml}</p>`;
@@ -371,15 +391,17 @@ export function LegacyPage({ page }: { page: RenderedPage }) {
   const bodyHtml = withAccessibleLegacyControls(normalizedBodyHtml);
   const legalPageClass = WHITE_LEGAL_PAGES.has(page.slug) ? " legal-white-page" : "";
   const isHomepage = !page.slug;
+  const hero = responsivePhotoProps(HOME_HERO_SOURCE, HOME_HERO_SIZES);
   return (
     <>
+      {isHomepage && <link rel="preload" as="image" href={hero.src} imageSrcSet={hero.srcSet} imageSizes={hero.sizes} fetchPriority="high" />}
       <link
         rel="stylesheet"
-        href={isHomepage ? "/wp-assets/home-optimized.css?v=1" : "/wp-assets/wordpress.css?v=11"}
+        href={isHomepage ? "/wp-assets/home-optimized.css?v=5" : "/wp-assets/wordpress.css?v=12"}
         precedence="wordpress"
       />
       {!isHomepage && <link rel="stylesheet" href="/wp-assets/home-original-fix.css?v=51" precedence="wordpress-overrides" />}
-      {!isHomepage && <link rel="stylesheet" href="/wp-assets/first-version-home.css?v=80" precedence="site-design" />}
+      {!isHomepage && <link rel="stylesheet" href="/wp-assets/first-version-home.css?v=82" precedence="site-design" />}
       <LegacyEnhancements bodyClass={page.bodyClass} />
       <div className={`legacy-wordpress ${page.bodyClass}${legalPageClass}`} dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </>

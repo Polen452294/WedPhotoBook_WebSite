@@ -3053,8 +3053,7 @@
   font-size: 1.7rem;
 }
 
-.restored-first-version .catalog-card h3 small,
-.restored-first-version .catalog-page .catalog-card h2 small {
+.restored-first-version .catalog-card-description {
   display: block;
   margin-top: 11px;
   color: #d9e0e5;
@@ -3104,10 +3103,8 @@
 
 .restored-first-version .catalog-card:hover p,
 .restored-first-version .catalog-card:focus-visible p,
-.restored-first-version .catalog-card:hover h3 small,
-.restored-first-version .catalog-card:focus-visible h3 small,
-.restored-first-version .catalog-page .catalog-card:hover h2 small,
-.restored-first-version .catalog-page .catalog-card:focus-visible h2 small {
+.restored-first-version .catalog-card:hover .catalog-card-description,
+.restored-first-version .catalog-card:focus-visible .catalog-card-description {
   opacity: 1;
   transform: translateY(0);
 }
@@ -3863,8 +3860,7 @@
   }
 
   .restored-first-version .catalog-card p,
-  .restored-first-version .catalog-card h3 small,
-  .restored-first-version .catalog-page .catalog-card h2 small {
+  .restored-first-version .catalog-card-description {
     opacity: 1;
     transform: translateY(0);
   }
@@ -3984,7 +3980,7 @@
     line-height: 1.08;
   }
 
-  .restored-first-version .original-home-sections .catalog-card h3 small {
+  .restored-first-version .original-home-sections .catalog-card-description {
     display: -webkit-box;
     margin-top: 8px;
     overflow: hidden;
@@ -5040,5 +5036,16 @@
     align-items: flex-start;
     flex-direction: column;
     gap: 8px;
+  }
+}
+
+/* Let long step descriptions wrap inside narrow phone columns. */
+@media (max-width: 560px) {
+  .restored-first-version .steps-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .restored-first-version .steps-grid > li {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 }

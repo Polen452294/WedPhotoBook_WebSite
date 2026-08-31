@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import { articles } from "@/lib/articles";
 
 export function BlogPage() {

@@ -55,7 +55,7 @@
   font-weight: 400;
   font-stretch: normal;
   font-display: swap;
-  src: url("/wp-assets/external/bd757f1ad06c84be47a2d34d6cf8c292de0e1185.ttf") format('truetype');
+  src: url("/wp-assets/external/bd757f1ad06c84be47a2d34d6cf8c292de0e1185.woff2")format("woff2");
 }
 @font-face {
   font-family: 'Open Sans';
@@ -63,7 +63,7 @@
   font-weight: 500;
   font-stretch: normal;
   font-display: swap;
-  src: url("/wp-assets/external/b01c3619d0e5c1d8d1f4744ce7d288181a40a86b.ttf") format('truetype');
+  src: url("/wp-assets/external/b01c3619d0e5c1d8d1f4744ce7d288181a40a86b.woff2")format("woff2");
 }
 @font-face {
   font-family: 'Open Sans';
@@ -71,7 +71,7 @@
   font-weight: 600;
   font-stretch: normal;
   font-display: swap;
-  src: url("/wp-assets/external/1af2a61f0a1d75ce73e36e6c387dd27f6b09bfa0.ttf") format('truetype');
+  src: url("/wp-assets/external/1af2a61f0a1d75ce73e36e6c387dd27f6b09bfa0.woff2")format("woff2");
 }
 @font-face {
   font-family: 'Open Sans';
@@ -79,7 +79,7 @@
   font-weight: 700;
   font-stretch: normal;
   font-display: swap;
-  src: url("/wp-assets/external/38cd786c2a409251d1efc9eca27b2335faebeaf5.ttf") format('truetype');
+  src: url("/wp-assets/external/38cd786c2a409251d1efc9eca27b2335faebeaf5.woff2")format("woff2");
 }
 @font-face {
   font-family: 'Open Sans';
@@ -87,7 +87,7 @@
   font-weight: 800;
   font-stretch: normal;
   font-display: swap;
-  src: url("/wp-assets/external/8c6653612678d062e443031fc4db29c22d1e3466.ttf") format('truetype');
+  src: url("/wp-assets/external/8c6653612678d062e443031fc4db29c22d1e3466.woff2")format("woff2");
 }
 @font-face {
   font-family: 'Oswald';
@@ -291,7 +291,7 @@ html,body{height:100%}.menu-wrap a{color:#b8b7ad}.menu-wrap a:hover,.menu-wrap a
   font-weight: 400;
   font-stretch: normal;
   font-display: swap;
-  src: url("/wp-assets/external/bd757f1ad06c84be47a2d34d6cf8c292de0e1185.ttf") format('truetype');
+  src: url("/wp-assets/external/bd757f1ad06c84be47a2d34d6cf8c292de0e1185.woff2")format("woff2");
 }
 @font-face {
   font-family: 'Open Sans';
@@ -299,7 +299,7 @@ html,body{height:100%}.menu-wrap a{color:#b8b7ad}.menu-wrap a:hover,.menu-wrap a
   font-weight: 500;
   font-stretch: normal;
   font-display: swap;
-  src: url("/wp-assets/external/b01c3619d0e5c1d8d1f4744ce7d288181a40a86b.ttf") format('truetype');
+  src: url("/wp-assets/external/b01c3619d0e5c1d8d1f4744ce7d288181a40a86b.woff2")format("woff2");
 }
 @font-face {
   font-family: 'Open Sans';
@@ -307,7 +307,7 @@ html,body{height:100%}.menu-wrap a{color:#b8b7ad}.menu-wrap a:hover,.menu-wrap a
   font-weight: 600;
   font-stretch: normal;
   font-display: swap;
-  src: url("/wp-assets/external/1af2a61f0a1d75ce73e36e6c387dd27f6b09bfa0.ttf") format('truetype');
+  src: url("/wp-assets/external/1af2a61f0a1d75ce73e36e6c387dd27f6b09bfa0.woff2")format("woff2");
 }
 @font-face {
   font-family: 'Open Sans';
@@ -315,7 +315,7 @@ html,body{height:100%}.menu-wrap a{color:#b8b7ad}.menu-wrap a:hover,.menu-wrap a
   font-weight: 700;
   font-stretch: normal;
   font-display: swap;
-  src: url("/wp-assets/external/38cd786c2a409251d1efc9eca27b2335faebeaf5.ttf") format('truetype');
+  src: url("/wp-assets/external/38cd786c2a409251d1efc9eca27b2335faebeaf5.woff2")format("woff2");
 }
 @font-face {
   font-family: 'Open Sans';
@@ -323,7 +323,7 @@ html,body{height:100%}.menu-wrap a{color:#b8b7ad}.menu-wrap a:hover,.menu-wrap a
   font-weight: 800;
   font-stretch: normal;
   font-display: swap;
-  src: url("/wp-assets/external/8c6653612678d062e443031fc4db29c22d1e3466.ttf") format('truetype');
+  src: url("/wp-assets/external/8c6653612678d062e443031fc4db29c22d1e3466.woff2")format("woff2");
 }
 @font-face {
   font-family: 'Oswald';

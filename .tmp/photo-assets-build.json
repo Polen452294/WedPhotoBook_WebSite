@@ -1,0 +1,138 @@
+{
+  "baseUrl": "http://localhost/",
+  "pages": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/otzyvy/",
+      "status": 200
+    },
+    {
+      "path": "/katalog/",
+      "status": 200
+    },
+    {
+      "path": "/kontakty/",
+      "status": 200
+    },
+    {
+      "path": "/stoimost/",
+      "status": 200
+    },
+    {
+      "path": "/fotokniga-premium/",
+      "status": 200
+    },
+    {
+      "path": "/fotokniga-standart/",
+      "status": 200
+    },
+    {
+      "path": "/vypusknye-fotoknigi-stoimost/",
+      "status": 200
+    },
+    {
+      "path": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+      "status": 200
+    },
+    {
+      "path": "/wedding-fotoknig/",
+      "status": 200
+    },
+    {
+      "path": "/detskaya-fotokniga/",
+      "status": 200
+    },
+    {
+      "path": "/yubilejnaya-fotokniga/",
+      "status": 200
+    },
+    {
+      "path": "/fotokniga-o-puteshestvii/",
+      "status": 200
+    },
+    {
+      "path": "/vypusknye-fotoknigi/",
+      "status": 200
+    },
+    {
+      "path": "/fotokniga-na-lyubuyu-temu/",
+      "status": 200
+    },
+    {
+      "path": "/fotokniga-s-dopolnennoj-realnostyu/",
+      "status": 200
+    },
+    {
+      "path": "/genealogicheskaya-fotokniga/",
+      "status": 200
+    },
+    {
+      "path": "/article-genealogy/",
+      "status": 200
+    },
+    {
+      "path": "/article-vipysk/",
+      "status": 200
+    },
+    {
+      "path": "/article-travell/",
+      "status": 200
+    },
+    {
+      "path": "/article-alivefoto/",
+      "status": 200
+    },
+    {
+      "path": "/article-otziv/",
+      "status": 200
+    },
+    {
+      "path": "/soglashenie/",
+      "status": 200
+    },
+    {
+      "path": "/politika-obrabotki-personalnyh-dannyh/",
+      "status": 200
+    },
+    {
+      "path": "/polzovatelskoe-soglashenie/",
+      "status": 200
+    },
+    {
+      "path": "/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/",
+      "status": 200
+    },
+    {
+      "path": "/blog_fotoknigi/",
+      "status": 200
+    },
+    {
+      "path": "/company/",
+      "status": 200
+    },
+    {
+      "path": "/article-wedding/",
+      "status": 200
+    },
+    {
+      "path": "/article-children/",
+      "status": 200
+    },
+    {
+      "path": "/article-anniversary/",
+      "status": 200
+    }
+  ],
+  "assets": 759,
+  "images": 686,
+  "unusedLegacyCssAssets": [
+    "/wp-content/themes/h-code/assets/css/owl.video.play.png",
+    "/wp-content/themes/h-code/assets/css/mCSB_buttons.png",
+    "/wp-content/themes/h-code/assets/images/buy-theme.png",
+    "/wp-content/themes/h-code/assets/images/quick-question.png"
+  ],
+  "failures": []
+}

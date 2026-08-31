@@ -14,6 +14,7 @@ fi
 
 # The generated Sites config serves assets automatically, but the VPS image
 # optimizer also needs an explicit service binding for source files.
+node scripts/check-public-assets.mjs
 node scripts/prepare-vps-runtime.mjs dist/server/wrangler.json
 
 # Wrangler reads local Worker bindings from the config directory. Keep this

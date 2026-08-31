@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import { HomePricingSection, HomeSevenDaysSection, HomeTrustSection, homePricing, homeSteps } from "@/components/OriginalHomeSections";
 import { catalogItems } from "@/lib/site-data";
 import type { RenderedPage } from "@/lib/rendered-pages";

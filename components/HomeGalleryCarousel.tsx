@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/SiteImage";
 import { useState } from "react";
 
 const galleryCategories = [
@@ -76,15 +76,15 @@ export function HomeGalleryCarousel() {
           style={{ transform: `translate3d(-${selected * 100}%, 0, 0)` }}
         >
           {galleryImages.map((image, index) => (
-            <figure className="home-gallery-carousel-frame" aria-hidden={index !== selected} key={image.src}>
-              <Image
+            <figure className="home-gallery-carousel-frame" style={{ aspectRatio: "1000 / 497" }} aria-hidden={index !== selected} key={image.src}>
+              {Math.abs(index - selected) <= 1 && <Image
                 src={image.src}
                 alt={image.alt}
                 width={1000}
                 height={497}
                 sizes="(max-width: 1048px) calc(100vw - 48px), 1000px"
                 loading="lazy"
-              />
+              />}
             </figure>
           ))}
         </div>

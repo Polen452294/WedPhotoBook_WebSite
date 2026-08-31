@@ -1,0 +1,7303 @@
+[
+  {
+    "src": "/media/brand/Logo wedfotobook.png",
+    "uses": [
+      {
+        "route": "/",
+        "width": "962",
+        "height": "198"
+      },
+      {
+        "route": "/",
+        "width": "962",
+        "height": "198"
+      },
+      {
+        "route": "/",
+        "width": "962",
+        "height": "198"
+      },
+      {
+        "route": "/",
+        "width": "962",
+        "height": "198"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/brand/Logo wedfotobook.png",
+      "width": 962,
+      "height": 198,
+      "bytes": 19092
+    }
+  },
+  {
+    "src": "/media/optimized/home/hero-640.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1106",
+        "height": "780",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 560px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/home/hero-640.webp",
+      "width": 640,
+      "height": 454,
+      "bytes": 37994
+    }
+  },
+  {
+    "src": "/media/optimized/social/telegram-64.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/katalog/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/kontakty/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/stoimost/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-premium/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-standart/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-genealogy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-vipysk/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-travell/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-alivefoto/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-otziv/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/company/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-wedding/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-children/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-anniversary/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/social/telegram-64.webp",
+      "width": 64,
+      "height": 62,
+      "bytes": 1706
+    }
+  },
+  {
+    "src": "/media/optimized/social/whatsapp-64.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/katalog/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/kontakty/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/stoimost/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-premium/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-standart/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-genealogy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-vipysk/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-travell/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-alivefoto/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-otziv/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/company/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-wedding/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-children/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-anniversary/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/social/whatsapp-64.webp",
+      "width": 64,
+      "height": 62,
+      "bytes": 2006
+    }
+  },
+  {
+    "src": "/media/optimized/social/max-64.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/katalog/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/kontakty/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/stoimost/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-premium/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-standart/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-genealogy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-vipysk/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-travell/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-alivefoto/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-otziv/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/company/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-wedding/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-children/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-anniversary/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/social/max-64.webp",
+      "width": 64,
+      "height": 62,
+      "bytes": 1808
+    }
+  },
+  {
+    "src": "/media/optimized/home/craft-processing-900.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "996",
+        "height": "561",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 690px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/home/craft-processing-900.webp",
+      "width": 900,
+      "height": 600,
+      "bytes": 46848
+    }
+  },
+  {
+    "src": "/media/optimized/home/craft-design-900.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "996",
+        "height": "561",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 460px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/home/craft-design-900.webp",
+      "width": 900,
+      "height": 600,
+      "bytes": 62658
+    }
+  },
+  {
+    "src": "/media/optimized/home/craft-approval-900.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "996",
+        "height": "561",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 690px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/home/craft-approval-900.webp",
+      "width": 900,
+      "height": 600,
+      "bytes": 38910
+    }
+  },
+  {
+    "src": "/media/optimized/home/craft-print-900.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "996",
+        "height": "561",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 460px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/home/craft-print-900.webp",
+      "width": 900,
+      "height": 600,
+      "bytes": 24986
+    }
+  },
+  {
+    "src": "/media/optimized/covers/wedding-500.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "500",
+        "height": "500",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 290px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/covers/wedding-500.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 19666
+    }
+  },
+  {
+    "src": "/media/optimized/covers/children-500.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "500",
+        "height": "500",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 290px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/covers/children-500.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 18266
+    }
+  },
+  {
+    "src": "/media/optimized/covers/anniversary-500.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "500",
+        "height": "500",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 290px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/covers/anniversary-500.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 24252
+    }
+  },
+  {
+    "src": "/media/optimized/covers/travel-500.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "500",
+        "height": "500",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 290px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/covers/travel-500.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 25702
+    }
+  },
+  {
+    "src": "/media/optimized/covers/graduation-500.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "500",
+        "height": "500",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 290px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/covers/graduation-500.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 17762
+    }
+  },
+  {
+    "src": "/media/optimized/covers/genealogy-500.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "500",
+        "height": "500",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 290px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/covers/genealogy-500.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 23698
+    }
+  },
+  {
+    "src": "/media/optimized/covers/custom-500.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "500",
+        "height": "500",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 290px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/covers/custom-500.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 26210
+    }
+  },
+  {
+    "src": "/media/optimized/covers/alive-500.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "500",
+        "height": "500",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 290px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/covers/alive-500.webp",
+      "width": 500,
+      "height": 334,
+      "bytes": 20364
+    }
+  },
+  {
+    "src": "/media/benefits/Dizain bez shablonov.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/benefits/Dizain bez shablonov.webp",
+      "width": 118,
+      "height": 122,
+      "bytes": 4268
+    }
+  },
+  {
+    "src": "/media/benefits/Proboval sam.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/benefits/Proboval sam.webp",
+      "width": 118,
+      "height": 122,
+      "bytes": 5878
+    }
+  },
+  {
+    "src": "/media/benefits/A vdryg ne ponpavica.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/benefits/A vdryg ne ponpavica.webp",
+      "width": 118,
+      "height": 122,
+      "bytes": 5902
+    }
+  },
+  {
+    "src": "/media/benefits/Pezultat%20100%25.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      }
+    ]
+  },
+  {
+    "src": "/media/benefits/Bez ploxix foto.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/benefits/Bez ploxix foto.webp",
+      "width": 118,
+      "height": 122,
+      "bytes": 2566
+    }
+  },
+  {
+    "src": "/media/benefits/Pabota onlain.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/benefits/Pabota onlain.webp",
+      "width": 118,
+      "height": 122,
+      "bytes": 6018
+    }
+  },
+  {
+    "src": "/media/benefits/Fotokniga za 7 day.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/benefits/Fotokniga za 7 day.webp",
+      "width": 118,
+      "height": 122,
+      "bytes": 3728
+    }
+  },
+  {
+    "src": "/media/benefits/Texnology pechaty.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "118",
+        "height": "122"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "118",
+        "height": "122"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/benefits/Texnology pechaty.webp",
+      "width": 118,
+      "height": 122,
+      "bytes": 3234
+    }
+  },
+  {
+    "src": "/media/home-gallery/01_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/01_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 66088
+    }
+  },
+  {
+    "src": "/media/home-gallery/02_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/02_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 137572
+    }
+  },
+  {
+    "src": "/media/home-gallery/03_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/03_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 128740
+    }
+  },
+  {
+    "src": "/media/home-gallery/04_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/04_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 159260
+    }
+  },
+  {
+    "src": "/media/home-gallery/05_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/05_Ubiley_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 157972
+    }
+  },
+  {
+    "src": "/media/home-gallery/06_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/06_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 58386
+    }
+  },
+  {
+    "src": "/media/home-gallery/07_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/07_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 107670
+    }
+  },
+  {
+    "src": "/media/home-gallery/08_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/08_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 137264
+    }
+  },
+  {
+    "src": "/media/home-gallery/09_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/09_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 127544
+    }
+  },
+  {
+    "src": "/media/home-gallery/10_Dety_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/10_Dety_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 50716
+    }
+  },
+  {
+    "src": "/media/home-gallery/11_Dety_fotokniga_wedfotobok_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/11_Dety_fotokniga_wedfotobok_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 125004
+    }
+  },
+  {
+    "src": "/media/home-gallery/12_Dety_fotokniga_wedfotobok_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/12_Dety_fotokniga_wedfotobok_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 114162
+    }
+  },
+  {
+    "src": "/media/home-gallery/13_Dety_fotokniga_wedfotobok_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/13_Dety_fotokniga_wedfotobok_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 149406
+    }
+  },
+  {
+    "src": "/media/home-gallery/14_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/14_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 67890
+    }
+  },
+  {
+    "src": "/media/home-gallery/15_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/15_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 156164
+    }
+  },
+  {
+    "src": "/media/home-gallery/16_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/16_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 144846
+    }
+  },
+  {
+    "src": "/media/home-gallery/17_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/17_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 114896
+    }
+  },
+  {
+    "src": "/media/home-gallery/18_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/18_Fotokniga_puteshedtvij_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 130948
+    }
+  },
+  {
+    "src": "/media/home-gallery/19_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/19_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 109382
+    }
+  },
+  {
+    "src": "/media/home-gallery/20_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/20_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 131710
+    }
+  },
+  {
+    "src": "/media/home-gallery/21_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/21_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 166836
+    }
+  },
+  {
+    "src": "/media/home-gallery/22_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/22_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 145478
+    }
+  },
+  {
+    "src": "/media/home-gallery/23_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/23_Svadba_fotokniga_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 149862
+    }
+  },
+  {
+    "src": "/media/home-gallery/24_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/24_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 84260
+    }
+  },
+  {
+    "src": "/media/home-gallery/25_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/25_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 144048
+    }
+  },
+  {
+    "src": "/media/home-gallery/26_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/26_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 141096
+    }
+  },
+  {
+    "src": "/media/home-gallery/27_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/27_Fotokniga_genealogia_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 143912
+    }
+  },
+  {
+    "src": "/media/home-gallery/28_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/28_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 57888
+    }
+  },
+  {
+    "src": "/media/home-gallery/29_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/29_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 157266
+    }
+  },
+  {
+    "src": "/media/home-gallery/30_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/30_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 170844
+    }
+  },
+  {
+    "src": "/media/home-gallery/31_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/31_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 67736
+    }
+  },
+  {
+    "src": "/media/home-gallery/32_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/32_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 140232
+    }
+  },
+  {
+    "src": "/media/home-gallery/33_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/33_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 144352
+    }
+  },
+  {
+    "src": "/media/home-gallery/34_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "1000",
+        "height": "497",
+        "sizes": "(max-width: 1048px) calc(100vw - 48px), 1000px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home-gallery/34_Fotokbiga_zakaz_wedfotobook_ru-converted.webp",
+      "width": 1000,
+      "height": 497,
+      "bytes": 129668
+    }
+  },
+  {
+    "src": "/media/optimized/home/price-premium-800.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/home/price-premium-800.webp",
+      "width": 800,
+      "height": 534,
+      "bytes": 21022
+    }
+  },
+  {
+    "src": "/media/optimized/home/price-standard-800.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/home/price-standard-800.webp",
+      "width": 800,
+      "height": 534,
+      "bytes": 20736
+    }
+  },
+  {
+    "src": "/media/optimized/home/price-graduation-800.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/home/price-graduation-800.webp",
+      "width": 800,
+      "height": 534,
+      "bytes": 25476
+    }
+  },
+  {
+    "src": "/media/optimized/home/price-alive-800.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) 50vw, 560px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/home/price-alive-800.webp",
+      "width": 800,
+      "height": 534,
+      "bytes": 30116
+    }
+  },
+  {
+    "src": "/media/steps/Prishlite foto.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/steps/Prishlite foto.webp",
+      "width": 41,
+      "height": 39,
+      "bytes": 726
+    }
+  },
+  {
+    "src": "/media/steps/Tree pasvorota.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/steps/Tree pasvorota.webp",
+      "width": 41,
+      "height": 39,
+      "bytes": 534
+    }
+  },
+  {
+    "src": "/media/steps/Oplata.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/steps/Oplata.webp",
+      "width": 41,
+      "height": 39,
+      "bytes": 532
+    }
+  },
+  {
+    "src": "/media/steps/Soglacovanie.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/steps/Soglacovanie.webp",
+      "width": 41,
+      "height": 39,
+      "bytes": 660
+    }
+  },
+  {
+    "src": "/media/steps/Print.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/steps/Print.webp",
+      "width": 41,
+      "height": 39,
+      "bytes": 654
+    }
+  },
+  {
+    "src": "/media/steps/Fotokniga gotova.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "41",
+        "height": "39"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "41",
+        "height": "39"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/steps/Fotokniga gotova.webp",
+      "width": 41,
+      "height": 39,
+      "bytes": 528
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 01 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "960",
+        "height": "518",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 01 wedfotobook.webp",
+      "width": 960,
+      "height": 518,
+      "bytes": 53196
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 02 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 02 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 59164
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 03 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 03 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 43150
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 04 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 04 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 45344
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 05 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 05 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 56030
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 06 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "996",
+        "height": "561",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 06 wedfotobook.webp",
+      "width": 996,
+      "height": 561,
+      "bytes": 58148
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 07 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 07 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 54102
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 08 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 08 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 50248
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 09 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 09 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 40362
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 10 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 10 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 53500
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 11 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 11 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 43574
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 12 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 12 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 53838
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 13 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 13 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 62704
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 14 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 14 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 44200
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 15 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 15 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 44866
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 16 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 16 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 46370
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 17 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 17 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 39008
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 18 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 18 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 35942
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 19 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 19 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 46138
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 20 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 20 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 52068
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 21 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 21 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 54278
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 22 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 22 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 53942
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 23 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 23 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 41144
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 24 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 24 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 42018
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 25 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 25 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 42240
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 26 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 26 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 46866
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 27 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 27 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 46850
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 28 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 28 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 46852
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 29 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 29 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 47642
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 30 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 30 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 50156
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 31 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 31 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 54308
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 32 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 32 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 41938
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 33 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 33 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 31998
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 34 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 34 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 36974
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 35 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 35 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 51512
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 36 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "989",
+        "height": "545",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 36 wedfotobook.webp",
+      "width": 989,
+      "height": 545,
+      "bytes": 39516
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 37 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 37 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 32596
+    }
+  },
+  {
+    "src": "/media/reviews-selected/Otziv o fotoknige 38 wedfotobook.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "959",
+        "height": "564",
+        "sizes": "(max-width: 767px) calc(100vw - 48px), 760px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/reviews-selected/Otziv o fotoknige 38 wedfotobook.webp",
+      "width": 959,
+      "height": 564,
+      "bytes": 40682
+    }
+  },
+  {
+    "src": "/media/optimized/social/yandex-64.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/katalog/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/kontakty/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/stoimost/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-premium/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-standart/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-genealogy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-vipysk/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-travell/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-alivefoto/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-otziv/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/company/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-wedding/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-children/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-anniversary/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/social/yandex-64.webp",
+      "width": 64,
+      "height": 62,
+      "bytes": 1842
+    }
+  },
+  {
+    "src": "/media/optimized/social/vk-64.webp",
+    "uses": [
+      {
+        "route": "/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/katalog/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/kontakty/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/stoimost/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-premium/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-standart/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-genealogy/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-vipysk/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-travell/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-alivefoto/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-otziv/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/company/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-wedding/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-children/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      },
+      {
+        "route": "/article-anniversary/",
+        "width": "40",
+        "height": "40",
+        "sizes": "40px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/social/vk-64.webp",
+      "width": 64,
+      "height": 62,
+      "bytes": 1870
+    }
+  },
+  {
+    "src": "/media/optimized/brand/logo-256.webp",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/otzyvy/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/katalog/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/katalog/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/katalog/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/katalog/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/kontakty/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/kontakty/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/kontakty/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/kontakty/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/stoimost/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/stoimost/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/stoimost/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/stoimost/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-premium/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-premium/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-premium/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-premium/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-standart/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-standart/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-standart/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-standart/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-genealogy/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-genealogy/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-genealogy/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-genealogy/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-vipysk/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-vipysk/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-vipysk/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-vipysk/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-travell/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-travell/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-travell/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-travell/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-alivefoto/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-alivefoto/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-alivefoto/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-alivefoto/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-otziv/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-otziv/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-otziv/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-otziv/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/soglashenie/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/politika-obrabotki-personalnyh-dannyh/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/polzovatelskoe-soglashenie/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/statya-6-fotoknigi-na-zakaz-wedfotobook-ru/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/company/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/company/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/company/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/company/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-wedding/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-wedding/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-wedding/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-wedding/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-children/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-children/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-children/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-children/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-anniversary/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-anniversary/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-anniversary/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      },
+      {
+        "route": "/article-anniversary/",
+        "width": "962",
+        "height": "198",
+        "sizes": "150px"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/optimized/brand/logo-256.webp",
+      "width": 256,
+      "height": 52,
+      "bytes": 5910
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-001/292704464-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-001/292704464-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 54449
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-002/654079150-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-002/654079150-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 85034
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/04/otziv-003/2203778073-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/04/otziv-003/2203778073-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 44659
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-004/1239432274-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-004/1239432274-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 65938
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-005/481286813-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-005/481286813-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 72195
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-006/723648227-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-006/723648227-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 66089
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-007/4160330907-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-007/4160330907-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 58302
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-008/2547559850-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-008/2547559850-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 54577
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-009/180962378-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-009/180962378-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 50433
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-010/3153881279-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-010/3153881279-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 65822
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-011/1332769212-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-011/1332769212-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 57322
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-012/2029934018-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-012/2029934018-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 63720
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-013/2753968058-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-013/2753968058-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 70999
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-014/400694590-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-014/400694590-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 59453
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-015/1118698481-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-015/1118698481-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 59745
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-016/1965285263-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-016/1965285263-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 64278
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-017/2851847671-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-017/2851847671-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 55590
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-018/3386543302-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-018/3386543302-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 49822
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-019/1422615846-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-019/1422615846-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 62396
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-020/3406324053-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-020/3406324053-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 69673
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-021/4177175459-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-021/4177175459-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 69978
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-022/3480520669-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-022/3480520669-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 70852
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-023/330098085-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-023/330098085-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 57593
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-024/2691223329-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-024/2691223329-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 58900
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-025/4112984558-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-025/4112984558-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 60232
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-026/3265858960-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-026/3265858960-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 63488
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-027/510750696-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-027/510750696-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 60794
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-028/2119196377-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-028/2119196377-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 62758
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-029/3812734777-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-029/3812734777-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 63784
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-030/1383373772-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-030/1383373772-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 54918
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-031/1483558962-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-031/1483558962-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 55071
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-032/1877177420-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-032/1877177420-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 46120
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-033/3006993972-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-033/3006993972-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 41789
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-034/16727216-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-034/16727216-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 44029
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-035/1437653631-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-035/1437653631-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 55868
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-036/1648295425-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-036/1648295425-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 48732
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-037/3202784377-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-037/3202784377-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 42789
+    }
+  },
+  {
+    "src": "/wp-content/uploads/cache/2026/02/otziv-038/3737627976-optimized.jpg",
+    "uses": [
+      {
+        "route": "/otzyvy/",
+        "width": "640",
+        "height": "360",
+        "sizes": "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/cache/2026/02/otziv-038/3737627976-optimized.jpg",
+      "width": 640,
+      "height": 360,
+      "bytes": 46401
+    }
+  },
+  {
+    "src": "/media/covers/Svadba fotokniga wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/katalog/",
+        "width": "500",
+        "height": "500"
+      },
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "720",
+        "height": "720"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "sizes": "(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/covers/Svadba fotokniga wedfotobook ru.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 25228
+    }
+  },
+  {
+    "src": "/media/covers/Dety fotokniga wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/katalog/",
+        "width": "500",
+        "height": "500"
+      },
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "720",
+        "height": "720"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "sizes": "(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/covers/Dety fotokniga wedfotobook ru.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 23602
+    }
+  },
+  {
+    "src": "/media/covers/Ubiley fotokniga wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/katalog/",
+        "width": "500",
+        "height": "500"
+      },
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "720",
+        "height": "720"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "sizes": "(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/covers/Ubiley fotokniga wedfotobook ru.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 31590
+    }
+  },
+  {
+    "src": "/media/covers/Fotokniga puteshedtvij wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/katalog/",
+        "width": "500",
+        "height": "500"
+      },
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "720",
+        "height": "720"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "sizes": "(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/covers/Fotokniga puteshedtvij wedfotobook ru.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 32970
+    }
+  },
+  {
+    "src": "/media/covers/Vipusk albom wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/katalog/",
+        "width": "500",
+        "height": "500"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "720",
+        "height": "720"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "sizes": "(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/covers/Vipusk albom wedfotobook ru.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 22630
+    }
+  },
+  {
+    "src": "/media/covers/Fotokniga genealogia wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/katalog/",
+        "width": "500",
+        "height": "500"
+      },
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "720",
+        "height": "720"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "sizes": "(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/covers/Fotokniga genealogia wedfotobook ru.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 30158
+    }
+  },
+  {
+    "src": "/media/covers/Fotokbiga drugaj wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/katalog/",
+        "width": "500",
+        "height": "500"
+      },
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "720",
+        "height": "720"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/covers/Fotokbiga drugaj wedfotobook ru.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 33890
+    }
+  },
+  {
+    "src": "/media/home/Fotokniga alive photo blok wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/katalog/",
+        "width": "500",
+        "height": "500"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home/Fotokniga alive photo blok wedfotobook ru.webp",
+      "width": 900,
+      "height": 600,
+      "bytes": 54770
+    }
+  },
+  {
+    "src": "/media/social/Tg wedfotobook .png",
+    "uses": [
+      {
+        "route": "/kontakty/",
+        "width": "46",
+        "height": "46"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/social/Tg wedfotobook .png",
+      "width": 82,
+      "height": 79,
+      "bytes": 5536
+    }
+  },
+  {
+    "src": "/media/social/Wapp wedfotobook .png",
+    "uses": [
+      {
+        "route": "/kontakty/",
+        "width": "46",
+        "height": "46"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/social/Wapp wedfotobook .png",
+      "width": 82,
+      "height": 79,
+      "bytes": 8152
+    }
+  },
+  {
+    "src": "/media/social/Max wedfotobook .png",
+    "uses": [
+      {
+        "route": "/kontakty/",
+        "width": "46",
+        "height": "46"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/social/Max wedfotobook .png",
+      "width": 82,
+      "height": 79,
+      "bytes": 7868
+    }
+  },
+  {
+    "src": "/media/social/Vk wedfotobook .png",
+    "uses": [
+      {
+        "route": "/kontakty/",
+        "width": "46",
+        "height": "46"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/social/Vk wedfotobook .png",
+      "width": 82,
+      "height": 79,
+      "bytes": 7338
+    }
+  },
+  {
+    "src": "/media/home/Fotokniga Premium wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/stoimost/",
+        "width": "960",
+        "height": "518"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home/Fotokniga Premium wedfotobook ru.webp",
+      "width": 450,
+      "height": 300,
+      "bytes": 16142
+    }
+  },
+  {
+    "src": "/media/home/Fotokniga Standart wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/stoimost/",
+        "width": "960",
+        "height": "518"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home/Fotokniga Standart wedfotobook ru.webp",
+      "width": 450,
+      "height": 300,
+      "bytes": 15364
+    }
+  },
+  {
+    "src": "/media/home/Vipusk albom stoimost wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/stoimost/",
+        "width": "960",
+        "height": "518"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home/Vipusk albom stoimost wedfotobook ru.webp",
+      "width": 450,
+      "height": 300,
+      "bytes": 19598
+    }
+  },
+  {
+    "src": "/media/home/Fotokniga alive photo stoimost wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/stoimost/",
+        "width": "960",
+        "height": "518"
+      },
+      {
+        "route": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+        "width": "1200",
+        "height": "800"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home/Fotokniga alive photo stoimost wedfotobook ru.webp",
+      "width": 450,
+      "height": 300,
+      "bytes": 21930
+    }
+  },
+  {
+    "src": "/media/pricing-details/premium/premium-01-wedfotobook-ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-premium/",
+        "width": "1200",
+        "height": "800"
+      },
+      {
+        "route": "/fotokniga-premium/",
+        "width": "1200",
+        "height": "800"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/pricing-details/premium/premium-01-wedfotobook-ru.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 142870
+    }
+  },
+  {
+    "src": "/media/pricing-details/premium/premium-02-wedfotobook-ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-premium/",
+        "width": "1200",
+        "height": "800"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/pricing-details/premium/premium-02-wedfotobook-ru.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 138788
+    }
+  },
+  {
+    "src": "/media/pricing-details/premium/premium-03-wedfotobook-ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-premium/",
+        "width": "1200",
+        "height": "800"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/pricing-details/premium/premium-03-wedfotobook-ru.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 47710
+    }
+  },
+  {
+    "src": "/media/pricing-details/premium/premium-04-wedfotobook-ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-premium/",
+        "width": "1200",
+        "height": "800"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/pricing-details/premium/premium-04-wedfotobook-ru.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 45282
+    }
+  },
+  {
+    "src": "/media/pricing-details/standard/standard-01-wedfotobook-ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-standart/",
+        "width": "1200",
+        "height": "800"
+      },
+      {
+        "route": "/fotokniga-standart/",
+        "width": "1200",
+        "height": "800"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/pricing-details/standard/standard-01-wedfotobook-ru.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 89692
+    }
+  },
+  {
+    "src": "/media/pricing-details/standard/standard-02-wedfotobook-ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-standart/",
+        "width": "1200",
+        "height": "800"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/pricing-details/standard/standard-02-wedfotobook-ru.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 50348
+    }
+  },
+  {
+    "src": "/media/pricing-details/standard/standard-03-wedfotobook-ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-standart/",
+        "width": "1200",
+        "height": "800"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/pricing-details/standard/standard-03-wedfotobook-ru.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 47052
+    }
+  },
+  {
+    "src": "/media/pricing-details/standard/standard-04-wedfotobook-ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-standart/",
+        "width": "1200",
+        "height": "800"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/pricing-details/standard/standard-04-wedfotobook-ru.webp",
+      "width": 1200,
+      "height": 800,
+      "bytes": 64242
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 1 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "1200",
+        "height": "800"
+      },
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "1200",
+        "height": "800"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 1 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 411898
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 2 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "1200",
+        "height": "800"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 2 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 348030
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 3 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "1200",
+        "height": "800"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 3 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 361184
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 4 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi-stoimost/",
+        "width": "1200",
+        "height": "800"
+      },
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 4 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 377162
+    }
+  },
+  {
+    "src": "/wp-content/uploads/2021/04/D-002-optimized.jpg",
+    "uses": [
+      {
+        "route": "/fotoknigi-s-dopolnennoj-realnostju-stoim/",
+        "width": "1200",
+        "height": "800"
+      }
+    ],
+    "metadata": {
+      "root": "public/wp-content/uploads",
+      "path": "public/wp-content/uploads/2021/04/D-002-optimized.jpg",
+      "width": 1200,
+      "height": 691,
+      "bytes": 135721
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 1 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 1 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 266582
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 2 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 2 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 281868
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 3 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 3 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 336166
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 4 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 4 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 319714
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 5 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 5 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 308730
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 6 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 6 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 389344
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 7 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 7 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 347380
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 8 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 8 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 231206
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 9 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 9 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 327560
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 10 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 10 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 477356
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 11 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 11 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 383516
+    }
+  },
+  {
+    "src": "/media/gallery/wedding/Svadba fotokniga 12 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/wedding-fotoknig/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/wedding/Svadba fotokniga 12 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 384680
+    }
+  },
+  {
+    "src": "/media/gallery/children/Dety fotokniga 1 wedfotobok ru.webp",
+    "uses": [
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/children/Dety fotokniga 1 wedfotobok ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 195408
+    }
+  },
+  {
+    "src": "/media/gallery/children/Dety fotokniga 2 wedfotobok ru.webp",
+    "uses": [
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/children/Dety fotokniga 2 wedfotobok ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 307368
+    }
+  },
+  {
+    "src": "/media/gallery/children/Dety fotokniga 3 wedfotobok ru.webp",
+    "uses": [
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/children/Dety fotokniga 3 wedfotobok ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 299540
+    }
+  },
+  {
+    "src": "/media/gallery/children/Dety fotokniga 5 wedfotobok ru.webp",
+    "uses": [
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/children/Dety fotokniga 5 wedfotobok ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 136352
+    }
+  },
+  {
+    "src": "/media/gallery/children/Dety fotokniga 7 wedfotobok ru.webp",
+    "uses": [
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/children/Dety fotokniga 7 wedfotobok ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 281056
+    }
+  },
+  {
+    "src": "/media/gallery/children/Dety fotokniga 6 wedfotobok ru.webp",
+    "uses": [
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/children/Dety fotokniga 6 wedfotobok ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 308068
+    }
+  },
+  {
+    "src": "/media/gallery/children/Dety fotokniga 4 wedfotobok ru.webp",
+    "uses": [
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/children/Dety fotokniga 4 wedfotobok ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 503380
+    }
+  },
+  {
+    "src": "/media/gallery/children/Dety fotokniga 8 wedfotobok ru.webp",
+    "uses": [
+      {
+        "route": "/detskaya-fotokniga/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/children/Dety fotokniga 8 wedfotobok ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 441030
+    }
+  },
+  {
+    "src": "/media/gallery/anniversary/Ubiley fotokniga 1 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/anniversary/Ubiley fotokniga 1 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 376558
+    }
+  },
+  {
+    "src": "/media/gallery/anniversary/Ubiley fotokniga 2 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/anniversary/Ubiley fotokniga 2 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 385508
+    }
+  },
+  {
+    "src": "/media/gallery/anniversary/Ubiley fotokniga 3 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/anniversary/Ubiley fotokniga 3 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 379166
+    }
+  },
+  {
+    "src": "/media/gallery/anniversary/Ubiley fotokniga 4 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/anniversary/Ubiley fotokniga 4 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 398116
+    }
+  },
+  {
+    "src": "/media/gallery/anniversary/Ubiley fotokniga 5 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/anniversary/Ubiley fotokniga 5 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 415086
+    }
+  },
+  {
+    "src": "/media/gallery/anniversary/Ubiley fotokniga 6 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/anniversary/Ubiley fotokniga 6 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 487496
+    }
+  },
+  {
+    "src": "/media/gallery/anniversary/Ubiley fotokniga 7 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/anniversary/Ubiley fotokniga 7 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 325294
+    }
+  },
+  {
+    "src": "/media/gallery/anniversary/Ubiley fotokniga 8 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/yubilejnaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/anniversary/Ubiley fotokniga 8 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 491720
+    }
+  },
+  {
+    "src": "/media/gallery/travel/Fotokniga puteshedtvij 1 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/travel/Fotokniga puteshedtvij 1 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 324136
+    }
+  },
+  {
+    "src": "/media/gallery/travel/Fotokniga puteshedtvij 2 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/travel/Fotokniga puteshedtvij 2 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 429472
+    }
+  },
+  {
+    "src": "/media/gallery/travel/Fotokniga puteshedtvij 3 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/travel/Fotokniga puteshedtvij 3 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 474038
+    }
+  },
+  {
+    "src": "/media/gallery/travel/Fotokniga puteshedtvij 4 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/travel/Fotokniga puteshedtvij 4 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 367380
+    }
+  },
+  {
+    "src": "/media/gallery/travel/Fotokniga puteshedtvij 5 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/travel/Fotokniga puteshedtvij 5 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 289650
+    }
+  },
+  {
+    "src": "/media/gallery/travel/Fotokniga puteshedtvij 6 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/travel/Fotokniga puteshedtvij 6 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 332322
+    }
+  },
+  {
+    "src": "/media/gallery/travel/Fotokniga puteshedtvij 7 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/travel/Fotokniga puteshedtvij 7 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 361492
+    }
+  },
+  {
+    "src": "/media/gallery/travel/Fotokniga puteshedtvij 8 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-o-puteshestvii/",
+        "width": "2000",
+        "height": "993",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/travel/Fotokniga puteshedtvij 8 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 993,
+      "bytes": 332094
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 5 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 5 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 408872
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 6 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 6 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 310840
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 7 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 7 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 312330
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 8 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 8 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 353348
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 9 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 9 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 330670
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 10 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 10 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 329786
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 11 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 11 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 320086
+    }
+  },
+  {
+    "src": "/media/gallery/graduation/Vipusk albom 12 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/vypusknye-fotoknigi/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/graduation/Vipusk albom 12 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 346604
+    }
+  },
+  {
+    "src": "/media/gallery/custom/Fotokbiga drugaj 1 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/custom/Fotokbiga drugaj 1 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 523090
+    }
+  },
+  {
+    "src": "/media/gallery/custom/Fotokbiga drugaj 2 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/custom/Fotokbiga drugaj 2 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 432284
+    }
+  },
+  {
+    "src": "/media/gallery/custom/Fotokbiga drugaj 3 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/custom/Fotokbiga drugaj 3 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 419204
+    }
+  },
+  {
+    "src": "/media/gallery/custom/Fotokbiga drugaj 4 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/custom/Fotokbiga drugaj 4 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 556386
+    }
+  },
+  {
+    "src": "/media/gallery/custom/Fotokbiga drugaj 5 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/custom/Fotokbiga drugaj 5 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 426622
+    }
+  },
+  {
+    "src": "/media/gallery/custom/Fotokbiga drugaj 6 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/custom/Fotokbiga drugaj 6 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 390928
+    }
+  },
+  {
+    "src": "/media/gallery/custom/Fotokbiga drugaj 7 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/custom/Fotokbiga drugaj 7 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 339972
+    }
+  },
+  {
+    "src": "/media/gallery/custom/Fotokbiga drugaj 8 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-na-lyubuyu-temu/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/custom/Fotokbiga drugaj 8 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 332390
+    }
+  },
+  {
+    "src": "/media/covers/Fotokniga alive photo wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "720",
+        "height": "720"
+      },
+      {
+        "route": "/blog_fotoknigi/",
+        "sizes": "(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/covers/Fotokniga alive photo wedfotobook ru.webp",
+      "width": 500,
+      "height": 500,
+      "bytes": 30900
+    }
+  },
+  {
+    "src": "/media/gallery/alive/Alive foto 1 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "1280",
+        "height": "720",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/alive/Alive foto 1 wedfotobook ru.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 64672
+    }
+  },
+  {
+    "src": "/media/gallery/alive/Alive foto 2 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/fotokniga-s-dopolnennoj-realnostyu/",
+        "width": "1280",
+        "height": "720",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/alive/Alive foto 2 wedfotobook ru.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 120132
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 1 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 1 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 428296
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 2 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 2 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 418668
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 3 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 3 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 451138
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 4 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 4 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 424354
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 5 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 5 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 346960
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 6 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 6 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 448802
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 7 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 7 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 478594
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 8 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 8 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 328574
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 9 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 9 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 337526
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 10 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 10 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 241432
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 11 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 11 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 266380
+    }
+  },
+  {
+    "src": "/media/gallery/genealogy/Fotokniga genealogia 12 wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/genealogicheskaya-fotokniga/",
+        "width": "2000",
+        "height": "1283",
+        "sizes": "(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 34vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/gallery/genealogy/Fotokniga genealogia 12 wedfotobook ru.webp",
+      "width": 2000,
+      "height": 1283,
+      "bytes": 401980
+    }
+  },
+  {
+    "src": "/media/home/Dizain fotoknigi wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/blog_fotoknigi/",
+        "sizes": "(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home/Dizain fotoknigi wedfotobook ru.webp",
+      "width": 900,
+      "height": 600,
+      "bytes": 83880
+    }
+  },
+  {
+    "src": "/media/home/Fotokniga na zakaz wedfotobook ru.webp",
+    "uses": [
+      {
+        "route": "/blog_fotoknigi/",
+        "sizes": "(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+      }
+    ],
+    "metadata": {
+      "root": "public/media",
+      "path": "public/media/home/Fotokniga na zakaz wedfotobook ru.webp",
+      "width": 1767,
+      "height": 1255,
+      "bytes": 233656
+    }
+  }
+]

@@ -57,7 +57,7 @@ const PUBLIC_CONTENT_SECURITY_POLICY = [
 function withStaticContentType(pathname: string, response: Response): Response {
   const dotIndex = pathname.lastIndexOf(".");
   const contentType = dotIndex >= 0 ? STATIC_CONTENT_TYPES[pathname.slice(dotIndex).toLowerCase()] : undefined;
-  if (!contentType) return response;
+  if (!contentType || !response.ok) return response;
 
   const headers = new Headers(response.headers);
   headers.set("Content-Type", contentType);
@@ -112,6 +112,12 @@ function withResponseHeaders(request: Request, response: Response): Response {
   } else if ((headers.get("Content-Type") ?? "").toLowerCase().startsWith("text/html")) {
     headers.set("Cache-Control", "public, max-age=0, s-maxage=300, stale-while-revalidate=86400");
     headers.set("CDN-Cache-Control", "public, max-age=300, stale-while-revalidate=86400");
+  }
+
+  // Missing images must not become long-lived failures in visitors' caches.
+  if (typedResponse.status >= 400) {
+    headers.set("Cache-Control", "no-store");
+    headers.set("CDN-Cache-Control", "no-store");
   }
 
   return new Response(typedResponse.body, { status: typedResponse.status, statusText: typedResponse.statusText, headers });
