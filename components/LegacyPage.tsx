@@ -1,5 +1,5 @@
 import { LegacyEnhancements } from "@/components/LegacyEnhancements";
-import { HOME_HERO_SIZES, HOME_HERO_SOURCE, isPhotoSource, optimizedMediaUrl, responsivePhotoProps } from "@/lib/media-path";
+import { avifPhotoSrcSet, HOME_HERO_SIZES, HOME_HERO_SOURCE, isPhotoSource, optimizedMediaUrl, responsiveLogoProps, responsivePhotoProps } from "@/lib/media-path";
 import type { RenderedPage } from "@/lib/rendered-pages";
 
 /* eslint-disable @next/next/no-css-tags -- route-scoped static styles avoid loading the full WordPress bundle on every page */
@@ -85,10 +85,16 @@ function withResponsiveLegacyImages(bodyHtml: string, slug: string): string {
     if (src && isPhotoSource(src)) {
       const photo = responsivePhotoProps(src, !slug && src === HOME_HERO_SOURCE ? HOME_HERO_SIZES : "100vw");
       const responsive = photo.srcSet ? ` srcset="${photo.srcSet.replaceAll("&", "&amp;")}" sizes="${photo.sizes}"` : "";
-      return tag
+      const image = tag
         .replace(/\bsrc=("|')([^"']+)\1/i, `src="${photo.src.replaceAll("&", "&amp;")}"`)
         .replace(/\s+(?:srcset|sizes)=("|')[^"']*\1/gi, "")
         .replace(/\s*\/?>(?=$)/, `${responsive} />`);
+      const avif = avifPhotoSrcSet(src);
+      return avif ? `<picture data-responsive-picture style="display:contents"><source type="image/avif" srcset="${avif}" sizes="${photo.sizes}" />${image}</picture>` : image;
+    }
+    if (!slug && src?.split("?", 1)[0] === "/media/brand/Logo wedfotobook.png") {
+      const logo = responsiveLogoProps();
+      return tag.replace(/\s*\/?>(?=$)/, ` srcset="${logo.srcSet}" sizes="${logo.sizes}" />`);
     }
     if (process.env.NODE_ENV === "development") return tag;
 
@@ -96,9 +102,6 @@ function withResponsiveLegacyImages(bodyHtml: string, slug: string): string {
     if (!src?.startsWith("/") || !Number.isFinite(width) || /\bsrcset=/i.test(tag) || /\.(?:gif|svg)(?:\?|$)/i.test(src)) {
       return tag;
     }
-
-    // Serve the small, lossless homepage logo at its full source resolution.
-    if (!slug && src.split("?", 1)[0] === "/media/brand/Logo wedfotobook.png") return tag;
 
     const widths = allowedWidths.filter((candidate) => candidate <= Math.max(width, 64));
     if (!widths.length) return tag;
@@ -118,6 +121,7 @@ function withResponsiveLegacyImages(bodyHtml: string, slug: string): string {
 
 function withLogoDimensions(bodyHtml: string): string {
   return bodyHtml.replace(/<img\b[^>]*\bsrc=("|')\/media\/(?:brand\/Logo wedfotobook\.png|optimized\/brand\/logo-256\.webp)(?:\?v=\d+)?\1[^>]*>/gi, (tag) => {
+    tag = tag.replace(/\bstyle=("|')/i, '$&aspect-ratio:962/198;');
     if (/\bwidth=/i.test(tag) && /\bheight=/i.test(tag)) return tag;
     return tag.replace("<img", '<img width="962" height="198" decoding="async"');
   });
@@ -392,14 +396,16 @@ export function LegacyPage({ page }: { page: RenderedPage }) {
   const legalPageClass = WHITE_LEGAL_PAGES.has(page.slug) ? " legal-white-page" : "";
   const isHomepage = !page.slug;
   const hero = responsivePhotoProps(HOME_HERO_SOURCE, HOME_HERO_SIZES);
+  const heroAvif = avifPhotoSrcSet(HOME_HERO_SOURCE);
   return (
     <>
-      {isHomepage && <link rel="preload" as="image" href={hero.src} imageSrcSet={hero.srcSet} imageSizes={hero.sizes} fetchPriority="high" />}
-      <link
+      {isHomepage && <link rel="preload" as="image" type="image/avif" href={heroAvif?.split(" ", 1)[0]} imageSrcSet={heroAvif} imageSizes={hero.sizes} fetchPriority="high" />}
+      {isHomepage && <link rel="preload" as="font" href="/media/fonts/open-sans-latin-variable-v3.003.woff2" type="font/woff2" crossOrigin="anonymous" fetchPriority="low" />}
+      {!isHomepage && <link
         rel="stylesheet"
-        href={isHomepage ? "/wp-assets/home-optimized.css?v=5" : "/wp-assets/wordpress.css?v=12"}
+        href="/wp-assets/wordpress.css?v=13"
         precedence="wordpress"
-      />
+      />}
       {!isHomepage && <link rel="stylesheet" href="/wp-assets/home-original-fix.css?v=51" precedence="wordpress-overrides" />}
       {!isHomepage && <link rel="stylesheet" href="/wp-assets/first-version-home.css?v=82" precedence="site-design" />}
       <LegacyEnhancements bodyClass={page.bodyClass} />

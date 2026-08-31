@@ -4,8 +4,19 @@
     "width": 900,
     "widths": [
       320,
+      384,
       480,
-      640
+      640,
+      800
+    ],
+    "avifId": "96825a4f42962579",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      640,
+      800,
+      900
     ]
   },
   "/media/home/Fotokniga alive photo blok wedfotobook ru.webp": {
@@ -13,15 +24,33 @@
     "width": 900,
     "widths": [
       320,
+      384,
       480,
-      640
+      640,
+      800
+    ],
+    "avifId": "0f214923c44a3a17",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      640,
+      800,
+      900
     ]
   },
   "/media/home/Fotokniga alive photo stoimost wedfotobook ru.webp": {
     "id": "08f62e56a94a49a2",
     "width": 450,
     "widths": [
-      320
+      320,
+      384
+    ],
+    "avifId": "e1edf740dbccbfd7",
+    "avifWidths": [
+      320,
+      384,
+      450
     ]
   },
   "/media/home/Print fotoknig wedfotobook ru.webp": {
@@ -29,15 +58,33 @@
     "width": 900,
     "widths": [
       320,
+      384,
       480,
-      640
+      640,
+      800
+    ],
+    "avifId": "62565dfa9f1ecd9c",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      640,
+      800,
+      900
     ]
   },
   "/media/home/Vipusk albom stoimost wedfotobook ru.webp": {
     "id": "a04e146e935e035f",
     "width": 450,
     "widths": [
-      320
+      320,
+      384
+    ],
+    "avifId": "f22ec297ccd860f1",
+    "avifWidths": [
+      320,
+      384,
+      450
     ]
   },
   "/media/home/Соglasovanie maketa wedfotobook ru.webp": {
@@ -45,8 +92,19 @@
     "width": 900,
     "widths": [
       320,
+      384,
       480,
-      640
+      640,
+      800
+    ],
+    "avifId": "26c5eb7ca24f5c2f",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      640,
+      800,
+      900
     ]
   },
   "/media/originals/22944.jpg": {
@@ -54,7 +112,15 @@
     "width": 500,
     "widths": [
       320,
+      384,
       480
+    ],
+    "avifId": "01d663c82b11a7f5",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      500
     ]
   },
   "/media/originals/22945.jpg": {
@@ -62,7 +128,15 @@
     "width": 500,
     "widths": [
       320,
+      384,
       480
+    ],
+    "avifId": "58aedb94bff0e498",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      500
     ]
   },
   "/media/originals/22946.jpg": {
@@ -70,7 +144,15 @@
     "width": 500,
     "widths": [
       320,
+      384,
       480
+    ],
+    "avifId": "4dc6f4d6be4774b1",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      500
     ]
   },
   "/media/originals/22947.jpg": {
@@ -78,7 +160,15 @@
     "width": 500,
     "widths": [
       320,
+      384,
       480
+    ],
+    "avifId": "ae5e7a04c9254480",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      500
     ]
   },
   "/media/originals/22949.jpg": {
@@ -86,7 +176,15 @@
     "width": 500,
     "widths": [
       320,
+      384,
       480
+    ],
+    "avifId": "c510d31ae0c28282",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      500
     ]
   },
   "/media/originals/22950.jpg": {
@@ -94,7 +192,15 @@
     "width": 500,
     "widths": [
       320,
+      384,
       480
+    ],
+    "avifId": "4e9456a09f468427",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      500
     ]
   },
   "/media/originals/22953.jpg": {
@@ -102,7 +208,15 @@
     "width": 500,
     "widths": [
       320,
+      384,
       480
+    ],
+    "avifId": "095255d718ab7ae1",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      500
     ]
   },
   "/media/originals/22954.jpg": {
@@ -110,7 +224,15 @@
     "width": 500,
     "widths": [
       320,
+      384,
       480
+    ],
+    "avifId": "7dda51a6889deeba",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      500
     ]
   },
   "/media/originals/22962.jpg": {
@@ -118,8 +240,19 @@
     "width": 900,
     "widths": [
       320,
+      384,
       480,
-      640
+      640,
+      800
+    ],
+    "avifId": "942e3b721908faf0",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      640,
+      800,
+      900
     ]
   },
   "/media/originals/22963.jpg": {
@@ -127,8 +260,19 @@
     "width": 900,
     "widths": [
       320,
+      384,
       480,
-      640
+      640,
+      800
+    ],
+    "avifId": "b645d49eff282ed7",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      640,
+      800,
+      900
     ]
   },
   "/media/originals/22964.jpg": {
@@ -136,8 +280,19 @@
     "width": 900,
     "widths": [
       320,
+      384,
       480,
-      640
+      640,
+      800
+    ],
+    "avifId": "3267b490524a0400",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      640,
+      800,
+      900
     ]
   },
   "/media/originals/22967.jpg": {
@@ -145,8 +300,19 @@
     "width": 900,
     "widths": [
       320,
+      384,
       480,
-      640
+      640,
+      800
+    ],
+    "avifId": "567196df9ef71867",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      640,
+      800,
+      900
     ]
   },
   "/media/originals/22969.jpg": {
@@ -154,11 +320,25 @@
     "width": 1767,
     "widths": [
       320,
+      384,
       480,
       640,
+      800,
       960,
       1280,
       1600
+    ],
+    "avifId": "c465bcb8000c362c",
+    "avifWidths": [
+      320,
+      384,
+      480,
+      640,
+      800,
+      960,
+      1280,
+      1600,
+      1767
     ]
   }
 }

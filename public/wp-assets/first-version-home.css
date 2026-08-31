@@ -3017,7 +3017,7 @@
   transition: transform .35s ease, box-shadow .35s ease;
 }
 
-.restored-first-version .catalog-card > img {
+.restored-first-version .catalog-card > img,.restored-first-version .catalog-card >picture>img {
   display: block;
   width: 100%;
   height: 100%;
@@ -3091,7 +3091,8 @@
 }
 
 .restored-first-version .catalog-card:hover > img,
-.restored-first-version .catalog-card:focus-visible > img {
+.restored-first-version .catalog-card:focus-visible > img,.restored-first-version .catalog-card:hover >picture>img,
+.restored-first-version .catalog-card:focus-visible >picture>img {
   filter: saturate(1.06) contrast(1.03);
   transform: scale(1.08);
 }
@@ -3239,7 +3240,7 @@
   transform: none;
 }
 
-.restored-first-version .price-card > img {
+.restored-first-version .price-card > img,.restored-first-version .price-card >picture>img {
   width: 100%;
   aspect-ratio: 1.25;
   object-fit: cover;
@@ -4027,7 +4028,7 @@
     flex-direction: column;
   }
 
-  .restored-first-version .original-home-sections .price-card > img {
+  .restored-first-version .original-home-sections .price-card > img,.restored-first-version .original-home-sections .price-card >picture>img {
     aspect-ratio: 1.12;
   }
 
@@ -4191,7 +4192,7 @@
   align-items: stretch;
 }
 
-.restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card > img {
+.restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card > img,.restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card >picture>img {
   width: 100%;
   height: 100%;
   aspect-ratio: auto;
@@ -4210,7 +4211,7 @@
     grid-template-columns: 1fr;
   }
 
-  .restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card > img {
+  .restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card > img,.restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card >picture>img {
     height: auto;
     aspect-ratio: 1.25;
   }

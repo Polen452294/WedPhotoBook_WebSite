@@ -19,6 +19,7 @@ type EditableEntry = {
 };
 
 type EditableTarget = {
+  element: Element;
   nodeKey: string;
   read: () => string;
   write: (value: string) => void;
@@ -43,10 +44,14 @@ function elementPath(element: Element): string {
   const segments: string[] = [];
   let current: Element | null = element;
   while (current && current !== document.body) {
-    const parent: Element | null = current.parentElement;
+    // Responsive picture wrappers must not change existing CMS image keys.
+    const parent: Element | null = current.parentElement?.matches("picture[data-responsive-picture]")
+      ? current.parentElement.parentElement : current.parentElement;
     if (!parent) break;
     const tag = current.tagName.toLowerCase();
-    const siblings = Array.from(parent.children).filter((item) => item.tagName === current!.tagName);
+    const siblings = Array.from(parent.children)
+      .flatMap((item) => item.matches("picture[data-responsive-picture]") ? Array.from(item.querySelectorAll(":scope > img")) : [item])
+      .filter((item) => item.tagName === current!.tagName);
     segments.unshift(`${tag}[${siblings.indexOf(current)}]`);
     current = parent;
   }
@@ -81,6 +86,7 @@ function collectTargets(): EditableTarget[] {
     const textIndex = Array.from(element!.childNodes).filter((item) => item.nodeType === Node.TEXT_NODE).indexOf(textNode);
     const nodeKey = `${elementPath(element!)}::text[${textIndex}]`;
     targets.push({
+      element: element!,
       nodeKey,
       read: () => (textNode.nodeValue ?? "").trim(),
       write: (value) => { textNode.nodeValue = preserveWhitespace(textNode.nodeValue ?? "", value); },
@@ -96,6 +102,7 @@ function collectTargets(): EditableTarget[] {
       const currentValue = element.getAttribute(attribute) ?? "";
       if (!hasReadableText(currentValue)) continue;
       targets.push({
+        element,
         nodeKey: `${elementPath(element)}::attr[${attribute}]`,
         read: () => element.getAttribute(attribute) ?? "",
         write: (value) => element.setAttribute(attribute, value),
@@ -133,7 +140,8 @@ export function SiteContentManager() {
     const previewMode = new URLSearchParams(window.location.search).get("cms_preview") === "1";
 
     const rebuild = () => {
-      if (stopped) return;
+      // Public pages without overrides need no full DOM walk or text inventory.
+      if (stopped || (!previewMode && overrides.size === 0)) return;
       applying = true;
       currentTargets = collectTargets();
       for (const target of currentTargets) {
@@ -145,7 +153,7 @@ export function SiteContentManager() {
     };
 
     const scheduleRebuild = () => {
-      if (applying || scheduled) return;
+      if (applying || scheduled || (!previewMode && overrides.size === 0)) return;
       scheduled = window.requestAnimationFrame(() => {
         scheduled = 0;
         rebuild();
@@ -187,7 +195,7 @@ export function SiteContentManager() {
         sendSnapshot();
       }
       if (data.type === `${CMS_MESSAGE_PREFIX}:focus` && data.nodeKey) {
-        const matchedElement = document.querySelector(elementPathFromKey(data.nodeKey));
+        const matchedElement = currentTargets.find((target) => target.nodeKey === data.nodeKey)?.element;
         matchedElement?.scrollIntoView({ behavior: "smooth", block: "center" });
         if (matchedElement instanceof HTMLElement) {
           matchedElement.animate([{ outline: "3px solid #d8a862", outlineOffset: "5px" }, { outline: "0 solid transparent", outlineOffset: "12px" }], { duration: 1300 });
@@ -227,9 +235,4 @@ export function SiteContentManager() {
   }, []);
 
   return null;
-}
-
-function elementPathFromKey(nodeKey: string): string {
-  const path = nodeKey.split("::", 1)[0];
-  return path.replace(/([a-z0-9-]+)\[(\d+)\]/g, (_, tag: string, index: string) => `${tag}:nth-of-type(${Number(index) + 1})`);
 }

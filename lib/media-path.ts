@@ -1,9 +1,10 @@
 import photoSources from "@/data/photo-sources.json";
 import responsivePhotos from "@/data/responsive-photos.json";
+import responsiveLogo from "@/data/responsive-logo.json";
 
 const originalPhotos: Record<string, string> = photoSources;
 const PHOTO_VERSION = "20260831";
-const photoVariants: Record<string, { id: string; width: number; widths: number[] }> = responsivePhotos;
+const photoVariants: Record<string, { id: string; width: number; widths: number[]; avifId: string; avifWidths: number[] }> = responsivePhotos;
 
 export const HOME_HERO_SOURCE = "/media/home/Fotokniga na zakaz wedfotobook ru.webp";
 // Matches the existing stacked / two-column mobile hero, including its frame.
@@ -33,6 +34,19 @@ export function responsivePhotoProps(src: string, sizes = "100vw") {
   const candidates = photo.widths.map((width) => `/media/responsive/${photo.id}-${width}.webp ${width}w`);
   candidates.push(`${encodeURI(original)} ${photo.width}w`);
   return { src: original, srcSet: candidates.join(", "), sizes };
+}
+
+export function avifPhotoSrcSet(src: string) {
+  const pathname = decodeURIComponent(new URL(photoMediaUrl(src), "https://wedfotobook.ru").pathname);
+  const photo = photoVariants[pathname];
+  return photo?.avifWidths.map((width) => `/media/responsive/${photo.avifId}-${width}.avif ${width}w`).join(", ");
+}
+
+export function responsiveLogoProps() {
+  return {
+    srcSet: responsiveLogo.widths.map((width) => `/media/responsive/${responsiveLogo.id}-${width}.webp ${width}w`).join(", "),
+    sizes: "(max-width: 767px) 214px, 243px",
+  };
 }
 
 export function optimizedMediaUrl(src: string) {

@@ -1,6 +1,7 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
+import homeCriticalStyles from "../public/wp-assets/home-critical.css?raw";
 
 interface Env {
   ASSETS: Fetcher;
@@ -123,6 +124,21 @@ function withResponseHeaders(request: Request, response: Response): Response {
   return new Response(typedResponse.body, { status: typedResponse.status, statusText: typedResponse.statusText, headers });
 }
 
+async function withHomepageCriticalStyles(request: Request, response: Response): Promise<Response> {
+  const url = new URL(request.url);
+  const contentType = response.headers.get("Content-Type") ?? "";
+  if (url.pathname !== "/" || !response.ok || !contentType.toLowerCase().startsWith("text/html")) return response;
+
+  // Insert once after rendering so the CSS is present in the HTML but is not
+  // repeated in the React flight payload. The complete stylesheet loads from
+  // the head with media=print and remains available as a no-JS fallback.
+  const html = await response.text();
+  const style = `<style data-home-critical>${homeCriticalStyles.replaceAll("</style", "<\\/style")}</style>`;
+  const deferred = '<link rel="stylesheet" href="/wp-assets/home-optimized.css?v=6" media="print" onload="this.media=\'all\';this.onload=null"><noscript><link rel="stylesheet" href="/wp-assets/home-optimized.css?v=6"></noscript>';
+  const body = html.includes("</head>") ? html.replace("</head>", `${style}${deferred}</head>`) : style + deferred + html;
+  return new Response(body, { status: response.status, statusText: response.statusText, headers: response.headers });
+}
+
 // Image security config. SVG sources with .svg extension auto-skip the
 // optimization endpoint on the client side (served directly, no proxy).
 // To route SVGs through the optimizer (with security headers), set
@@ -149,7 +165,8 @@ const worker = {
       return withResponseHeaders(request, imageResponse);
     }
 
-    return withResponseHeaders(request, await handler.fetch(request, env, ctx));
+    const response = await handler.fetch(request, env, ctx);
+    return withResponseHeaders(request, await withHomepageCriticalStyles(request, response));
   },
 };
 

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
+import { gzipSync } from "node:zlib";
 
 const globalCss = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 const headerCss = await readFile(new URL("../public/wp-assets/home-original-fix.css", import.meta.url), "utf8");
@@ -266,10 +267,19 @@ test("serves responsive photos with full-resolution originals without loading Tu
   assert.match(hero, /22969\.jpg\?v=20260831 1767w/);
   assert.match(hero, /sizes="[^"]+calc\(61vw - 44px\)/);
   const preload = [...html.matchAll(/<link\b[^>]*>/g)].map((match) => match[0])
-    .find((tag) => /rel="preload"/.test(tag) && /as="image"/.test(tag) && /22969/.test(tag));
+    .find((tag) => /rel="preload"/.test(tag) && /as="image"/.test(tag) && /type="image\/avif"/.test(tag));
   assert.ok(preload, "LCP image must be discovered in the head before body markup");
-  assert.equal(/imageSrcSet="([^"]+)"/i.exec(preload)?.[1], /srcset="([^"]+)"/i.exec(hero)?.[1]);
+  const heroPicture = [...html.matchAll(/<picture\b[^>]*>[\s\S]*?<\/picture>/g)].map((match) => match[0]).find((picture) => picture.includes("/media/originals/22969.jpg"));
+  const avifSource = /<source\b[^>]*>/.exec(heroPicture)?.[0];
+  assert.equal(/imageSrcSet="([^"]+)"/i.exec(preload)?.[1], /srcset="([^"]+)"/i.exec(avifSource)?.[1]);
+  assert.match(avifSource, /384\.avif 384w/);
   assert.equal(/imageSizes="([^"]+)"/i.exec(preload)?.[1], /sizes="([^"]+)"/i.exec(hero)?.[1]);
+  const head = html.slice(0, html.indexOf("</head>"));
+  assert.match(head, /<style data-home-critical>/);
+  assert.match(head, /<link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=6" media="print" onload=/);
+  assert.match(html, /home-optimized\.css\?v=6" media="print" onload=/);
+  assert.match(html, /<noscript><link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=6"/);
+  assert.ok(html.indexOf(preload) < 2_000, "preload must precede inline CSS, not wait for it");
   for (const track of ["home-gallery-carousel-track", "review-carousel-track"]) {
     const start = html.indexOf(`id="${track}"`);
     const end = html.indexOf('class="review-navigation"', start);
@@ -893,7 +903,9 @@ test("keeps the original opening screen and restores the first working version b
   assert.equal(response.headers.get("cdn-cache-control"), "public, max-age=300, stale-while-revalidate=86400");
 
   const html = await response.text();
-  assert.ok(Buffer.byteLength(html, "utf8") < 300_000, "homepage HTML should stay well below the reported 478 KB");
+  // First-screen CSS is now part of the HTML; bound its actual wire payload too.
+  assert.ok(Buffer.byteLength(html, "utf8") < 350_000, "homepage including inline CSS must stay below 350 KB");
+  assert.ok(gzipSync(html).length < 55_000, "compressed homepage including first-screen styles must stay below 55 KB");
   const normalizedHtml = normalizeMediaPaths(html);
   assert.match(html, /От вас только фото/);
   assert.match(headerCss, /\.vc_custom_1777448124380 > \.hcode-column-1 ul > li::before \{[\s\S]*?color: #b99769;[\s\S]*?content: "✓";/);
