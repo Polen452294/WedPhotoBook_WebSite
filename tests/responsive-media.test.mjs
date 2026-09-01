@@ -55,7 +55,8 @@ test("the header logo has lossless responsive sources", async () => {
 test("the homepage uses compressed local fonts and retains the fallback typefaces", async () => {
   const css = await readFile(new URL("../public/wp-assets/home-optimized.css", import.meta.url), "utf8");
   const faces = [...css.matchAll(/@font-face\{[^}]*\}/g)].map((match) => match[0]);
-  assert.ok(faces.length >= 5);
+  assert.equal(faces.length, 1, "the variable font should be declared once instead of once per weight");
+  assert.match(faces[0], /font-weight:400 800/);
   const fontUrls = new Set();
   for (const face of faces) {
     assert.match(face, /font-display:swap/);
@@ -66,5 +67,5 @@ test("the homepage uses compressed local fonts and retains the fallback typeface
     const bytes = await readFile(new URL("../public" + url, import.meta.url));
     assert.equal(bytes.toString("ascii", 0, 4), "wOF2");
   }
-  assert.equal(fontUrls.size, 1, "all five weights must share one variable font download");
+  assert.equal(fontUrls.size, 1, "all weights must share one variable font download");
 });

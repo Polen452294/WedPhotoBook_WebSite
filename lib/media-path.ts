@@ -45,7 +45,7 @@ export function avifPhotoSrcSet(src: string) {
 export function responsiveLogoProps() {
   return {
     srcSet: responsiveLogo.widths.map((width) => `/media/responsive/${responsiveLogo.id}-${width}.webp ${width}w`).join(", "),
-    sizes: "(max-width: 767px) 214px, 243px",
+    sizes: "150px",
   };
 }
 

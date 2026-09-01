@@ -278,7 +278,7 @@ test("serves responsive photos with full-resolution originals without loading Tu
   const head = html.slice(0, html.indexOf("</head>"));
   assert.match(head, /<style data-app-critical>/);
   assert.match(head, /<style data-home-critical>/);
-  assert.match(head, /<link media="print" rel="stylesheet" href="\/_next\/static\/css\//);
+  assert.doesNotMatch(head, /<link[^>]+data-rsc-css-href/);
   assert.doesNotMatch(head, /<link rel="stylesheet" href="\/wp-assets\/home-critical\.css/);
   assert.match(head, /<link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=6" media="print" onload=/);
   assert.match(html, /home-optimized\.css\?v=6" media="print" onload=/);
@@ -286,7 +286,7 @@ test("serves responsive photos with full-resolution originals without loading Tu
   const linkHeader = (await render()).headers.get("link") ?? "";
   const criticalMedia = [
     "/media/responsive/c465bcb8000c362c-384.avif",
-    "/media/responsive/2504a79c7c6b3770-384.webp",
+    "/media/responsive/2504a79c7c6b3770-320.webp",
     "/media/optimized/social/telegram-64.webp?v=20260830",
     "/media/optimized/social/whatsapp-64.webp?v=20260830",
     "/media/optimized/social/max-64.webp?v=20260830",
@@ -295,7 +295,8 @@ test("serves responsive photos with full-resolution originals without loading Tu
     assert.equal(linkHeader.split(`<${resource}>`).length - 1, 1, `${resource} must be preloaded exactly once`);
   }
   assert.match(linkHeader, /\/media\/responsive\/c465bcb8000c362c-384\.avif>.*rel=preload.*as=image.*imagesrcset="[^"]+320w,[^"]+384w/);
-  assert.match(linkHeader, /\/media\/responsive\/2504a79c7c6b3770-384\.webp>.*rel=preload.*as=image.*imagesrcset="[^"]+256w,[^"]+384w/);
+  assert.match(linkHeader, /\/media\/responsive\/2504a79c7c6b3770-320\.webp>.*rel=preload.*as=image.*imagesrcset="[^"]+256w,[^"]+320w,[^"]+384w/);
+  assert.match(linkHeader, /\/media\/responsive\/2504a79c7c6b3770-320\.webp>.*imagesizes="150px"/);
   for (const icon of ["telegram", "whatsapp", "max"]) {
     assert.match(linkHeader, new RegExp(`/media/optimized/social/${icon}-64\\.webp\\?v=20260830>.*rel=preload.*as=image`));
   }

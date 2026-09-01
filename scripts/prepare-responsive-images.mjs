@@ -41,7 +41,7 @@ for (const source of [...sources].sort()) {
 await writeFile("data/responsive-photos.json", JSON.stringify(manifest, null, 2) + "\n");
 const logoInput = await readFile("public/media/brand/Logo wedfotobook.png");
 const logoId = createHash("sha256").update(logoInput).update("webp-lossless-v1").digest("hex").slice(0, 16);
-const logoWidths = [256, 384, 480, 640, 800, 962];
+const logoWidths = [256, 320, 384, 480, 640, 800, 962];
 for (const width of logoWidths) {
   await sharp(logoInput).resize({ width, withoutEnlargement: true }).webp({ lossless: true, effort: 6 })
     .toFile(`public/media/responsive/${logoId}-${width}.webp`);

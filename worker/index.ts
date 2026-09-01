@@ -67,11 +67,11 @@ const HOME_HERO_SRCSET = HOME_HERO_VARIANTS.avifWidths
   .map((width) => `/media/responsive/${HOME_HERO_VARIANTS.avifId}-${width}.avif ${width}w`)
   .join(", ");
 const HOME_HERO_SIZES = "(max-width: 359px) calc(100vw - 58px), (max-width: 559px) calc(61vw - 44px), (max-width: 767px) 298px, 50vw";
-const HOME_LOGO_MOBILE_URL = `/media/responsive/${responsiveLogo.id}-384.webp`;
+const HOME_LOGO_MOBILE_URL = `/media/responsive/${responsiveLogo.id}-320.webp`;
 const HOME_LOGO_SRCSET = responsiveLogo.widths
   .map((width) => `/media/responsive/${responsiveLogo.id}-${width}.webp ${width}w`)
   .join(", ");
-const HOME_LOGO_SIZES = "(max-width: 767px) 214px, 243px";
+const HOME_LOGO_SIZES = "150px";
 const HOME_SOCIAL_ICON_URLS = [
   "/media/optimized/social/telegram-64.webp?v=20260830",
   "/media/optimized/social/whatsapp-64.webp?v=20260830",
@@ -158,8 +158,11 @@ async function withHomepageCriticalStyles(request: Request, response: Response):
   const escapeStyle = (css: string) => css.replaceAll("</style", "<\\/style");
   const critical = `<style data-app-critical>${escapeStyle(appCriticalStyles)}</style><style data-home-critical>${escapeStyle(homeCriticalStyles)}</style>`;
   const deferred = '<link rel="stylesheet" href="/wp-assets/home-optimized.css?v=6" media="print" onload="this.media=\'all\';this.onload=null"><noscript><link rel="stylesheet" href="/wp-assets/home-optimized.css?v=6"></noscript>';
-  const frameworkStylesheetPattern = /<link rel="stylesheet" href="([^"]+)"[^>]*data-rsc-css-href=[^>]*>/;
-  const nonBlockingHtml = html.replace(frameworkStylesheetPattern, (tag) => tag.replace("<link ", '<link media="print" '));
+  const frameworkStylesheetPattern = /<link rel="stylesheet" href="[^"]+"[^>]*data-rsc-css-href=[^>]*>/;
+  // app/globals.css is already embedded above byte-for-byte. Remove Vinext's
+  // initial link so the same rules cannot block the first paint. Hydration may
+  // restore its managed link later, after the first screen is already styled.
+  const nonBlockingHtml = html.replace(frameworkStylesheetPattern, "");
   const body = nonBlockingHtml.includes("</head>") ? nonBlockingHtml.replace("</head>", `${critical}${deferred}</head>`) : critical + deferred + nonBlockingHtml;
   const headers = new Headers(response.headers);
   headers.append("Link", `<${HOME_HERO_MOBILE_URL}>; rel=preload; as=image; type="image/avif"; imagesrcset="${HOME_HERO_SRCSET}"; imagesizes="${HOME_HERO_SIZES}"; fetchpriority=high`);
