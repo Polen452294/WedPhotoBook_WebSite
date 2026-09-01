@@ -84,6 +84,10 @@ function withResponsiveLegacyImages(bodyHtml: string, slug: string): string {
     .replace(/\s+loading=("|')[^"']*\1/gi, "")
     .replace(/\s+fetchpriority=("|')[^"']*\1/gi, "")
     .replace(/\s*\/?>(?=$)/, ' loading="eager" fetchpriority="high" />');
+  const deprioritize = (tag: string) => tag
+    .replace(/\s+loading=("|')[^"']*\1/gi, "")
+    .replace(/\s+fetchpriority=("|')[^"']*\1/gi, "")
+    .replace(/\s*\/?>(?=$)/, ' loading="eager" fetchpriority="low" />');
 
   return bodyHtml.replace(/<img\b[^>]*>/gi, (tag) => {
     const src = /\bsrc=("|')([^"']+)\1/i.exec(tag)?.[2];
@@ -113,7 +117,7 @@ function withResponsiveLegacyImages(bodyHtml: string, slug: string): string {
     // These files are already tiny 64 px WebP icons. Routing them through the
     // image endpoint adds a request variant and can fail when the source URL
     // contains its cache-busting query string.
-    if (src.includes("/social/")) return slug ? tag : prioritize(tag);
+    if (src.includes("/social/")) return slug ? tag : deprioritize(tag);
 
     const widths = allowedWidths.filter((candidate) => candidate <= Math.max(width, 64));
     if (!widths.length) return tag;

@@ -10,6 +10,7 @@ const optimizedHomeCss = await readFile(new URL("../public/wp-assets/home-optimi
 const orderDialogSource = await readFile(new URL("../components/OrderDialog.tsx", import.meta.url), "utf8");
 const contactPageSource = await readFile(new URL("../components/ContactPage.tsx", import.meta.url), "utf8");
 const contactRouteSource = await readFile(new URL("../app/api/contact/route.ts", import.meta.url), "utf8");
+const contactEmailSource = await readFile(new URL("../lib/contact-email.ts", import.meta.url), "utf8");
 const turnstileSource = await readFile(new URL("../lib/turnstile.ts", import.meta.url), "utf8");
 const legacyEnhancementsSource = await readFile(new URL("../components/LegacyEnhancements.tsx", import.meta.url), "utf8");
 const legacyPageSource = await readFile(new URL("../components/LegacyPage.tsx", import.meta.url), "utf8");
@@ -73,6 +74,8 @@ test("uses a two-field callback form with consent and spam protection", () => {
   assert.match(contactRouteSource, /FORM_MIN_AGE_MS/);
   assert.match(contactRouteSource, /RATE_LIMIT_MAX/);
   assert.match(contactRouteSource, /verifyTurnstile/);
+  assert.match(contactEmailSource, /"idempotency-key": `contact-notification\/\$\{input\.id\}`/);
+  assert.match(contactEmailSource, /response\.status === 429 \|\| response\.status >= 500/);
   assert.match(contactRouteSource, /value === true \|\| value === "on" \|\| value === "1"/);
   assert.match(contactRouteSource, /insert\(enquiries\)/);
   assert.match(contactRouteSource, /notificationStatus/);
@@ -271,7 +274,7 @@ test("serves responsive photos with full-resolution originals without loading Tu
   assert.ok(imageTags.length > 40);
   assert.ok(imageTags.every((tag) => /\bwidth=/.test(tag) && /\bheight=/.test(tag)));
   const photoTags = imageTags.filter((tag) => /\bsrc="\/media\/(?:home|covers|gallery|home-gallery|reviews-selected|originals)\//.test(tag));
-  assert.ok(photoTags.length >= 20);
+  assert.ok(photoTags.length >= 18);
   assert.ok(photoTags.every((tag) => /\?v=20260831/.test(tag)));
   const hero = photoTags.find((tag) => tag.includes("/media/originals/22969.jpg"));
   assert.match(hero, /fetchpriority="high"/i);
@@ -287,37 +290,26 @@ test("serves responsive photos with full-resolution originals without loading Tu
   assert.match(head, /<style data-home-critical>/);
   assert.doesNotMatch(head, /<link[^>]+data-rsc-css-href/);
   assert.doesNotMatch(head, /<link rel="stylesheet" href="\/wp-assets\/home-critical\.css/);
-  assert.match(head, /<link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=6" media="print" onload=/);
-  assert.match(html, /home-optimized\.css\?v=6" media="print" onload=/);
-  assert.match(html, /<noscript><link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=6"/);
+  assert.match(head, /<link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=7" media="print" onload=/);
+  assert.match(html, /home-optimized\.css\?v=7" media="print" onload=/);
+  assert.match(html, /<noscript><link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=7"/);
   assert.doesNotMatch(html, /bootstrap\.rsc|entry-browser/, "the homepage must not download the React/Vinext runtime");
+  assert.doesNotMatch(head, /<link\b[^>]*rel="modulepreload"/, "the public homepage must not preload unused client modules");
   assert.match(html, /<script src="\/wp-assets\/home-interactions\.js\?v=20260902" defer><\/script>/);
   const previewHtml = await (await render("/?cms_preview=1")).text();
   assert.match(previewHtml, /<script\b[^>]+_next\/static/, "the CMS preview must keep its editor runtime");
   assert.doesNotMatch(previewHtml, /home-interactions\.js/, "the public enhancement script must not run in the CMS preview");
   const linkHeader = (await render()).headers.get("link") ?? "";
-  const criticalMedia = [
-    "/media/responsive/c465bcb8000c362c-384.avif",
-    "/media/responsive/2504a79c7c6b3770-320.webp",
-    "/media/optimized/social/telegram-64.webp?v=20260830",
-    "/media/optimized/social/whatsapp-64.webp?v=20260830",
-    "/media/optimized/social/max-64.webp?v=20260830",
-  ];
-  for (const resource of criticalMedia) {
-    assert.equal(linkHeader.split(`<${resource}>`).length - 1, 1, `${resource} must be preloaded exactly once`);
-  }
+  const heroResource = "/media/responsive/c465bcb8000c362c-384.avif";
+  assert.equal(linkHeader.split(`<${heroResource}>`).length - 1, 1, `${heroResource} must be preloaded exactly once`);
   assert.match(linkHeader, /\/media\/responsive\/c465bcb8000c362c-384\.avif>.*rel=preload.*as=image.*imagesrcset="[^"]+320w,[^"]+384w/);
-  assert.match(linkHeader, /\/media\/responsive\/2504a79c7c6b3770-320\.webp>.*rel=preload.*as=image.*imagesrcset="[^"]+256w,[^"]+320w,[^"]+384w/);
-  assert.match(linkHeader, /\/media\/responsive\/2504a79c7c6b3770-320\.webp>.*imagesizes="150px"/);
-  for (const icon of ["telegram", "whatsapp", "max"]) {
-    assert.match(linkHeader, new RegExp(`/media/optimized/social/${icon}-64\\.webp\\?v=20260830>.*rel=preload.*as=image`));
-  }
+  assert.doesNotMatch(linkHeader, /2504a79c7c6b3770|\/media\/optimized\/social\//, "non-LCP header images must not compete with the hero preload");
   assert.doesNotMatch(linkHeader, /home-critical\.css|\/_next\/static\/css\//);
   for (const track of ["home-gallery-carousel-track", "review-carousel-track"]) {
     const start = html.indexOf(`id="${track}"`);
     const end = html.indexOf('class="review-navigation"', start);
     const slides = html.slice(start, end);
-    assert.equal([...slides.matchAll(/<img\b/g)].length, 2, "only the active and adjacent slide should have image sources initially");
+    assert.equal([...slides.matchAll(/<img\b/g)].length, 1, "only the active slide should have an image source initially");
   }
   assert.ok(imageTags.some((tag) => /\bsrcset=/i.test(tag)));
   assert.doesNotMatch(html, /\/_vinext\/image\?url=[^"']*social/i, "tiny social icons should load directly");
@@ -327,7 +319,7 @@ test("serves responsive photos with full-resolution originals without loading Tu
   assert.doesNotMatch(html, /<source type="image\/avif"[^>]+bcc41e6f31b2f1ab/);
   for (const icon of ["telegram", "whatsapp", "max"]) {
     const iconTag = imageTags.find((tag) => tag.includes(`/media/optimized/social/${icon}-64.webp`));
-    assert.match(iconTag ?? "", /loading="eager" fetchpriority="high"/);
+    assert.match(iconTag ?? "", /loading="eager" fetchpriority="low"/);
   }
   assert.doesNotMatch(nextConfigSource, /unoptimized:\s*true/);
   assert.doesNotMatch(layoutSource, /challenges\.cloudflare\.com\/turnstile/);

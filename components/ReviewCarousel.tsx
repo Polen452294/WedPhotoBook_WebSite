@@ -27,7 +27,7 @@ export function ReviewCarousel({ images }: { images: MediaItem[] }) {
                 data-carousel-sizes={sizes}
                 key={image.src}
               >
-                {index < 2 && <Image src={image.src} alt={alt} width={image.width} height={image.height} sizes={sizes} loading="lazy" />}
+                {index === 0 && <Image src={image.src} alt={alt} width={image.width} height={image.height} sizes={sizes} loading="lazy" />}
               </figure>
             );
           })}

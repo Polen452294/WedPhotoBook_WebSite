@@ -83,7 +83,7 @@ export function HomeGalleryCarousel() {
                 data-carousel-sizes={sizes}
                 key={image.src}
               >
-                {index < 2 && <Image src={image.src} alt={image.alt} width={1000} height={497} sizes={sizes} loading="lazy" />}
+                {index === 0 && <Image src={image.src} alt={image.alt} width={1000} height={497} sizes={sizes} loading="lazy" />}
               </figure>
             );
           })}

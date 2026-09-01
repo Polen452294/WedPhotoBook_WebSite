@@ -1,6 +1,7 @@
 import { and, count, eq, gt, lt } from "drizzle-orm";
 import { getDb } from "@/db";
 import { enquiries, submissionAttempts } from "@/db/schema";
+import { sendContactEmail } from "@/lib/contact-email";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FORM_MIN_AGE_MS = 1000;
@@ -236,27 +237,18 @@ export async function POST(request: Request) {
     ? `Имя: ${name}\nТелефон: ${phone}${message ? `\nДополнительная информация:\n${message}` : ""}`
     : `Имя: ${name}\nПочта: ${email}\nСообщение:\n${message}`;
 
-  try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
-      body: JSON.stringify({
-        from: sender,
-        to: [recipient],
-        subject: `${kind === "callback" ? "Новая заявка на звонок" : "Новое сообщение"} — ${name}`,
-        text: `${details}\nСтраница: ${sourcePath}\nНомер заявки: ${id}`,
-      }),
-    });
-    if (!response.ok) {
-      const responseText = clean(await response.text(), 500);
-      await updateNotification(id, "failed", `Resend ${response.status}: ${responseText}`);
-      return Response.json({ ok: true, saved: true, notified: false, id }, { status: 202 });
-    }
-    await updateNotification(id, "sent");
-    return Response.json({ ok: true, saved: true, notified: true, id });
-  } catch (error) {
-    const messageText = error instanceof Error ? error.message : "Unknown email error";
-    await updateNotification(id, "failed", clean(messageText, 500));
+  const notification = await sendContactEmail({
+    apiKey,
+    id,
+    sender,
+    recipient,
+    subject: `${kind === "callback" ? "Новая заявка на звонок" : "Новое сообщение"} — ${name}`,
+    text: `${details}\nСтраница: ${sourcePath}\nНомер заявки: ${id}`,
+  });
+  if (!notification.ok) {
+    await updateNotification(id, "failed", notification.error);
     return Response.json({ ok: true, saved: true, notified: false, id }, { status: 202 });
   }
+  await updateNotification(id, "sent");
+  return Response.json({ ok: true, saved: true, notified: true, id });
 }

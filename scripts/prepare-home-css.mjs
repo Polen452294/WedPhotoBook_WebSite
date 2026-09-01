@@ -50,6 +50,18 @@ sourceRoot.walkRules((rule) => {
   if (!rule.nodes?.length) rule.remove();
 });
 
+// Color interpolation on the three below-the-fold CTA buttons cannot run on
+// the compositor and is reported by Lighthouse as a non-composited animation.
+sourceRoot.walkRules(".restored-first-version .button", (rule) => {
+  rule.walkDecls("transition", (declaration) => {
+    declaration.value = declaration.value
+      .split(",")
+      .map((part) => part.trim())
+      .filter((part) => !part.startsWith("color "))
+      .join(",");
+  });
+});
+
 // The same local variable font previously appeared as five separate faces.
 // One ranged face preserves every used weight and reduces both critical and
 // deferred CSS parsing work.

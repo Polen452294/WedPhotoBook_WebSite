@@ -22,11 +22,15 @@ test("rejects a VPS contact configuration that cannot deliver notifications", as
     "RESEND_API_KEY=",
     "CONTACT_TO_EMAIL=79854342367@yandex.ru",
     "CONTACT_FROM_EMAIL=Wedfotobook <orders@your-verified-domain.ru>",
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY=",
+    "TURNSTILE_SECRET_KEY=",
   ].join("\n"));
 
   assert.equal(result.status, 1);
   assert.match(result.stderr, /RESEND_API_KEY is missing/);
   assert.match(result.stderr, /verified Resend domain/);
+  assert.match(result.stderr, /NEXT_PUBLIC_TURNSTILE_SITE_KEY is missing/);
+  assert.match(result.stderr, /TURNSTILE_SECRET_KEY is missing/);
 });
 
 test("accepts a complete VPS contact notification configuration without exposing values", async () => {
@@ -35,6 +39,8 @@ test("accepts a complete VPS contact notification configuration without exposing
     `RESEND_API_KEY=${apiKey}`,
     "CONTACT_TO_EMAIL=orders@example.com",
     "CONTACT_FROM_EMAIL=Wedfotobook <forms@example.com>",
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY=0x4AAAAAA-test",
+    "TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA",
   ].join("\n"));
 
   assert.equal(result.status, 0, result.stderr);
