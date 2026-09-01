@@ -77,6 +77,19 @@ const HOME_SOCIAL_ICON_URLS = [
   "/media/optimized/social/whatsapp-64.webp?v=20260830",
   "/media/optimized/social/max-64.webp?v=20260830",
 ];
+
+function withoutHomepageReactRuntime(html: string): string {
+  // Vinext serializes the complete server-rendered page once more as an RSC
+  // payload. The homepage is progressively enhanced by a small static script,
+  // so sending and executing that duplicate payload only delays the LCP.
+  const withoutClientScripts = html.replace(/<script\b[\s\S]*?<\/script>/gi, (script) => (
+    /\btype\s*=\s*(["'])application\/ld\+json\1/i.test(script) ? script : ""
+  ));
+  const interactions = '<script src="/wp-assets/home-interactions.js?v=20260902" defer></script>';
+  return withoutClientScripts.includes("</body>")
+    ? withoutClientScripts.replace("</body>", `${interactions}</body>`)
+    : `${withoutClientScripts}${interactions}`;
+}
 function withStaticContentType(pathname: string, response: Response): Response {
   const dotIndex = pathname.lastIndexOf(".");
   const contentType = dotIndex >= 0 ? STATIC_CONTENT_TYPES[pathname.slice(dotIndex).toLowerCase()] : undefined;
@@ -163,7 +176,9 @@ async function withHomepageCriticalStyles(request: Request, response: Response):
   // initial link so the same rules cannot block the first paint. Hydration may
   // restore its managed link later, after the first screen is already styled.
   const nonBlockingHtml = html.replace(frameworkStylesheetPattern, "");
-  const body = nonBlockingHtml.includes("</head>") ? nonBlockingHtml.replace("</head>", `${critical}${deferred}</head>`) : critical + deferred + nonBlockingHtml;
+  const styledHtml = nonBlockingHtml.includes("</head>") ? nonBlockingHtml.replace("</head>", `${critical}${deferred}</head>`) : critical + deferred + nonBlockingHtml;
+  const isEditorPreview = url.searchParams.get("cms_preview") === "1" || url.searchParams.get("code_preview") === "1";
+  const body = isEditorPreview ? styledHtml : withoutHomepageReactRuntime(styledHtml);
   const headers = new Headers(response.headers);
   headers.append("Link", `<${HOME_HERO_MOBILE_URL}>; rel=preload; as=image; type="image/avif"; imagesrcset="${HOME_HERO_SRCSET}"; imagesizes="${HOME_HERO_SIZES}"; fetchpriority=high`);
   headers.append("Link", `<${HOME_LOGO_MOBILE_URL}>; rel=preload; as=image; type="image/webp"; imagesrcset="${HOME_LOGO_SRCSET}"; imagesizes="${HOME_LOGO_SIZES}"; fetchpriority=high`);

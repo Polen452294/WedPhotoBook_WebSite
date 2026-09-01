@@ -1,7 +1,5 @@
-"use client";
-
 import Image from "@/components/SiteImage";
-import { useState } from "react";
+import { avifPhotoSrcSet, responsivePhotoProps } from "@/lib/media-path";
 
 const galleryCategories = [
   { from: 1, to: 5, altPrefix: "Юбилейная фотокнига на заказ — пример разворота с индивидуальным дизайном" },
@@ -61,40 +59,42 @@ const galleryImages = galleryFiles.map((fileName, index) => {
 });
 
 export function HomeGalleryCarousel() {
-  const [selected, setSelected] = useState(0);
-
-  function move(delta: number) {
-    setSelected((current) => (current + delta + galleryImages.length) % galleryImages.length);
-  }
-
   return (
-    <div className="home-gallery-carousel">
+    <div className="home-gallery-carousel" data-carousel>
       <div className="home-gallery-carousel-viewport">
         <div
           id="home-gallery-carousel-track"
           className="home-gallery-carousel-track"
-          style={{ transform: `translate3d(-${selected * 100}%, 0, 0)` }}
         >
-          {galleryImages.map((image, index) => (
-            <figure className="home-gallery-carousel-frame" style={{ aspectRatio: "1000 / 497" }} aria-hidden={index !== selected} key={image.src}>
-              {Math.abs(index - selected) <= 1 && <Image
-                src={image.src}
-                alt={image.alt}
-                width={1000}
-                height={497}
-                sizes="(max-width: 1048px) calc(100vw - 48px), 1000px"
-                loading="lazy"
-              />}
-            </figure>
-          ))}
+          {galleryImages.map((image, index) => {
+            const sizes = "(max-width: 1048px) calc(100vw - 48px), 1000px";
+            const photo = responsivePhotoProps(image.src, sizes);
+            return (
+              <figure
+                className="home-gallery-carousel-frame"
+                style={{ aspectRatio: "1000 / 497" }}
+                aria-hidden={index !== 0}
+                data-carousel-src={photo.src}
+                data-carousel-srcset={photo.srcSet}
+                data-carousel-avif-srcset={avifPhotoSrcSet(image.src)}
+                data-carousel-alt={image.alt}
+                data-carousel-width="1000"
+                data-carousel-height="497"
+                data-carousel-sizes={sizes}
+                key={image.src}
+              >
+                {index < 2 && <Image src={image.src} alt={image.alt} width={1000} height={497} sizes={sizes} loading="lazy" />}
+              </figure>
+            );
+          })}
         </div>
       </div>
       <div className="review-navigation" aria-label="Переключение фотографий галереи">
-        <button type="button" onClick={() => move(-1)} aria-controls="home-gallery-carousel-track">
+        <button type="button" data-carousel-prev aria-controls="home-gallery-carousel-track">
           <span aria-hidden="true">←</span><span>Назад</span>
         </button>
-        <strong aria-live="polite"><span>{selected + 1}</span> из {galleryImages.length}</strong>
-        <button type="button" onClick={() => move(1)} aria-controls="home-gallery-carousel-track">
+        <strong aria-live="polite"><span data-carousel-current>1</span> из {galleryImages.length}</strong>
+        <button type="button" data-carousel-next aria-controls="home-gallery-carousel-track">
           <span aria-hidden="true">→</span><span>Далее</span>
         </button>
       </div>

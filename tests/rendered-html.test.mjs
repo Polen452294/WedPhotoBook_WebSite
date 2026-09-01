@@ -8,7 +8,9 @@ const headerCss = await readFile(new URL("../public/wp-assets/home-original-fix.
 const firstVersionCss = await readFile(new URL("../public/wp-assets/first-version-home.css", import.meta.url), "utf8");
 const optimizedHomeCss = await readFile(new URL("../public/wp-assets/home-optimized.css", import.meta.url), "utf8");
 const orderDialogSource = await readFile(new URL("../components/OrderDialog.tsx", import.meta.url), "utf8");
+const contactPageSource = await readFile(new URL("../components/ContactPage.tsx", import.meta.url), "utf8");
 const contactRouteSource = await readFile(new URL("../app/api/contact/route.ts", import.meta.url), "utf8");
+const turnstileSource = await readFile(new URL("../lib/turnstile.ts", import.meta.url), "utf8");
 const legacyEnhancementsSource = await readFile(new URL("../components/LegacyEnhancements.tsx", import.meta.url), "utf8");
 const legacyPageSource = await readFile(new URL("../components/LegacyPage.tsx", import.meta.url), "utf8");
 const cookieNoticeSource = await readFile(new URL("../components/CookieNotice.tsx", import.meta.url), "utf8");
@@ -61,6 +63,10 @@ test("uses a two-field callback form with consent and spam protection", () => {
   assert.match(orderDialogSource, /name="formStartedAt" type="hidden"/);
   assert.match(orderDialogSource, /className="order-antispam"/);
   assert.match(orderDialogSource, /status === "sending" \? "Отправляем…" : "Отправить"/);
+  assert.match(orderDialogSource, /result\.saved && result\.notified === false \? "saved" : "success"/);
+  assert.match(contactPageSource, /result\.saved && result\.notified === false \? "saved" : "success"/);
+  assert.match(legacyEnhancementsSource, /result\.saved && result\.notified === false/);
+  assert.match(turnstileSource, /0x4AAAAAADOYhKhruVUymxia/);
   assert.doesNotMatch(orderDialogSource, /name="(?:photos|message)"/);
   assert.match(globalCss, /\.order-dialog \{[^}]*border-radius: 22px;/s);
   assert.match(globalCss, /\.order-dialog \.order-form \.checkbox > span \{[^}]*width: auto !important;[^}]*float: none !important;/s);
@@ -70,6 +76,7 @@ test("uses a two-field callback form with consent and spam protection", () => {
   assert.match(contactRouteSource, /value === true \|\| value === "on" \|\| value === "1"/);
   assert.match(contactRouteSource, /insert\(enquiries\)/);
   assert.match(contactRouteSource, /notificationStatus/);
+  assert.match(contactRouteSource, /senderMailbox\.endsWith\("@your-verified-domain\.ru"\)/);
   assert.match(databaseSchemaSource, /export const enquiries = sqliteTable/);
   assert.match(databaseSchemaSource, /export const submissionAttempts = sqliteTable/);
   assert.match(legacyEnhancementsSource, /kind: email \|\| message \? "message" : "callback"/);
@@ -283,6 +290,11 @@ test("serves responsive photos with full-resolution originals without loading Tu
   assert.match(head, /<link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=6" media="print" onload=/);
   assert.match(html, /home-optimized\.css\?v=6" media="print" onload=/);
   assert.match(html, /<noscript><link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=6"/);
+  assert.doesNotMatch(html, /bootstrap\.rsc|entry-browser/, "the homepage must not download the React/Vinext runtime");
+  assert.match(html, /<script src="\/wp-assets\/home-interactions\.js\?v=20260902" defer><\/script>/);
+  const previewHtml = await (await render("/?cms_preview=1")).text();
+  assert.match(previewHtml, /<script\b[^>]+_next\/static/, "the CMS preview must keep its editor runtime");
+  assert.doesNotMatch(previewHtml, /home-interactions\.js/, "the public enhancement script must not run in the CMS preview");
   const linkHeader = (await render()).headers.get("link") ?? "";
   const criticalMedia = [
     "/media/responsive/c465bcb8000c362c-384.avif",
@@ -779,6 +791,10 @@ test("reworks every requested catalog detail page with its exact text and adapti
   assert.match(graduationPageHtml, /цена за книгу от 1 500 ₽\./);
   assert.doesNotMatch(graduationPageHtml, /1 200/);
   assert.match(firstVersionCss, /\.catalog-story-page-vypusknye-fotoknigi \.pricing-grid-one \.price-card \{[^}]*grid-template-columns: minmax\(0, 1\.15fr\) minmax\(320px, \.85fr\);/s);
+  assert.match(
+    firstVersionCss,
+    /\.catalog-story-page-vypusknye-fotoknigi \.pricing-grid-one \.price-card > picture \{[^}]*display: block !important;[^}]*height: 100%;/s,
+  );
 });
 
 test("reworks only the wedding photobook page while preserving its hero and FAQ", async () => {
@@ -871,6 +887,8 @@ test("renders all supplied articles without bold or italic article text", async 
     const articleHtml = html.slice(start, html.indexOf("</main>", start));
     assert.ok(start >= 0, pathname);
     assert.match(articleHtml, new RegExp(expectedText.get(pathname).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), pathname);
+    assert.match(articleHtml, /Опубликовано <time[^>]*>25 августа 2026 г\.<\/time>/, pathname);
+    assert.doesNotMatch(articleHtml, /Обновлено/, pathname);
     assert.doesNotMatch(articleHtml, /<\/?(?:strong|b|em|i)\b/i, pathname);
     assert.doesNotMatch(articleHtml, /PickPoint|Boxberry/i, pathname);
   }
@@ -916,6 +934,7 @@ test("shows the visit warning below every Yandex map", async () => {
       assert.match(pageHtml, /class="company-story"><h2>О нас<\/h2>/);
     }
   }
+
 });
 
 test("keeps the original opening screen and restores the first working version below it", async () => {
@@ -1017,10 +1036,10 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(normalizedRestoredHtml, /\/media\/optimized\/social\/whatsapp-64\.webp/);
   assert.match(normalizedRestoredHtml, /\/media\/optimized\/social\/max-64\.webp/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">От снимков к семейной реликвии<\/span><h2>Как мы делаем фотокниги\?<\/h2><\/div><p>Каждый этап выполняют люди — от отбора фотографий и дизайна до финальной проверки перед печатью\.<\/p>/);
-  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow eyebrow-light">Каталог<\/span><h2>Какие фотокниги мы делаем\? Любые!<\/h2><\/div><p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы найдём визуальный язык для любого события\.<\/p>/);
+  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow eyebrow-light">Каталог<\/span><h2>Какие фотокниги мы делаем\? Любые!<\/h2><\/div><p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы создадим фотокнигу для любого события\.<\/p>/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Стоимость<\/span><h2(?: class="pricing-question-title")?>Хотите узнать стоимость фотокниги(?: до начала работы)?\?<\/h2><\/div><p>Можем сделать фотокнигу в кожаной или тканевой обложке<\/p>/);
   assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Почему нам доверяют<\/span><h2>Почему нам можно доверять\?<\/h2><\/div><p>Вы видите будущую книгу ещё до оплаты и участвуете в создании ровно настолько, насколько хотите\.<\/p>/);
-  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Семь простых шагов<\/span><h2>Как проходит заказ<\/h2><\/div><p>Вся работа идёт онлайн, без поездок в офис и долгих встреч\.<\/p>/);
+  assert.match(restoredHtml, /class="section-heading split-heading"><div><span class="eyebrow">Семь простых шагов<\/span><h2>Как проходит заказ<\/h2><\/div><p>Вся работа ведется онлайн, без поездок в офис и долгих встреч<\/p>/);
   assert.match(restoredHtml, /class="step-number">0(?:<!-- -->)?1<\/span>/);
   assert.match(restoredHtml, /class="step-number">0(?:<!-- -->)?7<\/span>/);
   assert.doesNotMatch(restoredHtml, /class="step-number">0(?:<!-- -->)?8<\/span>/);

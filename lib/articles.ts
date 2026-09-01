@@ -22,8 +22,8 @@ export const articles: Article[] = [
     title: "Родословная книга – идеальный подарок и семейная реликвия",
     description: "Фотокнига со снимками разных поколений становится семейной реликвией, которую будут листать дети, внуки и правнуки.",
     image: "/media/covers/Fotokniga genealogia wedfotobook ru.webp",
-    datePublished: "2021-12-27T20:35:04+03:00",
-    dateModified: "2026-08-03T15:57:02+03:00",
+    datePublished: "2026-08-25T14:55:50+03:00",
+    dateModified: "2026-08-25T14:55:50+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -65,8 +65,8 @@ export const articles: Article[] = [
     title: "11 лет за пару оборотов фотокниги: выпускной альбом на заказ как летопись взросления",
     description: "Выпускной альбом собирает одиннадцать школьных лет в цельную хронику взросления.",
     image: "/media/covers/Vipusk albom wedfotobook ru.webp",
-    datePublished: "2021-12-27T20:41:31+03:00",
-    dateModified: "2023-09-18T09:57:19+03:00",
+    datePublished: "2026-08-25T14:55:50+03:00",
+    dateModified: "2026-08-25T14:55:50+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -108,8 +108,8 @@ export const articles: Article[] = [
     title: "Фотокнига путешествий – увлекательная история поездки",
     description: "Фотокнига путешествий превращает разрозненные кадры в цельную историю поездки.",
     image: "/media/covers/Fotokniga puteshedtvij wedfotobook ru.webp",
-    datePublished: "2022-01-16T13:11:54+03:00",
-    dateModified: "2023-09-18T09:56:41+03:00",
+    datePublished: "2026-08-25T14:55:50+03:00",
+    dateModified: "2026-08-25T14:55:50+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -147,8 +147,8 @@ export const articles: Article[] = [
     title: "Оживающие фотографии – сказка или реальность?",
     description: "Как дополненная реальность превращает фотографию на странице фотокниги в видеоролик или анимацию.",
     image: "/media/covers/Fotokniga alive photo wedfotobook ru.webp",
-    datePublished: "2022-01-16T13:18:16+03:00",
-    dateModified: "2023-09-18T09:56:03+03:00",
+    datePublished: "2026-08-25T14:55:50+03:00",
+    dateModified: "2026-08-25T14:55:50+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -182,8 +182,8 @@ export const articles: Article[] = [
     title: "Отзывы о фотокнигах WedFotoBook",
     description: "Особенности сервиса WedFotoBook и отзывы заказчиков о готовых фотокнигах.",
     image: "/media/home/Dizain fotoknigi wedfotobook ru.webp",
-    datePublished: "2022-02-12T12:07:16+03:00",
-    dateModified: "2023-09-18T09:55:23+03:00",
+    datePublished: "2026-08-25T14:55:50+03:00",
+    dateModified: "2026-08-25T14:55:50+03:00",
     blocks: [
       {
         type: "paragraph",
@@ -264,8 +264,8 @@ export const articles: Article[] = [
     title: "Фотокнига на заказ: сохраните яркие моменты",
     description: "Фотокнига на заказ от WedFotoBook превращает разрозненные кадры в цельную и долговечную историю.",
     image: "/media/home/Fotokniga na zakaz wedfotobook ru.webp",
-    datePublished: "2026-06-19T17:32:55+03:00",
-    dateModified: "2026-07-12T17:36:44+03:00",
+    datePublished: "2026-08-25T14:55:50+03:00",
+    dateModified: "2026-08-25T14:55:50+03:00",
     blocks: [
       {
         type: "paragraph",

@@ -68,6 +68,10 @@ function normalizePhone(value: unknown): string | null {
   return `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 9)}-${digits.slice(9, 11)}`;
 }
 
+function extractMailbox(value: string): string {
+  return value.match(/<([^<>]+)>/)?.[1]?.trim() || value.trim();
+}
+
 function getClientAddress(request: Request): string {
   return clean(
     request.headers.get("cf-connecting-ip") ||
@@ -214,10 +218,16 @@ export async function POST(request: Request) {
     return Response.json({ error: "Не удалось сохранить заявку. Позвоните нам по телефону 8 (985) 434-23-67." }, { status: 503 });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const recipient = process.env.CONTACT_TO_EMAIL || "79854342367@yandex.ru";
-  const sender = process.env.CONTACT_FROM_EMAIL || "Wedfotobook <onboarding@resend.dev>";
-  if (!apiKey || !EMAIL_PATTERN.test(recipient)) {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const recipient = process.env.CONTACT_TO_EMAIL?.trim() || "79854342367@yandex.ru";
+  const sender = process.env.CONTACT_FROM_EMAIL?.trim() || "";
+  const senderMailbox = extractMailbox(sender).toLowerCase();
+  if (
+    !apiKey ||
+    !EMAIL_PATTERN.test(recipient) ||
+    !EMAIL_PATTERN.test(senderMailbox) ||
+    senderMailbox.endsWith("@your-verified-domain.ru")
+  ) {
     await updateNotification(id, "not_configured", "Email notification is not configured");
     return Response.json({ ok: true, saved: true, notified: false, id }, { status: 202 });
   }

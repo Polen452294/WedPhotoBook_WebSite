@@ -52,9 +52,6 @@ export function ArticlePage({ article }: { article: Article }) {
             <p className="article-byline">Автор материала: <Link href="/company/">{ARTICLE_AUTHOR.name}</Link></p>
             <p className="article-dates">
               Опубликовано <time dateTime={article.datePublished}>{formatArticleDate(article.datePublished)}</time>
-              {article.dateModified !== article.datePublished && (
-                <> · Обновлено <time dateTime={article.dateModified}>{formatArticleDate(article.dateModified)}</time></>
-              )}
             </p>
             <div className="author-bio">
               <p>{ARTICLE_AUTHOR.bio}</p>

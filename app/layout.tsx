@@ -1,9 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Analytics } from "@/components/Analytics";
-import { CookieNotice } from "@/components/CookieNotice";
-import { OrderDialog } from "@/components/OrderDialog";
-import { SiteCodeManager } from "@/components/SiteCodeManager";
-import { SiteContentManager } from "@/components/SiteContentManager";
 import { BusinessStructuredData, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
@@ -39,5 +34,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#061d31" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html id="top" lang="ru"><head><link rel="describedby" href="/llms.txt" type="text/markdown" /><BusinessStructuredData /></head><body>{children}<OrderDialog /><CookieNotice /><Analytics /><SiteContentManager /><SiteCodeManager /></body></html>;
+  return <html id="top" lang="ru"><head><link rel="describedby" href="/llms.txt" type="text/markdown" /><BusinessStructuredData /></head><body>{children}</body></html>;
 }

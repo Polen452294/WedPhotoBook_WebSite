@@ -4,6 +4,7 @@ import { ArticlePage } from "@/components/ArticlePage";
 import { BlogPage } from "@/components/BlogPage";
 import { CatalogPage } from "@/components/CatalogPage";
 import { CatalogDetailPage, catalogDetailDisplayTitles } from "@/components/CatalogDetailPage";
+import { ClientRuntime } from "@/components/ClientRuntime";
 import { CompanyPage } from "@/components/CompanyPage";
 import { ContactPage } from "@/components/ContactPage";
 import { LegacyPage, WHITE_LEGAL_PAGES } from "@/components/LegacyPage";
@@ -239,5 +240,5 @@ export default async function SlugPage({ params }: Props) {
   );
 
   const routedContent = WHITE_LEGAL_PAGES.has(slug) ? <div className="legal-white-route">{content}</div> : content;
-  return <>{structuredData}{routedContent}</>;
+  return <>{structuredData}{routedContent}<ClientRuntime /></>;
 }

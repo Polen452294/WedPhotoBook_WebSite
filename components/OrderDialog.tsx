@@ -3,9 +3,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events -- native dialog backdrop clicks close the modal */
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { renderTurnstile } from "@/lib/turnstile";
+import { renderTurnstile, TURNSTILE_SITE_KEY } from "@/lib/turnstile";
 
-type Status = "idle" | "sending" | "success" | "error";
+type Status = "idle" | "sending" | "success" | "saved" | "error";
 
 function formatPhone(value: string) {
   let digits = value.replace(/\D/g, "");
@@ -35,7 +35,7 @@ export function OrderDialog() {
   const [errorMessage, setErrorMessage] = useState("");
   const [phone, setPhone] = useState("");
   const [formStartedAt, setFormStartedAt] = useState(0);
-  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const turnstileSiteKey = TURNSTILE_SITE_KEY;
 
   useEffect(() => {
     const show = () => {
@@ -86,11 +86,11 @@ export function OrderDialog() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const result = (await response.json()) as { error?: string };
+      const result = (await response.json()) as { error?: string; saved?: boolean; notified?: boolean };
       if (!response.ok) throw new Error(result.error || "Не удалось отправить заявку.");
       form.reset();
       setPhone("");
-      setStatus("success");
+      setStatus(result.saved && result.notified === false ? "saved" : "success");
       if (turnstileWidgetId.current) window.turnstile?.reset(turnstileWidgetId.current);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Не удалось отправить заявку.");
@@ -132,6 +132,7 @@ export function OrderDialog() {
           {status === "sending" ? "Отправляем…" : "Отправить"}
         </button>
         {status === "success" && <p className="form-message success" role="status">Спасибо! Заявка принята. Мы скоро свяжемся с вами.</p>}
+        {status === "saved" && <p className="form-message success" role="status">Заявка сохранена. Почтовое уведомление задерживается, но обращение уже доступно нам в системе.</p>}
         {status === "error" && <p className="form-message error" role="alert">{errorMessage} Позвоните нам: <a href="tel:89854342367">8 (985) 434-23-67</a>.</p>}
       </form>
     </dialog>

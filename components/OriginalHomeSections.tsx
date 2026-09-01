@@ -200,7 +200,7 @@ export function HomeSevenDaysSection({ items = homeSteps }: { items?: readonly H
   return (
     <section className="section section-seven-days">
       <div className="shell">
-        <div className="section-heading split-heading"><div><span className="eyebrow">Семь простых шагов</span><h2>Как проходит заказ</h2></div><p>Вся работа идёт онлайн, без поездок в офис и долгих встреч.</p></div>
+        <div className="section-heading split-heading"><div><span className="eyebrow">Семь простых шагов</span><h2>Как проходит заказ</h2></div><p>Вся работа ведется онлайн, без поездок в офис и долгих встреч</p></div>
         <ol className="steps-grid">
           {items.map(([icon, title, text], index) => <li key={title}><span className="step-number">0{index + 1}</span><Image src={`/media/steps/${icon}`} alt={`Иконка этапа заказа: ${title.toLocaleLowerCase("ru-RU")}`} width={41} height={39} /><h3>{title}</h3><p>{text}</p></li>)}
         </ol>
@@ -239,7 +239,7 @@ export function OriginalHomeSections() {
 
       <section className="section section-ink">
         <div className="shell">
-          <div className="section-heading split-heading"><div><span className="eyebrow eyebrow-light">Каталог</span><h2>Какие фотокниги мы делаем? Любые!</h2></div><p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы найдём визуальный язык для любого события.</p></div>
+          <div className="section-heading split-heading"><div><span className="eyebrow eyebrow-light">Каталог</span><h2>Какие фотокниги мы делаем? Любые!</h2></div><p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы создадим фотокнигу для любого события.</p></div>
           <div className="catalog-grid">
             {catalog.map(([slug, title, description, cover, coverAlt]) => (
               <a className="catalog-card" href={`/${slug}/`} key={slug}>

@@ -13,6 +13,12 @@ type TurnstileApi = {
   reset(widget?: string | HTMLElement): void;
 };
 
+// This is a public widget identifier, not a secret. Keeping the production
+// fallback in the client bundle prevents a missing build-time env value from
+// disabling the widget while TURNSTILE_SECRET_KEY still rejects every form.
+export const TURNSTILE_SITE_KEY =
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() || "0x4AAAAAADOYhKhruVUymxia";
+
 const SCRIPT_ID = "cloudflare-turnstile";
 let loadPromise: Promise<TurnstileApi> | undefined;
 

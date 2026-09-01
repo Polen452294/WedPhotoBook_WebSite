@@ -382,7 +382,7 @@ function withReviewBackgroundBands(bodyHtml: string, slug: string): string {
   return `${bodyHtml.slice(0, galleryStartIndex)}<div class="reviews-gallery-section">${bodyHtml.slice(galleryStartIndex, reviewStartIndex)}</div><div class="reviews-copy-section">${bodyHtml.slice(reviewStartIndex, reviewEndIndex)}</div>${bodyHtml.slice(reviewEndIndex)}`;
 }
 
-export function LegacyPage({ page }: { page: RenderedPage }) {
+export function LegacyPage({ page, enhance = true }: { page: RenderedPage; enhance?: boolean }) {
   const normalizedBodyHtml = withSeoImageAlts(withReviewBackgroundBands(
     withUpdatedGenealogyNaming(
       withHomepageBenefitLabels(
@@ -413,7 +413,7 @@ export function LegacyPage({ page }: { page: RenderedPage }) {
       />}
       {!isHomepage && <link rel="stylesheet" href="/wp-assets/home-original-fix.css?v=51" precedence="wordpress-overrides" />}
       {!isHomepage && <link rel="stylesheet" href="/wp-assets/first-version-home.css?v=82" precedence="site-design" />}
-      <LegacyEnhancements bodyClass={page.bodyClass} />
+      {enhance && <LegacyEnhancements bodyClass={page.bodyClass} />}
       <div className={`legacy-wordpress ${page.bodyClass}${legalPageClass}`} dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </>
   );

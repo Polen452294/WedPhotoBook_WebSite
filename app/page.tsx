@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ClientRuntime } from "@/components/ClientRuntime";
 import { LegacyPage } from "@/components/LegacyPage";
 import { OriginalFooter, OriginalHomeSections } from "@/components/OriginalHomeSections";
 import { getSnapshot } from "@/lib/rendered-pages";
@@ -59,11 +60,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const query = await searchParams;
+  const isEditorPreview = query.cms_preview === "1" || query.code_preview === "1";
+
   return (
     <>
       <PageStructuredData title={page.title} description={page.description || undefined} path="/" service />
-      <LegacyPage page={withoutHiddenLegacyHomepageSections(page)} />
+      <LegacyPage page={withoutHiddenLegacyHomepageSections(page)} enhance={false} />
       <div className="restored-first-version">
         <section className="home-redesign-facts-section" aria-label="Преимущества">
           <div className="shell home-redesign-facts">
@@ -75,6 +79,7 @@ export default function Home() {
         <OriginalHomeSections />
         <OriginalFooter />
       </div>
+      {isEditorPreview && <ClientRuntime />}
     </>
   );
 }

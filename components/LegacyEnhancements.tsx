@@ -186,13 +186,19 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
           headers: { "content-type": "application/json" },
           body: JSON.stringify(payload),
         });
-        const result = (await response.json()) as { error?: string };
+        const result = (await response.json()) as { error?: string; saved?: boolean; notified?: boolean };
         if (!response.ok) throw new Error(result.error || "Не удалось отправить форму.");
         form.reset();
         legacyFormStartedAt.set(form, Date.now());
         const widget = form.querySelector<HTMLElement>(".cf-turnstile");
         if (widget && window.turnstile) window.turnstile.reset(widget);
-        setLegacyFormStatus(form, "sent", "Спасибо! Заявка принята. Мы скоро свяжемся с вами.");
+        setLegacyFormStatus(
+          form,
+          "sent",
+          result.saved && result.notified === false
+            ? "Заявка сохранена. Почтовое уведомление задерживается, но обращение уже доступно нам в системе."
+            : "Спасибо! Заявка принята. Мы скоро свяжемся с вами.",
+        );
       } catch (error) {
         const reason = error instanceof Error ? error.message : "Не удалось отправить форму.";
         setLegacyFormStatus(form, "failed", `${reason} Позвоните 8 (985) 434-23-67 или напишите на 79854342367@yandex.ru.`);

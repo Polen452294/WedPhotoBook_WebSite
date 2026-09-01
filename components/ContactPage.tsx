@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { contacts } from "@/lib/site-data";
-import { renderTurnstile } from "@/lib/turnstile";
+import { renderTurnstile, TURNSTILE_SITE_KEY } from "@/lib/turnstile";
 
-type Status = "idle" | "sending" | "success" | "error";
+type Status = "idle" | "sending" | "success" | "saved" | "error";
 
 const messengers = [
   { href: contacts.telegram, src: "/media/social/Tg wedfotobook .png", label: "Telegram", alt: "Написать в Telegram" },
@@ -23,7 +23,7 @@ export function ContactPage() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [formStartedAt, setFormStartedAt] = useState(0);
-  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const turnstileSiteKey = TURNSTILE_SITE_KEY;
 
   useEffect(() => {
     const timer = window.setTimeout(() => setFormStartedAt(Date.now()), 0);
@@ -59,12 +59,12 @@ export function ContactPage() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const result = (await response.json()) as { error?: string };
+      const result = (await response.json()) as { error?: string; saved?: boolean; notified?: boolean };
       if (!response.ok) throw new Error(result.error || "Не удалось отправить сообщение.");
 
       form.reset();
       setFormStartedAt(Date.now());
-      setStatus("success");
+      setStatus(result.saved && result.notified === false ? "saved" : "success");
       if (turnstileWidgetId.current) window.turnstile?.reset(turnstileWidgetId.current);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Не удалось отправить сообщение.");
@@ -108,6 +108,7 @@ export function ContactPage() {
                 <div className="contact-form-action">
                   <button type="submit" disabled={status === "sending"}>{status === "sending" ? "Отправляем…" : "Отправить"}</button>
                   {status === "success" && <p className="contact-form-status success" role="status">Спасибо! Сообщение отправлено.</p>}
+                  {status === "saved" && <p className="contact-form-status success" role="status">Сообщение сохранено. Почтовое уведомление задерживается, но обращение уже доступно нам в системе.</p>}
                   {status === "error" && <p className="contact-form-status error" role="alert">{errorMessage}</p>}
                 </div>
               </form>

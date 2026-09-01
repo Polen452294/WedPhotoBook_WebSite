@@ -4192,6 +4192,12 @@
   align-items: stretch;
 }
 
+.restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card > picture {
+  display: block !important;
+  min-width: 0;
+  height: 100%;
+}
+
 .restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card > img,.restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card >picture>img {
   width: 100%;
   height: 100%;
@@ -4214,6 +4220,10 @@
   .restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card > img,.restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card >picture>img {
     height: auto;
     aspect-ratio: 1.25;
+  }
+
+  .restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card > picture {
+    height: auto;
   }
 }
 

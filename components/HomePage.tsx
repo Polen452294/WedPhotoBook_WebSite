@@ -107,7 +107,7 @@ export function HomePage() {
           <div className="section-heading center-heading">
             <span className="eyebrow eyebrow-light">Каталог</span>
             <h2>Для каждой истории — своя фотокнига</h2>
-            <p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы найдём визуальный язык для любого события.</p>
+            <p>Свадьба, первый год малыша, юбилей, выпускной или путешествие — мы создадим фотокнигу для любого события.</p>
           </div>
           <div className="catalog-grid">
             {catalogItems.map((item) => (
@@ -161,7 +161,7 @@ export function HomePage() {
         <div className="shell">
           <div className="section-heading split-heading">
             <div><span className="eyebrow">Семь простых шагов</span><h2>Как проходит заказ</h2></div>
-            <p>Вся работа идёт онлайн, без поездок в офис и долгих встреч.</p>
+            <p>Вся работа ведется онлайн, без поездок в офис и долгих встреч</p>
           </div>
           <ol className="steps-grid">
             {steps.map(([icon, title, text], index) => (

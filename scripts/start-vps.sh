@@ -12,6 +12,8 @@ if [[ ! -f dist/server/wrangler.json ]]; then
   exit 1
 fi
 
+node scripts/check-contact-config.mjs .env.local
+
 # The generated Sites config serves assets automatically, but the VPS image
 # optimizer also needs an explicit service binding for source files.
 node scripts/check-public-assets.mjs
