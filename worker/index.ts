@@ -1,6 +1,10 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
+import appCriticalStyles from "../app/globals.css?raw";
+import photoSources from "../data/photo-sources.json";
+import responsiveLogo from "../data/responsive-logo.json";
+import responsivePhotos from "../data/responsive-photos.json";
 import homeCriticalStyles from "../public/wp-assets/home-critical.css?raw";
 
 interface Env {
@@ -55,6 +59,24 @@ const PUBLIC_CONTENT_SECURITY_POLICY = [
   "manifest-src 'self'",
 ].join("; ");
 
+const HOME_HERO_SOURCE = "/media/home/Fotokniga na zakaz wedfotobook ru.webp";
+const HOME_HERO_ORIGINAL = photoSources[HOME_HERO_SOURCE as keyof typeof photoSources];
+const HOME_HERO_VARIANTS = responsivePhotos[HOME_HERO_ORIGINAL as keyof typeof responsivePhotos];
+const HOME_HERO_MOBILE_URL = `/media/responsive/${HOME_HERO_VARIANTS.avifId}-384.avif`;
+const HOME_HERO_SRCSET = HOME_HERO_VARIANTS.avifWidths
+  .map((width) => `/media/responsive/${HOME_HERO_VARIANTS.avifId}-${width}.avif ${width}w`)
+  .join(", ");
+const HOME_HERO_SIZES = "(max-width: 359px) calc(100vw - 58px), (max-width: 559px) calc(61vw - 44px), (max-width: 767px) 298px, 50vw";
+const HOME_LOGO_MOBILE_URL = `/media/responsive/${responsiveLogo.id}-384.webp`;
+const HOME_LOGO_SRCSET = responsiveLogo.widths
+  .map((width) => `/media/responsive/${responsiveLogo.id}-${width}.webp ${width}w`)
+  .join(", ");
+const HOME_LOGO_SIZES = "(max-width: 767px) 214px, 243px";
+const HOME_SOCIAL_ICON_URLS = [
+  "/media/optimized/social/telegram-64.webp?v=20260830",
+  "/media/optimized/social/whatsapp-64.webp?v=20260830",
+  "/media/optimized/social/max-64.webp?v=20260830",
+];
 function withStaticContentType(pathname: string, response: Response): Response {
   const dotIndex = pathname.lastIndexOf(".");
   const contentType = dotIndex >= 0 ? STATIC_CONTENT_TYPES[pathname.slice(dotIndex).toLowerCase()] : undefined;
@@ -129,14 +151,23 @@ async function withHomepageCriticalStyles(request: Request, response: Response):
   const contentType = response.headers.get("Content-Type") ?? "";
   if (url.pathname !== "/" || !response.ok || !contentType.toLowerCase().startsWith("text/html")) return response;
 
-  // Insert once after rendering so the CSS is present in the HTML but is not
-  // repeated in the React flight payload. The complete stylesheet loads from
-  // the head with media=print and remains available as a no-JS fallback.
+  // Inline the two small first-screen stylesheets. This removes both CSS
+  // round-trips from the critical path; the large WordPress stylesheet remains
+  // deferred and available as a no-JS fallback.
   const html = await response.text();
-  const style = `<style data-home-critical>${homeCriticalStyles.replaceAll("</style", "<\\/style")}</style>`;
+  const escapeStyle = (css: string) => css.replaceAll("</style", "<\\/style");
+  const critical = `<style data-app-critical>${escapeStyle(appCriticalStyles)}</style><style data-home-critical>${escapeStyle(homeCriticalStyles)}</style>`;
   const deferred = '<link rel="stylesheet" href="/wp-assets/home-optimized.css?v=6" media="print" onload="this.media=\'all\';this.onload=null"><noscript><link rel="stylesheet" href="/wp-assets/home-optimized.css?v=6"></noscript>';
-  const body = html.includes("</head>") ? html.replace("</head>", `${style}${deferred}</head>`) : style + deferred + html;
-  return new Response(body, { status: response.status, statusText: response.statusText, headers: response.headers });
+  const frameworkStylesheetPattern = /<link rel="stylesheet" href="([^"]+)"[^>]*data-rsc-css-href=[^>]*>/;
+  const nonBlockingHtml = html.replace(frameworkStylesheetPattern, (tag) => tag.replace("<link ", '<link media="print" '));
+  const body = nonBlockingHtml.includes("</head>") ? nonBlockingHtml.replace("</head>", `${critical}${deferred}</head>`) : critical + deferred + nonBlockingHtml;
+  const headers = new Headers(response.headers);
+  headers.append("Link", `<${HOME_HERO_MOBILE_URL}>; rel=preload; as=image; type="image/avif"; imagesrcset="${HOME_HERO_SRCSET}"; imagesizes="${HOME_HERO_SIZES}"; fetchpriority=high`);
+  headers.append("Link", `<${HOME_LOGO_MOBILE_URL}>; rel=preload; as=image; type="image/webp"; imagesrcset="${HOME_LOGO_SRCSET}"; imagesizes="${HOME_LOGO_SIZES}"; fetchpriority=high`);
+  for (const iconUrl of HOME_SOCIAL_ICON_URLS) {
+    headers.append("Link", `<${iconUrl}>; rel=preload; as=image; type="image/webp"; fetchpriority=high`);
+  }
+  return new Response(body, { status: response.status, statusText: response.statusText, headers });
 }
 
 // Image security config. SVG sources with .svg extension auto-skip the

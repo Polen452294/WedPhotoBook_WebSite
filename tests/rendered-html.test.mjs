@@ -76,6 +76,11 @@ test("uses a two-field callback form with consent and spam protection", () => {
   assert.match(legacyEnhancementsSource, /your-message/);
 });
 
+test("does not restyle the whole document after homepage hydration", () => {
+  assert.match(legacyEnhancementsSource, /const isHomepage = bodyClass\.split\(\/\\s\+\/\)\.includes\("home"\)/);
+  assert.match(legacyEnhancementsSource, /if \(!isHomepage\) document\.body\.className =/);
+});
+
 test("uses granular cookie consent before analytics", () => {
   assert.match(cookieNoticeSource, />Принять все<\/button>/);
   assert.match(cookieNoticeSource, />Отклонить необязательные<\/button>/);
@@ -266,20 +271,35 @@ test("serves responsive photos with full-resolution originals without loading Tu
   assert.match(hero, /srcset="[^"]+320w,[^"]+480w,[^"]+640w/);
   assert.match(hero, /22969\.jpg\?v=20260831 1767w/);
   assert.match(hero, /sizes="[^"]+calc\(61vw - 44px\)/);
-  const preload = [...html.matchAll(/<link\b[^>]*>/g)].map((match) => match[0])
-    .find((tag) => /rel="preload"/.test(tag) && /as="image"/.test(tag) && /type="image\/avif"/.test(tag));
-  assert.ok(preload, "LCP image must be discovered in the head before body markup");
   const heroPicture = [...html.matchAll(/<picture\b[^>]*>[\s\S]*?<\/picture>/g)].map((match) => match[0]).find((picture) => picture.includes("/media/originals/22969.jpg"));
   const avifSource = /<source\b[^>]*>/.exec(heroPicture)?.[0];
-  assert.equal(/imageSrcSet="([^"]+)"/i.exec(preload)?.[1], /srcset="([^"]+)"/i.exec(avifSource)?.[1]);
   assert.match(avifSource, /384\.avif 384w/);
-  assert.equal(/imageSizes="([^"]+)"/i.exec(preload)?.[1], /sizes="([^"]+)"/i.exec(hero)?.[1]);
+  assert.match(hero, /loading="eager" fetchpriority="high"/);
   const head = html.slice(0, html.indexOf("</head>"));
+  assert.match(head, /<style data-app-critical>/);
   assert.match(head, /<style data-home-critical>/);
+  assert.match(head, /<link media="print" rel="stylesheet" href="\/_next\/static\/css\//);
+  assert.doesNotMatch(head, /<link rel="stylesheet" href="\/wp-assets\/home-critical\.css/);
   assert.match(head, /<link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=6" media="print" onload=/);
   assert.match(html, /home-optimized\.css\?v=6" media="print" onload=/);
   assert.match(html, /<noscript><link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=6"/);
-  assert.ok(html.indexOf(preload) < 2_000, "preload must precede inline CSS, not wait for it");
+  const linkHeader = (await render()).headers.get("link") ?? "";
+  const criticalMedia = [
+    "/media/responsive/c465bcb8000c362c-384.avif",
+    "/media/responsive/2504a79c7c6b3770-384.webp",
+    "/media/optimized/social/telegram-64.webp?v=20260830",
+    "/media/optimized/social/whatsapp-64.webp?v=20260830",
+    "/media/optimized/social/max-64.webp?v=20260830",
+  ];
+  for (const resource of criticalMedia) {
+    assert.equal(linkHeader.split(`<${resource}>`).length - 1, 1, `${resource} must be preloaded exactly once`);
+  }
+  assert.match(linkHeader, /\/media\/responsive\/c465bcb8000c362c-384\.avif>.*rel=preload.*as=image.*imagesrcset="[^"]+320w,[^"]+384w/);
+  assert.match(linkHeader, /\/media\/responsive\/2504a79c7c6b3770-384\.webp>.*rel=preload.*as=image.*imagesrcset="[^"]+256w,[^"]+384w/);
+  for (const icon of ["telegram", "whatsapp", "max"]) {
+    assert.match(linkHeader, new RegExp(`/media/optimized/social/${icon}-64\\.webp\\?v=20260830>.*rel=preload.*as=image`));
+  }
+  assert.doesNotMatch(linkHeader, /home-critical\.css|\/_next\/static\/css\//);
   for (const track of ["home-gallery-carousel-track", "review-carousel-track"]) {
     const start = html.indexOf(`id="${track}"`);
     const end = html.indexOf('class="review-navigation"', start);
@@ -287,9 +307,15 @@ test("serves responsive photos with full-resolution originals without loading Tu
     assert.equal([...slides.matchAll(/<img\b/g)].length, 2, "only the active and adjacent slide should have image sources initially");
   }
   assert.ok(imageTags.some((tag) => /\bsrcset=/i.test(tag)));
-  assert.match(html, /\/_vinext\/image\?url=/);
+  assert.doesNotMatch(html, /\/_vinext\/image\?url=[^"']*social/i, "tiny social icons should load directly");
   const logoTag = imageTags.find((tag) => normalizeMediaPaths(tag).includes("/media/brand/Logo wedfotobook.png"));
   assert.match(logoTag ?? "", /width="962" height="198"/);
+  assert.match(logoTag ?? "", /loading="eager" fetchpriority="high"/);
+  assert.doesNotMatch(html, /<source type="image\/avif"[^>]+bcc41e6f31b2f1ab/);
+  for (const icon of ["telegram", "whatsapp", "max"]) {
+    const iconTag = imageTags.find((tag) => tag.includes(`/media/optimized/social/${icon}-64.webp`));
+    assert.match(iconTag ?? "", /loading="eager" fetchpriority="high"/);
+  }
   assert.doesNotMatch(nextConfigSource, /unoptimized:\s*true/);
   assert.doesNotMatch(layoutSource, /challenges\.cloudflare\.com\/turnstile/);
   assert.match(orderDialogSource, /renderTurnstile/);
@@ -903,9 +929,11 @@ test("keeps the original opening screen and restores the first working version b
   assert.equal(response.headers.get("cdn-cache-control"), "public, max-age=300, stale-while-revalidate=86400");
 
   const html = await response.text();
-  // First-screen CSS is now part of the HTML; bound its actual wire payload too.
-  assert.ok(Buffer.byteLength(html, "utf8") < 350_000, "homepage including inline CSS must stay below 350 KB");
-  assert.ok(gzipSync(html).length < 55_000, "compressed homepage including first-screen styles must stay below 55 KB");
+  // The compact first-screen CSS travels with the compressed HTML and does not
+  // require an additional render-blocking request.
+  assert.ok(Buffer.byteLength(html, "utf8") < 300_000, "homepage HTML must stay below 300 KB");
+  assert.ok(gzipSync(html).length < 55_000, "compressed homepage HTML must stay below 55 KB");
+  assert.doesNotMatch(optimizedHomeCss, /\*\{transition-duration:/, "the legacy universal transition must stay removed");
   const normalizedHtml = normalizeMediaPaths(html);
   assert.match(html, /От вас только фото/);
   assert.match(headerCss, /\.vc_custom_1777448124380 > \.hcode-column-1 ul > li::before \{[\s\S]*?color: #b99769;[\s\S]*?content: "✓";/);

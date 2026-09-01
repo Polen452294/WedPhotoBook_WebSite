@@ -80,21 +80,28 @@ function withHomepageImages(bodyHtml: string, slug: string): string {
 function withResponsiveLegacyImages(bodyHtml: string, slug: string): string {
   const allowedWidths = [64, 128, 256, 384, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
 
+  const prioritize = (tag: string) => tag
+    .replace(/\s+loading=("|')[^"']*\1/gi, "")
+    .replace(/\s+fetchpriority=("|')[^"']*\1/gi, "")
+    .replace(/\s*\/?>(?=$)/, ' loading="eager" fetchpriority="high" />');
+
   return bodyHtml.replace(/<img\b[^>]*>/gi, (tag) => {
     const src = /\bsrc=("|')([^"']+)\1/i.exec(tag)?.[2];
     if (src && isPhotoSource(src)) {
-      const photo = responsivePhotoProps(src, !slug && src === HOME_HERO_SOURCE ? HOME_HERO_SIZES : "100vw");
+      const isHero = !slug && src === HOME_HERO_SOURCE;
+      const photo = responsivePhotoProps(src, isHero ? HOME_HERO_SIZES : "100vw");
       const responsive = photo.srcSet ? ` srcset="${photo.srcSet.replaceAll("&", "&amp;")}" sizes="${photo.sizes}"` : "";
-      const image = tag
+      let image = tag
         .replace(/\bsrc=("|')([^"']+)\1/i, `src="${photo.src.replaceAll("&", "&amp;")}"`)
         .replace(/\s+(?:srcset|sizes)=("|')[^"']*\1/gi, "")
         .replace(/\s*\/?>(?=$)/, `${responsive} />`);
+      if (isHero) image = prioritize(image);
       const avif = avifPhotoSrcSet(src);
       return avif ? `<picture data-responsive-picture style="display:contents"><source type="image/avif" srcset="${avif}" sizes="${photo.sizes}" />${image}</picture>` : image;
     }
     if (!slug && src?.split("?", 1)[0] === "/media/brand/Logo wedfotobook.png") {
       const logo = responsiveLogoProps();
-      return tag.replace(/\s*\/?>(?=$)/, ` srcset="${logo.srcSet}" sizes="${logo.sizes}" />`);
+      return prioritize(tag.replace(/\s*\/?>(?=$)/, ` srcset="${logo.srcSet}" sizes="${logo.sizes}" />`));
     }
     if (process.env.NODE_ENV === "development") return tag;
 
@@ -103,18 +110,20 @@ function withResponsiveLegacyImages(bodyHtml: string, slug: string): string {
       return tag;
     }
 
+    // These files are already tiny 64 px WebP icons. Routing them through the
+    // image endpoint adds a request variant and can fail when the source URL
+    // contains its cache-busting query string.
+    if (src.includes("/social/")) return slug ? tag : prioritize(tag);
+
     const widths = allowedWidths.filter((candidate) => candidate <= Math.max(width, 64));
     if (!widths.length) return tag;
     const isLogo = src.includes("/brand/");
-    const isSocialIcon = src.includes("/social/");
     const srcset = widths
       .map((candidate) => `/_vinext/image?url=${encodeURIComponent(src)}&amp;w=${candidate}&amp;q=75 ${candidate}w`)
       .join(", ");
     const sizes = isLogo
       ? "150px"
-      : isSocialIcon
-        ? "40px"
-        : "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px";
+      : "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px";
     return tag.replace(/\s*\/?>(?=$)/, ` srcset="${srcset}" sizes="${sizes}" />`);
   });
 }
@@ -395,12 +404,8 @@ export function LegacyPage({ page }: { page: RenderedPage }) {
   const bodyHtml = withAccessibleLegacyControls(normalizedBodyHtml);
   const legalPageClass = WHITE_LEGAL_PAGES.has(page.slug) ? " legal-white-page" : "";
   const isHomepage = !page.slug;
-  const hero = responsivePhotoProps(HOME_HERO_SOURCE, HOME_HERO_SIZES);
-  const heroAvif = avifPhotoSrcSet(HOME_HERO_SOURCE);
   return (
     <>
-      {isHomepage && <link rel="preload" as="image" type="image/avif" href={heroAvif?.split(" ", 1)[0]} imageSrcSet={heroAvif} imageSizes={hero.sizes} fetchPriority="high" />}
-      {isHomepage && <link rel="preload" as="font" href="/media/fonts/open-sans-latin-variable-v3.003.woff2" type="font/woff2" crossOrigin="anonymous" fetchPriority="low" />}
       {!isHomepage && <link
         rel="stylesheet"
         href="/wp-assets/wordpress.css?v=13"

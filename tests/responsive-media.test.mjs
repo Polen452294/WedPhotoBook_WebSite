@@ -4,6 +4,7 @@ import test from "node:test";
 import sharp from "sharp";
 
 const manifest = JSON.parse(await readFile(new URL("../data/responsive-photos.json", import.meta.url)));
+const logoManifest = JSON.parse(await readFile(new URL("../data/responsive-logo.json", import.meta.url)));
 
 test("responsive images retain the original proportions and never upscale", async () => {
   for (const [source, photo] of Object.entries(manifest)) {
@@ -41,6 +42,14 @@ test("the mobile hero has sharp 2x/3x candidates with a much smaller payload", a
   const avif = await readFile(new URL(`../public/media/responsive/${hero.avifId}-384.avif`, import.meta.url));
   const previousWebp = await readFile(new URL(`../public/media/responsive/${hero.id}-480.webp`, import.meta.url));
   assert.ok(avif.length < previousWebp.length * 0.6, "the mobile LCP resource should be at least 40% smaller");
+});
+
+test("the header logo has lossless responsive sources", async () => {
+  for (const width of logoManifest.widths) {
+    const webp = await sharp(await readFile(new URL(`../public/media/responsive/${logoManifest.id}-${width}.webp`, import.meta.url))).metadata();
+    assert.equal(webp.format, "webp");
+    assert.equal(webp.width, width);
+  }
 });
 
 test("the homepage uses compressed local fonts and retains the fallback typefaces", async () => {

@@ -70,8 +70,13 @@ function setLegacyFormStatus(form: HTMLFormElement, state: "sent" | "failed", me
 
 export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
   useEffect(() => {
+    // The homepage CSS is scoped to .legacy-wordpress.home already. Replacing
+    // the body class after hydration invalidates styles for the whole, long
+    // document and delays the hero paint. Legacy inner pages still receive the
+    // original WordPress body classes until their remaining CSS is scoped too.
+    const isHomepage = bodyClass.split(/\s+/).includes("home");
     const previous = document.body.className;
-    document.body.className = `${BODY_CLASSES.join(" ")} ${bodyClass}`.trim();
+    if (!isHomepage) document.body.className = `${BODY_CLASSES.join(" ")} ${bodyClass}`.trim();
     document.querySelector("#cookie-notice")?.remove();
     initializeImageViewers();
     const legacyFormStartedAt = new WeakMap<HTMLFormElement, number>();
@@ -203,7 +208,7 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
       document.removeEventListener("click", click, true);
       document.removeEventListener("focusin", focus);
       document.removeEventListener("submit", submit);
-      document.body.className = previous;
+      if (!isHomepage) document.body.className = previous;
     };
   }, [bodyClass]);
 
