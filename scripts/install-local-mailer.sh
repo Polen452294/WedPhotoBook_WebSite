@@ -70,7 +70,18 @@ unset mailer_token
 systemctl daemon-reload
 systemctl enable opendkim postfix wedfotobook-mailer
 systemctl restart opendkim postfix wedfotobook-mailer
-curl --fail --silent --show-error http://127.0.0.1:3081/health >/dev/null
+mailer_healthy=0
+for _ in {1..20}; do
+  if curl --fail --silent http://127.0.0.1:3081/health >/dev/null; then
+    mailer_healthy=1
+    break
+  fi
+  sleep 0.5
+done
+if [[ "$mailer_healthy" -ne 1 ]]; then
+  systemctl --no-pager --full status wedfotobook-mailer >&2 || true
+  exit 1
+fi
 
 echo "Local mailer is running. Publish the DKIM TXT value shown below at mail._domainkey.fotobooktest24.ru:"
 tr -d '\n\t"()' </etc/opendkim/keys/fotobooktest24.ru/mail.txt
