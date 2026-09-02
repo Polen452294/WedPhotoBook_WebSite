@@ -1,5 +1,5 @@
-/* eslint-disable @next/next/no-html-link-for-pages -- Vinext client navigation currently fails on protected admin routes; document navigation is intentional. */
 import { redirect } from "next/navigation";
+/* eslint-disable @next/next/no-html-link-for-pages -- admin transitions require full authenticated document requests */
 import { AdminLoginForm } from "@/components/AdminLoginForm";
 import { getAdminUser } from "@/lib/admin-auth";
 import { safeAdminReturnPath } from "@/lib/admin-session";

@@ -3,7 +3,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events -- native dialog backdrop clicks close the modal */
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { renderTurnstile, TURNSTILE_SITE_KEY } from "@/lib/turnstile";
 
 type Status = "idle" | "sending" | "success" | "saved" | "error";
 
@@ -29,13 +28,10 @@ function formatPhone(value: string) {
 
 export function OrderDialog() {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const turnstileRef = useRef<HTMLDivElement>(null);
-  const turnstileWidgetId = useRef<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [phone, setPhone] = useState("");
   const [formStartedAt, setFormStartedAt] = useState(0);
-  const turnstileSiteKey = TURNSTILE_SITE_KEY;
 
   useEffect(() => {
     const show = () => {
@@ -43,19 +39,6 @@ export function OrderDialog() {
       setErrorMessage("");
       setFormStartedAt(Date.now());
       if (!dialogRef.current?.open) dialogRef.current?.showModal();
-      if (turnstileSiteKey && turnstileRef.current) {
-        void renderTurnstile(turnstileRef.current, {
-          sitekey: turnstileSiteKey,
-          theme: "light",
-          language: "ru",
-          size: "flexible",
-          action: "callback",
-          "response-field-name": "turnstileToken",
-        }).then((widgetId) => {
-          turnstileWidgetId.current = widgetId;
-          window.turnstile?.reset(widgetId);
-        }).catch(() => undefined);
-      }
     };
     const open = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
@@ -69,7 +52,7 @@ export function OrderDialog() {
       document.removeEventListener("click", open);
       window.removeEventListener("wedfotobook:open-order", show);
     };
-  }, [turnstileSiteKey]);
+  }, []);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -91,7 +74,6 @@ export function OrderDialog() {
       form.reset();
       setPhone("");
       setStatus(result.saved && result.notified === false ? "saved" : "success");
-      if (turnstileWidgetId.current) window.turnstile?.reset(turnstileWidgetId.current);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Не удалось отправить заявку.");
       setStatus("error");
@@ -118,12 +100,6 @@ export function OrderDialog() {
         <label className="checkbox"><input name="consent" type="checkbox" required />
           <span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span>
         </label>
-        {turnstileSiteKey && (
-          <div
-            className="order-turnstile"
-            ref={turnstileRef}
-          />
-        )}
         <div className="order-antispam" aria-label="Форма защищена от автоматических заявок">
           <span className="order-antispam-icon" aria-hidden="true">✓</span>
           <span><strong>Антиспам-защита включена</strong><small>Форма проверяется на сервере перед отправкой</small></span>

@@ -45,6 +45,7 @@ export function avifPhotoSrcSet(src: string) {
 export function responsiveLogoProps() {
   return {
     srcSet: responsiveLogo.widths.map((width) => `/media/responsive/${responsiveLogo.id}-${width}.webp ${width}w`).join(", "),
+    avifSrcSet: [256, 320, 384].map((width) => `/media/responsive/${responsiveLogo.id}-${width}.avif ${width}w`).join(", "),
     sizes: "150px",
   };
 }
@@ -57,10 +58,9 @@ export function optimizedMediaUrl(src: string) {
 export function directMediaImageProps(src: string) {
   if (!src.includes("%")) return { src };
 
-  // Vinext's local static handler decodes the URL twice. Double-encode only the
-  // exceptional source filename containing a literal percent sign.
+  // Encode the exceptional source filename containing a literal percent sign.
   return {
-    src: src.replaceAll("%", "%2525").replaceAll(" ", "%2520"),
+    src: encodeURI(src),
     unoptimized: true,
   };
 }

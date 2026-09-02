@@ -75,8 +75,7 @@ function extractMailbox(value: string): string {
 
 function getClientAddress(request: Request): string {
   return clean(
-    request.headers.get("cf-connecting-ip") ||
-      request.headers.get("x-forwarded-for")?.split(",")[0] ||
+    request.headers.get("x-forwarded-for")?.split(",")[0] ||
       request.headers.get("x-real-ip") ||
       "unknown",
     100,
@@ -105,28 +104,6 @@ async function isRateLimited(request: Request, now: Date): Promise<boolean> {
   if ((result?.total ?? 0) >= RATE_LIMIT_MAX) return true;
   await db.insert(submissionAttempts).values({ clientHash, createdAt: now }).run();
   return false;
-}
-
-async function verifyTurnstile(token: string, remoteIp: string): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return true;
-  if (!token) return false;
-
-  try {
-    const form = new FormData();
-    form.set("secret", secret);
-    form.set("response", token);
-    if (remoteIp !== "unknown") form.set("remoteip", remoteIp);
-    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      body: form,
-    });
-    if (!response.ok) return false;
-    const result = (await response.json()) as { success?: boolean };
-    return result.success === true;
-  } catch {
-    return false;
-  }
 }
 
 async function updateNotification(
@@ -185,11 +162,6 @@ export async function POST(request: Request) {
     return Response.json({ error: "Укажите корректную почту и текст сообщения." }, { status: 422 });
   }
 
-  const remoteIp = getClientAddress(request);
-  if (!(await verifyTurnstile(clean(body.turnstileToken, 2048), remoteIp))) {
-    return Response.json({ error: "Не удалось пройти антиспам-проверку. Обновите страницу и попробуйте снова." }, { status: 422 });
-  }
-
   try {
     if (await isRateLimited(request, now)) {
       return Response.json({ error: "Слишком много заявок. Попробуйте позже." }, { status: 429 });
@@ -219,7 +191,6 @@ export async function POST(request: Request) {
     return Response.json({ error: "Не удалось сохранить заявку. Позвоните нам по телефону 8 (985) 434-23-67." }, { status: 503 });
   }
 
-  const apiKey = process.env.RESEND_API_KEY?.trim();
   const localMailerUrl = process.env.CONTACT_MAILER_URL?.trim();
   const localMailerToken = process.env.CONTACT_MAILER_TOKEN?.trim();
   const localMailerConfigured = isLoopbackMailerUrl(localMailerUrl) && (localMailerToken?.length ?? 0) >= 32;
@@ -227,7 +198,7 @@ export async function POST(request: Request) {
   const sender = process.env.CONTACT_FROM_EMAIL?.trim() || "";
   const senderMailbox = extractMailbox(sender).toLowerCase();
   if (
-    (!localMailerConfigured && !apiKey) ||
+    !localMailerConfigured ||
     !EMAIL_PATTERN.test(recipient) ||
     !EMAIL_PATTERN.test(senderMailbox) ||
     senderMailbox.endsWith("@your-verified-domain.ru")
@@ -241,7 +212,6 @@ export async function POST(request: Request) {
     : `Имя: ${name}\nПочта: ${email}\nСообщение:\n${message}`;
 
   const notification = await sendContactEmail({
-    apiKey,
     localMailerUrl: localMailerConfigured ? localMailerUrl : undefined,
     localMailerToken: localMailerConfigured ? localMailerToken : undefined,
     id,

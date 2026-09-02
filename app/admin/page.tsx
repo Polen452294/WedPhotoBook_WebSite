@@ -1,5 +1,5 @@
-/* eslint-disable @next/next/no-html-link-for-pages -- Vinext client navigation currently fails on protected admin routes; document navigation is intentional. */
 import { and, count, desc, eq, gte, lt, sql } from "drizzle-orm";
+/* eslint-disable @next/next/no-html-link-for-pages -- admin transitions require full authenticated document requests */
 import { AdminShell } from "@/components/AdminShell";
 import { getDb } from "@/db";
 import { analyticsEvents, enquiries, siteContent } from "@/db/schema";

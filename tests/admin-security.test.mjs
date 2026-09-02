@@ -13,11 +13,12 @@ const [
   contentRouteSource,
   analyticsRouteSource,
   schemaSource,
-  workerSource,
+  nextConfigSource,
+  databaseSource,
+  serverSource,
   deploySource,
   packageSource,
   vpsStartSource,
-  vpsRuntimeSource,
 ] = await Promise.all([
   read("../lib/admin-auth.ts"),
   read("../lib/admin-session.ts"),
@@ -28,16 +29,16 @@ const [
   read("../app/api/admin/content/route.ts"),
   read("../app/api/analytics/route.ts"),
   read("../db/schema.ts"),
-  read("../worker/index.ts"),
+  read("../next.config.ts"),
+  read("../db/index.ts"),
+  read("../scripts/server.mjs"),
   read("../docs/deploy.md"),
   read("../package.json"),
   read("../scripts/start-vps.sh"),
-  read("../scripts/prepare-vps-runtime.mjs"),
 ]);
 
 test("admin authorization fails closed and is enforced on mutations", () => {
-  assert.match(authSource, /process\.env\.ADMIN_EMAILS \?\? ""/);
-  assert.doesNotMatch(authSource, /CONTACT_TO_EMAIL/);
+  assert.doesNotMatch(authSource, /ADMIN_EMAILS|CONTACT_TO_EMAIL/);
   assert.match(authSource, /getPasswordAdminUser\(\)/);
   assert.match(adminSecuritySource, /getAdminUser\(\)/);
   assert.match(contentRouteSource, /authorizeAdminMutation\(request\)/);
@@ -77,32 +78,31 @@ test("state-changing endpoints enforce same-origin JSON size and route constrain
   assert.match(analyticsRouteSource, /assertSameOriginMutation\(request\)/);
 });
 
-test("admin writes have rate limiting conflict detection and audit records", () => {
+test("admin writes have rate limiting transactions conflict detection and audit records", () => {
   assert.match(adminSecuritySource, /ADMIN_RATE_LIMIT_MAX = 30/);
   assert.match(schemaSource, /export const adminActionAttempts = sqliteTable/);
   assert.match(schemaSource, /export const adminAuditLog = sqliteTable/);
   assert.match(contentRouteSource, /expectedValue/);
   assert.match(contentRouteSource, /RequestSecurityError\(409/);
   assert.match(contentRouteSource, /previousValueHash/);
-  assert.match(contentRouteSource, /db\.batch/);
+  assert.match(contentRouteSource, /db\.transaction/);
 });
 
 test("admin and API responses receive restrictive browser security headers", () => {
-  assert.match(workerSource, /frame-ancestors 'none'/);
-  assert.match(workerSource, /headers\.set\("X-Frame-Options", "DENY"\)/);
-  assert.match(workerSource, /headers\.set\("Cross-Origin-Opener-Policy", "same-origin"\)/);
-  assert.match(workerSource, /headers\.delete\("X-Powered-By"\)/);
-  assert.match(workerSource, /headers\.set\("Cache-Control", "private, no-store"\)/);
+  assert.match(nextConfigSource, /frame-ancestors 'none'/);
+  assert.match(nextConfigSource, /X-Frame-Options", value: "DENY"/);
+  assert.match(nextConfigSource, /Cross-Origin-Opener-Policy", value: "same-origin"/);
+  assert.match(nextConfigSource, /Cache-Control", value: "private, no-store"/);
+  assert.match(nextConfigSource, /poweredByHeader: false/);
 });
 
-test("deployment instructions prevent unsafe direct exposure", () => {
-  assert.match(deploySource, /Не запускайте `wrangler deploy`/);
-  assert.match(packageSource, /vinext start --hostname 127\.0\.0\.1 --port 3000/);
+test("deployment is a loopback-only Node and local SQLite process", () => {
+  assert.match(databaseSource, /better-sqlite3/);
+  assert.match(databaseSource, /DATABASE_PATH/);
+  assert.match(packageSource, /"start": "node scripts\/server\.mjs"/);
   assert.match(packageSource, /"start:vps": "bash scripts\/start-vps\.sh"/);
-  assert.match(vpsStartSource, /wrangler dev/);
-  assert.match(vpsStartSource, /--ip 127\.0\.0\.1/);
-  assert.match(vpsStartSource, /install -m 600 \.env\.local dist\/server\/\.dev\.vars/);
-  assert.match(vpsStartSource, /prepare-vps-runtime\.mjs dist\/server\/wrangler\.json/);
-  assert.match(vpsRuntimeSource, /config\.assets\.binding = "ASSETS"/);
-  assert.match(deploySource, /удалять входящие `oai-authenticated-user-\*`/);
+  assert.match(vpsStartSource, /node scripts\/migrate-sqlite\.mjs/);
+  assert.match(vpsStartSource, /node scripts\/server\.mjs/);
+  assert.match(serverSource, /127\.0\.0\.1/);
+  assert.match(deploySource, /127\.0\.0\.1:3000/);
 });

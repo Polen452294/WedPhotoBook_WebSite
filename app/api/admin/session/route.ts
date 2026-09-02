@@ -68,13 +68,13 @@ export async function POST(request: Request) {
       return invalidCredentialsResponse();
     }
 
-    await db.batch([
-      db.delete(adminLoginAttempts).where(and(
+    db.transaction((tx) => {
+      tx.delete(adminLoginAttempts).where(and(
         eq(adminLoginAttempts.clientHash, clientHash),
         eq(adminLoginAttempts.succeeded, false),
-      )),
-      db.insert(adminLoginAttempts).values({ clientHash, succeeded: true, createdAt: now }),
-    ]);
+      )).run();
+      tx.insert(adminLoginAttempts).values({ clientHash, succeeded: true, createdAt: now }).run();
+    });
     const token = await createAdminSessionToken(now);
     return new Response(null, {
       status: 204,

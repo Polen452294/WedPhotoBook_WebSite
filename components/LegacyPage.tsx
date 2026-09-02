@@ -78,8 +78,6 @@ function withHomepageImages(bodyHtml: string, slug: string): string {
 }
 
 function withResponsiveLegacyImages(bodyHtml: string, slug: string): string {
-  const allowedWidths = [64, 128, 256, 384, 640, 750, 828, 1080, 1200, 1920, 2048, 3840];
-
   const prioritize = (tag: string) => tag
     .replace(/\s+loading=("|')[^"']*\1/gi, "")
     .replace(/\s+fetchpriority=("|')[^"']*\1/gi, "")
@@ -105,30 +103,15 @@ function withResponsiveLegacyImages(bodyHtml: string, slug: string): string {
     }
     if (!slug && src?.split("?", 1)[0] === "/media/brand/Logo wedfotobook.png") {
       const logo = responsiveLogoProps();
-      return prioritize(tag.replace(/\s*\/?>(?=$)/, ` srcset="${logo.srcSet}" sizes="${logo.sizes}" />`));
+      const image = prioritize(tag.replace(/\s*\/?>(?=$)/, ` srcset="${logo.srcSet}" sizes="${logo.sizes}" />`));
+      return `<picture data-responsive-logo style="display:contents"><source type="image/avif" srcset="${logo.avifSrcSet}" sizes="${logo.sizes}" />${image}</picture>`;
     }
     if (process.env.NODE_ENV === "development") return tag;
 
-    const width = Number(/\bwidth=("|')(\d+)\1/i.exec(tag)?.[2]);
-    if (!src?.startsWith("/") || !Number.isFinite(width) || /\bsrcset=/i.test(tag) || /\.(?:gif|svg)(?:\?|$)/i.test(src)) {
-      return tag;
-    }
-
-    // These files are already tiny 64 px WebP icons. Routing them through the
-    // image endpoint adds a request variant and can fail when the source URL
-    // contains its cache-busting query string.
-    if (src.includes("/social/")) return slug ? tag : deprioritize(tag);
-
-    const widths = allowedWidths.filter((candidate) => candidate <= Math.max(width, 64));
-    if (!widths.length) return tag;
-    const isLogo = src.includes("/brand/");
-    const srcset = widths
-      .map((candidate) => `/_vinext/image?url=${encodeURIComponent(src)}&amp;w=${candidate}&amp;q=75 ${candidate}w`)
-      .join(", ");
-    const sizes = isLogo
-      ? "150px"
-      : "(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 900px";
-    return tag.replace(/\s*\/?>(?=$)/, ` srcset="${srcset}" sizes="${sizes}" />`);
+    // Every content photo with prepared candidates is handled above. Remaining
+    // local assets are already small UI files and load directly from the VPS.
+    if (src?.includes("/social/") && !slug) return deprioritize(tag);
+    return tag;
   });
 }
 
@@ -257,12 +240,7 @@ function withSeoImageAlts(bodyHtml: string, slug: string): string {
 }
 
 function withWorkingForms(bodyHtml: string): string {
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
-  const configuredHtml = siteKey
-    ? bodyHtml.replace(/data-sitekey=("|')[^"']*\1/g, `data-sitekey="${siteKey}"`)
-    : bodyHtml;
-
-  return configuredHtml.replace(
+  return bodyHtml.replace(
     /<h3 id=("|')reply-title\1[\s\S]*?<\/form>/i,
     '<h2 id="reply-title" class="comment-reply-title">Комментарии</h2><p class="legacy-comments-closed">Комментарии к этой записи закрыты.</p>',
   );

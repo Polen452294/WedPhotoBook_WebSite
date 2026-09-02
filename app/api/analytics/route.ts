@@ -34,9 +34,9 @@ export async function POST(request: Request) {
       return new Response(null, { status: 429, headers: { "Retry-After": "60" } });
     }
 
-    await db.batch([
-      db.delete(analyticsEvents).where(lt(analyticsEvents.createdAt, new Date(now.getTime() - ANALYTICS_RETENTION_MS))),
-      db.insert(analyticsEvents).values({
+    db.transaction((tx) => {
+      tx.delete(analyticsEvents).where(lt(analyticsEvents.createdAt, new Date(now.getTime() - ANALYTICS_RETENTION_MS))).run();
+      tx.insert(analyticsEvents).values({
         id: crypto.randomUUID(),
         eventType,
         pagePath,
@@ -46,8 +46,8 @@ export async function POST(request: Request) {
         referrer: eventType === "page_view" ? clean(body.referrer, 180) || "Прямой переход" : null,
         device,
         createdAt: now,
-      }),
-    ]);
+      }).run();
+    });
     return new Response(null, { status: 204 });
   } catch (error) {
     if (error instanceof RequestSecurityError) return new Response(null, { status: error.status, headers: error.headers });

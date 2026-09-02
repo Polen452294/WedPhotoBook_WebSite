@@ -110,7 +110,7 @@ function clearMetrikaStorage() {
 
 export function Analytics() {
   useEffect(() => {
-    let stopFirstParty = () => undefined;
+    let stopFirstParty: () => void = () => undefined;
     let firstPartyStarted = false;
     const startFirstParty = () => {
       if (!firstPartyStarted) {

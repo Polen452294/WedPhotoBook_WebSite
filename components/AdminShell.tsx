@@ -1,8 +1,7 @@
 "use client";
 
-/* eslint-disable @next/next/no-html-link-for-pages -- Vinext client navigation currently fails on protected admin routes; document navigation is intentional. */
 import { useState, type ReactNode } from "react";
-import { chatGPTSignOutPath } from "@/app/chatgpt-auth";
+/* eslint-disable @next/next/no-html-link-for-pages -- admin transitions require full authenticated document requests */
 import type { AdminUser } from "@/lib/admin-session";
 
 export function AdminShell({ children, user }: { children: ReactNode; user: AdminUser }) {
@@ -11,10 +10,6 @@ export function AdminShell({ children, user }: { children: ReactNode; user: Admi
   async function signOut() {
     if (signingOut) return;
     setSigningOut(true);
-    if (user.authMethod === "chatgpt") {
-      window.location.assign(chatGPTSignOutPath("/admin/login/"));
-      return;
-    }
     try {
       const response = await fetch("/api/admin/session/", { method: "DELETE" });
       if (!response.ok) throw new Error("sign out failed");

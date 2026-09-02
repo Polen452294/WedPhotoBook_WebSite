@@ -2196,9 +2196,6 @@
   text-underline-offset: 3px;
 }
 
-.restored-first-version .contact-turnstile {
-  min-height: 65px;
-}
 
 .restored-first-version .contact-form-action {
   display: flex;

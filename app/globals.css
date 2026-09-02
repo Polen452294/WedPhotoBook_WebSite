@@ -183,7 +183,6 @@ body * {
 .order-dialog .order-form .checkbox > span { display: block !important; width: auto !important; min-width: 0; max-width: none !important; margin: 0 !important; padding: 0 !important; float: none !important; white-space: normal; word-break: normal; overflow-wrap: normal; }
 .order-dialog .checkbox a { display: inline !important; width: auto !important; float: none !important; color: #075b86; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
 .order-dialog .honeypot { position: absolute !important; left: -9999px !important; }
-.order-dialog .order-turnstile { min-height: 65px; }
 .order-dialog .order-antispam {
   display: flex;
   align-items: center;

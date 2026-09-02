@@ -1,12 +1,11 @@
-import { readFile, readdir, stat, mkdir, writeFile } from "node:fs/promises";
+import { readdir, mkdir, writeFile } from "node:fs/promises";
 import { resolve, relative, dirname } from "node:path";
-import { pathToFileURL } from "node:url";
 
 const live = process.argv.find((arg) => arg.startsWith("--base-url="))?.slice(11);
+if (!live) throw new Error("Pass --base-url=http://127.0.0.1:3000 to audit a running build.");
 const reportPath = process.argv.find((arg) => arg.startsWith("--report="))?.slice(9);
-const base = new URL(live ?? "http://localhost");
+const base = new URL(live);
 const publicRoot = resolve("public");
-const buildRoot = resolve("dist/client");
 const assets = new Map();
 const optimizerSources = new Map();
 const failures = [];
@@ -23,12 +22,10 @@ const legacyCssControls = new Map([
 ]);
 const imageExtension = /\.(?:avif|webp|png|jpe?g|gif|svg|ico)$/i;
 const decodeHtml = (value) => value.replaceAll("&amp;", "&").replaceAll("&#038;", "&").replaceAll("&quot;", '"');
-const worker = live ? null : (await import(pathToFileURL(resolve("dist/server/index.js")).href)).default;
 
 async function pageResponse(path) {
   const request = new Request(new URL(path, base));
-  if (live) return fetch(request, { signal: AbortSignal.timeout(20_000) });
-  return worker.fetch(request, { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } }, { waitUntil() {}, passThroughOnException() {} });
+  return fetch(request, { signal: AbortSignal.timeout(20_000) });
 }
 
 function addAsset(raw, type, owner) {
@@ -43,7 +40,7 @@ function addAsset(raw, type, owner) {
   let key = url.href;
   // The VPS optimizer passes through the same original for every width. Check
   // each source/endpoint once live; distinct pre-generated srcset files stay separate.
-  if (live && ["/_next/image", "/_vinext/image"].includes(url.pathname)) {
+  if (url.pathname === "/_next/image") {
     const sourceKey = `${url.pathname}:${url.searchParams.get("url")}`;
     key = optimizerSources.get(sourceKey) ?? key;
     optimizerSources.set(sourceKey, key);
@@ -94,41 +91,13 @@ function collectHtml(html, owner) {
   collectCss(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ""), owner);
 }
 
-async function existingFile(directory, encodedPath) {
-  let path = encodedPath;
-  // Legacy sources include literal percent signs and double-encoded spaces.
-  for (let attempt = 0; attempt < 4; attempt++) {
-    const file = resolve(directory, `.${path}`);
-    const relativePath = relative(directory, file);
-    if (relativePath.startsWith("..")) throw new Error(`Unsafe asset path: ${path}`);
-    try { if ((await stat(file)).isFile()) return file; } catch { /* Try the next decoding level. */ }
-    try {
-      const decoded = decodeURIComponent(path);
-      if (decoded === path) break;
-      path = decoded;
-    } catch { break; }
-  }
-  return null;
-}
-
 async function checkAsset(href, entry) {
-  if (live) {
-    const response = await fetch(href, { method: entry.type === "css" ? "GET" : "HEAD", signal: AbortSignal.timeout(20_000) });
-    if (response.status !== 200) throw new Error(`HTTP ${response.status}`);
-    const type = response.headers.get("content-type") ?? "";
-    if (entry.type === "image" && !type.startsWith("image/")) throw new Error(`Not an image: ${type}`);
-    if (entry.type === "css" && !type.startsWith("text/css")) throw new Error(`Not CSS: ${type}`);
-    if (entry.type === "css") collectCss(await response.text(), href);
-    return;
-  }
-  const url = new URL(href);
-  const sourceUrl = ["/_next/image", "/_vinext/image"].includes(url.pathname) ? new URL(url.searchParams.get("url"), base) : url;
-  const builtFile = await existingFile(buildRoot, sourceUrl.pathname);
-  if (!builtFile) throw new Error("Missing from dist/client");
-  const sourceFile = await existingFile(publicRoot, sourceUrl.pathname);
-  if (!sourceFile && !sourceUrl.pathname.startsWith("/_next/static/")) throw new Error("Missing from public");
-  if (sourceFile && !(await readFile(sourceFile)).equals(await readFile(builtFile))) throw new Error("Source and build contents differ");
-  if (entry.type === "css") collectCss(await readFile(builtFile, "utf8"), href);
+  const response = await fetch(href, { method: entry.type === "css" ? "GET" : "HEAD", signal: AbortSignal.timeout(20_000) });
+  if (response.status !== 200) throw new Error(`HTTP ${response.status}`);
+  const type = response.headers.get("content-type") ?? "";
+  if (entry.type === "image" && !type.startsWith("image/")) throw new Error(`Not an image: ${type}`);
+  if (entry.type === "css" && !type.startsWith("text/css")) throw new Error(`Not CSS: ${type}`);
+  if (entry.type === "css") collectCss(await response.text(), href);
 }
 
 const sitemapResponse = await pageResponse("/sitemap.xml");
@@ -150,8 +119,7 @@ async function collectPublic(directory) {
     if (entry.isDirectory()) await collectPublic(file);
     else if (/\.(?:avif|webp|png|jpe?g|gif|svg|ico|woff2?|ttf|otf|eot)$/i.test(entry.name)) {
       const urlPath = "/" + relative(publicRoot, file).split(/[/\\]/).map(encodeURIComponent).join("/");
-      // Some legacy filenames need runtime-specific URL encoding; rendered URLs are checked live instead.
-      if (!live) addAsset(urlPath, imageExtension.test(entry.name) ? "image" : "font", base.href);
+      addAsset(urlPath, imageExtension.test(entry.name) ? "image" : "font", base.href);
     }
   }
 }

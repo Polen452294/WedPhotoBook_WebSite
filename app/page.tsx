@@ -5,6 +5,8 @@ import { OriginalFooter, OriginalHomeSections } from "@/components/OriginalHomeS
 import { getSnapshot } from "@/lib/rendered-pages";
 import { PageStructuredData } from "@/lib/seo";
 
+/* eslint-disable @next/next/no-css-tags -- the route-specific static stylesheet avoids adding it to every page */
+
 const page = getSnapshot("")!;
 
 const HTML_VOID_ELEMENTS = new Set([
@@ -66,6 +68,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
 
   return (
     <>
+      <link rel="stylesheet" href="/wp-assets/home-optimized.css?v=10" precedence="home" />
+      {!isEditorPreview && <script src="/wp-assets/home-interactions.js?v=20260902b" defer />}
       <PageStructuredData title={page.title} description={page.description || undefined} path="/" service />
       <LegacyPage page={withoutHiddenLegacyHomepageSections(page)} enhance={false} />
       <div className="restored-first-version">

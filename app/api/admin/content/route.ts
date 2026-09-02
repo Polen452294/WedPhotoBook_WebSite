@@ -66,8 +66,8 @@ export async function PATCH(request: Request) {
       sha256(value),
     ]);
     await removeExpiredAudit(authorization.now);
-    await db.batch([
-      db.insert(siteContent).values({
+    db.transaction((tx) => {
+      tx.insert(siteContent).values({
         pagePath: normalizedPath,
         nodeKey: normalizedNodeKey,
         value,
@@ -77,8 +77,8 @@ export async function PATCH(request: Request) {
       }).onConflictDoUpdate({
         target: [siteContent.pagePath, siteContent.nodeKey],
         set: { value, updatedBy: authorization.user.email.toLowerCase(), updatedAt: authorization.now },
-      }),
-      db.insert(adminAuditLog).values({
+      }).run();
+      tx.insert(adminAuditLog).values({
         id: crypto.randomUUID(),
         actorUserId: authorization.user.userId,
         actorEmail: authorization.user.email.toLowerCase(),
@@ -90,8 +90,8 @@ export async function PATCH(request: Request) {
         clientHash: authorization.clientHash,
         requestId: authorization.requestId,
         createdAt: authorization.now,
-      }),
-    ]);
+      }).run();
+    });
 
     return Response.json({ ok: true, pagePath: normalizedPath, nodeKey: normalizedNodeKey, value, originalValue, updatedAt: authorization.now.toISOString() });
   } catch (error) {
@@ -122,9 +122,9 @@ export async function DELETE(request: Request) {
       sha256(existing.originalValue),
     ]);
     await removeExpiredAudit(authorization.now);
-    await db.batch([
-      db.delete(siteContent).where(and(eq(siteContent.pagePath, normalizedPath), eq(siteContent.nodeKey, normalizedNodeKey))),
-      db.insert(adminAuditLog).values({
+    db.transaction((tx) => {
+      tx.delete(siteContent).where(and(eq(siteContent.pagePath, normalizedPath), eq(siteContent.nodeKey, normalizedNodeKey))).run();
+      tx.insert(adminAuditLog).values({
         id: crypto.randomUUID(),
         actorUserId: authorization.user.userId,
         actorEmail: authorization.user.email.toLowerCase(),
@@ -136,8 +136,8 @@ export async function DELETE(request: Request) {
         clientHash: authorization.clientHash,
         requestId: authorization.requestId,
         createdAt: authorization.now,
-      }),
-    ]);
+      }).run();
+    });
     return Response.json({ ok: true, pagePath: normalizedPath, nodeKey: normalizedNodeKey });
   } catch (error) {
     if (error instanceof RequestSecurityError) return requestSecurityResponse(error);

@@ -64,8 +64,8 @@ export async function PATCH(request: Request) {
       sha256(validation.css),
     ]);
     await removeExpiredAudit(authorization.now);
-    await db.batch([
-      db.insert(siteCodeSettings).values({
+    db.transaction((tx) => {
+      tx.insert(siteCodeSettings).values({
         key: SITE_CODE_KEY,
         customCss: validation.css,
         revision: nextRevision,
@@ -74,8 +74,8 @@ export async function PATCH(request: Request) {
       }).onConflictDoUpdate({
         target: siteCodeSettings.key,
         set: { customCss: validation.css, revision: nextRevision, updatedBy: authorization.user.email.toLowerCase(), updatedAt: authorization.now },
-      }),
-      db.insert(adminAuditLog).values({
+      }).run();
+      tx.insert(adminAuditLog).values({
         id: crypto.randomUUID(),
         actorUserId: authorization.user.userId,
         actorEmail: authorization.user.email.toLowerCase(),
@@ -87,8 +87,8 @@ export async function PATCH(request: Request) {
         clientHash: authorization.clientHash,
         requestId: authorization.requestId,
         createdAt: authorization.now,
-      }),
-    ]);
+      }).run();
+    });
     return Response.json({ ok: true, customCss: validation.css, revision: nextRevision, updatedAt: authorization.now.toISOString() });
   } catch (error) {
     if (error instanceof RequestSecurityError) return requestSecurityResponse(error);
@@ -113,14 +113,14 @@ export async function DELETE(request: Request) {
     const nextRevision = currentRevision + 1;
     const [previousValueHash, nextValueHash] = await Promise.all([sha256(existing.customCss), sha256("")]);
     await removeExpiredAudit(authorization.now);
-    await db.batch([
-      db.update(siteCodeSettings).set({
+    db.transaction((tx) => {
+      tx.update(siteCodeSettings).set({
         customCss: "",
         revision: nextRevision,
         updatedBy: authorization.user.email.toLowerCase(),
         updatedAt: authorization.now,
-      }).where(eq(siteCodeSettings.key, SITE_CODE_KEY)),
-      db.insert(adminAuditLog).values({
+      }).where(eq(siteCodeSettings.key, SITE_CODE_KEY)).run();
+      tx.insert(adminAuditLog).values({
         id: crypto.randomUUID(),
         actorUserId: authorization.user.userId,
         actorEmail: authorization.user.email.toLowerCase(),
@@ -132,8 +132,8 @@ export async function DELETE(request: Request) {
         clientHash: authorization.clientHash,
         requestId: authorization.requestId,
         createdAt: authorization.now,
-      }),
-    ]);
+      }).run();
+    });
     return Response.json({ ok: true, customCss: "", revision: nextRevision, updatedAt: authorization.now.toISOString() });
   } catch (error) {
     if (error instanceof RequestSecurityError) return requestSecurityResponse(error);

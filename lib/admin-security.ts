@@ -25,13 +25,13 @@ export async function authorizeAdminMutation(request: Request): Promise<Authoriz
   const windowStart = new Date(now.getTime() - ADMIN_RATE_LIMIT_WINDOW_MS);
   const retentionStart = new Date(now.getTime() - ADMIN_ATTEMPT_RETENTION_MS);
   const db = await getDb();
-  const [, , recentRows] = await db.batch([
-    db.delete(adminActionAttempts).where(lt(adminActionAttempts.createdAt, retentionStart)),
-    db.insert(adminActionAttempts).values({ actorUserId: user.userId, createdAt: now }),
-    db.select({ total: count() }).from(adminActionAttempts).where(
+  const recentRows = db.transaction((tx) => {
+    tx.delete(adminActionAttempts).where(lt(adminActionAttempts.createdAt, retentionStart)).run();
+    tx.insert(adminActionAttempts).values({ actorUserId: user.userId, createdAt: now }).run();
+    return tx.select({ total: count() }).from(adminActionAttempts).where(
       and(eq(adminActionAttempts.actorUserId, user.userId), gt(adminActionAttempts.createdAt, windowStart)),
-    ),
-  ]);
+    ).all();
+  });
   const [result] = recentRows;
   if ((result?.total ?? 0) > ADMIN_RATE_LIMIT_MAX) {
     throw new RequestSecurityError(429, "Слишком много действий. Повторите через минуту.", { "Retry-After": "60" });
@@ -39,6 +39,6 @@ export async function authorizeAdminMutation(request: Request): Promise<Authoriz
 
   const auditSalt = process.env.ADMIN_AUDIT_SALT?.trim();
   const clientHash = auditSalt ? await sha256(`${auditSalt}:${requestClientAddress(request)}`) : null;
-  const requestId = (request.headers.get("cf-ray") || crypto.randomUUID()).replace(/[^a-zA-Z0-9-]/g, "").slice(0, 80);
+  const requestId = (request.headers.get("x-request-id") || crypto.randomUUID()).replace(/[^a-zA-Z0-9-]/g, "").slice(0, 80);
   return { user, now, clientHash, requestId };
 }

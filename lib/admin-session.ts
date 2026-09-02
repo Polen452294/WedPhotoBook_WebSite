@@ -1,5 +1,4 @@
 import { headers } from "next/headers";
-import type { ChatGPTUser } from "@/app/chatgpt-auth";
 
 export const ADMIN_SESSION_COOKIE = "__Host-wfb_admin";
 
@@ -21,8 +20,12 @@ type SessionPayload = {
   nonce: string;
 };
 
-export type AdminUser = ChatGPTUser & {
-  authMethod: "password" | "chatgpt";
+export type AdminUser = {
+  userId: string;
+  displayName: string;
+  email: string;
+  fullName: string | null;
+  authMethod: "password";
 };
 
 export function adminPasswordIsConfigured(): boolean {
@@ -63,7 +66,7 @@ export async function verifyAdminPassword(password: string): Promise<boolean> {
   const derived = new Uint8Array(await crypto.subtle.deriveBits({
     name: "PBKDF2",
     hash: "SHA-256",
-    salt: parsed.salt,
+    salt: new Uint8Array(parsed.salt).buffer,
     iterations: parsed.iterations,
   }, passwordKey, parsed.hash.byteLength * 8));
   return constantTimeEqual(derived, parsed.hash);

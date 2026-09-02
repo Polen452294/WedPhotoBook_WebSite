@@ -3,9 +3,7 @@
 
   const consentKey = "wedfotobook-cookie-consent-v2";
   const consentMaxAge = 180 * 24 * 60 * 60 * 1000;
-  const turnstileSiteKey = "0x4AAAAAADOYhKhruVUymxia";
   let analyticsStarted = false;
-  let turnstilePromise;
 
   const onIdle = (callback) => {
     if ("requestIdleCallback" in window) window.requestIdleCallback(callback, { timeout: 3500 });
@@ -96,21 +94,6 @@
     document.body.append(notice);
   }
 
-  function loadTurnstile() {
-    if (window.turnstile) return Promise.resolve(window.turnstile);
-    if (turnstilePromise) return turnstilePromise;
-    turnstilePromise = new Promise((resolve, reject) => {
-      const script = document.createElement("script");
-      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
-      script.async = true;
-      script.defer = true;
-      script.addEventListener("load", () => window.turnstile ? resolve(window.turnstile) : reject(new Error("Turnstile API did not initialize.")), { once: true });
-      script.addEventListener("error", reject, { once: true });
-      document.head.append(script);
-    });
-    return turnstilePromise;
-  }
-
   function formatPhone(value) {
     let digits = value.replace(/\D/g, "");
     if (digits.startsWith("8")) digits = `7${digits.slice(1)}`;
@@ -123,7 +106,7 @@
     const dialog = document.createElement("dialog");
     dialog.className = "order-dialog";
     dialog.setAttribute("aria-labelledby", "order-dialog-title");
-    dialog.innerHTML = `<button class="dialog-close" type="button" aria-label="Закрыть">×</button><form class="order-form"><header class="order-form-heading"><span class="order-form-kicker">Обратный звонок</span><h2 id="order-dialog-title">Обсудим вашу фотокнигу</h2><p>Оставьте имя и номер телефона. Мы перезвоним ежедневно с 9:00 до 21:00.</p></header><div class="order-fields"><label><span>Ваше имя</span><input name="name" autocomplete="name" placeholder="Как к вам обращаться?" maxlength="120" required></label><label><span>Телефон</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" minlength="18" required></label></div><label class="honeypot" aria-hidden="true">Адрес<input name="address" tabindex="-1" autocomplete="off"></label><input name="formStartedAt" type="hidden"><label class="checkbox"><input name="consent" type="checkbox" required><span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span></label><div class="order-turnstile"></div><div class="order-antispam" aria-label="Форма защищена от автоматических заявок"><span class="order-antispam-icon" aria-hidden="true">✓</span><span><strong>Антиспам-защита включена</strong><small>Форма проверяется на сервере перед отправкой</small></span></div><button class="button order-submit" type="submit">Отправить</button><p class="form-message" hidden></p></form>`;
+    dialog.innerHTML = `<button class="dialog-close" type="button" aria-label="Закрыть">×</button><form class="order-form"><header class="order-form-heading"><span class="order-form-kicker">Обратный звонок</span><h2 id="order-dialog-title">Обсудим вашу фотокнигу</h2><p>Оставьте имя и номер телефона. Мы перезвоним ежедневно с 9:00 до 21:00.</p></header><div class="order-fields"><label><span>Ваше имя</span><input name="name" autocomplete="name" placeholder="Как к вам обращаться?" maxlength="120" required></label><label><span>Телефон</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" minlength="18" required></label></div><label class="honeypot" aria-hidden="true">Адрес<input name="address" tabindex="-1" autocomplete="off"></label><input name="formStartedAt" type="hidden"><label class="checkbox"><input name="consent" type="checkbox" required><span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span></label><div class="order-antispam" aria-label="Форма защищена от автоматических заявок"><span class="order-antispam-icon" aria-hidden="true">✓</span><span><strong>Антиспам-защита включена</strong><small>Форма проверяется на сервере перед отправкой</small></span></div><button class="button order-submit" type="submit">Отправить</button><p class="form-message" hidden></p></form>`;
     document.body.append(dialog);
     const close = () => dialog.close();
     dialog.querySelector(".dialog-close").addEventListener("click", close);
@@ -132,8 +115,6 @@
     const form = dialog.querySelector("form");
     form.elements.formStartedAt.value = String(Date.now());
     form.elements.phone.addEventListener("input", (event) => { event.target.value = formatPhone(event.target.value); });
-    const widget = dialog.querySelector(".order-turnstile");
-    void loadTurnstile().then((api) => api.render(widget, { sitekey: turnstileSiteKey, theme: "light", language: "ru", size: "flexible", action: "callback", "response-field-name": "turnstileToken" })).catch(() => undefined);
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const submit = form.querySelector("button[type=submit]");

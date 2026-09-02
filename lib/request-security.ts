@@ -84,8 +84,7 @@ export async function sha256(value: string): Promise<string> {
 
 export function requestClientAddress(request: Request): string {
   return (
-    request.headers.get("cf-connecting-ip")
-    || request.headers.get("x-forwarded-for")?.split(",", 1)[0]
+    request.headers.get("x-forwarded-for")?.split(",", 1)[0]
     || request.headers.get("x-real-ip")
     || "unknown"
   ).trim().slice(0, 100);

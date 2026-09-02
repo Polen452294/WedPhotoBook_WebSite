@@ -2,7 +2,6 @@ const EMAIL_ATTEMPTS = 2;
 const EMAIL_RETRY_DELAY_MS = 250;
 
 export type ContactEmailInput = {
-  apiKey?: string;
   localMailerUrl?: string;
   localMailerToken?: string;
   id: string;
@@ -40,19 +39,13 @@ export async function sendContactEmail(
 ): Promise<{ ok: true } | { ok: false; error: string }> {
   let lastError = "Unknown email error";
   const useLocalMailer = isLoopbackMailerUrl(input.localMailerUrl) && (input.localMailerToken?.length ?? 0) >= 32;
-  if (!useLocalMailer && !input.apiKey) return { ok: false, error: "Email transport is not configured" };
+  if (!useLocalMailer) return { ok: false, error: "Local email transport is not configured" };
 
-  const url = useLocalMailer ? input.localMailerUrl! : "https://api.resend.com/emails";
-  const transport = useLocalMailer ? "Local mailer" : "Resend";
-  const payload = JSON.stringify(useLocalMailer ? {
+  const url = input.localMailerUrl!;
+  const payload = JSON.stringify({
     id: input.id,
     from: input.sender,
     to: input.recipient,
-    subject: input.subject,
-    text: input.text,
-  } : {
-    from: input.sender,
-    to: [input.recipient],
     subject: input.subject,
     text: input.text,
   });
@@ -62,7 +55,7 @@ export async function sendContactEmail(
       const response = await fetcher(url, {
         method: "POST",
         headers: {
-          authorization: `Bearer ${useLocalMailer ? input.localMailerToken : input.apiKey}`,
+          authorization: `Bearer ${input.localMailerToken}`,
           "content-type": "application/json",
           "idempotency-key": `contact-notification/${input.id}`,
         },
@@ -70,7 +63,7 @@ export async function sendContactEmail(
       });
       if (response.ok) return { ok: true };
 
-      lastError = `${transport} ${response.status}: ${compactError(await response.text())}`;
+      lastError = `Local mailer ${response.status}: ${compactError(await response.text())}`;
       const retryable = response.status === 409 || response.status === 408 || response.status === 425 || response.status === 429 || response.status >= 500;
       if (!retryable) break;
     } catch (error) {

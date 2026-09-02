@@ -11,7 +11,6 @@ const orderDialogSource = await readFile(new URL("../components/OrderDialog.tsx"
 const contactPageSource = await readFile(new URL("../components/ContactPage.tsx", import.meta.url), "utf8");
 const contactRouteSource = await readFile(new URL("../app/api/contact/route.ts", import.meta.url), "utf8");
 const contactEmailSource = await readFile(new URL("../lib/contact-email.ts", import.meta.url), "utf8");
-const turnstileSource = await readFile(new URL("../lib/turnstile.ts", import.meta.url), "utf8");
 const legacyEnhancementsSource = await readFile(new URL("../components/LegacyEnhancements.tsx", import.meta.url), "utf8");
 const legacyPageSource = await readFile(new URL("../components/LegacyPage.tsx", import.meta.url), "utf8");
 const cookieNoticeSource = await readFile(new URL("../components/CookieNotice.tsx", import.meta.url), "utf8");
@@ -20,8 +19,6 @@ const cookieConsentSource = await readFile(new URL("../lib/cookie-consent.ts", i
 const databaseSchemaSource = await readFile(new URL("../db/schema.ts", import.meta.url), "utf8");
 const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
 const nextConfigSource = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
-const workerSource = await readFile(new URL("../worker/index.ts", import.meta.url), "utf8");
-const staticHeadersSource = await readFile(new URL("../public/_headers", import.meta.url), "utf8");
 const articleRoutes = [
   "/article-genealogy/",
   "/article-vipysk/",
@@ -67,13 +64,13 @@ test("uses a two-field callback form with consent and spam protection", () => {
   assert.match(orderDialogSource, /result\.saved && result\.notified === false \? "saved" : "success"/);
   assert.match(contactPageSource, /result\.saved && result\.notified === false \? "saved" : "success"/);
   assert.match(legacyEnhancementsSource, /result\.saved && result\.notified === false/);
-  assert.match(turnstileSource, /0x4AAAAAADOYhKhruVUymxia/);
+  assert.doesNotMatch(`${orderDialogSource}${contactPageSource}${legacyEnhancementsSource}${contactRouteSource}`, /turnstile/i);
   assert.doesNotMatch(orderDialogSource, /name="(?:photos|message)"/);
   assert.match(globalCss, /\.order-dialog \{[^}]*border-radius: 22px;/s);
   assert.match(globalCss, /\.order-dialog \.order-form \.checkbox > span \{[^}]*width: auto !important;[^}]*float: none !important;/s);
   assert.match(contactRouteSource, /FORM_MIN_AGE_MS/);
   assert.match(contactRouteSource, /RATE_LIMIT_MAX/);
-  assert.match(contactRouteSource, /verifyTurnstile/);
+  assert.doesNotMatch(contactRouteSource, /verifyTurnstile/);
   assert.match(contactEmailSource, /"idempotency-key": `contact-notification\/\$\{input\.id\}`/);
   assert.match(contactEmailSource, /response\.status === 409 \|\| response\.status === 408/);
   assert.match(contactEmailSource, /isLoopbackMailerUrl/);
@@ -132,29 +129,21 @@ test("keeps the footer links unchanged while arranging them in a structured grid
 });
 
 async function render(path = "/", init = {}) {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-  return worker.fetch(
-    new Request(`http://localhost${path}`, {
-      ...init,
-      headers: { accept: "text/html", ...(init.headers ?? {}) },
-    }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
-  );
+  const baseUrl = process.env.TEST_BASE_URL ?? "http://127.0.0.1:3000";
+  return fetch(new URL(path, baseUrl), {
+    redirect: "manual",
+    ...init,
+    headers: { accept: "text/html", ...(init.headers ?? {}) },
+  });
 }
 
 test("does not cache missing images or mislabel an error page as an image", async () => {
   for (const path of [
     "/media/__missing_asset_test__.webp",
-    "/_vinext/image?url=%2Fmedia%2F__missing_asset_test__.webp&w=256&q=75",
-    "/_next/image?url=%2Fmedia%2F__missing_asset_test__.webp&w=256&q=75",
   ]) {
     const response = await render(path);
     assert.equal(response.status, 404, path);
-    assert.equal(response.headers.get("cache-control"), "no-store", path);
-    assert.equal(response.headers.get("cdn-cache-control"), "no-store", path);
+    assert.match(response.headers.get("cache-control") ?? "", /no-store/, path);
     assert.ok(!response.headers.get("content-type")?.startsWith("image/"), path);
   }
 });
@@ -171,7 +160,7 @@ test("versions restored images and every responsive candidate to bypass cached f
           : attribute[2].split(/,\s*/).map((value) => value.replace(/\s+\d+(?:\.\d+)?[wx]$/, ""));
         for (const value of values) {
           const url = new URL(value.replaceAll("&amp;", "&"), "https://wedfotobook.ru");
-          const source = ["/_next/image", "/_vinext/image"].includes(url.pathname)
+          const source = url.pathname === "/_next/image"
             ? new URL(url.searchParams.get("url"), url) : url;
           if (!source.pathname.startsWith("/media/optimized/")) continue;
           restoredImages++;
@@ -269,7 +258,7 @@ test("uses one descriptive h1 and an unbroken heading hierarchy on every public 
   }
 });
 
-test("serves responsive photos with full-resolution originals without loading Turnstile globally", async () => {
+test("serves responsive photos with full-resolution originals without a third-party challenge", async () => {
   const html = await (await render()).text();
   const imageTags = [...html.matchAll(/<img\b[^>]*>/gi)].map((match) => match[0]);
   assert.ok(imageTags.length > 40);
@@ -287,16 +276,15 @@ test("serves responsive photos with full-resolution originals without loading Tu
   assert.match(avifSource, /384\.avif 384w/);
   assert.match(hero, /loading="eager" fetchpriority="high"/);
   const head = html.slice(0, html.indexOf("</head>"));
-  assert.match(head, /<style data-app-critical>/);
+  assert.match(head, /<style data-precedence="next"/);
   assert.doesNotMatch(head, /<style data-home-critical>/);
   assert.doesNotMatch(head, /<link[^>]+data-rsc-css-href/);
   assert.doesNotMatch(head, /<link rel="stylesheet" href="\/wp-assets\/home-critical\.css/);
-  assert.match(head, /<link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=9">/);
-  assert.doesNotMatch(html, /home-optimized\.css[^>]+media="print"|home-optimized\.css[^>]+onload=/);
-  assert.doesNotMatch(html, /<noscript><link rel="stylesheet" href="\/wp-assets\/home-optimized\.css/);
-  assert.doesNotMatch(html, /bootstrap\.rsc|entry-browser/, "the homepage must not download the React/Vinext runtime");
+  assert.match(head, /<style data-home-styles>/);
+  assert.doesNotMatch(html, /<link[^>]+home-optimized\.css/);
+  assert.doesNotMatch(html, /\/_next\/static\/chunks\/.*\.js/, "the homepage must not download the framework runtime");
   assert.doesNotMatch(head, /<link\b[^>]*rel="modulepreload"/, "the public homepage must not preload unused client modules");
-  assert.match(html, /<script src="\/wp-assets\/home-interactions\.js\?v=20260902" defer><\/script>/);
+  assert.match(html, /<script src="\/wp-assets\/home-interactions\.js\?v=20260902b" defer=""><\/script>/);
   const previewHtml = await (await render("/?cms_preview=1")).text();
   assert.match(previewHtml, /<script\b[^>]+_next\/static/, "the CMS preview must keep its editor runtime");
   assert.doesNotMatch(previewHtml, /home-interactions\.js/, "the public enhancement script must not run in the CMS preview");
@@ -313,7 +301,7 @@ test("serves responsive photos with full-resolution originals without loading Tu
     assert.equal([...slides.matchAll(/<img\b/g)].length, 1, "only the active slide should have an image source initially");
   }
   assert.ok(imageTags.some((tag) => /\bsrcset=/i.test(tag)));
-  assert.doesNotMatch(html, /\/_vinext\/image\?url=[^"']*social/i, "tiny social icons should load directly");
+  assert.doesNotMatch(html, /\/_next\/image\?url=[^"']*social/i, "tiny social icons should load directly");
   const logoTag = imageTags.find((tag) => normalizeMediaPaths(tag).includes("/media/brand/Logo wedfotobook.png"));
   assert.match(logoTag ?? "", /width="962" height="198"/);
   assert.match(logoTag ?? "", /loading="eager" fetchpriority="high"/);
@@ -322,13 +310,9 @@ test("serves responsive photos with full-resolution originals without loading Tu
     const iconTag = imageTags.find((tag) => tag.includes(`/media/optimized/social/${icon}-64.webp`));
     assert.match(iconTag ?? "", /loading="eager" fetchpriority="low"/);
   }
-  assert.doesNotMatch(nextConfigSource, /unoptimized:\s*true/);
-  assert.doesNotMatch(layoutSource, /challenges\.cloudflare\.com\/turnstile/);
-  assert.match(orderDialogSource, /renderTurnstile/);
-  assert.match(workerSource, /"\.webp": "image\/webp"/);
-  assert.match(workerSource, /fetchAsset: async \(path\) => withStaticContentType/);
-  assert.match(staticHeadersSource, /\/_next\/static\/\*[\s\S]*max-age=31536000, immutable/);
-  assert.match(staticHeadersSource, /\/media\/\*[\s\S]*max-age=31536000, immutable/);
+  assert.match(nextConfigSource, /unoptimized:\s*true/);
+  assert.doesNotMatch(`${layoutSource}${orderDialogSource}`, /turnstile|cloudflare/i);
+  assert.match(nextConfigSource, /source: "\/media\/:path\*"/);
 });
 
 test("rejects automated callback submissions on the server", async () => {
@@ -937,9 +921,8 @@ test("keeps the original opening screen and restores the first working version b
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   assert.equal(response.headers.get("x-frame-options"), "SAMEORIGIN");
   assert.match(response.headers.get("content-security-policy") ?? "", /default-src 'self'/);
-  assert.match(response.headers.get("content-security-policy") ?? "", /challenges\.cloudflare\.com/);
+  assert.doesNotMatch(response.headers.get("content-security-policy") ?? "", /cloudflare|turnstile/i);
   assert.equal(response.headers.get("cache-control"), "public, max-age=0, s-maxage=300, stale-while-revalidate=86400");
-  assert.equal(response.headers.get("cdn-cache-control"), "public, max-age=300, stale-while-revalidate=86400");
 
   const html = await response.text();
   // The compact first-screen CSS travels with the compressed HTML and does not
@@ -976,7 +959,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.doesNotMatch(html, /<footer class="bg-light-gray2 hcode-main-footer/);
   assert.doesNotMatch(html, /class="pad2/);
   assert.match(html, /class="restored-first-version"/);
-  assert.match(html, /home-optimized\.css\?v=\d+/);
+  assert.match(html, /<style data-home-styles>/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   const footerHtml = restoredHtml.slice(restoredHtml.indexOf('<footer class="site-footer">'), restoredHtml.indexOf("</footer>") + "</footer>".length);
   assert.equal([...footerHtml.matchAll(/<a\b/g)].length, 30);
@@ -1065,7 +1048,7 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
     const html = await response.text();
     const visibleHtml = html.replace(/<script[\s\S]*?<\/script>/g, "");
     assert.match(html, /class="navbar navbar-default/, page.slug || "/");
-    assert.match(html, page.slug ? /home-original-fix\.css\?v=\d+/ : /home-optimized\.css\?v=\d+/, page.slug || "/");
+    assert.match(html, page.slug ? /home-original-fix\.css\?v=\d+/ : /<style data-home-styles>/, page.slug || "/");
     assert.doesNotMatch(html, /<a\b[^>]*href=["']https?:\/\/(?:www\.)?wedfotobook\.ru/i, page.slug || "/");
     assert.match(normalizeMediaPaths(visibleHtml), /\/media\/(?:brand\/Logo wedfotobook\.png|optimized\/brand\/logo-256\.webp)/, page.slug || "/");
     assert.doesNotMatch(visibleHtml, /(?:icon6-optimized|icos[135]-optimized|logotip_max\.svg_|telegram_2019_logo|whatsapp\.svg_)/, page.slug || "/");

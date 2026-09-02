@@ -1,9 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { contacts } from "@/lib/site-data";
-import { renderTurnstile, TURNSTILE_SITE_KEY } from "@/lib/turnstile";
 
 type Status = "idle" | "sending" | "success" | "saved" | "error";
 
@@ -17,30 +16,14 @@ const messengers = [
 const mapAddress = "%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%A1%D0%B2%D0%BE%D0%B1%D0%BE%D0%B4%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%2C%20%D0%B4.%2033";
 
 export function ContactPage() {
-  const formRef = useRef<HTMLFormElement>(null);
-  const turnstileRef = useRef<HTMLDivElement>(null);
-  const turnstileWidgetId = useRef<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [formStartedAt, setFormStartedAt] = useState(0);
-  const turnstileSiteKey = TURNSTILE_SITE_KEY;
 
   useEffect(() => {
     const timer = window.setTimeout(() => setFormStartedAt(Date.now()), 0);
-    if (turnstileSiteKey && turnstileRef.current) {
-      void renderTurnstile(turnstileRef.current, {
-        sitekey: turnstileSiteKey,
-        theme: "light",
-        language: "ru",
-        size: "flexible",
-        action: "message",
-        "response-field-name": "turnstileToken",
-      }).then((widgetId) => {
-        turnstileWidgetId.current = widgetId;
-      }).catch(() => undefined);
-    }
     return () => window.clearTimeout(timer);
-  }, [turnstileSiteKey]);
+  }, []);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -65,7 +48,6 @@ export function ContactPage() {
       form.reset();
       setFormStartedAt(Date.now());
       setStatus(result.saved && result.notified === false ? "saved" : "success");
-      if (turnstileWidgetId.current) window.turnstile?.reset(turnstileWidgetId.current);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Не удалось отправить сообщение.");
       setStatus("error");
@@ -90,7 +72,7 @@ export function ContactPage() {
                 <span className="section-kicker">Напишите нам</span>
               </header>
 
-              <form className="contact-journal-form" ref={formRef} onSubmit={submit}>
+              <form className="contact-journal-form" onSubmit={submit}>
                 <div className="contact-form-row">
                   <label><span>Ваше имя</span><input name="name" autoComplete="name" maxLength={120} required /></label>
                   <label><span>E-mail</span><input name="email" type="email" autoComplete="email" maxLength={254} required /></label>
@@ -102,9 +84,6 @@ export function ContactPage() {
                   <input name="consent" type="checkbox" required />
                   <span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span>
                 </label>
-                {turnstileSiteKey && (
-                  <div className="contact-turnstile" ref={turnstileRef} />
-                )}
                 <div className="contact-form-action">
                   <button type="submit" disabled={status === "sending"}>{status === "sending" ? "Отправляем…" : "Отправить"}</button>
                   {status === "success" && <p className="contact-form-status success" role="status">Спасибо! Сообщение отправлено.</p>}
