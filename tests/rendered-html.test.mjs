@@ -305,6 +305,9 @@ test("serves responsive photos with full-resolution originals without a third-pa
   const logoTag = imageTags.find((tag) => normalizeMediaPaths(tag).includes("/media/brand/Logo wedfotobook.png"));
   assert.match(logoTag ?? "", /width="962" height="198"/);
   assert.match(logoTag ?? "", /loading="eager" fetchpriority="high"/);
+  assert.match(logoTag ?? "", /srcset="[^"]+480\.webp 480w,[^"]+640\.webp 640w/);
+  assert.match(logoTag ?? "", /sizes="\(max-width: 767px\) 214px, 243px"/);
+  assert.doesNotMatch(html, /<source type="image\/avif"[^>]+2504a79c7c6b3770/);
   assert.doesNotMatch(html, /<source type="image\/avif"[^>]+bcc41e6f31b2f1ab/);
   for (const icon of ["telegram", "whatsapp", "max"]) {
     const iconTag = imageTags.find((tag) => tag.includes(`/media/optimized/social/${icon}-64.webp`));
@@ -1052,7 +1055,10 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
     assert.match(html, /class="navbar navbar-default/, page.slug || "/");
     assert.match(html, page.slug ? /home-original-fix\.css\?v=\d+/ : /<style data-home-styles>/, page.slug || "/");
     assert.doesNotMatch(html, /<a\b[^>]*href=["']https?:\/\/(?:www\.)?wedfotobook\.ru/i, page.slug || "/");
-    assert.match(normalizeMediaPaths(visibleHtml), /\/media\/(?:brand\/Logo wedfotobook\.png|optimized\/brand\/logo-256\.webp)/, page.slug || "/");
+    const normalizedVisibleHtml = normalizeMediaPaths(visibleHtml);
+    assert.match(normalizedVisibleHtml, /\/media\/brand\/Logo wedfotobook\.png/, page.slug || "/");
+    assert.match(normalizedVisibleHtml, /sizes="\(max-width: 767px\) 214px, 243px"/, page.slug || "/");
+    assert.doesNotMatch(normalizedVisibleHtml, /\/media\/optimized\/brand\/logo-256\.webp/, page.slug || "/");
     assert.doesNotMatch(visibleHtml, /(?:icon6-optimized|icos[135]-optimized|logotip_max\.svg_|telegram_2019_logo|whatsapp\.svg_)/, page.slug || "/");
     assert.match(visibleHtml, /class="restored-first-version"/, page.slug || "/");
     const sharedFooter = visibleHtml.slice(visibleHtml.indexOf('<footer class="site-footer">'), visibleHtml.indexOf("</footer>", visibleHtml.indexOf('<footer class="site-footer">')) + "</footer>".length);

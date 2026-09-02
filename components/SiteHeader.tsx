@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { contacts } from "@/lib/site-data";
-import { optimizedMediaUrl } from "@/lib/media-path";
+import { HEADER_LOGO_SOURCE, optimizedMediaUrl } from "@/lib/media-path";
 
 const nav = [
   ["Главная", "/"],
@@ -17,11 +17,11 @@ export function SiteHeader() {
       <div className="shell header-inner">
         <Link className="brand" href="/" aria-label="Фотокниги под ключ — главная">
           <Image
-            src={optimizedMediaUrl("/media/optimized/brand/logo-256.webp")}
+            src={optimizedMediaUrl(HEADER_LOGO_SOURCE)}
             alt="WedFotoBook — фотокниги на заказ"
-            width={300}
-            height={62}
-            sizes="150px"
+            width={962}
+            height={198}
+            sizes="(max-width: 767px) 214px, 243px"
             priority
           />
         </Link>

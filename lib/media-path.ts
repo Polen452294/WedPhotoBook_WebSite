@@ -5,8 +5,10 @@ import responsiveLogo from "@/data/responsive-logo.json";
 const originalPhotos: Record<string, string> = photoSources;
 const PHOTO_VERSION = "20260831";
 const photoVariants: Record<string, { id: string; width: number; widths: number[]; avifId: string; avifWidths: number[] }> = responsivePhotos;
+const largestLogoWidth = responsiveLogo.widths.at(-1) ?? 962;
 
 export const HOME_HERO_SOURCE = "/media/home/Fotokniga na zakaz wedfotobook ru.webp";
+export const HEADER_LOGO_SOURCE = `/media/responsive/${responsiveLogo.id}-${largestLogoWidth}.webp`;
 // Matches the existing stacked / two-column mobile hero, including its frame.
 export const HOME_HERO_SIZES = "(max-width: 359px) calc(100vw - 58px), (max-width: 559px) calc(61vw - 44px), (max-width: 767px) 298px, 50vw";
 
@@ -45,8 +47,10 @@ export function avifPhotoSrcSet(src: string) {
 export function responsiveLogoProps() {
   return {
     srcSet: responsiveLogo.widths.map((width) => `/media/responsive/${responsiveLogo.id}-${width}.webp ${width}w`).join(", "),
-    avifSrcSet: [256, 320, 384].map((width) => `/media/responsive/${responsiveLogo.id}-${width}.avif ${width}w`).join(", "),
-    sizes: "150px",
+    // The legacy header renders the 962:198 logo at 44px on mobile and 50px
+    // on larger screens. Tell the browser its real CSS width so high-DPI
+    // displays receive a sufficiently dense lossless WebP candidate.
+    sizes: "(max-width: 767px) 214px, 243px",
   };
 }
 

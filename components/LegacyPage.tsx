@@ -54,7 +54,7 @@ function withHomepageImages(bodyHtml: string, slug: string): string {
   const imageReplacements = [
     [
       "/wp-content/uploads/2022/03/logotip-copy-optimized.png",
-      slug ? "/media/optimized/brand/logo-256.webp" : "/media/brand/Logo wedfotobook.png",
+      "/media/brand/Logo wedfotobook.png",
     ],
     ["/wp-content/uploads/2021/04/icon6-optimized.png", "/media/optimized/social/yandex-64.webp"],
     ["/wp-content/uploads/2021/03/icos1-optimized.png", "/media/optimized/social/vk-64.webp"],
@@ -101,10 +101,10 @@ function withResponsiveLegacyImages(bodyHtml: string, slug: string): string {
       const avif = avifPhotoSrcSet(src);
       return avif ? `<picture data-responsive-picture style="display:contents"><source type="image/avif" srcset="${avif}" sizes="${photo.sizes}" />${image}</picture>` : image;
     }
-    if (!slug && src?.split("?", 1)[0] === "/media/brand/Logo wedfotobook.png") {
+    if (src?.split("?", 1)[0] === "/media/brand/Logo wedfotobook.png") {
       const logo = responsiveLogoProps();
       const image = prioritize(tag.replace(/\s*\/?>(?=$)/, ` srcset="${logo.srcSet}" sizes="${logo.sizes}" />`));
-      return `<picture data-responsive-logo style="display:contents"><source type="image/avif" srcset="${logo.avifSrcSet}" sizes="${logo.sizes}" />${image}</picture>`;
+      return image;
     }
     if (process.env.NODE_ENV === "development") return tag;
 
