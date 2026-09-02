@@ -12,7 +12,9 @@ if [[ ! -f dist/server/wrangler.json ]]; then
   exit 1
 fi
 
-node scripts/check-contact-config.mjs .env.local
+if ! node scripts/check-contact-config.mjs .env.local; then
+  echo "Warning: contact email or Turnstile is not fully configured; starting the site with notifications unavailable." >&2
+fi
 
 # The generated Sites config serves assets automatically, but the VPS image
 # optimizer also needs an explicit service binding for source files.
