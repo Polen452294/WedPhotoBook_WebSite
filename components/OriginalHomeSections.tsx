@@ -5,6 +5,8 @@ import { directMediaImageProps, optimizedMediaUrl } from "@/lib/media-path";
 import { contacts, getMediaGroup } from "@/lib/site-data";
 
 /* eslint-disable @next/next/no-html-link-for-pages -- plain anchors preserve the captured footer markup and remain fully functional */
+const SHOW_ORIGINAL_STORY_SECTION = false;
+
 const craft = [
   {
     number: "01",
@@ -229,13 +231,15 @@ export function OriginalHomeSections() {
         </div>
       </section>
 
-      <section className="section section-warm original-story">
-        <div className="shell center-heading">
-          <h2>Фотокнига — это больше, чем просто фотографии</h2>
-          <p>Фотокнига – это не альбом с фотографиями, это ваша личная история, рассказанная с любовью и заботой. Перелистывая страницы фотокниги, вы заново переживаете самые счастливые моменты, наполняя сердце теплом и радостью.</p>
-          <h3>Ваши воспоминания достойны фотокниги!</h3>
-        </div>
-      </section>
+      {SHOW_ORIGINAL_STORY_SECTION && (
+        <section className="section section-warm original-story">
+          <div className="shell center-heading">
+            <h2>Фотокнига — это больше, чем просто фотографии</h2>
+            <p>Фотокнига – это не альбом с фотографиями, это ваша личная история, рассказанная с любовью и заботой. Перелистывая страницы фотокниги, вы заново переживаете самые счастливые моменты, наполняя сердце теплом и радостью.</p>
+            <h3>Ваши воспоминания достойны фотокниги!</h3>
+          </div>
+        </section>
+      )}
 
       <section className="section section-ink">
         <div className="shell">

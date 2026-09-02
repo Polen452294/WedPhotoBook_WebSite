@@ -13,6 +13,7 @@ const contactRouteSource = await readFile(new URL("../app/api/contact/route.ts",
 const contactEmailSource = await readFile(new URL("../lib/contact-email.ts", import.meta.url), "utf8");
 const legacyEnhancementsSource = await readFile(new URL("../components/LegacyEnhancements.tsx", import.meta.url), "utf8");
 const legacyPageSource = await readFile(new URL("../components/LegacyPage.tsx", import.meta.url), "utf8");
+const originalHomeSectionsSource = await readFile(new URL("../components/OriginalHomeSections.tsx", import.meta.url), "utf8");
 const cookieNoticeSource = await readFile(new URL("../components/CookieNotice.tsx", import.meta.url), "utf8");
 const analyticsSource = await readFile(new URL("../components/Analytics.tsx", import.meta.url), "utf8");
 const cookieConsentSource = await readFile(new URL("../lib/cookie-consent.ts", import.meta.url), "utf8");
@@ -985,7 +986,9 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(firstVersionCss, /\.original-home-sections \.pricing-grid \.price-card\.featured \{[^}]*transform: none;/s);
   assert.match(restoredHtml, /class="faq-intro"><span class="eyebrow"/);
   assert.match(restoredHtml, /Как мы делаем фотокниги\?/);
-  assert.match(restoredHtml, /Фотокнига — это больше, чем просто фотографии/);
+  assert.doesNotMatch(restoredHtml, /Фотокнига — это больше, чем просто фотографии/);
+  assert.match(originalHomeSectionsSource, /const SHOW_ORIGINAL_STORY_SECTION = false;/);
+  assert.match(originalHomeSectionsSource, /Фотокнига — это больше, чем просто фотографии/);
   assert.match(restoredHtml, /Хотите узнать стоимость фотокниги(?: до начала работы)?\?/);
   assert.match(restoredHtml, /15\. Вы работаете с юр\. лицами\?/);
   assert.match(restoredHtml, /1\. Есть ли у вас конструктор по созданию фотокниг\?/);
