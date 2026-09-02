@@ -1,12 +1,14 @@
 import type { NextConfig } from "next";
 
+const DEVELOPMENT_EVAL_SOURCE = process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
+
 const PUBLIC_CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   "base-uri 'self'",
   "form-action 'self'",
   "frame-ancestors 'self'",
   "object-src 'none'",
-  "script-src 'self' 'unsafe-inline' https://mc.yandex.ru",
+  `script-src 'self' 'unsafe-inline'${DEVELOPMENT_EVAL_SOURCE} https://mc.yandex.ru`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://*.yandex.ru https://*.yandex.net",
   "font-src 'self' data:",
@@ -15,6 +17,22 @@ const PUBLIC_CONTENT_SECURITY_POLICY = [
   "media-src 'self' blob:",
   "worker-src 'self' blob:",
   "manifest-src 'self'",
+].join("; ");
+
+const ADMIN_CONTENT_SECURITY_POLICY = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+  "object-src 'none'",
+  `script-src 'self' 'unsafe-inline'${DEVELOPMENT_EVAL_SOURCE}`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self' data:",
+  "connect-src 'self'",
+  "frame-src 'self'",
+  "media-src 'self'",
+  "worker-src 'self' blob:",
 ].join("; ");
 
 const COMMON_HEADERS = [
@@ -60,7 +78,7 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
           { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
-          { key: "Content-Security-Policy", value: "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-src 'self'; media-src 'self'; worker-src 'self' blob:" },
+          { key: "Content-Security-Policy", value: ADMIN_CONTENT_SECURITY_POLICY },
         ],
       },
       {

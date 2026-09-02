@@ -921,7 +921,9 @@ test("keeps the original opening screen and restores the first working version b
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   assert.equal(response.headers.get("x-frame-options"), "SAMEORIGIN");
   assert.match(response.headers.get("content-security-policy") ?? "", /default-src 'self'/);
+  assert.doesNotMatch(response.headers.get("content-security-policy") ?? "", /unsafe-eval/);
   assert.doesNotMatch(response.headers.get("content-security-policy") ?? "", /cloudflare|turnstile/i);
+  assert.match(nextConfigSource, /process\.env\.NODE_ENV === "development" \? " 'unsafe-eval'" : ""/);
   assert.equal(response.headers.get("cache-control"), "public, max-age=0, s-maxage=300, stale-while-revalidate=86400");
 
   const html = await response.text();
