@@ -9,3 +9,16 @@
     overflow-wrap: anywhere;
   }
 }
+
+/* Keep the long mobile homepage in the DOM for SEO while skipping layout and
+   paint work for sections that are still far below the viewport. */
+@media (max-width: 767px) {
+  .restored-first-version .original-home-sections > .section:not(:first-child) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+  }
+  .restored-first-version .original-home-sections .craft-item {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 620px;
+  }
+}
