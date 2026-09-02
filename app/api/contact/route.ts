@@ -1,7 +1,7 @@
 import { and, count, eq, gt, lt } from "drizzle-orm";
 import { getDb } from "@/db";
 import { enquiries, submissionAttempts } from "@/db/schema";
-import { sendContactEmail } from "@/lib/contact-email";
+import { isLoopbackMailerUrl, sendContactEmail } from "@/lib/contact-email";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FORM_MIN_AGE_MS = 1000;
@@ -220,11 +220,14 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.RESEND_API_KEY?.trim();
+  const localMailerUrl = process.env.CONTACT_MAILER_URL?.trim();
+  const localMailerToken = process.env.CONTACT_MAILER_TOKEN?.trim();
+  const localMailerConfigured = isLoopbackMailerUrl(localMailerUrl) && (localMailerToken?.length ?? 0) >= 32;
   const recipient = process.env.CONTACT_TO_EMAIL?.trim() || "79854342367@yandex.ru";
   const sender = process.env.CONTACT_FROM_EMAIL?.trim() || "";
   const senderMailbox = extractMailbox(sender).toLowerCase();
   if (
-    !apiKey ||
+    (!localMailerConfigured && !apiKey) ||
     !EMAIL_PATTERN.test(recipient) ||
     !EMAIL_PATTERN.test(senderMailbox) ||
     senderMailbox.endsWith("@your-verified-domain.ru")
@@ -239,6 +242,8 @@ export async function POST(request: Request) {
 
   const notification = await sendContactEmail({
     apiKey,
+    localMailerUrl: localMailerConfigured ? localMailerUrl : undefined,
+    localMailerToken: localMailerConfigured ? localMailerToken : undefined,
     id,
     sender,
     recipient,

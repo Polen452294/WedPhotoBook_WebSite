@@ -54,3 +54,45 @@ test("retries one network interruption", async () => {
   assert.equal(requests, 2);
   assert.deepEqual(result, { ok: true });
 });
+
+test("prefers the authenticated loopback mailer without sending to a third party", async () => {
+  const requests = [];
+  const result = await sendContactEmail({
+    ...input,
+    apiKey: undefined,
+    localMailerUrl: "http://127.0.0.1:3081/send",
+    localMailerToken: "local-secret-token-32-characters-ok",
+  }, async (url, init) => {
+    requests.push({ url, init });
+    return Response.json({ ok: true });
+  });
+
+  assert.deepEqual(result, { ok: true });
+  assert.equal(requests.length, 1);
+  assert.equal(requests[0].url, "http://127.0.0.1:3081/send");
+  assert.equal(requests[0].init.headers.authorization, "Bearer local-secret-token-32-characters-ok");
+  assert.equal(requests[0].init.headers["idempotency-key"], `contact-notification/${input.id}`);
+  assert.deepEqual(JSON.parse(requests[0].init.body), {
+    id: input.id,
+    from: input.sender,
+    to: input.recipient,
+    subject: input.subject,
+    text: input.text,
+  });
+});
+
+test("refuses a non-loopback local mailer URL", async () => {
+  let requests = 0;
+  const result = await sendContactEmail({
+    ...input,
+    apiKey: undefined,
+    localMailerUrl: "https://mailer.example.com/send",
+    localMailerToken: "must-not-leave-the-server",
+  }, async () => {
+    requests += 1;
+    return Response.json({ ok: true });
+  });
+
+  assert.equal(requests, 0);
+  assert.deepEqual(result, { ok: false, error: "Email transport is not configured" });
+});

@@ -75,11 +75,12 @@ test("uses a two-field callback form with consent and spam protection", () => {
   assert.match(contactRouteSource, /RATE_LIMIT_MAX/);
   assert.match(contactRouteSource, /verifyTurnstile/);
   assert.match(contactEmailSource, /"idempotency-key": `contact-notification\/\$\{input\.id\}`/);
-  assert.match(contactEmailSource, /response\.status === 429 \|\| response\.status >= 500/);
+  assert.match(contactEmailSource, /response\.status === 409 \|\| response\.status === 408/);
+  assert.match(contactEmailSource, /isLoopbackMailerUrl/);
   assert.match(contactRouteSource, /value === true \|\| value === "on" \|\| value === "1"/);
   assert.match(contactRouteSource, /insert\(enquiries\)/);
   assert.match(contactRouteSource, /notificationStatus/);
-  assert.match(contactRouteSource, /senderMailbox\.endsWith\("@your-verified-domain\.ru"\)/);
+  assert.match(contactRouteSource, /localMailerConfigured/);
   assert.match(databaseSchemaSource, /export const enquiries = sqliteTable/);
   assert.match(databaseSchemaSource, /export const submissionAttempts = sqliteTable/);
   assert.match(legacyEnhancementsSource, /kind: email \|\| message \? "message" : "callback"/);

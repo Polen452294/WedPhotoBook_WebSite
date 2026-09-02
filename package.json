@@ -11,6 +11,7 @@
     "start": "vinext start --hostname 127.0.0.1 --port 3000",
     "start:vps": "bash scripts/start-vps.sh",
     "check:contact-config": "node scripts/check-contact-config.mjs .env.local",
+    "setup:local-mailer": "bash scripts/install-local-mailer.sh",
     "check:assets": "node scripts/check-public-assets.mjs",
     "test": "npm run build && node --test tests/*.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",

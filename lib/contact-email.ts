@@ -2,7 +2,9 @@ const EMAIL_ATTEMPTS = 2;
 const EMAIL_RETRY_DELAY_MS = 250;
 
 export type ContactEmailInput = {
-  apiKey: string;
+  apiKey?: string;
+  localMailerUrl?: string;
+  localMailerToken?: string;
   id: string;
   sender: string;
   recipient: string;
@@ -12,6 +14,20 @@ export type ContactEmailInput = {
 
 type Fetcher = typeof fetch;
 type Sleeper = (milliseconds: number) => Promise<void>;
+
+export function isLoopbackMailerUrl(value: string | undefined): boolean {
+  if (!value) return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:"
+      && ["127.0.0.1", "localhost", "[::1]"].includes(url.hostname)
+      && url.pathname === "/send"
+      && !url.username
+      && !url.password;
+  } catch {
+    return false;
+  }
+}
 
 function compactError(value: unknown): string {
   return String(value ?? "Unknown email error").replace(/[<>]/g, "").trim().slice(0, 500);
@@ -23,7 +39,18 @@ export async function sendContactEmail(
   sleep: Sleeper = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds)),
 ): Promise<{ ok: true } | { ok: false; error: string }> {
   let lastError = "Unknown email error";
-  const payload = JSON.stringify({
+  const useLocalMailer = isLoopbackMailerUrl(input.localMailerUrl) && (input.localMailerToken?.length ?? 0) >= 32;
+  if (!useLocalMailer && !input.apiKey) return { ok: false, error: "Email transport is not configured" };
+
+  const url = useLocalMailer ? input.localMailerUrl! : "https://api.resend.com/emails";
+  const transport = useLocalMailer ? "Local mailer" : "Resend";
+  const payload = JSON.stringify(useLocalMailer ? {
+    id: input.id,
+    from: input.sender,
+    to: input.recipient,
+    subject: input.subject,
+    text: input.text,
+  } : {
     from: input.sender,
     to: [input.recipient],
     subject: input.subject,
@@ -32,10 +59,10 @@ export async function sendContactEmail(
 
   for (let attempt = 0; attempt < EMAIL_ATTEMPTS; attempt += 1) {
     try {
-      const response = await fetcher("https://api.resend.com/emails", {
+      const response = await fetcher(url, {
         method: "POST",
         headers: {
-          authorization: `Bearer ${input.apiKey}`,
+          authorization: `Bearer ${useLocalMailer ? input.localMailerToken : input.apiKey}`,
           "content-type": "application/json",
           "idempotency-key": `contact-notification/${input.id}`,
         },
@@ -43,8 +70,8 @@ export async function sendContactEmail(
       });
       if (response.ok) return { ok: true };
 
-      lastError = `Resend ${response.status}: ${compactError(await response.text())}`;
-      const retryable = response.status === 408 || response.status === 425 || response.status === 429 || response.status >= 500;
+      lastError = `${transport} ${response.status}: ${compactError(await response.text())}`;
+      const retryable = response.status === 409 || response.status === 408 || response.status === 425 || response.status === 429 || response.status >= 500;
       if (!retryable) break;
     } catch (error) {
       lastError = error instanceof Error ? error.message : "Unknown email error";

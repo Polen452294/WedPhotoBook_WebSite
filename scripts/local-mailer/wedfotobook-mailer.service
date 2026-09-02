@@ -1,0 +1,31 @@
+[Unit]
+Description=Wedfotobook loopback mail gateway
+After=network-online.target postfix.service
+Wants=network-online.target
+Requires=postfix.service
+
+[Service]
+Type=simple
+User=wedfotomailer
+Group=wedfotomailer
+SupplementaryGroups=postdrop
+EnvironmentFile=/etc/wedfotobook-mailer.env
+ExecStart=/usr/bin/python3 /usr/local/lib/wedfotobook-mailer/mail_gateway.py
+Restart=on-failure
+RestartSec=3
+StateDirectory=wedfotobook-mailer
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+LockPersonality=true
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target
