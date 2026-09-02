@@ -59,7 +59,7 @@ test("the homepage uses compressed local fonts and retains the fallback typeface
   assert.match(faces[0], /font-weight:400 800/);
   const fontUrls = new Set();
   for (const face of faces) {
-    assert.match(face, /font-display:swap/);
+    assert.match(face, /font-display:optional/);
     assert.match(face, /\.woff2/);
     assert.doesNotMatch(face, /\.ttf/);
     const url = /url\(([^)]+)\)/.exec(face)[1];

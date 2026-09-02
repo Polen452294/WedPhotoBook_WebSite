@@ -69,8 +69,9 @@ const openSansFaces = [];
 sourceRoot.walkAtRules("font-face", (rule) => {
   if (rule.toString().includes("open-sans-latin-variable-v3.003.woff2")) openSansFaces.push(rule);
 });
-if (openSansFaces.length > 1) {
+if (openSansFaces.length) {
   openSansFaces[0].walkDecls("font-weight", (declaration) => { declaration.value = "400 800"; });
+  openSansFaces[0].walkDecls("font-display", (declaration) => { declaration.value = "optional"; });
   openSansFaces.slice(1).forEach((rule) => rule.remove());
 }
 await writeFile(sourcePath, sourceRoot.toString());
