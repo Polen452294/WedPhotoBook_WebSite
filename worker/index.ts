@@ -4,7 +4,6 @@ import handler from "vinext/server/app-router-entry";
 import appCriticalStyles from "../app/globals.css?raw";
 import photoSources from "../data/photo-sources.json";
 import responsivePhotos from "../data/responsive-photos.json";
-import homeCriticalStyles from "../public/wp-assets/home-critical.css?raw";
 
 interface Env {
   ASSETS: Fetcher;
@@ -155,19 +154,19 @@ async function withHomepageCriticalStyles(request: Request, response: Response):
   const contentType = response.headers.get("Content-Type") ?? "";
   if (url.pathname !== "/" || !response.ok || !contentType.toLowerCase().startsWith("text/html")) return response;
 
-  // Inline the two small first-screen stylesheets. This removes both CSS
-  // round-trips from the critical path; the large WordPress stylesheet remains
-  // deferred and available as a no-JS fallback.
+  // Keep the compact application overrides inline, but load the homepage
+  // stylesheet once. Inlining most of the same stylesheet and then applying it
+  // again after an async onload forced two expensive mobile layout passes.
   const html = await response.text();
   const escapeStyle = (css: string) => css.replaceAll("</style", "<\\/style");
-  const critical = `<style data-app-critical>${escapeStyle(appCriticalStyles)}</style><style data-home-critical>${escapeStyle(homeCriticalStyles)}</style>`;
-  const deferred = '<link rel="stylesheet" href="/wp-assets/home-optimized.css?v=8" media="print" onload="this.media=\'all\';this.onload=null"><noscript><link rel="stylesheet" href="/wp-assets/home-optimized.css?v=8"></noscript>';
+  const critical = `<style data-app-critical>${escapeStyle(appCriticalStyles)}</style>`;
+  const homepageStyles = '<link rel="stylesheet" href="/wp-assets/home-optimized.css?v=9">';
   const frameworkStylesheetPattern = /<link rel="stylesheet" href="[^"]+"[^>]*data-rsc-css-href=[^>]*>/;
   // app/globals.css is already embedded above byte-for-byte. Remove Vinext's
   // initial link so the same rules cannot block the first paint. Hydration may
   // restore its managed link later, after the first screen is already styled.
   const nonBlockingHtml = html.replace(frameworkStylesheetPattern, "");
-  const styledHtml = nonBlockingHtml.includes("</head>") ? nonBlockingHtml.replace("</head>", `${critical}${deferred}</head>`) : critical + deferred + nonBlockingHtml;
+  const styledHtml = nonBlockingHtml.includes("</head>") ? nonBlockingHtml.replace("</head>", `${critical}${homepageStyles}</head>`) : critical + homepageStyles + nonBlockingHtml;
   const isEditorPreview = url.searchParams.get("cms_preview") === "1" || url.searchParams.get("code_preview") === "1";
   const body = isEditorPreview ? styledHtml : withoutHomepageReactRuntime(styledHtml);
   const headers = new Headers(response.headers);

@@ -287,12 +287,12 @@ test("serves responsive photos with full-resolution originals without loading Tu
   assert.match(hero, /loading="eager" fetchpriority="high"/);
   const head = html.slice(0, html.indexOf("</head>"));
   assert.match(head, /<style data-app-critical>/);
-  assert.match(head, /<style data-home-critical>/);
+  assert.doesNotMatch(head, /<style data-home-critical>/);
   assert.doesNotMatch(head, /<link[^>]+data-rsc-css-href/);
   assert.doesNotMatch(head, /<link rel="stylesheet" href="\/wp-assets\/home-critical\.css/);
-  assert.match(head, /<link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=8" media="print" onload=/);
-  assert.match(html, /home-optimized\.css\?v=8" media="print" onload=/);
-  assert.match(html, /<noscript><link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=8"/);
+  assert.match(head, /<link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=9">/);
+  assert.doesNotMatch(html, /home-optimized\.css[^>]+media="print"|home-optimized\.css[^>]+onload=/);
+  assert.doesNotMatch(html, /<noscript><link rel="stylesheet" href="\/wp-assets\/home-optimized\.css/);
   assert.doesNotMatch(html, /bootstrap\.rsc|entry-browser/, "the homepage must not download the React/Vinext runtime");
   assert.doesNotMatch(head, /<link\b[^>]*rel="modulepreload"/, "the public homepage must not preload unused client modules");
   assert.match(html, /<script src="\/wp-assets\/home-interactions\.js\?v=20260902" defer><\/script>/);
