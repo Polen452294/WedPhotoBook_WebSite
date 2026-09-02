@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Loopback-only bridge from the Worker runtime to the local Postfix queue."""
+"""Loopback-only bridge from the web application to the local Postfix queue."""
 
 from __future__ import annotations
 
