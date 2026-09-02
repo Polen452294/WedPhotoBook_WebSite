@@ -161,7 +161,7 @@ async function withHomepageCriticalStyles(request: Request, response: Response):
   const html = await response.text();
   const escapeStyle = (css: string) => css.replaceAll("</style", "<\\/style");
   const critical = `<style data-app-critical>${escapeStyle(appCriticalStyles)}</style><style data-home-critical>${escapeStyle(homeCriticalStyles)}</style>`;
-  const deferred = '<link rel="stylesheet" href="/wp-assets/home-optimized.css?v=8" media="print" onload="this.media=\'all\';this.onload=null"><noscript><link rel="stylesheet" href="/wp-assets/home-optimized.css?v=8"></noscript>';
+  const deferred = '<link rel="stylesheet" href="/wp-assets/home-optimized.css?v=7" media="print" onload="this.media=\'all\';this.onload=null"><noscript><link rel="stylesheet" href="/wp-assets/home-optimized.css?v=7"></noscript>';
   const frameworkStylesheetPattern = /<link rel="stylesheet" href="[^"]+"[^>]*data-rsc-css-href=[^>]*>/;
   // app/globals.css is already embedded above byte-for-byte. Remove Vinext's
   // initial link so the same rules cannot block the first paint. Hydration may

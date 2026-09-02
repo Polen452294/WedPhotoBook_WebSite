@@ -91,12 +91,6 @@ test("does not restyle the whole document after homepage hydration", () => {
   assert.match(legacyEnhancementsSource, /if \(!isHomepage\) document\.body\.className =/);
 });
 
-test("skips mobile layout work only for offscreen homepage content", () => {
-  assert.match(optimizedHomeCss, /\.original-home-sections > \.section:not\(:first-child\)[^{]*\{[^}]*content-visibility:\s*auto/s);
-  assert.match(optimizedHomeCss, /\.original-home-sections \.craft-item[^{]*\{[^}]*content-visibility:\s*auto/s);
-  assert.match(optimizedHomeCss, /contain-intrinsic-size:\s*auto/);
-});
-
 test("uses granular cookie consent before analytics", () => {
   assert.match(cookieNoticeSource, />Принять все<\/button>/);
   assert.match(cookieNoticeSource, />Отклонить необязательные<\/button>/);
@@ -296,9 +290,9 @@ test("serves responsive photos with full-resolution originals without loading Tu
   assert.match(head, /<style data-home-critical>/);
   assert.doesNotMatch(head, /<link[^>]+data-rsc-css-href/);
   assert.doesNotMatch(head, /<link rel="stylesheet" href="\/wp-assets\/home-critical\.css/);
-  assert.match(head, /<link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=8" media="print" onload=/);
-  assert.match(html, /home-optimized\.css\?v=8" media="print" onload=/);
-  assert.match(html, /<noscript><link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=8"/);
+  assert.match(head, /<link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=7" media="print" onload=/);
+  assert.match(html, /home-optimized\.css\?v=7" media="print" onload=/);
+  assert.match(html, /<noscript><link rel="stylesheet" href="\/wp-assets\/home-optimized\.css\?v=7"/);
   assert.doesNotMatch(html, /bootstrap\.rsc|entry-browser/, "the homepage must not download the React/Vinext runtime");
   assert.doesNotMatch(head, /<link\b[^>]*rel="modulepreload"/, "the public homepage must not preload unused client modules");
   assert.match(html, /<script src="\/wp-assets\/home-interactions\.js\?v=20260902" defer><\/script>/);
