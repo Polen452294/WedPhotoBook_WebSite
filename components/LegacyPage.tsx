@@ -334,6 +334,17 @@ function withAccessibleLegacyControls(bodyHtml: string): string {
   return bodyHtml
     .replaceAll("https://telegram.me/photokniga_na_zakaz", "https://t.me/photokniga_na_zakaz")
     .replace(
+      /<(a|button)\b[^>]*\bclass=("|')[^"']*\b(?:wpb-pcf-form-fire|wpb-pcf-button|fancybox-inline)\b[^"']*\2[^>]*>/gi,
+      (tag, element: string) => {
+        let control = tag.replace(/\s+data-order-open(?:=("|')[^"']*\1)?/gi, "");
+        if (element.toLowerCase() === "a") {
+          control = control.replace(/\s+href=("|')[^"']*\1/gi, "");
+          control = control.replace(/>$/, ' href="#order-dialog">');
+        }
+        return control.replace(/>$/, ' data-order-open="true">');
+      },
+    )
+    .replace(
       /<a\b([^>]*\bclass=("|')[^"']*\bfancybox-inline\b[^"']*\2[^>]*)>/gi,
       (tag, attributes: string) => /\baria-label=/i.test(attributes)
         ? tag

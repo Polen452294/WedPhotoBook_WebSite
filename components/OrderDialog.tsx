@@ -81,7 +81,7 @@ export function OrderDialog() {
   }
 
   return (
-    <dialog className="order-dialog" ref={dialogRef} aria-labelledby="order-dialog-title" onClick={(event) => {
+    <dialog id="order-dialog" className="order-dialog" ref={dialogRef} aria-labelledby="order-dialog-title" onClick={(event) => {
       if (event.target === dialogRef.current) dialogRef.current.close();
     }}>
       <button className="dialog-close" type="button" aria-label="Закрыть" onClick={() => dialogRef.current?.close()}>×</button>

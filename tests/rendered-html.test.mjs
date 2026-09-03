@@ -63,7 +63,8 @@ test("uses a two-field callback form with consent and spam protection", () => {
   assert.match(orderDialogSource, /className="order-antispam"/);
   assert.match(orderDialogSource, /status === "sending" \? "Отправляем…" : "Отправить"/);
   assert.match(orderDialogSource, /result\.saved && result\.notified === false \? "saved" : "success"/);
-  assert.match(contactPageSource, /result\.saved && result\.notified === false \? "saved" : "success"/);
+  assert.match(contactPageSource, /<button type="button" data-order-open>Оставить заявку<\/button>/);
+  assert.doesNotMatch(contactPageSource, /<form\b|fetch\("\/api\/contact/);
   assert.match(legacyEnhancementsSource, /result\.saved && result\.notified === false/);
   assert.doesNotMatch(`${orderDialogSource}${contactPageSource}${legacyEnhancementsSource}${contactRouteSource}`, /turnstile/i);
   assert.doesNotMatch(orderDialogSource, /name="(?:photos|message)"/);
@@ -137,6 +138,35 @@ async function render(path = "/", init = {}) {
     headers: { accept: "text/html", ...(init.headers ?? {}) },
   });
 }
+
+test("mounts one shared order dialog on every inner route and wires all order controls", async () => {
+  const pages = JSON.parse(await readFile(new URL("../data/rendered-pages.json", import.meta.url), "utf8"));
+  const paths = new Set([...pages.filter((page) => page.slug).map((page) => `/${page.slug}/`), ...articleRoutes]);
+  let orderControls = 0;
+  for (const path of paths) {
+    const response = await render(path);
+    assert.equal(response.status, 200, path);
+    const html = (await response.text()).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "");
+    const dialogs = [...html.matchAll(/<dialog\b[^>]*class="order-dialog"[^>]*>[\s\S]*?<\/dialog>/g)];
+    assert.equal(dialogs.length, 1, `${path} must mount exactly one order dialog, including article/pricing branches`);
+    assert.match(dialogs[0][0], /name="name"/);
+    assert.match(dialogs[0][0], /name="phone"/);
+    assert.doesNotMatch(dialogs[0][0], /name="(?:email|message)"/);
+    for (const control of html.matchAll(/<(a|button)\b([^>]*)>([\s\S]*?)<\/\1>/gi)) {
+      const text = control[3].replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+      const isOrder = /^(?:Заказать(?:\s.*)?|Рассчитать стоимость|Получить расчёт|Оставить заявку|Хочу фотокнигу|Задать вопрос)$/.test(text)
+        || /\b(?:wpb-pcf-form-fire|wpb-pcf-button|fancybox-inline)\b/.test(control[2]);
+      if (!isOrder) continue;
+      orderControls++;
+      assert.match(control[2], /\bdata-order-open="true"/, `${path}: ${text || "legacy order control"}`);
+    }
+    if (path === "/kontakty/") {
+      assert.doesNotMatch(html, /<form\b[^>]*class="contact-journal-form"/);
+      assert.match(html, /data-order-open="true">Оставить заявку<\/button>/);
+    }
+  }
+  assert.ok(orderControls >= 20, `the audit must exercise the catalog, pricing and contact CTAs; found ${orderControls}`);
+});
 
 test("does not cache missing images or mislabel an error page as an image", async () => {
   for (const path of [
@@ -503,9 +533,8 @@ test("uses the original contact information order with one heading and a Yandex 
   assert.equal([...contactHtml.matchAll(/Контакты/g)].length, 1);
   assert.ok(contactHtml.indexOf('class="contact-form-column"') < contactHtml.indexOf('class="contact-info-column"'));
   assert.ok(contactHtml.indexOf('class="contact-info-column"') < contactHtml.indexOf('class="company-map-section contact-map-section"'));
-  assert.match(contactHtml, /name="name"/);
-  assert.match(contactHtml, /name="email"/);
-  assert.match(contactHtml, /name="message"/);
+  assert.match(contactHtml, /<button type="button" data-order-open="true">Оставить заявку<\/button>/);
+  assert.doesNotMatch(contactHtml, /<form\b/);
   assert.match(contactHtml, /Москва, Свободный проспект, д\. 33/);
   assert.match(contactHtml, /https:\/\/yandex\.ru\/map-widget\/v1\//);
   assert.match(contactHtml, /class="contact-social-whatsapp"[^>]*aria-label="WhatsApp"/);

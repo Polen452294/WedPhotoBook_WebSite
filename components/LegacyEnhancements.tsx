@@ -4,10 +4,6 @@ import { useEffect } from "react";
 
 const BODY_CLASSES = ["wordpress-clone"];
 
-function openOrderDialog() {
-  window.dispatchEvent(new Event("wedfotobook:open-order"));
-}
-
 function openImage(url: string, alt: string) {
   const dialog = document.createElement("dialog");
   dialog.className = "legacy-lightbox";
@@ -79,12 +75,6 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
       if (redirectedLink?.dataset.redirectUrl) {
         event.preventDefault();
         window.location.href = redirectedLink.dataset.redirectUrl;
-        return;
-      }
-
-      if (target?.closest(".wpb-pcf-form-fire, .wpb-pcf-button, .fancybox-inline")) {
-        event.preventDefault();
-        openOrderDialog();
         return;
       }
 
