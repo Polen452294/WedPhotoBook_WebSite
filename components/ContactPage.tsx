@@ -1,5 +1,10 @@
+"use client";
+
 import Image from "next/image";
+import { FormEvent, useEffect, useState } from "react";
 import { contacts } from "@/lib/site-data";
+
+type Status = "idle" | "sending" | "success" | "saved" | "error";
 
 const messengers = [
   { href: contacts.telegram, src: "/media/social/Tg wedfotobook .png", label: "Telegram", alt: "Написать в Telegram" },
@@ -11,6 +16,44 @@ const messengers = [
 const mapAddress = "%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%A1%D0%B2%D0%BE%D0%B1%D0%BE%D0%B4%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%2C%20%D0%B4.%2033";
 
 export function ContactPage() {
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [formStartedAt, setFormStartedAt] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setFormStartedAt(Date.now()), 0);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus("sending");
+    setErrorMessage("");
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const payload = Object.fromEntries(data.entries());
+    payload.kind = "message";
+    payload.sourcePath = window.location.pathname;
+
+    try {
+      const response = await fetch("/api/contact/", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result = (await response.json()) as { error?: string; saved?: boolean; notified?: boolean };
+      if (!response.ok) throw new Error(result.error || "Не удалось отправить сообщение.");
+
+      form.reset();
+      setFormStartedAt(Date.now());
+      setStatus(result.saved && result.notified === false ? "saved" : "success");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Не удалось отправить сообщение.");
+      setStatus("error");
+    }
+  }
+
   return (
     <main className="contact-page">
       <section className="contact-layout-main">
@@ -29,12 +72,25 @@ export function ContactPage() {
                 <span className="section-kicker">Напишите нам</span>
               </header>
 
-              <div className="contact-journal-form">
-                <p>Оставьте имя и номер телефона. Мы перезвоним ежедневно с 9:00 до 21:00.</p>
-                <div className="contact-form-action">
-                  <button type="button" data-order-open>Оставить заявку</button>
+              <form className="contact-journal-form" onSubmit={submit}>
+                <div className="contact-form-row">
+                  <label><span>Ваше имя</span><input name="name" autoComplete="name" maxLength={120} required /></label>
+                  <label><span>E-mail</span><input name="email" type="email" autoComplete="email" maxLength={254} required /></label>
                 </div>
-              </div>
+                <label><span>Ваше сообщение</span><textarea name="message" rows={7} maxLength={5000} required /></label>
+                <label className="contact-honeypot" aria-hidden="true">Адрес<input name="address" tabIndex={-1} autoComplete="off" /></label>
+                <input name="formStartedAt" type="hidden" value={formStartedAt} readOnly />
+                <label className="contact-consent">
+                  <input name="consent" type="checkbox" required />
+                  <span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span>
+                </label>
+                <div className="contact-form-action">
+                  <button type="submit" disabled={status === "sending"}>{status === "sending" ? "Отправляем…" : "Отправить"}</button>
+                  {status === "success" && <p className="contact-form-status success" role="status">Спасибо! Сообщение отправлено.</p>}
+                  {status === "saved" && <p className="contact-form-status success" role="status">Сообщение сохранено. Почтовое уведомление задерживается, но обращение уже доступно нам в системе.</p>}
+                  {status === "error" && <p className="contact-form-status error" role="alert">{errorMessage}</p>}
+                </div>
+              </form>
             </div>
 
             <aside className="contact-info-column" aria-label="Способы связи">

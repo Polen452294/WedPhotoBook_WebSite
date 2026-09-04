@@ -98,9 +98,33 @@ test("order API persists callbacks from every entry point and uses only the conf
       assert.ok(sent.payload.text.includes(sourcePath));
       assert.ok(sent.payload.text.includes(result.id));
     }
+    const messageResponse = await submit("/kontakty/", {
+      kind: "message",
+      phone: "",
+      email: "client@example.test",
+      message: "Хочу заказать семейную фотокнигу.",
+    });
+    assert.equal(messageResponse.status, 200);
+    const messageResult = await messageResponse.json();
+    assert.equal(messageResult.saved, true);
+    assert.equal(messageResult.notified, true);
+    const messageRow = db.prepare("SELECT * FROM enquiries WHERE id = ?").get(messageResult.id);
+    assert.equal(messageRow.kind, "message");
+    assert.equal(messageRow.phone, null);
+    assert.equal(messageRow.email, "client@example.test");
+    assert.equal(messageRow.message, "Хочу заказать семейную фотокнигу.");
+    assert.equal(messageRow.source_path, "/kontakty/");
+    assert.equal(messageRow.notification_status, "sent");
+    const messageEmail = requests.at(-1);
+    assert.match(messageEmail.payload.subject, /Новое сообщение/);
+    assert.ok(messageEmail.payload.text.includes("client@example.test"));
+    assert.ok(messageEmail.payload.text.includes("Хочу заказать семейную фотокнигу."));
+    assert.ok(messageEmail.payload.text.includes("/kontakty/"));
+    assert.ok(messageEmail.payload.text.includes(messageResult.id));
+
     const invalid = await submit("/kontakty/", { phone: "123" });
     assert.equal(invalid.status, 422);
-    assert.equal(requests.length, 3, "invalid orders must not reach the mailer");
+    assert.equal(requests.length, 4, "invalid orders must not reach the mailer");
 
     mailerStatus = 503;
     const delayed = await submit("/fotokniga-standart/");
@@ -108,8 +132,8 @@ test("order API persists callbacks from every entry point and uses only the conf
     const result = await delayed.json();
     assert.equal(result.saved, true);
     assert.equal(result.notified, false);
-    assert.equal(requests.length, 5, "one failed notification is retried once");
-    assert.equal(requests[3].payload.id, requests[4].payload.id);
+    assert.equal(requests.length, 6, "one failed notification is retried once");
+    assert.equal(requests[4].payload.id, requests[5].payload.id);
     assert.equal(db.prepare("SELECT COUNT(*) AS count FROM enquiries WHERE id = ?").get(result.id).count, 1);
     assert.equal(db.prepare("SELECT notification_status FROM enquiries WHERE id = ?").get(result.id).notification_status, "failed");
   } finally {

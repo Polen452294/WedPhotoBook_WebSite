@@ -54,7 +54,7 @@ test("publishes branded favicon assets", async () => {
   }
 });
 
-test("uses a two-field callback form with consent and spam protection", () => {
+test("uses working callback and contact forms with consent and spam protection", () => {
   assert.match(orderDialogSource, /<input name="name"/);
   assert.match(orderDialogSource, /<input name="phone" type="tel"/);
   assert.match(orderDialogSource, /<input name="consent" type="checkbox" required/);
@@ -63,8 +63,14 @@ test("uses a two-field callback form with consent and spam protection", () => {
   assert.match(orderDialogSource, /className="order-antispam"/);
   assert.match(orderDialogSource, /status === "sending" \? "Отправляем…" : "Отправить"/);
   assert.match(orderDialogSource, /result\.saved && result\.notified === false \? "saved" : "success"/);
-  assert.match(contactPageSource, /<button type="button" data-order-open>Оставить заявку<\/button>/);
-  assert.doesNotMatch(contactPageSource, /<form\b|fetch\("\/api\/contact/);
+  assert.match(contactPageSource, /<form className="contact-journal-form" onSubmit=\{submit\}>/);
+  assert.match(contactPageSource, /<input name="email" type="email"/);
+  assert.match(contactPageSource, /<textarea name="message"/);
+  assert.match(contactPageSource, /payload\.kind = "message"/);
+  assert.match(contactPageSource, /fetch\("\/api\/contact\//);
+  assert.match(contactPageSource, /className="contact-honeypot"/);
+  assert.match(contactPageSource, /name="formStartedAt" type="hidden"/);
+  assert.match(contactPageSource, /<input name="consent" type="checkbox" required/);
   assert.match(legacyEnhancementsSource, /result\.saved && result\.notified === false/);
   assert.doesNotMatch(`${orderDialogSource}${contactPageSource}${legacyEnhancementsSource}${contactRouteSource}`, /turnstile/i);
   assert.doesNotMatch(orderDialogSource, /name="(?:photos|message)"/);
@@ -160,10 +166,7 @@ test("mounts one shared order dialog on every inner route and wires all order co
       orderControls++;
       assert.match(control[2], /\bdata-order-open="true"/, `${path}: ${text || "legacy order control"}`);
     }
-    if (path === "/kontakty/") {
-      assert.doesNotMatch(html, /<form\b[^>]*class="contact-journal-form"/);
-      assert.match(html, /data-order-open="true">Оставить заявку<\/button>/);
-    }
+    if (path === "/kontakty/") assert.match(html, /<form[^>]*class="contact-journal-form"/);
   }
   assert.ok(orderControls >= 20, `the audit must exercise the catalog, pricing and contact CTAs; found ${orderControls}`);
 });
@@ -533,8 +536,11 @@ test("uses the original contact information order with one heading and a Yandex 
   assert.equal([...contactHtml.matchAll(/Контакты/g)].length, 1);
   assert.ok(contactHtml.indexOf('class="contact-form-column"') < contactHtml.indexOf('class="contact-info-column"'));
   assert.ok(contactHtml.indexOf('class="contact-info-column"') < contactHtml.indexOf('class="company-map-section contact-map-section"'));
-  assert.match(contactHtml, /<button type="button" data-order-open="true">Оставить заявку<\/button>/);
-  assert.doesNotMatch(contactHtml, /<form\b/);
+  assert.match(contactHtml, /<form[^>]*class="contact-journal-form"/);
+  assert.match(contactHtml, /<input[^>]*name="name"/);
+  assert.match(contactHtml, /<input(?=[^>]*name="email")(?=[^>]*type="email")[^>]*>/);
+  assert.match(contactHtml, /<textarea[^>]*name="message"/);
+  assert.match(contactHtml, /<button[^>]*type="submit"[^>]*>Отправить<\/button>/);
   assert.match(contactHtml, /Москва, Свободный проспект, д\. 33/);
   assert.match(contactHtml, /https:\/\/yandex\.ru\/map-widget\/v1\//);
   assert.match(contactHtml, /class="contact-social-whatsapp"[^>]*aria-label="WhatsApp"/);
