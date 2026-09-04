@@ -92,10 +92,10 @@ export function OrderDialog() {
           <p>Оставьте имя и номер телефона. Мы перезвоним ежедневно с 9:00 до 21:00.</p>
         </header>
         <div className="order-fields">
-          <label><span>Ваше имя</span><input name="name" autoComplete="name" placeholder="Как к вам обращаться?" maxLength={120} required /></label>
-          <label><span>Телефон</span><input name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__" value={phone} onChange={(event) => setPhone(formatPhone(event.target.value))} minLength={18} required /></label>
+          <label><span>Ваше имя</span><input className="ym-disable-keys" name="name" autoComplete="name" placeholder="Как к вам обращаться?" maxLength={120} required /></label>
+          <label><span>Телефон</span><input className="ym-disable-keys" name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__" value={phone} onChange={(event) => setPhone(formatPhone(event.target.value))} minLength={18} required /></label>
         </div>
-        <label className="honeypot" aria-hidden="true">Адрес<input name="address" tabIndex={-1} autoComplete="off" /></label>
+        <label className="honeypot" aria-hidden="true">Адрес<input className="ym-disable-keys" name="address" tabIndex={-1} autoComplete="off" /></label>
         <input name="formStartedAt" type="hidden" value={formStartedAt} readOnly />
         <label className="checkbox"><input name="consent" type="checkbox" required />
           <span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span>

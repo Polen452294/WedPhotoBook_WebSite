@@ -16,6 +16,8 @@ const legacyPageSource = await readFile(new URL("../components/LegacyPage.tsx", 
 const originalHomeSectionsSource = await readFile(new URL("../components/OriginalHomeSections.tsx", import.meta.url), "utf8");
 const cookieNoticeSource = await readFile(new URL("../components/CookieNotice.tsx", import.meta.url), "utf8");
 const analyticsSource = await readFile(new URL("../components/Analytics.tsx", import.meta.url), "utf8");
+const analyticsConfigSource = await readFile(new URL("../lib/analytics-config.ts", import.meta.url), "utf8");
+const homeInteractionsSource = await readFile(new URL("../public/wp-assets/home-interactions.js", import.meta.url), "utf8");
 const cookieConsentSource = await readFile(new URL("../lib/cookie-consent.ts", import.meta.url), "utf8");
 const databaseSchemaSource = await readFile(new URL("../db/schema.ts", import.meta.url), "utf8");
 const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
@@ -55,8 +57,8 @@ test("publishes branded favicon assets", async () => {
 });
 
 test("uses working callback and contact forms with consent and spam protection", () => {
-  assert.match(orderDialogSource, /<input name="name"/);
-  assert.match(orderDialogSource, /<input name="phone" type="tel"/);
+  assert.match(orderDialogSource, /<input[^>]*name="name"/);
+  assert.match(orderDialogSource, /<input[^>]*name="phone" type="tel"/);
   assert.match(orderDialogSource, /<input name="consent" type="checkbox" required/);
   assert.match(orderDialogSource, /className="honeypot"/);
   assert.match(orderDialogSource, /name="formStartedAt" type="hidden"/);
@@ -64,8 +66,8 @@ test("uses working callback and contact forms with consent and spam protection",
   assert.match(orderDialogSource, /status === "sending" \? "Отправляем…" : "Отправить"/);
   assert.match(orderDialogSource, /result\.saved && result\.notified === false \? "saved" : "success"/);
   assert.match(contactPageSource, /<form className="contact-journal-form" onSubmit=\{submit\}>/);
-  assert.match(contactPageSource, /<input name="email" type="email"/);
-  assert.match(contactPageSource, /<textarea name="message"/);
+  assert.match(contactPageSource, /<input[^>]*name="email" type="email"/);
+  assert.match(contactPageSource, /<textarea[^>]*name="message"/);
   assert.match(contactPageSource, /payload\.kind = "message"/);
   assert.match(contactPageSource, /fetch\("\/api\/contact\//);
   assert.match(contactPageSource, /className="contact-honeypot"/);
@@ -97,17 +99,37 @@ test("does not restyle the whole document after homepage hydration", () => {
   assert.match(legacyEnhancementsSource, /if \(!isHomepage\) document\.body\.className =/);
 });
 
-test("uses granular cookie consent before analytics", () => {
+test("loads GA4 and Yandex Metrika early while respecting an explicit rejection", () => {
   assert.match(cookieNoticeSource, />Принять все<\/button>/);
   assert.match(cookieNoticeSource, />Отклонить необязательные<\/button>/);
   assert.match(cookieNoticeSource, />Настроить<\/button>/);
   assert.match(cookieNoticeSource, /Разрешить аналитические cookies/);
   assert.doesNotMatch(cookieNoticeSource, /cookie-settings-trigger/);
+  assert.match(cookieNoticeSource, /Google Analytics 4 и Яндекс Метрика/);
   assert.match(cookieConsentSource, /CONSENT_MAX_AGE_MS = 180 \* 24 \* 60 \* 60 \* 1000/);
   assert.match(cookieConsentSource, /analytics: boolean/);
-  assert.match(analyticsSource, /if \(readCookieConsent\(\)\?\.analytics\) loadYandexMetrika\(\)/);
-  assert.match(analyticsSource, /else clearMetrikaStorage\(\)/);
-  assert.match(analyticsSource, /webvisor: false/);
+  assert.match(analyticsConfigSource, /G-JERXW5PT5F/);
+  assert.match(analyticsConfigSource, /YANDEX_COUNTER_ID = 600494/);
+  assert.match(layoutSource, /id="analytics-bootstrap"/);
+  assert.match(layoutSource, /www\.googletagmanager\.com\/gtag\/js\?id=/);
+  assert.match(layoutSource, /mc\.yandex\.ru\/metrika\/tag\.js\?id=/);
+  assert.match(layoutSource, /retryDelays = \[400, 1200, 3000, 8000\]/);
+  assert.match(layoutSource, /choice && choice\.analytics === false/);
+  assert.match(layoutSource, /webvisor: true/);
+  assert.match(layoutSource, /clickmap: true/);
+  assert.match(layoutSource, /trackLinks: true/);
+  assert.match(layoutSource, /accurateTrackBounce: true/);
+  assert.match(layoutSource, /__wedfotobookDisableAnalytics/);
+  assert.match(layoutSource, /ym-disable-keys/);
+  assert.match(analyticsSource, /window\.gtag\?\.\("event", "page_view"/);
+  assert.match(analyticsSource, /window\.ym\?\.\(YANDEX_COUNTER_ID, "hit"/);
+  assert.match(homeInteractionsSource, /__wedfotobookStartAnalytics/);
+  assert.match(homeInteractionsSource, /__wedfotobookDisableAnalytics/);
+  assert.match(contactPageSource, /className="ym-disable-keys"/);
+  assert.match(orderDialogSource, /className="ym-disable-keys"/);
+  assert.match(nextConfigSource, /www\.googletagmanager\.com/);
+  assert.match(nextConfigSource, /mc\.webvisor\.com/);
+  assert.match(nextConfigSource, /frame-ancestors 'self'/);
   assert.match(legacyPageSource, /withoutLegacyTracking/);
   assert.match(legacyPageSource, /Yandex\\\.Metrika counter/);
   assert.doesNotMatch(legacyEnhancementsSource, /saveCookieChoice/);
@@ -958,8 +980,9 @@ test("keeps the original opening screen and restores the first working version b
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");
-  assert.equal(response.headers.get("x-frame-options"), "SAMEORIGIN");
+  assert.equal(response.headers.get("x-frame-options"), null);
   assert.match(response.headers.get("content-security-policy") ?? "", /default-src 'self'/);
+  assert.match(response.headers.get("content-security-policy") ?? "", /frame-ancestors 'self'[^;]*metrika\.yandex\.ru/);
   assert.doesNotMatch(response.headers.get("content-security-policy") ?? "", /unsafe-eval/);
   assert.doesNotMatch(response.headers.get("content-security-policy") ?? "", /cloudflare|turnstile/i);
   assert.match(nextConfigSource, /process\.env\.NODE_ENV === "development" \? " 'unsafe-eval'" : ""/);

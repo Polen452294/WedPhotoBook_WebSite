@@ -74,11 +74,11 @@ export function ContactPage() {
 
               <form className="contact-journal-form" onSubmit={submit}>
                 <div className="contact-form-row">
-                  <label><span>Ваше имя</span><input name="name" autoComplete="name" maxLength={120} required /></label>
-                  <label><span>E-mail</span><input name="email" type="email" autoComplete="email" maxLength={254} required /></label>
+                  <label><span>Ваше имя</span><input className="ym-disable-keys" name="name" autoComplete="name" maxLength={120} required /></label>
+                  <label><span>E-mail</span><input className="ym-disable-keys" name="email" type="email" autoComplete="email" maxLength={254} required /></label>
                 </div>
-                <label><span>Ваше сообщение</span><textarea name="message" rows={7} maxLength={5000} required /></label>
-                <label className="contact-honeypot" aria-hidden="true">Адрес<input name="address" tabIndex={-1} autoComplete="off" /></label>
+                <label><span>Ваше сообщение</span><textarea className="ym-disable-keys" name="message" rows={7} maxLength={5000} required /></label>
+                <label className="contact-honeypot" aria-hidden="true">Адрес<input className="ym-disable-keys" name="address" tabIndex={-1} autoComplete="off" /></label>
                 <input name="formStartedAt" type="hidden" value={formStartedAt} readOnly />
                 <label className="contact-consent">
                   <input name="consent" type="checkbox" required />

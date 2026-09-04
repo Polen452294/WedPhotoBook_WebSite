@@ -59,6 +59,9 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
     if (!isHomepage) document.body.className = `${BODY_CLASSES.join(" ")} ${bodyClass}`.trim();
     document.querySelector("#cookie-notice")?.remove();
     initializeImageViewers();
+    document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input:not([type='checkbox']):not([type='hidden']), textarea").forEach((field) => {
+      field.classList.add("ym-disable-keys");
+    });
     const legacyFormStartedAt = new WeakMap<HTMLFormElement, number>();
     document.querySelectorAll<HTMLFormElement>(".wpcf7-form").forEach((form) => legacyFormStartedAt.set(form, Date.now()));
 

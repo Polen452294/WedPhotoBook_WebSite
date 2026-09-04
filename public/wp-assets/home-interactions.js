@@ -25,7 +25,10 @@
       localStorage.setItem(consentKey, JSON.stringify(value));
       localStorage.removeItem("wedfotobook-cookie-consent");
     } catch { /* The choice still applies to this page. */ }
-    if (analytics) startAnalytics();
+    if (analytics) {
+      startAnalytics();
+      window.__wedfotobookStartAnalytics?.();
+    } else window.__wedfotobookDisableAnalytics?.();
   }
 
   function sessionId() {
@@ -39,6 +42,7 @@
   }
 
   function sendAnalytics(eventType, details = {}) {
+    if (getConsent()?.analytics === false) return;
     const device = innerWidth < 680 ? "mobile" : innerWidth < 1100 ? "tablet" : "desktop";
     void fetch("/api/analytics/", {
       method: "POST",
@@ -60,31 +64,23 @@
       const destination = target instanceof HTMLAnchorElement ? target.getAttribute("href") || "" : target.dataset.orderOpen === "true" ? "Форма заказа" : "Кнопка";
       sendAnalytics("click", { label, target: destination });
     }, { capture: true });
-    if (!document.getElementById("yandex-metrika")) {
-      window.ym = window.ym || function (...args) { (window.ym.a = window.ym.a || []).push(args); };
-      window.ym.l = Date.now();
-      const script = document.createElement("script");
-      script.id = "yandex-metrika";
-      script.async = true;
-      script.src = "https://mc.yandex.ru/metrika/tag.js";
-      script.addEventListener("load", () => window.ym?.(600494, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: false }), { once: true });
-      document.head.append(script);
-    }
   }
 
   function mountCookieNotice() {
-    if (getConsent()) { if (getConsent().analytics) startAnalytics(); return; }
+    const stored = getConsent();
+    if (stored) { if (stored.analytics) startAnalytics(); return; }
+    startAnalytics();
     const notice = document.createElement("div");
     notice.className = "cookie-consent";
     notice.setAttribute("role", "dialog");
     notice.setAttribute("aria-label", "Настройки файлов cookies");
-    notice.innerHTML = `<div class="cookie-consent-mark" aria-hidden="true">✓</div><div class="cookie-consent-content"><span class="cookie-consent-kicker">Конфиденциальность</span><h2>Настройки cookies</h2><p>Обязательные cookies и локальное хранилище нужны для работы сайта. Аналитические cookies Яндекс Метрики включаются только с вашего согласия и помогают нам улучшать сайт.</p></div><div class="cookie-consent-actions"><button class="cookie-button cookie-button-primary" type="button" data-cookie-choice="accept">Принять все</button><button class="cookie-button cookie-button-secondary" type="button" data-cookie-choice="reject">Отклонить необязательные</button><button class="cookie-button cookie-button-link" type="button" data-cookie-choice="settings">Настроить</button></div>`;
+    notice.innerHTML = `<div class="cookie-consent-mark" aria-hidden="true">✓</div><div class="cookie-consent-content"><span class="cookie-consent-kicker">Конфиденциальность</span><h2>Настройки cookies</h2><p>Обязательные cookies нужны для работы сайта. Google Analytics 4, Яндекс Метрика и собственный счётчик помогают учитывать посещения. До вашего выбора счётчики уже фиксируют посещение и технические данные; при отказе они отключаются и их данные в браузере удаляются.</p></div><div class="cookie-consent-actions"><button class="cookie-button cookie-button-primary" type="button" data-cookie-choice="accept">Принять все</button><button class="cookie-button cookie-button-secondary" type="button" data-cookie-choice="reject">Отклонить необязательные</button><button class="cookie-button cookie-button-link" type="button" data-cookie-choice="settings">Настроить</button></div>`;
     notice.addEventListener("click", (event) => {
       const choice = event.target instanceof Element ? event.target.closest("[data-cookie-choice]")?.dataset.cookieChoice : "";
       if (!choice) return;
       if (choice === "settings") {
         notice.classList.add("cookie-consent-expanded");
-        notice.querySelector(".cookie-consent-content").insertAdjacentHTML("beforeend", `<div class="cookie-preferences" aria-label="Категории cookies"><div class="cookie-preference-row"><div><strong>Обязательные</strong><small>Сохраняют выбранные настройки и обеспечивают основные функции сайта. Всегда активны.</small></div><span class="cookie-status">Всегда включены</span></div><label class="cookie-preference-row cookie-preference-toggle"><span><strong>Аналитические</strong><small>Яндекс Метрика: посещённые страницы, источник перехода, устройство и взаимодействие с сайтом. Срок хранения отдельных идентификаторов — до 1 года.</small></span><input type="checkbox" aria-label="Разрешить аналитические cookies" /></label><p class="cookie-details">Поставщик аналитики — ООО «ЯНДЕКС». Сохранённый выбор можно удалить в настройках браузера. Подробнее — в <a href="/politika-obrabotki-personalnyh-dannyh/">политике обработки персональных данных</a>.</p></div>`);
+        notice.querySelector(".cookie-consent-content").insertAdjacentHTML("beforeend", `<div class="cookie-preferences" aria-label="Категории cookies"><div class="cookie-preference-row"><div><strong>Обязательные</strong><small>Сохраняют выбранные настройки и обеспечивают основные функции сайта. Всегда активны.</small></div><span class="cookie-status">Всегда включены</span></div><label class="cookie-preference-row cookie-preference-toggle"><span><strong>Аналитические</strong><small>Google Analytics 4 и Яндекс Метрика: посещённые страницы, источник перехода, устройство и взаимодействие с сайтом, включая Вебвизор. Срок хранения отдельных идентификаторов — до 1 года.</small></span><input type="checkbox" aria-label="Разрешить аналитические cookies" /></label><p class="cookie-details">Поставщики аналитики — Google и ООО «ЯНДЕКС». Сохранённый выбор можно удалить в настройках браузера. Подробнее — в <a href="/politika-obrabotki-personalnyh-dannyh/">политике обработки персональных данных</a>.</p></div>`);
         notice.querySelector(".cookie-consent-actions").innerHTML = '<button class="cookie-button cookie-button-primary" type="button" data-cookie-choice="save">Сохранить выбор</button><button class="cookie-button cookie-button-secondary" type="button" data-cookie-choice="reject">Отклонить необязательные</button>';
         return;
       }
@@ -106,7 +102,7 @@
     const dialog = document.createElement("dialog");
     dialog.className = "order-dialog";
     dialog.setAttribute("aria-labelledby", "order-dialog-title");
-    dialog.innerHTML = `<button class="dialog-close" type="button" aria-label="Закрыть">×</button><form class="order-form"><header class="order-form-heading"><span class="order-form-kicker">Обратный звонок</span><h2 id="order-dialog-title">Обсудим вашу фотокнигу</h2><p>Оставьте имя и номер телефона. Мы перезвоним ежедневно с 9:00 до 21:00.</p></header><div class="order-fields"><label><span>Ваше имя</span><input name="name" autocomplete="name" placeholder="Как к вам обращаться?" maxlength="120" required></label><label><span>Телефон</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" minlength="18" required></label></div><label class="honeypot" aria-hidden="true">Адрес<input name="address" tabindex="-1" autocomplete="off"></label><input name="formStartedAt" type="hidden"><label class="checkbox"><input name="consent" type="checkbox" required><span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span></label><div class="order-antispam" aria-label="Форма защищена от автоматических заявок"><span class="order-antispam-icon" aria-hidden="true">✓</span><span><strong>Антиспам-защита включена</strong><small>Форма проверяется на сервере перед отправкой</small></span></div><button class="button order-submit" type="submit">Отправить</button><p class="form-message" hidden></p></form>`;
+    dialog.innerHTML = `<button class="dialog-close" type="button" aria-label="Закрыть">×</button><form class="order-form"><header class="order-form-heading"><span class="order-form-kicker">Обратный звонок</span><h2 id="order-dialog-title">Обсудим вашу фотокнигу</h2><p>Оставьте имя и номер телефона. Мы перезвоним ежедневно с 9:00 до 21:00.</p></header><div class="order-fields"><label><span>Ваше имя</span><input class="ym-disable-keys" name="name" autocomplete="name" placeholder="Как к вам обращаться?" maxlength="120" required></label><label><span>Телефон</span><input class="ym-disable-keys" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" minlength="18" required></label></div><label class="honeypot" aria-hidden="true">Адрес<input class="ym-disable-keys" name="address" tabindex="-1" autocomplete="off"></label><input name="formStartedAt" type="hidden"><label class="checkbox"><input name="consent" type="checkbox" required><span>Я соглашаюсь на <a href="/soglashenie/" target="_blank">обработку персональных данных</a> согласно <a href="/politika-obrabotki-personalnyh-dannyh/" target="_blank">политике конфиденциальности</a></span></label><div class="order-antispam" aria-label="Форма защищена от автоматических заявок"><span class="order-antispam-icon" aria-hidden="true">✓</span><span><strong>Антиспам-защита включена</strong><small>Форма проверяется на сервере перед отправкой</small></span></div><button class="button order-submit" type="submit">Отправить</button><p class="form-message" hidden></p></form>`;
     document.body.append(dialog);
     const close = () => dialog.close();
     dialog.querySelector(".dialog-close").addEventListener("click", close);

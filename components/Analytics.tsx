@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { COOKIE_CONSENT_EVENT, CookieConsent, readCookieConsent } from "@/lib/cookie-consent";
+import { YANDEX_COUNTER_ID } from "@/lib/analytics-config";
 
-const COUNTER_ID = 600494;
-const METRIKA_SCRIPT_ID = "yandex-metrika";
 const ANALYTICS_SESSION_KEY = "wedfotobook_analytics_session";
 
 function analyticsSessionId(): string {
@@ -66,33 +66,9 @@ function startFirstPartyAnalytics(): () => void {
   return () => document.removeEventListener("click", handleClick, { capture: true });
 }
 
-function loadYandexMetrika() {
-  if (document.getElementById(METRIKA_SCRIPT_ID)) return;
-
-  window.ym = window.ym || function (...args: unknown[]) {
-    (window.ym!.a = window.ym!.a || []).push(args);
-  };
-  window.ym.l = Date.now();
-
-  const script = document.createElement("script");
-  script.id = METRIKA_SCRIPT_ID;
-  script.async = true;
-  script.src = "https://mc.yandex.ru/metrika/tag.js";
-  script.addEventListener("load", () => {
-    window.ym?.(COUNTER_ID, "init", {
-      clickmap: true,
-      trackLinks: true,
-      accurateTrackBounce: true,
-      webvisor: false,
-    });
-  }, { once: true });
-  document.head.appendChild(script);
-}
-
-function clearMetrikaStorage() {
-  window.ym?.(COUNTER_ID, "destruct");
-  document.getElementById(METRIKA_SCRIPT_ID)?.remove();
-  const cookiePrefixes = ["_ym_", "yandexuid", "yuidss", "ymex", "gdpr", "is_gdpr"];
+function clearExternalAnalytics() {
+  window.__wedfotobookDisableAnalytics?.();
+  const cookiePrefixes = ["_ga", "_ym_", "yandexuid", "yuidss", "ymex", "gdpr", "is_gdpr"];
   document.cookie.split(";").forEach((entry) => {
     const name = entry.split("=")[0]?.trim();
     if (!name || !cookiePrefixes.some((prefix) => name.startsWith(prefix))) return;
@@ -101,7 +77,7 @@ function clearMetrikaStorage() {
   });
   try {
     Object.keys(window.localStorage).forEach((key) => {
-      if (key.startsWith("_ym") || key.startsWith("ym")) window.localStorage.removeItem(key);
+      if (key.startsWith("_ga") || key.startsWith("_ym") || key.startsWith("ym")) window.localStorage.removeItem(key);
     });
   } catch {
     // Storage may be unavailable in privacy mode.
@@ -109,6 +85,9 @@ function clearMetrikaStorage() {
 }
 
 export function Analytics() {
+  const pathname = usePathname();
+  const previousPath = useRef<string | null>(null);
+
   useEffect(() => {
     let stopFirstParty: () => void = () => undefined;
     let firstPartyStarted = false;
@@ -123,15 +102,20 @@ export function Analytics() {
       firstPartyStarted = false;
     };
 
-    if (readCookieConsent()?.analytics) loadYandexMetrika();
-    if (readCookieConsent()?.analytics) startFirstParty();
+    const stored = readCookieConsent();
+    if (stored?.analytics !== false) startFirstParty();
+    if (stored?.analytics) window.__wedfotobookStartAnalytics?.();
+    else if (stored?.analytics === false) clearExternalAnalytics();
 
     const update = (event: Event) => {
       const consent = (event as CustomEvent<CookieConsent>).detail;
-      if (consent.analytics) loadYandexMetrika();
-      else clearMetrikaStorage();
-      if (consent.analytics) startFirstParty();
-      else stopFirstPartyAnalytics();
+      if (consent.analytics) {
+        window.__wedfotobookStartAnalytics?.();
+        startFirstParty();
+      } else {
+        clearExternalAnalytics();
+        stopFirstPartyAnalytics();
+      }
     };
     window.addEventListener(COOKIE_CONSENT_EVENT, update);
     return () => {
@@ -140,11 +124,41 @@ export function Analytics() {
     };
   }, []);
 
+  useEffect(() => {
+    const currentPath = `${pathname}${window.location.search}`;
+    if (previousPath.current === null) {
+      previousPath.current = currentPath;
+      return;
+    }
+    if (previousPath.current === currentPath || readCookieConsent()?.analytics === false) return;
+
+    const previousUrl = new URL(previousPath.current, window.location.origin).href;
+    previousPath.current = currentPath;
+    sendFirstPartyEvent("page_view", { referrer: "Переход по сайту" });
+    window.gtag?.("event", "page_view", {
+      page_title: document.title,
+      page_location: window.location.href,
+      page_path: currentPath,
+      page_referrer: previousUrl,
+    });
+    window.ym?.(YANDEX_COUNTER_ID, "hit", window.location.href, {
+      title: document.title,
+      referer: previousUrl,
+    });
+  }, [pathname]);
+
   return null;
 }
 
 declare global {
   interface Window {
     ym?: ((...args: unknown[]) => void) & { a?: unknown[][]; l?: number };
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
+    __wedfotobookStartAnalytics?: () => void;
+    __wedfotobookDisableAnalytics?: () => void;
+    __wedfotobookAnalyticsLoadStarted?: boolean;
+    __wedfotobookGoogleAnalyticsInitialized?: boolean;
+    __wedfotobookYandexMetrikaInitialized?: boolean;
   }
 }
