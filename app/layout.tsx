@@ -5,6 +5,24 @@ import "./globals.css";
 
 /* eslint-disable @next/next/no-img-element -- Yandex Metrika requires a noscript tracking pixel. */
 
+const talkMeBootstrap = `
+  (function () {
+    var search = new URLSearchParams(window.location.search);
+    if (window.location.pathname.indexOf("/admin") === 0 || search.has("cms_preview") || search.has("code_preview")) return;
+    (function c(d,w,m,i) {
+      window.supportAPIMethod = m;
+      var s = d.createElement('script');
+      s.id = 'supportScript';
+      s.async = true;
+      var id = 'd58741dc8f2861b47a7e46e1f5d5144b';
+      s.src = (!i ? 'https://lcab.talk-me.ru/support/support.js' : 'https://static.site-chat.me/support/support.int.js') + '?h=' + id;
+      s.onerror = i ? undefined : function(){c(d,w,m,true)};
+      w[m] = w[m] ? w[m] : function(){(w[m].q = w[m].q ? w[m].q : []).push(arguments);};
+      (d.head ? d.head : d.body).appendChild(s);
+    })(document,window,'TalkMe');
+  })();
+`;
+
 const analyticsBootstrap = `
   (function () {
     var gaId = ${JSON.stringify(GA_MEASUREMENT_ID)};
@@ -163,6 +181,7 @@ export const viewport: Viewport = { width: "device-width", initialScale: 1, them
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html id="top" lang="ru"><head>
+    <script id="talk-me-bootstrap" dangerouslySetInnerHTML={{ __html: talkMeBootstrap }} />
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
     <link rel="dns-prefetch" href="//region1.google-analytics.com" />
     <link rel="dns-prefetch" href="//mc.yandex.ru" />

@@ -169,6 +169,30 @@ async function render(path = "/", init = {}) {
   });
 }
 
+test("serves Talk-Me once in the head of public pages, including the optimized homepage", async () => {
+  for (const path of ["/", "/article-wedding/"]) {
+    const response = await render(path);
+    assert.equal(response.status, 200, path);
+    const html = await response.text();
+    const head = html.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] ?? "";
+    assert.equal((html.match(/id="talk-me-bootstrap"/g) ?? []).length, 1, path);
+    assert.match(head, /<script id="talk-me-bootstrap">/);
+    assert.match(head, /d58741dc8f2861b47a7e46e1f5d5144b/);
+    const policy = response.headers.get("content-security-policy") ?? "";
+    assert.match(policy, /script-src[^;]*https:\/\/lcab\.talk-me\.ru/);
+    assert.match(policy, /script-src[^;]*https:\/\/\*\.site-chat\.me/);
+    assert.match(policy, /connect-src[^;]*wss:\/\/\*\.site-chat\.me/);
+  }
+});
+
+test("keeps third-party chat domains out of the admin security policy", async () => {
+  const response = await render("/admin/login/");
+  assert.equal(response.status, 200);
+  const policy = response.headers.get("content-security-policy") ?? "";
+  assert.match(policy, /connect-src 'self'(?:;|$)/);
+  assert.doesNotMatch(policy, /talk-me|me-talk|site-chat/);
+});
+
 test("mounts one shared order dialog on every inner route and wires all order controls", async () => {
   const pages = JSON.parse(await readFile(new URL("../data/rendered-pages.json", import.meta.url), "utf8"));
   const paths = new Set([...pages.filter((page) => page.slug).map((page) => `/${page.slug}/`), ...articleRoutes]);

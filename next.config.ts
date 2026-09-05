@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const DEVELOPMENT_EVAL_SOURCE = process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
 
+// Talk-Me serves the widget, attachments and live connections from these domains.
+const TALK_ME_SOURCES = "https://lcab.talk-me.ru https://*.site-chat.me https://*.me-talk.ru";
+const TALK_ME_CONNECTIONS = `${TALK_ME_SOURCES} wss://*.site-chat.me wss://*.me-talk.ru`;
+
 const YANDEX_METRIKA_ORIGINS = [
   "https://mc.yandex.ru", "https://mc.yandex.az", "https://mc.yandex.by", "https://mc.yandex.co.il",
   "https://mc.yandex.com", "https://mc.yandex.com.am", "https://mc.yandex.com.ge", "https://mc.yandex.com.tr",
@@ -31,14 +35,14 @@ const PUBLIC_CONTENT_SECURITY_POLICY = [
   "form-action 'self'",
   `frame-ancestors 'self' ${YANDEX_METRIKA_FRAMES.join(" ")}`,
   "object-src 'none'",
-  `script-src 'self' 'unsafe-inline'${DEVELOPMENT_EVAL_SOURCE} https://www.googletagmanager.com ${YANDEX_METRIKA_SOURCES} https://yastatic.net`,
-  "style-src 'self' 'unsafe-inline'",
-  `img-src 'self' data: blob: https://*.yandex.ru https://*.yandex.net ${YANDEX_METRIKA_SOURCES} https://*.google-analytics.com https://www.googletagmanager.com`,
-  "font-src 'self' data:",
-  `connect-src 'self' https://*.yandex.ru https://*.yandex.net ${YANDEX_METRIKA_CONNECTIONS} https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com`,
+  `script-src 'self' 'unsafe-inline'${DEVELOPMENT_EVAL_SOURCE} https://www.googletagmanager.com ${YANDEX_METRIKA_SOURCES} https://yastatic.net ${TALK_ME_SOURCES}`,
+  `style-src 'self' 'unsafe-inline' ${TALK_ME_SOURCES}`,
+  `img-src 'self' data: blob: https://*.yandex.ru https://*.yandex.net ${YANDEX_METRIKA_SOURCES} https://*.google-analytics.com https://www.googletagmanager.com ${TALK_ME_SOURCES}`,
+  `font-src 'self' data: ${TALK_ME_SOURCES}`,
+  `connect-src 'self' https://*.yandex.ru https://*.yandex.net ${YANDEX_METRIKA_CONNECTIONS} https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com ${TALK_ME_CONNECTIONS}`,
   `child-src 'self' blob: ${YANDEX_METRIKA_SOURCES}`,
-  `frame-src 'self' blob: https://yandex.ru https://*.yandex.ru ${YANDEX_METRIKA_SOURCES}`,
-  "media-src 'self' blob:",
+  `frame-src 'self' blob: https://yandex.ru https://*.yandex.ru ${YANDEX_METRIKA_SOURCES} ${TALK_ME_SOURCES}`,
+  `media-src 'self' blob: ${TALK_ME_SOURCES}`,
   "worker-src 'self' blob:",
   "manifest-src 'self'",
 ].join("; ");

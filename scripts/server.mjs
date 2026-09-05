@@ -16,6 +16,7 @@ function withoutHomepageRuntime(html) {
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, (script) => (
       /type=(?:"|')application\/ld\+json(?:"|')/i.test(script)
       || /id=(?:"|')analytics-bootstrap(?:"|')/i.test(script)
+      || /id=(?:"|')talk-me-bootstrap(?:"|')/i.test(script)
       || /src=(?:"|')\/wp-assets\/home-interactions\.js\?v=\d+[a-z]?(?:"|')/i.test(script)
         ? script
         : ""
