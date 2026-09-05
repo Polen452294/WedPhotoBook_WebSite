@@ -22,6 +22,7 @@ const cookieConsentSource = await readFile(new URL("../lib/cookie-consent.ts", i
 const databaseSchemaSource = await readFile(new URL("../db/schema.ts", import.meta.url), "utf8");
 const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
 const nextConfigSource = await readFile(new URL("../next.config.ts", import.meta.url), "utf8");
+const serverSource = await readFile(new URL("../scripts/server.mjs", import.meta.url), "utf8");
 const articleRoutes = [
   "/article-genealogy/",
   "/article-vipysk/",
@@ -111,6 +112,7 @@ test("loads GA4 and Yandex Metrika early while respecting an explicit rejection"
   assert.match(analyticsConfigSource, /G-JERXW5PT5F/);
   assert.match(analyticsConfigSource, /YANDEX_COUNTER_ID = 600494/);
   assert.match(layoutSource, /id="analytics-bootstrap"/);
+  assert.match(serverSource, /id=\(\?:"\|'\)analytics-bootstrap/);
   assert.match(layoutSource, /www\.googletagmanager\.com\/gtag\/js\?id=/);
   assert.match(layoutSource, /mc\.yandex\.ru\/metrika\/tag\.js\?id=/);
   assert.match(layoutSource, /retryDelays = \[400, 1200, 3000, 8000\]/);
@@ -989,6 +991,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.equal(response.headers.get("cache-control"), "public, max-age=0, s-maxage=300, stale-while-revalidate=86400");
 
   const html = await response.text();
+  assert.match(html, /<script id="analytics-bootstrap">/);
   // The compact first-screen CSS travels with the compressed HTML and does not
   // require an additional render-blocking request.
   assert.ok(Buffer.byteLength(html, "utf8") < 300_000, "homepage HTML must stay below 300 KB");
