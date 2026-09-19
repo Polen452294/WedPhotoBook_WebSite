@@ -71,7 +71,7 @@ test("order API persists callbacks from every entry point and uses only the conf
 
   const submit = (sourcePath, overrides = {}) => fetch(`${baseUrl}/api/contact/`, {
     method: "POST",
-    headers: { "content-type": "application/json", origin: baseUrl },
+    headers: { "content-type": "application/json", origin: baseUrl, cookie: "wedfotobook_cookie_consent=accepted" },
     body: JSON.stringify({
       kind: "callback", name: "Тест формы", phone: "+7 (000) 000-00-00",
       consent: "on", address: "", formStartedAt: Date.now() - 2000, sourcePath,

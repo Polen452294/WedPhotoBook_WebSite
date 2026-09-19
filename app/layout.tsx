@@ -1,31 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { GA_MEASUREMENT_ID, YANDEX_COUNTER_ID } from "@/lib/analytics-config";
+import { YANDEX_COUNTER_ID } from "@/lib/analytics-config";
 import { BusinessStructuredData, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
-/* eslint-disable @next/next/no-img-element -- Yandex Metrika requires a noscript tracking pixel. */
-
-const talkMeBootstrap = `
+const consentedServicesBootstrap = `
   (function () {
-    var search = new URLSearchParams(window.location.search);
-    if (window.location.pathname.indexOf("/admin") === 0 || search.has("cms_preview") || search.has("code_preview")) return;
-    (function c(d,w,m,i) {
-      window.supportAPIMethod = m;
-      var s = d.createElement('script');
-      s.id = 'supportScript';
-      s.async = true;
-      var id = 'd58741dc8f2861b47a7e46e1f5d5144b';
-      s.src = (!i ? 'https://lcab.talk-me.ru/support/support.js' : 'https://static.site-chat.me/support/support.int.js') + '?h=' + id;
-      s.onerror = i ? undefined : function(){c(d,w,m,true)};
-      w[m] = w[m] ? w[m] : function(){(w[m].q = w[m].q ? w[m].q : []).push(arguments);};
-      (d.head ? d.head : d.body).appendChild(s);
-    })(document,window,'TalkMe');
-  })();
-`;
-
-const analyticsBootstrap = `
-  (function () {
-    var gaId = ${JSON.stringify(GA_MEASUREMENT_ID)};
     var yandexId = ${YANDEX_COUNTER_ID};
     var retryDelays = [400, 1200, 3000, 8000];
 
@@ -36,8 +15,8 @@ const analyticsBootstrap = `
 
     function readChoice() {
       try {
-        var value = JSON.parse(window.localStorage.getItem("wedfotobook-cookie-consent-v2") || "null");
-        return value && value.version === 2 && value.necessary === true && typeof value.analytics === "boolean" ? value : null;
+        var value = JSON.parse(window.localStorage.getItem("wedfotobook-cookie-consent-v3") || "null");
+        return value && value.version === 3 && value.necessary === true && typeof value.analytics === "boolean" ? value : null;
       } catch (error) {
         return null;
       }
@@ -49,9 +28,13 @@ const analyticsBootstrap = `
       });
     }
 
+    function consentGranted() {
+      var choice = readChoice();
+      return choice && choice.analytics === true;
+    }
+
     function loadScript(id, src, attempt) {
-      var savedChoice = readChoice();
-      if (excluded() || (savedChoice && savedChoice.analytics === false)) return;
+      if (excluded() || !consentGranted()) return;
       if (document.getElementById(id)) return;
       var script = document.createElement("script");
       script.id = id;
@@ -67,32 +50,7 @@ const analyticsBootstrap = `
     }
 
     function startAnalytics() {
-      if (excluded()) return;
-      var choice = readChoice();
-      if (choice && choice.analytics === false) return;
-
-      window["ga-disable-" + gaId] = false;
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-
-      if (!window.__wedfotobookGoogleAnalyticsInitialized) {
-        window.gtag("consent", "default", {
-          analytics_storage: choice && choice.analytics ? "granted" : "denied",
-          ad_storage: "denied",
-          ad_user_data: "denied",
-          ad_personalization: "denied"
-        });
-        window.gtag("js", new Date());
-        window.gtag("config", gaId, {
-          anonymize_ip: true,
-          allow_google_signals: false,
-          allow_ad_personalization_signals: false
-        });
-        window.__wedfotobookGoogleAnalyticsInitialized = true;
-      } else if (choice && choice.analytics) {
-        window.gtag("consent", "update", { analytics_storage: "granted" });
-      }
-      loadScript("google-analytics", "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(gaId), 0);
+      if (excluded() || !consentGranted()) return;
 
       window["disableYaCounter" + yandexId] = false;
       window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
@@ -113,16 +71,34 @@ const analyticsBootstrap = `
       window.__wedfotobookAnalyticsLoadStarted = true;
     }
 
+    function startSupport() {
+      if (excluded() || !consentGranted() || document.getElementById("supportScript")) return;
+      (function c(d,w,m,i) {
+        window.supportAPIMethod = m;
+        var s = d.createElement("script");
+        s.id = "supportScript";
+        s.async = true;
+        var id = "d58741dc8f2861b47a7e46e1f5d5144b";
+        s.src = (!i ? "https://lcab.talk-me.ru/support/support.js" : "https://static.site-chat.me/support/support.int.js") + "?h=" + id;
+        s.onerror = i ? undefined : function(){c(d,w,m,true)};
+        w[m] = w[m] ? w[m] : function(){(w[m].q = w[m].q ? w[m].q : []).push(arguments);};
+        (d.head ? d.head : d.body).appendChild(s);
+      })(document,window,"TalkMe");
+    }
+
+    function startConsentedServices() {
+      if (!consentGranted()) return;
+      startAnalytics();
+      startSupport();
+    }
+
     function disableAnalytics() {
-      window["ga-disable-" + gaId] = true;
       window["disableYaCounter" + yandexId] = true;
-      if (window.gtag) window.gtag("consent", "update", { analytics_storage: "denied" });
       if (window.ym && window.__wedfotobookYandexMetrikaInitialized) window.ym(yandexId, "destruct");
-      document.getElementById("google-analytics")?.remove();
       document.getElementById("yandex-metrika")?.remove();
       document.cookie.split(";").forEach(function (entry) {
         var name = (entry.split("=")[0] || "").trim();
-        if (!/^(_ga|_ym_|yandexuid|yuidss|ymex|gdpr|is_gdpr)/.test(name)) return;
+        if (!/^(_ym_|yandexuid|yuidss|ymex|gdpr|is_gdpr)/.test(name)) return;
         document.cookie = name + "=; Max-Age=0; Path=/; SameSite=Lax";
         if (window.location.hostname && window.location.hostname !== "localhost") {
           document.cookie = name + "=; Max-Age=0; Path=/; Domain=." + window.location.hostname + "; SameSite=Lax";
@@ -130,21 +106,21 @@ const analyticsBootstrap = `
       });
       try {
         Object.keys(window.localStorage).forEach(function (key) {
-          if (/^(_ga|_ym|ym)/.test(key)) window.localStorage.removeItem(key);
+          if (/^(_ym|ym)/.test(key)) window.localStorage.removeItem(key);
         });
         Object.keys(window.sessionStorage).forEach(function (key) {
-          if (/^(_ga|_ym|ym)/.test(key)) window.sessionStorage.removeItem(key);
+          if (/^(_ym|ym)/.test(key)) window.sessionStorage.removeItem(key);
         });
       } catch (error) {}
       window.__wedfotobookAnalyticsLoadStarted = false;
       window.__wedfotobookYandexMetrikaInitialized = false;
     }
 
-    window.__wedfotobookStartAnalytics = startAnalytics;
+    window.__wedfotobookStartConsentedServices = startConsentedServices;
     window.__wedfotobookDisableAnalytics = disableAnalytics;
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", protectFormFields, { once: true });
     else protectFormFields();
-    startAnalytics();
+    startConsentedServices();
   })();
 `;
 
@@ -174,20 +150,15 @@ export const metadata: Metadata = {
     description: "Индивидуальный дизайн, обработка фотографий и печать фотокниги.",
     images: ["/og-1200x630.png"],
   },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#061d31" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html id="top" lang="ru"><head>
-    <script id="talk-me-bootstrap" dangerouslySetInnerHTML={{ __html: talkMeBootstrap }} />
-    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="//region1.google-analytics.com" />
-    <link rel="dns-prefetch" href="//mc.yandex.ru" />
-    <link rel="dns-prefetch" href="//mc.yandex.com" />
     <link rel="describedby" href="/llms.txt" type="text/markdown" />
-    <script id="analytics-bootstrap" dangerouslySetInnerHTML={{ __html: analyticsBootstrap }} />
+    <script id="consented-services-bootstrap" dangerouslySetInnerHTML={{ __html: consentedServicesBootstrap }} />
     <BusinessStructuredData />
-  </head><body>{children}<noscript><div><img src={`https://mc.yandex.ru/watch/${YANDEX_COUNTER_ID}`} width="1" height="1" style={{ position: "absolute", left: "-9999px" }} alt="" /></div></noscript></body></html>;
+  </head><body>{children}</body></html>;
 }

@@ -2,6 +2,7 @@ import { and, count, eq, gt, lt } from "drizzle-orm";
 import { getDb } from "@/db";
 import { enquiries, submissionAttempts } from "@/db/schema";
 import { isLoopbackMailerUrl, sendContactEmail } from "@/lib/contact-email";
+import { hasAcceptedCookieConsent } from "@/lib/request-security";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const FORM_MIN_AGE_MS = 1000;
@@ -125,6 +126,9 @@ async function updateNotification(
 }
 
 export async function POST(request: Request) {
+  if (!hasAcceptedCookieConsent(request)) {
+    return Response.json({ error: "Сначала примите использование cookie в уведомлении." }, { status: 403 });
+  }
   let body: Record<string, unknown>;
   try {
     body = await readJsonBody(request);

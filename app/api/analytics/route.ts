@@ -2,7 +2,7 @@ import { and, count, eq, gt, lt } from "drizzle-orm";
 import { getDb } from "@/db";
 import { analyticsEvents } from "@/db/schema";
 import { normalizeEditablePagePath } from "@/lib/editable-pages";
-import { assertSameOriginMutation, readJsonObject, RequestSecurityError } from "@/lib/request-security";
+import { assertSameOriginMutation, hasAcceptedCookieConsent, readJsonObject, RequestSecurityError } from "@/lib/request-security";
 
 const MAX_REQUEST_BYTES = 8 * 1024;
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
@@ -16,6 +16,7 @@ function clean(value: unknown, max: number): string {
 export async function POST(request: Request) {
   try {
     assertSameOriginMutation(request);
+    if (!hasAcceptedCookieConsent(request)) return new Response(null, { status: 403 });
     const body = await readJsonObject(request, MAX_REQUEST_BYTES);
     const eventType = body.eventType === "click" ? "click" : body.eventType === "page_view" ? "page_view" : null;
     const pagePath = normalizeEditablePagePath(body.pagePath);

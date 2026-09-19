@@ -39,10 +39,6 @@ function normalizeMediaPaths(html) {
   return html.replace(/%2F/gi, "/").replace(/%20/gi, " ");
 }
 
-function escapeRegExp(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
 test("uses Open Sans across the entire site", () => {
   assert.match(globalCss, /body \* \{\s*font-family: "Open Sans", Arial, sans-serif !important;/);
 });
@@ -100,36 +96,38 @@ test("does not restyle the whole document after homepage hydration", () => {
   assert.match(legacyEnhancementsSource, /if \(!isHomepage\) document\.body\.className =/);
 });
 
-test("loads GA4 and Yandex Metrika early while respecting an explicit rejection", () => {
-  assert.match(cookieNoticeSource, />Принять все<\/button>/);
-  assert.match(cookieNoticeSource, />Отклонить необязательные<\/button>/);
-  assert.match(cookieNoticeSource, />Настроить<\/button>/);
-  assert.match(cookieNoticeSource, /Разрешить аналитические cookies/);
+test("removes Google services and starts all analytics only after explicit consent", () => {
+  assert.match(cookieNoticeSource, /Мы используем cookie для работы сайта и аналитики/);
+  assert.match(cookieNoticeSource, /href="\/cookie\/"/);
+  assert.match(cookieNoticeSource, />Принять<\/button>/);
+  assert.match(cookieNoticeSource, />Отклонить<\/button>/);
+  assert.doesNotMatch(cookieNoticeSource, />Настроить<\/button>/);
   assert.doesNotMatch(cookieNoticeSource, /cookie-settings-trigger/);
-  assert.match(cookieNoticeSource, /Google Analytics 4 и Яндекс Метрика/);
   assert.match(cookieConsentSource, /CONSENT_MAX_AGE_MS = 180 \* 24 \* 60 \* 60 \* 1000/);
   assert.match(cookieConsentSource, /analytics: boolean/);
-  assert.match(analyticsConfigSource, /G-JERXW5PT5F/);
+  assert.doesNotMatch(analyticsConfigSource, /G-[A-Z0-9]+|google/i);
   assert.match(analyticsConfigSource, /YANDEX_COUNTER_ID = 600494/);
-  assert.match(layoutSource, /id="analytics-bootstrap"/);
-  assert.match(serverSource, /id=\(\?:"\|'\)analytics-bootstrap/);
-  assert.match(layoutSource, /www\.googletagmanager\.com\/gtag\/js\?id=/);
+  assert.match(layoutSource, /id="consented-services-bootstrap"/);
+  assert.match(serverSource, /id=\(\?:"\|'\)consented-services-bootstrap/);
+  assert.doesNotMatch(`${layoutSource}${analyticsSource}${nextConfigSource}`, /google|googletagmanager|gtag|dataLayer/i);
   assert.match(layoutSource, /mc\.yandex\.ru\/metrika\/tag\.js\?id=/);
   assert.match(layoutSource, /retryDelays = \[400, 1200, 3000, 8000\]/);
-  assert.match(layoutSource, /choice && choice\.analytics === false/);
+  assert.match(layoutSource, /return choice && choice\.analytics === true/);
+  assert.match(layoutSource, /if \(excluded\(\) \|\| !consentGranted\(\)\) return/);
   assert.match(layoutSource, /webvisor: true/);
   assert.match(layoutSource, /clickmap: true/);
   assert.match(layoutSource, /trackLinks: true/);
   assert.match(layoutSource, /accurateTrackBounce: true/);
   assert.match(layoutSource, /__wedfotobookDisableAnalytics/);
   assert.match(layoutSource, /ym-disable-keys/);
-  assert.match(analyticsSource, /window\.gtag\?\.\("event", "page_view"/);
   assert.match(analyticsSource, /window\.ym\?\.\(YANDEX_COUNTER_ID, "hit"/);
-  assert.match(homeInteractionsSource, /__wedfotobookStartAnalytics/);
+  assert.match(analyticsSource, /stored\?\.analytics === true/);
+  assert.match(homeInteractionsSource, /getConsent\(\)\?\.analytics !== true/);
+  assert.match(homeInteractionsSource, /__wedfotobookStartConsentedServices/);
   assert.match(homeInteractionsSource, /__wedfotobookDisableAnalytics/);
   assert.match(contactPageSource, /className="ym-disable-keys"/);
   assert.match(orderDialogSource, /className="ym-disable-keys"/);
-  assert.match(nextConfigSource, /www\.googletagmanager\.com/);
+  assert.doesNotMatch(nextConfigSource, /google/i);
   assert.match(nextConfigSource, /mc\.webvisor\.com/);
   assert.match(nextConfigSource, /frame-ancestors 'self'/);
   assert.match(legacyPageSource, /withoutLegacyTracking/);
@@ -169,15 +167,16 @@ async function render(path = "/", init = {}) {
   });
 }
 
-test("serves Talk-Me once in the head of public pages, including the optimized homepage", async () => {
+test("keeps Talk-Me dormant until cookie consent on public pages", async () => {
   for (const path of ["/", "/article-wedding/"]) {
     const response = await render(path);
     assert.equal(response.status, 200, path);
     const html = await response.text();
     const head = html.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] ?? "";
-    assert.equal((html.match(/id="talk-me-bootstrap"/g) ?? []).length, 1, path);
-    assert.match(head, /<script id="talk-me-bootstrap">/);
+    assert.equal((html.match(/id="consented-services-bootstrap"/g) ?? []).length, 1, path);
+    assert.match(head, /<script id="consented-services-bootstrap">/);
     assert.match(head, /d58741dc8f2861b47a7e46e1f5d5144b/);
+    assert.match(layoutSource, /if \(excluded\(\) \|\| !consentGranted\(\) \|\| document\.getElementById\("supportScript"\)\) return/);
     const policy = response.headers.get("content-security-policy") ?? "";
     assert.match(policy, /script-src[^;]*https:\/\/lcab\.talk-me\.ru/);
     assert.match(policy, /script-src[^;]*https:\/\/\*\.site-chat\.me/);
@@ -286,7 +285,9 @@ test("publishes complete technical SEO and GEO signals", async () => {
   const sitemapResponse = await render("/sitemap.xml");
   assert.equal(sitemapResponse.status, 200);
   const sitemap = await sitemapResponse.text();
-  assert.equal([...sitemap.matchAll(/<loc>/g)].length, 31);
+  assert.equal([...sitemap.matchAll(/<loc>/g)].length, 33);
+  assert.match(sitemap, /<loc>https:\/\/wedfotobook\.ru\/cookie\/<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/wedfotobook\.ru\/oferta\/<\/loc>/);
   assert.doesNotMatch(sitemap, /<loc>https:\/\/wedfotobook\.ru\/fotokniga-klassik\/<\/loc>/);
   for (const route of ["article-wedding", "article-children", "article-anniversary"]) {
     assert.match(sitemap, new RegExp(`<loc>https://wedfotobook\\.ru/${route}/</loc>`));
@@ -297,7 +298,7 @@ test("publishes complete technical SEO and GEO signals", async () => {
   assert.match(robots, /User-Agent: YandexAdditionalBot/);
   assert.match(robots, /User-Agent: GPTBot/);
   assert.match(robots, /User-Agent: ClaudeBot/);
-  assert.match(robots, /User-Agent: Google-Extended/);
+  assert.doesNotMatch(robots, /Google/);
   assert.match(robots, /Disallow: \/admin\//);
   assert.match(robots, /Sitemap: https:\/\/wedfotobook\.ru\/sitemap\.xml/);
 
@@ -401,49 +402,58 @@ test("serves responsive photos with full-resolution originals without a third-pa
 });
 
 test("rejects automated callback submissions on the server", async () => {
+  const consentHeaders = { "content-type": "application/json", cookie: "wedfotobook_cookie_consent=accepted" };
   const trapped = await render("/api/contact/", {
     method: "POST",
-    headers: { "content-type": "application/json", "x-real-ip": "192.0.2.10" },
+    headers: { ...consentHeaders, "x-real-ip": "192.0.2.10" },
     body: JSON.stringify({ address: "spam", name: "Bot", phone: "+7 (999) 111-22-33", consent: "on", formStartedAt: Date.now() - 2000 }),
   });
   assert.equal(trapped.status, 200);
 
   const tooFast = await render("/api/contact/", {
     method: "POST",
-    headers: { "content-type": "application/json", "x-real-ip": "192.0.2.11" },
+    headers: { ...consentHeaders, "x-real-ip": "192.0.2.11" },
     body: JSON.stringify({ name: "Bot", phone: "+7 (999) 111-22-33", consent: "on", formStartedAt: Date.now() }),
   });
   assert.equal(tooFast.status, 429);
 
   const falseConsent = await render("/api/contact/", {
     method: "POST",
-    headers: { "content-type": "application/json", "x-real-ip": "192.0.2.12" },
+    headers: { ...consentHeaders, "x-real-ip": "192.0.2.12" },
     body: JSON.stringify({ name: "Bot", phone: "+7 (999) 111-22-33", consent: "false", formStartedAt: Date.now() - 2000 }),
   });
   assert.equal(falseConsent.status, 422);
 
   const tooLongPhone = await render("/api/contact/", {
     method: "POST",
-    headers: { "content-type": "application/json", "x-real-ip": "192.0.2.13" },
+    headers: { ...consentHeaders, "x-real-ip": "192.0.2.13" },
     body: JSON.stringify({ name: "Bot", phone: "+7 (999) 111-22-334", consent: true, formStartedAt: Date.now() - 2000 }),
   });
   assert.equal(tooLongPhone.status, 422);
 });
 
 test("limits the contact API surface and rejects malformed or oversized input", async () => {
+  const consentCookie = "wedfotobook_cookie_consent=accepted";
   const getResponse = await render("/api/contact/");
   assert.ok([404, 405].includes(getResponse.status));
 
+  const withoutCookieConsent = await render("/api/contact/", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ name: "Посетитель", phone: "+7 (999) 111-22-33", consent: true, formStartedAt: Date.now() - 2000 }),
+  });
+  assert.equal(withoutCookieConsent.status, 403);
+
   const wrongContentType = await render("/api/contact/", {
     method: "POST",
-    headers: { "content-type": "text/plain" },
+    headers: { "content-type": "text/plain", cookie: consentCookie },
     body: "{}",
   });
   assert.equal(wrongContentType.status, 415);
 
   const malformed = await render("/api/contact/", {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", cookie: consentCookie },
     body: '{"name":',
   });
   assert.equal(malformed.status, 400);
@@ -451,14 +461,14 @@ test("limits the contact API surface and rejects malformed or oversized input", 
 
   const oversized = await render("/api/contact/", {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", cookie: consentCookie },
     body: JSON.stringify({ message: "x".repeat(40_000) }),
   });
   assert.equal(oversized.status, 413);
 
   const crossOrigin = await render("/api/contact/", {
     method: "POST",
-    headers: { "content-type": "application/json", origin: "https://evil.example" },
+    headers: { "content-type": "application/json", origin: "https://evil.example", cookie: consentCookie },
     body: JSON.stringify({ address: "spam" }),
   });
   assert.equal(crossOrigin.headers.get("access-control-allow-origin"), null);
@@ -540,7 +550,7 @@ test("uses an entirely white page background only on the three legal pages", asy
   assert.doesNotMatch(legalWhiteCss, /\.navbar|\.site-footer|\.footer-/);
 });
 
-test("keeps catalog descriptions and legal labels out of heading elements", async () => {
+test("keeps catalog descriptions out of headings and renders supplied legal headings", async () => {
   const homeHtml = await (await render("/")).text();
   const catalogHtml = await (await render("/katalog/")).text();
   const description = "С индивидуальным дизайном сохранит память об этом прекрасном событии!";
@@ -557,18 +567,13 @@ test("keeps catalog descriptions and legal labels out of heading elements", asyn
 
   const termsHtml = await (await render("/polzovatelskoe-soglashenie/")).text();
   const policyHtml = await (await render("/politika-obrabotki-personalnyh-dannyh/")).text();
-  const operatorDetails = "11. РЕКВИЗИТЫ ОПЕРАТОРА (ОПЕРАТОРА ПЕРСОНАЛЬНЫХ ДАННЫХ)";
-  const thirdPartySubtitle = "персональных данных, передаваемых третьим лицам Оператором";
-  const policySubtitle = "на основании пункта 8.1 Политики обработки и защиты персональных данных";
-
-  assert.match(termsHtml, new RegExp(`<p[^>]*>${escapeRegExp(operatorDetails)}</p>`));
-  assert.doesNotMatch(termsHtml, new RegExp(`<h[1-6][^>]*>${escapeRegExp(operatorDetails)}</h[1-6]>`));
-  assert.match(policyHtml, new RegExp(`<p[^>]*>${escapeRegExp(thirdPartySubtitle)}</p>`));
-  assert.match(policyHtml, new RegExp(`<p[^>]*>${escapeRegExp(policySubtitle)}</p>`));
-  assert.doesNotMatch(policyHtml, new RegExp(`<h[1-6][^>]*>(?:${escapeRegExp(thirdPartySubtitle)}|${escapeRegExp(policySubtitle)})</h[1-6]>`));
+  assert.match(termsHtml, /<h1>ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ<\/h1>/);
+  assert.match(termsHtml, /<h2>1\. Общие положения<\/h2>/);
+  assert.match(policyHtml, /<h1>Политика обработки персональных данных<\/h1>/);
+  assert.match(policyHtml, /<h2>1\. Общие положения<\/h2>/);
 });
 
-test("uses the original contact information order with one heading and a Yandex map", async () => {
+test("uses the original contact information order and gates the Yandex map", async () => {
   const html = await (await render("/kontakty/")).text();
   const start = html.indexOf('<main class="contact-page">');
   const end = html.indexOf("</main>", start);
@@ -590,7 +595,8 @@ test("uses the original contact information order with one heading and a Yandex 
   assert.match(contactHtml, /<textarea[^>]*name="message"/);
   assert.match(contactHtml, /<button[^>]*type="submit"[^>]*>Отправить<\/button>/);
   assert.match(contactHtml, /Москва, Свободный проспект, д\. 33/);
-  assert.match(contactHtml, /https:\/\/yandex\.ru\/map-widget\/v1\//);
+  assert.match(contactHtml, /class="consent-embed-placeholder"/);
+  assert.doesNotMatch(contactHtml, /<iframe[^>]+yandex\.ru\/map-widget\/v1\//);
   assert.match(contactHtml, /class="contact-social-whatsapp"[^>]*aria-label="WhatsApp"/);
   assert.match(firstVersionCss, /\.contact-social-whatsapp img \{[^}]*width: 37px;[^}]*height: auto;[^}]*transform: translateY\(-1px\);/s);
 });
@@ -989,7 +995,7 @@ test("shows the visit warning below every Yandex map", async () => {
     const mainClass = pathname === "/company/" ? "company-page" : "contact-page";
     const mainStart = html.indexOf(`<main class="${mainClass}">`);
     const pageHtml = html.slice(mainStart, html.indexOf("</main>", mainStart));
-    const mapIndex = pageHtml.indexOf("https://yandex.ru/map-widget/v1/");
+    const mapIndex = pageHtml.indexOf('class="consent-embed-placeholder"');
     const noticeIndex = pageHtml.indexOf("Пожалуйста, не приезжайте без предварительного звонка.");
     assert.ok(mapIndex >= 0, pathname);
     assert.ok(noticeIndex > mapIndex, pathname);
@@ -1015,7 +1021,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.equal(response.headers.get("cache-control"), "public, max-age=0, s-maxage=300, stale-while-revalidate=86400");
 
   const html = await response.text();
-  assert.match(html, /<script id="analytics-bootstrap">/);
+  assert.match(html, /<script id="consented-services-bootstrap">/);
   // The compact first-screen CSS travels with the compressed HTML and does not
   // require an additional render-blocking request.
   assert.ok(Buffer.byteLength(html, "utf8") < 300_000, "homepage HTML must stay below 300 KB");
@@ -1053,7 +1059,7 @@ test("keeps the original opening screen and restores the first working version b
   assert.match(html, /<style data-home-styles>/);
   const restoredHtml = html.slice(html.indexOf('class="restored-first-version"'));
   const footerHtml = restoredHtml.slice(restoredHtml.indexOf('<footer class="site-footer">'), restoredHtml.indexOf("</footer>") + "</footer>".length);
-  assert.equal([...footerHtml.matchAll(/<a\b/g)].length, 30);
+  assert.equal([...footerHtml.matchAll(/<a\b/g)].length, 32);
   assert.match(footerHtml, /Адрес: Москва, Свободный проспект, д\. 33/);
   assert.ok(footerHtml.indexOf("Адрес: Москва, Свободный проспект, д. 33") < footerHtml.indexOf("Режим работы: с 9 до 21, без выходных"));
   assert.match(footerHtml, /class="footer-contact-card"/);
@@ -1132,6 +1138,8 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
     ...snapshots.map((page) => `/${page.slug ? `${page.slug}/` : ""}`),
     ...articleRoutes,
     "/privacy-policy/",
+    "/cookie/",
+    "/oferta/",
   ]);
   const checkedPaths = new Set(["/"]);
 
@@ -1150,7 +1158,7 @@ test("keeps all internal navigation local and resolves known legacy aliases", as
     assert.doesNotMatch(visibleHtml, /(?:icon6-optimized|icos[135]-optimized|logotip_max\.svg_|telegram_2019_logo|whatsapp\.svg_)/, page.slug || "/");
     assert.match(visibleHtml, /class="restored-first-version"/, page.slug || "/");
     const sharedFooter = visibleHtml.slice(visibleHtml.indexOf('<footer class="site-footer">'), visibleHtml.indexOf("</footer>", visibleHtml.indexOf('<footer class="site-footer">')) + "</footer>".length);
-    assert.equal([...sharedFooter.matchAll(/<a\b/g)].length, 30, page.slug || "/");
+    assert.equal([...sharedFooter.matchAll(/<a\b/g)].length, 32, page.slug || "/");
     assert.ok(sharedFooter.indexOf("Адрес: Москва, Свободный проспект, д. 33") < sharedFooter.indexOf("Режим работы: с 9 до 21, без выходных"), page.slug || "/");
 
     for (const match of html.matchAll(/href=["'](\/[^"']*)["']/gi)) {

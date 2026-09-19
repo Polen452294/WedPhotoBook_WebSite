@@ -68,7 +68,7 @@ function startFirstPartyAnalytics(): () => void {
 
 function clearExternalAnalytics() {
   window.__wedfotobookDisableAnalytics?.();
-  const cookiePrefixes = ["_ga", "_ym_", "yandexuid", "yuidss", "ymex", "gdpr", "is_gdpr"];
+  const cookiePrefixes = ["_ym_", "yandexuid", "yuidss", "ymex", "gdpr", "is_gdpr"];
   document.cookie.split(";").forEach((entry) => {
     const name = entry.split("=")[0]?.trim();
     if (!name || !cookiePrefixes.some((prefix) => name.startsWith(prefix))) return;
@@ -77,7 +77,7 @@ function clearExternalAnalytics() {
   });
   try {
     Object.keys(window.localStorage).forEach((key) => {
-      if (key.startsWith("_ga") || key.startsWith("_ym") || key.startsWith("ym")) window.localStorage.removeItem(key);
+      if (key.startsWith("_ym") || key.startsWith("ym")) window.localStorage.removeItem(key);
     });
   } catch {
     // Storage may be unavailable in privacy mode.
@@ -103,14 +103,14 @@ export function Analytics() {
     };
 
     const stored = readCookieConsent();
-    if (stored?.analytics !== false) startFirstParty();
-    if (stored?.analytics) window.__wedfotobookStartAnalytics?.();
+    if (stored?.analytics === true) startFirstParty();
+    if (stored?.analytics) window.__wedfotobookStartConsentedServices?.();
     else if (stored?.analytics === false) clearExternalAnalytics();
 
     const update = (event: Event) => {
       const consent = (event as CustomEvent<CookieConsent>).detail;
       if (consent.analytics) {
-        window.__wedfotobookStartAnalytics?.();
+        window.__wedfotobookStartConsentedServices?.();
         startFirstParty();
       } else {
         clearExternalAnalytics();
@@ -130,17 +130,11 @@ export function Analytics() {
       previousPath.current = currentPath;
       return;
     }
-    if (previousPath.current === currentPath || readCookieConsent()?.analytics === false) return;
+    if (previousPath.current === currentPath || readCookieConsent()?.analytics !== true) return;
 
     const previousUrl = new URL(previousPath.current, window.location.origin).href;
     previousPath.current = currentPath;
     sendFirstPartyEvent("page_view", { referrer: "Переход по сайту" });
-    window.gtag?.("event", "page_view", {
-      page_title: document.title,
-      page_location: window.location.href,
-      page_path: currentPath,
-      page_referrer: previousUrl,
-    });
     window.ym?.(YANDEX_COUNTER_ID, "hit", window.location.href, {
       title: document.title,
       referer: previousUrl,
@@ -153,12 +147,9 @@ export function Analytics() {
 declare global {
   interface Window {
     ym?: ((...args: unknown[]) => void) & { a?: unknown[][]; l?: number };
-    gtag?: (...args: unknown[]) => void;
-    dataLayer?: unknown[];
-    __wedfotobookStartAnalytics?: () => void;
+    __wedfotobookStartConsentedServices?: () => void;
     __wedfotobookDisableAnalytics?: () => void;
     __wedfotobookAnalyticsLoadStarted?: boolean;
-    __wedfotobookGoogleAnalyticsInitialized?: boolean;
     __wedfotobookYandexMetrikaInitialized?: boolean;
   }
 }

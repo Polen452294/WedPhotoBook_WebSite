@@ -42,7 +42,11 @@ export function Footer() {
             <li><Link href="/otzyvy/">Отзывы</Link></li>
             <li><Link href="/blog_fotoknigi/">Блог</Link></li>
             <li><Link href="/kontakty/">Контакты</Link></li>
-            <li><Link href="/privacy-policy/">Политика конфиденциальности</Link></li>
+            <li><Link href="/polzovatelskoe-soglashenie/">Пользовательское соглашение</Link></li>
+            <li><Link href="/politika-obrabotki-personalnyh-dannyh/">Политика обработки персональных данных</Link></li>
+            <li><Link href="/soglashenie/">Согласие на обработку персональных данных</Link></li>
+            <li><Link href="/cookie/">Политика использования cookie-файлов</Link></li>
+            <li><Link href="/oferta/">Публичная оферта</Link></li>
           </ul>
         </div>
 

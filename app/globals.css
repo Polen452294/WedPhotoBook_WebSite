@@ -51,6 +51,7 @@ body * {
 }
 .cookie-consent h2 { margin: 0; color: #071d30; font-size: 22px; font-weight: 800; line-height: 1.2; text-align: left; }
 .cookie-consent-content > p { max-width: 570px; margin: 7px 0 0; color: #5f6d76; font-size: 13px; line-height: 1.55; }
+.cookie-consent-content > p a { color: #075b86; text-decoration: underline; text-underline-offset: 2px; }
 .cookie-consent-actions { display: grid; min-width: 218px; gap: 8px; }
 .cookie-consent-expanded .cookie-consent-actions { grid-column: 2; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .cookie-button {
@@ -111,6 +112,22 @@ body * {
 }
 .cookie-consent .cookie-details { max-width: none; margin: 2px 0 0; color: #687680; font-size: 10px; line-height: 1.5; }
 .cookie-details a { color: #075b86; text-decoration: underline; text-underline-offset: 2px; }
+
+.legal-document-page { background: #fff; color: #17202a; padding: 72px 0 88px; }
+.legal-document { max-width: 980px; }
+.legal-document h1 { max-width: 900px; margin: 0 0 42px; color: #071d30; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.12; }
+.legal-document h2 { margin: 38px 0 16px; color: #071d30; font-size: clamp(1.25rem, 2vw, 1.65rem); line-height: 1.3; }
+.legal-document > p { margin: 0 0 14px; color: #2f3b45; font-size: 15px; line-height: 1.72; white-space: pre-wrap; }
+.legal-document-table-wrap { margin: 26px 0 34px; overflow-x: auto; }
+.legal-document table { width: 100%; border-collapse: collapse; font-size: 13px; line-height: 1.5; }
+.legal-document th,
+.legal-document td { min-width: 120px; border: 1px solid #d9d9d9; padding: 12px 14px; text-align: left; vertical-align: top; }
+.legal-document th { background: #e8edf1; color: #071d30; font-weight: 700; }
+.legal-document td { color: #2f3b45; }
+.legal-document th p,
+.legal-document td p { margin: 0; }
+.legal-document th p + p,
+.legal-document td p + p { margin-top: 6px; }
 .order-dialog {
   width: min(610px, calc(100% - 28px));
   max-width: none;

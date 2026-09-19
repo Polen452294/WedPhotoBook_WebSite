@@ -23,7 +23,6 @@ export default function robots(): MetadataRoute.Robots {
           "OAI-SearchBot",
           "ClaudeBot",
           "Claude-SearchBot",
-          "Google-Extended",
           "PerplexityBot",
           "Applebot-Extended",
         ],

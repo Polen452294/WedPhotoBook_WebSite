@@ -1,4 +1,5 @@
 import { contacts } from "@/lib/site-data";
+import { ConsentControlledIframe } from "@/components/ConsentControlledIframe";
 
 export function CompanyPage() {
   return (
@@ -45,11 +46,9 @@ export function CompanyPage() {
 
           <div className="company-map-visual">
             <div className="company-map-frame">
-              <iframe
+              <ConsentControlledIframe
                 src="https://yandex.ru/map-widget/v1/?mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%A1%D0%B2%D0%BE%D0%B1%D0%BE%D0%B4%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%2C%20%D0%B4.%2033&z=16"
                 title="Яндекс Карта: Москва, Свободный проспект, д. 33"
-                loading="lazy"
-                allowFullScreen
               />
             </div>
             <p className="company-map-notice">Пожалуйста, не приезжайте без предварительного звонка.</p>

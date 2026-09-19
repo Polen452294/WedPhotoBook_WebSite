@@ -39,5 +39,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       images: [absoluteUrl(article.image)],
     }));
 
-  return [...pageEntries, ...articleEntries];
+  const additionalLegalEntries: MetadataRoute.Sitemap = ["/cookie/", "/oferta/"].map((path) => ({
+    url: absoluteUrl(path),
+    changeFrequency: "yearly",
+    priority: 0.4,
+  }));
+
+  return [...pageEntries, ...additionalLegalEntries, ...articleEntries];
 }

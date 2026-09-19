@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { readCookieConsent } from "@/lib/cookie-consent";
 
 const BODY_CLASSES = ["wordpress-clone"];
 
@@ -125,6 +126,11 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
       }
       if (!form?.matches(".wpcf7-form")) return;
       event.preventDefault();
+      if (readCookieConsent()?.analytics !== true) {
+        window.dispatchEvent(new Event("wedfotobook:request-cookie-consent"));
+        setLegacyFormStatus(form, "failed", "Сначала примите использование cookie в уведомлении.");
+        return;
+      }
       const data = new FormData(form);
       const status = form.querySelector<HTMLElement>(".wpcf7-response-output");
       const consent = [...data.keys()].some((key) => key.startsWith("acceptance"));

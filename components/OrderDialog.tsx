@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events -- native dialog backdrop clicks close the modal */
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { readCookieConsent } from "@/lib/cookie-consent";
 
 type Status = "idle" | "sending" | "success" | "saved" | "error";
 
@@ -35,6 +36,10 @@ export function OrderDialog() {
 
   useEffect(() => {
     const show = () => {
+      if (readCookieConsent()?.analytics !== true) {
+        window.dispatchEvent(new Event("wedfotobook:request-cookie-consent"));
+        return;
+      }
       setStatus("idle");
       setErrorMessage("");
       setFormStartedAt(Date.now());
@@ -56,6 +61,11 @@ export function OrderDialog() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (readCookieConsent()?.analytics !== true) {
+      dialogRef.current?.close();
+      window.dispatchEvent(new Event("wedfotobook:request-cookie-consent"));
+      return;
+    }
     setStatus("sending");
     const form = event.currentTarget;
     const data = new FormData(form);

@@ -19,6 +19,10 @@ export function assertSameOriginMutation(request: Request) {
   }
 }
 
+export function hasAcceptedCookieConsent(request: Request): boolean {
+  return request.headers.get("cookie")?.split(";").some((entry) => entry.trim() === "wedfotobook_cookie_consent=accepted") ?? false;
+}
+
 function effectiveRequestOrigin(request: Request): string {
   const directOrigin = new URL(request.url).origin;
   if (process.env.TRUST_PROXY_ORIGIN !== "1") return directOrigin;

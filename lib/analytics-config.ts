@@ -1,3 +1,1 @@
-export const GA_MEASUREMENT_ID = "G-JERXW5PT5F";
 export const YANDEX_COUNTER_ID = 600494;
-

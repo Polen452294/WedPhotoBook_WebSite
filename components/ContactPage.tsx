@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { contacts } from "@/lib/site-data";
+import { ConsentControlledIframe } from "@/components/ConsentControlledIframe";
+import { readCookieConsent } from "@/lib/cookie-consent";
 
 type Status = "idle" | "sending" | "success" | "saved" | "error";
 
@@ -27,6 +29,12 @@ export function ContactPage() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (readCookieConsent()?.analytics !== true) {
+      setStatus("error");
+      setErrorMessage("Сначала примите использование cookie в уведомлении.");
+      window.dispatchEvent(new Event("wedfotobook:request-cookie-consent"));
+      return;
+    }
     setStatus("sending");
     setErrorMessage("");
 
@@ -127,7 +135,7 @@ export function ContactPage() {
           </div>
           <div className="company-map-visual">
             <div className="company-map-frame">
-              <iframe src={`https://yandex.ru/map-widget/v1/?mode=search&text=${mapAddress}&z=16`} title="Яндекс Карта: Москва, Свободный проспект, д. 33" loading="lazy" allowFullScreen />
+              <ConsentControlledIframe src={`https://yandex.ru/map-widget/v1/?mode=search&text=${mapAddress}&z=16`} title="Яндекс Карта: Москва, Свободный проспект, д. 33" />
             </div>
             <p className="company-map-notice">Пожалуйста, не приезжайте без предварительного звонка.</p>
           </div>

@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const consentKey = "wedfotobook-cookie-consent-v2";
+  const consentKey = "wedfotobook-cookie-consent-v3";
   const consentMaxAge = 180 * 24 * 60 * 60 * 1000;
   let analyticsStarted = false;
 
@@ -14,20 +14,22 @@
     try {
       const value = JSON.parse(localStorage.getItem(consentKey) || "null");
       const updatedAt = Date.parse(value?.updatedAt || "");
-      return value?.version === 2 && value?.necessary === true && typeof value.analytics === "boolean"
+      return value?.version === 3 && value?.necessary === true && typeof value.analytics === "boolean"
         && Number.isFinite(updatedAt) && Date.now() - updatedAt <= consentMaxAge ? value : null;
     } catch { return null; }
   }
 
   function setConsent(analytics) {
-    const value = { version: 2, necessary: true, analytics, updatedAt: new Date().toISOString() };
+    const value = { version: 3, necessary: true, analytics, updatedAt: new Date().toISOString() };
     try {
       localStorage.setItem(consentKey, JSON.stringify(value));
       localStorage.removeItem("wedfotobook-cookie-consent");
+      localStorage.removeItem("wedfotobook-cookie-consent-v2");
     } catch { /* The choice still applies to this page. */ }
+    document.cookie = `wedfotobook_cookie_consent=${analytics ? "accepted" : "rejected"}; Max-Age=${Math.floor(consentMaxAge / 1000)}; Path=/; SameSite=Lax${location.protocol === "https:" ? "; Secure" : ""}`;
     if (analytics) {
       startAnalytics();
-      window.__wedfotobookStartAnalytics?.();
+      window.__wedfotobookStartConsentedServices?.();
     } else window.__wedfotobookDisableAnalytics?.();
   }
 
@@ -42,7 +44,7 @@
   }
 
   function sendAnalytics(eventType, details = {}) {
-    if (getConsent()?.analytics === false) return;
+    if (getConsent()?.analytics !== true) return;
     const device = innerWidth < 680 ? "mobile" : innerWidth < 1100 ? "tablet" : "desktop";
     void fetch("/api/analytics/", {
       method: "POST",
@@ -53,7 +55,7 @@
   }
 
   function startAnalytics() {
-    if (analyticsStarted || location.search.includes("cms_preview") || location.search.includes("code_preview")) return;
+    if (getConsent()?.analytics !== true || analyticsStarted || location.search.includes("cms_preview") || location.search.includes("code_preview")) return;
     analyticsStarted = true;
     const referrer = document.referrer ? (() => { try { return new URL(document.referrer).hostname.replace(/^www\./, ""); } catch { return "Другой источник"; } })() : "Прямой переход";
     sendAnalytics("page_view", { referrer });
@@ -66,25 +68,19 @@
     }, { capture: true });
   }
 
-  function mountCookieNotice() {
+  function mountCookieNotice(force = false) {
     const stored = getConsent();
-    if (stored) { if (stored.analytics) startAnalytics(); return; }
-    startAnalytics();
+    if (stored && !force) { if (stored.analytics) startAnalytics(); return; }
+    if (document.querySelector(".cookie-consent")) return;
     const notice = document.createElement("div");
     notice.className = "cookie-consent";
     notice.setAttribute("role", "dialog");
-    notice.setAttribute("aria-label", "Настройки файлов cookies");
-    notice.innerHTML = `<div class="cookie-consent-mark" aria-hidden="true">✓</div><div class="cookie-consent-content"><span class="cookie-consent-kicker">Конфиденциальность</span><h2>Настройки cookies</h2><p>Обязательные cookies нужны для работы сайта. Google Analytics 4, Яндекс Метрика и собственный счётчик помогают учитывать посещения. До вашего выбора счётчики уже фиксируют посещение и технические данные; при отказе они отключаются и их данные в браузере удаляются.</p></div><div class="cookie-consent-actions"><button class="cookie-button cookie-button-primary" type="button" data-cookie-choice="accept">Принять все</button><button class="cookie-button cookie-button-secondary" type="button" data-cookie-choice="reject">Отклонить необязательные</button><button class="cookie-button cookie-button-link" type="button" data-cookie-choice="settings">Настроить</button></div>`;
+    notice.setAttribute("aria-label", "Использование cookie");
+    notice.innerHTML = `<div class="cookie-consent-mark" aria-hidden="true">✓</div><div class="cookie-consent-content"><span class="cookie-consent-kicker">Конфиденциальность</span><h2>Cookie</h2><p>Мы используем cookie для работы сайта и аналитики. Подробнее — в <a href="/cookie/">Политике использования cookie-файлов</a>.</p></div><div class="cookie-consent-actions"><button class="cookie-button cookie-button-primary" type="button" data-cookie-choice="accept">Принять</button><button class="cookie-button cookie-button-secondary" type="button" data-cookie-choice="reject">Отклонить</button></div>`;
     notice.addEventListener("click", (event) => {
       const choice = event.target instanceof Element ? event.target.closest("[data-cookie-choice]")?.dataset.cookieChoice : "";
       if (!choice) return;
-      if (choice === "settings") {
-        notice.classList.add("cookie-consent-expanded");
-        notice.querySelector(".cookie-consent-content").insertAdjacentHTML("beforeend", `<div class="cookie-preferences" aria-label="Категории cookies"><div class="cookie-preference-row"><div><strong>Обязательные</strong><small>Сохраняют выбранные настройки и обеспечивают основные функции сайта. Всегда активны.</small></div><span class="cookie-status">Всегда включены</span></div><label class="cookie-preference-row cookie-preference-toggle"><span><strong>Аналитические</strong><small>Google Analytics 4 и Яндекс Метрика: посещённые страницы, источник перехода, устройство и взаимодействие с сайтом, включая Вебвизор. Срок хранения отдельных идентификаторов — до 1 года.</small></span><input type="checkbox" aria-label="Разрешить аналитические cookies" /></label><p class="cookie-details">Поставщики аналитики — Google и ООО «ЯНДЕКС». Сохранённый выбор можно удалить в настройках браузера. Подробнее — в <a href="/politika-obrabotki-personalnyh-dannyh/">политике обработки персональных данных</a>.</p></div>`);
-        notice.querySelector(".cookie-consent-actions").innerHTML = '<button class="cookie-button cookie-button-primary" type="button" data-cookie-choice="save">Сохранить выбор</button><button class="cookie-button cookie-button-secondary" type="button" data-cookie-choice="reject">Отклонить необязательные</button>';
-        return;
-      }
-      setConsent(choice === "accept" || (choice === "save" && Boolean(notice.querySelector("input[type=checkbox]")?.checked)));
+      setConsent(choice === "accept");
       notice.remove();
     });
     document.body.append(notice);
@@ -99,6 +95,10 @@
   }
 
   function openOrderDialog() {
+    if (getConsent()?.analytics !== true) {
+      mountCookieNotice(true);
+      return;
+    }
     const dialog = document.createElement("dialog");
     dialog.className = "order-dialog";
     dialog.setAttribute("aria-labelledby", "order-dialog-title");
@@ -246,5 +246,6 @@
   }, true);
 
   mountCookieNotice();
+  window.addEventListener("wedfotobook:request-cookie-consent", () => mountCookieNotice(true));
   onIdle(loadCustomizations);
 })();

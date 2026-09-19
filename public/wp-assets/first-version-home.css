@@ -4189,6 +4189,34 @@
   align-items: stretch;
 }
 
+.restored-first-version .consent-embed-placeholder {
+  display: grid;
+  min-height: 480px;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  box-sizing: border-box;
+  padding: 36px;
+  text-align: center;
+}
+
+.restored-first-version .consent-embed-placeholder p {
+  max-width: 430px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.restored-first-version .consent-embed-placeholder button {
+  min-height: 44px;
+  border: 1px solid var(--ink);
+  padding: 10px 18px;
+  background: var(--ink);
+  color: var(--white);
+  cursor: pointer;
+  font-weight: 700;
+}
+
 .restored-first-version .catalog-story-page-vypusknye-fotoknigi .pricing-grid-one .price-card > picture {
   display: block !important;
   min-width: 0;
