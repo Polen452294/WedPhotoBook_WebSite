@@ -76,10 +76,6 @@ export function ContactPage() {
 
           <div className="contact-layout-grid">
             <div className="contact-form-column">
-              <header className="contact-column-heading">
-                <span className="section-kicker">Напишите нам</span>
-              </header>
-
               <form className="contact-journal-form" onSubmit={submit}>
                 <div className="contact-form-row">
                   <label><span>Ваше имя</span><input className="ym-disable-keys" name="name" autoComplete="name" maxLength={120} required /></label>

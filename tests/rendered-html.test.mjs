@@ -571,6 +571,9 @@ test("keeps catalog descriptions out of headings and renders supplied legal head
   assert.match(termsHtml, /<h2>1\. Общие положения<\/h2>/);
   assert.match(policyHtml, /<h1>Политика обработки персональных данных<\/h1>/);
   assert.match(policyHtml, /<h2>1\. Общие положения<\/h2>/);
+  assert.match(globalCss, /\.legal-document-page \{[^}]*padding: 0 0 88px;/s);
+  assert.match(globalCss, /\.legal-document h1 \{[^}]*font-size: 16px;/s);
+  assert.match(globalCss, /\.legal-document h2 \{[^}]*font-size: 14px;/s);
 });
 
 test("uses the original contact information order and gates the Yandex map", async () => {
@@ -583,6 +586,7 @@ test("uses the original contact information order and gates the Yandex map", asy
   assert.match(contactHtml, /class="contact-title-detail"><span class="contact-title-dash">—<\/span> фотокниги на заказ в Москве<\/span>/);
   assert.doesNotMatch(contactHtml, /Контактная форма/);
   assert.doesNotMatch(contactHtml, /Прямая связь/);
+  assert.doesNotMatch(contactHtml, /Напишите нам/);
   assert.doesNotMatch(contactHtml, /class="contact-layout-hero"/);
   assert.match(firstVersionCss, /\.restored-first-version \.contact-info-list \{[^}]*margin-top: 0;/s);
   assert.match(firstVersionCss, /\.restored-first-version \.contact-info-item:first-child \{[^}]*border-top: 0;[^}]*padding-top: 0;/s);
