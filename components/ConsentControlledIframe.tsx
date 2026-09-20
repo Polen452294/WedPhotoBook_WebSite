@@ -22,9 +22,9 @@ export function ConsentControlledIframe({ src, title }: { src: string; title: st
 
   return (
     <div className="consent-embed-placeholder">
-      <p>Карта загрузится только после вашего согласия на использование cookie.</p>
+      <p>Карта загрузится только после вашего согласия на использование куки.</p>
       <button type="button" onClick={() => window.dispatchEvent(new Event("wedfotobook:request-cookie-consent"))}>
-        Настроить cookie
+        Настроить куки
       </button>
     </div>
   );

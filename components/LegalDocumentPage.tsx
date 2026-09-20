@@ -15,7 +15,7 @@ const documentDescriptions: Record<LegalDocumentKey, string> = {
   consent: "Согласие на обработку персональных данных на сайте wedfotobook.ru.",
   privacy: "Политика обработки и конфиденциальности персональных данных на сайте wedfotobook.ru.",
   terms: "Пользовательское соглашение сайта wedfotobook.ru.",
-  cookie: "Политика использования cookie-файлов на сайте wedfotobook.ru.",
+  cookie: "Политика использования файлов куки на сайте wedfotobook.ru.",
   offer: "Публичная оферта на оказание услуг по созданию фотокниг на заказ.",
 };
 

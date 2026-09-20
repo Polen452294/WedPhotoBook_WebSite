@@ -39,15 +39,15 @@ export function CookieNotice() {
           className="cookie-consent"
           role="dialog"
           aria-modal="false"
-          aria-label="Настройки файлов cookies"
+          aria-label="Настройки файлов куки"
           aria-describedby={descriptionId}
         >
           <div className="cookie-consent-mark" aria-hidden="true">✓</div>
           <div className="cookie-consent-content">
             <span className="cookie-consent-kicker">Конфиденциальность</span>
-            <h2>Cookie</h2>
+            <h2>Куки</h2>
             <p id={descriptionId}>
-              Мы используем cookie для работы сайта и аналитики. Подробнее — в <a href="/cookie/">Политике использования cookie-файлов</a>.
+              Мы используем куки для работы сайта и аналитики. Подробнее — в <a href="/cookie/">Политике использования файлов куки</a>.
             </p>
           </div>
 

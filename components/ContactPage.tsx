@@ -9,9 +9,9 @@ import { readCookieConsent } from "@/lib/cookie-consent";
 type Status = "idle" | "sending" | "success" | "saved" | "error";
 
 const messengers = [
-  { href: contacts.telegram, src: "/media/social/Tg wedfotobook .png", label: "Telegram", alt: "Написать в Telegram" },
-  { href: contacts.whatsapp, src: "/media/social/Wapp wedfotobook .png", label: "WhatsApp", alt: "Написать в WhatsApp" },
-  { href: contacts.max, src: "/media/social/Max wedfotobook .png", label: "MAX", alt: "Написать в мессенджере MAX" },
+  { href: contacts.telegram, src: "/media/social/Tg wedfotobook .png", label: "Телеграм", alt: "Написать в Телеграм" },
+  { href: contacts.whatsapp, src: "/media/social/Wapp wedfotobook .png", label: "Вотсап", alt: "Написать в Вотсап" },
+  { href: contacts.max, src: "/media/social/Max wedfotobook .png", label: "Макс", alt: "Написать в мессенджере Макс" },
   { href: contacts.vk, src: "/media/social/Vk wedfotobook .png", label: "ВКонтакте", alt: "Страница WedFotoBook во ВКонтакте" },
 ] as const;
 
@@ -31,7 +31,7 @@ export function ContactPage() {
     event.preventDefault();
     if (readCookieConsent()?.analytics !== true) {
       setStatus("error");
-      setErrorMessage("Сначала примите использование cookie в уведомлении.");
+      setErrorMessage("Сначала примите использование куки в уведомлении.");
       window.dispatchEvent(new Event("wedfotobook:request-cookie-consent"));
       return;
     }
@@ -79,7 +79,7 @@ export function ContactPage() {
               <form className="contact-journal-form" onSubmit={submit}>
                 <div className="contact-form-row">
                   <label><span>Ваше имя</span><input className="ym-disable-keys" name="name" autoComplete="name" maxLength={120} required /></label>
-                  <label><span>E-mail</span><input className="ym-disable-keys" name="email" type="email" autoComplete="email" maxLength={254} required /></label>
+                  <label><span>Электронная почта</span><input className="ym-disable-keys" name="email" type="email" autoComplete="email" maxLength={254} required /></label>
                 </div>
                 <label><span>Ваше сообщение</span><textarea className="ym-disable-keys" name="message" rows={7} maxLength={5000} required /></label>
                 <label className="contact-honeypot" aria-hidden="true">Адрес<input className="ym-disable-keys" name="address" tabIndex={-1} autoComplete="off" /></label>
@@ -107,7 +107,7 @@ export function ContactPage() {
                   <small>Социальные сети</small>
                   <div className="contact-social-list">
                     {messengers.map((messenger) => (
-                      <a className={messenger.label === "WhatsApp" ? "contact-social-whatsapp" : undefined} href={messenger.href} target="_blank" rel="noopener noreferrer" aria-label={messenger.label} key={messenger.label}>
+                      <a className={messenger.label === "Вотсап" ? "contact-social-whatsapp" : undefined} href={messenger.href} target="_blank" rel="noopener noreferrer" aria-label={messenger.label} key={messenger.label}>
                         <Image src={messenger.src} alt={messenger.alt} width={46} height={46} />
                       </a>
                     ))}

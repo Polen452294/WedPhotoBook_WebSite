@@ -127,7 +127,7 @@ async function updateNotification(
 
 export async function POST(request: Request) {
   if (!hasAcceptedCookieConsent(request)) {
-    return Response.json({ error: "Сначала примите использование cookie в уведомлении." }, { status: 403 });
+    return Response.json({ error: "Сначала примите использование куки в уведомлении." }, { status: 403 });
   }
   let body: Record<string, unknown>;
   try {

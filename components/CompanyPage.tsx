@@ -23,7 +23,7 @@ export function CompanyPage() {
             <ul>
               <li><span aria-hidden="true">•</span><span>Телефон: <a href={contacts.phoneHref}>+7 985 434-23-67</a> (ежедневно с 9:00 до 21:00 по московскому времени).</span></li>
               <li><span aria-hidden="true">•</span><span>Почта: <a href={`mailto:${contacts.email}`}>79854342367@yandex.ru</a></span></li>
-              <li><span aria-hidden="true">•</span><span>Социальные сети: <a href={contacts.telegram}>Telegram (@photokniga_na_zakaz)</a>, <a href={contacts.whatsapp}>WhatsApp</a>, <a href={contacts.max}>Max</a>.</span></li>
+              <li><span aria-hidden="true">•</span><span>Социальные сети: <a href={contacts.telegram}>Телеграм</a>, <a href={contacts.whatsapp}>Вотсап</a>, <a href={contacts.max}>Макс</a>.</span></li>
             </ul>
           </article>
         </div>

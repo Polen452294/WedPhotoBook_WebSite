@@ -97,7 +97,7 @@ test("does not restyle the whole document after homepage hydration", () => {
 });
 
 test("removes Google services and starts all analytics only after explicit consent", () => {
-  assert.match(cookieNoticeSource, /Мы используем cookie для работы сайта и аналитики/);
+  assert.match(cookieNoticeSource, /Мы используем куки для работы сайта и аналитики/);
   assert.match(cookieNoticeSource, /href="\/cookie\/"/);
   assert.match(cookieNoticeSource, />Принять<\/button>/);
   assert.match(cookieNoticeSource, />Отклонить<\/button>/);
@@ -572,6 +572,7 @@ test("keeps catalog descriptions out of headings and renders supplied legal head
   assert.match(termsHtml, /<h2>1\. Общие положения<\/h2>/);
   assert.match(policyHtml, /<h1>Политика обработки персональных данных<\/h1>/);
   assert.match(policyHtml, /<h2>1\. Общие положения<\/h2>/);
+  assert.match(policyHtml, /Оператор внесён в реестр операторов персональных данных Роскомнадзора № 77-25-477631\. Приказ № 596 от 28\.08\.2025/);
   assert.match(globalCss, /\.legal-document-page \{[^}]*padding: 42px 0 96px;/s);
   assert.match(firstVersionCss, /\.legacy-wordpress\.legal-white-page \{[^}]*min-height: 60px !important;[^}]*height: 60px !important;/s);
   assert.match(firstVersionCss, /\.restored-first-version \.legal-document h1 \{[^}]*font-size: clamp\(24px, 3vw, 32px\) !important;[^}]*text-align: center !important;/s);
@@ -604,7 +605,7 @@ test("uses the original contact information order and gates the Yandex map", asy
   assert.match(contactHtml, /Москва, Свободный проспект, д\. 33/);
   assert.match(contactHtml, /class="consent-embed-placeholder"/);
   assert.doesNotMatch(contactHtml, /<iframe[^>]+yandex\.ru\/map-widget\/v1\//);
-  assert.match(contactHtml, /class="contact-social-whatsapp"[^>]*aria-label="WhatsApp"/);
+  assert.match(contactHtml, /class="contact-social-whatsapp"[^>]*aria-label="Вотсап"/);
   assert.match(firstVersionCss, /\.contact-social-whatsapp img \{[^}]*width: 37px;[^}]*height: auto;[^}]*transform: translateY\(-1px\);/s);
 });
 

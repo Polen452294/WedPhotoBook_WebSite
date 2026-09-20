@@ -127,18 +127,18 @@ const LEGACY_IMAGE_ALTS: Record<string, string> = {
   "/media/optimized/brand/logo-256.webp": "WedFotoBook — фотокниги на заказ",
   "/media/optimized/social/yandex-64.webp": "Отзывы о WedFotoBook на Яндекс Услугах",
   "/media/optimized/social/vk-64.webp": "Страница WedFotoBook во ВКонтакте",
-  "/media/optimized/social/telegram-64.webp": "Написать в Telegram",
-  "/media/optimized/social/whatsapp-64.webp": "Написать в WhatsApp",
-  "/media/optimized/social/max-64.webp": "Написать в мессенджере MAX",
+  "/media/optimized/social/telegram-64.webp": "Написать в Телеграм",
+  "/media/optimized/social/whatsapp-64.webp": "Написать в Вотсап",
+  "/media/optimized/social/max-64.webp": "Написать в мессенджере Макс",
   "/media/brand/Logo wedfotobook.png": "WedFotoBook — фотокниги на заказ",
   "/media/social/Yandex wedfotobook .png": "Отзывы о WedFotoBook на Яндекс Услугах",
   "/media/social/Vk wedfotobook .png": "Страница WedFotoBook во ВКонтакте",
-  "/media/social/Tg wedfotobook .png": "Написать в Telegram",
-  "/media/social/Wapp wedfotobook .png": "Написать в WhatsApp",
-  "/media/social/Max wedfotobook .png": "Написать в мессенджере MAX",
-  "/wp-content/uploads/2026/01/telegram_2019_logo.svg_-optimized.png": "Написать в Telegram",
-  "/wp-content/uploads/2026/01/whatsapp.svg_-e1768212721627-optimized.png": "Написать в WhatsApp",
-  "/wp-content/uploads/2026/01/logotip_max.svg_-optimized.png": "Написать в мессенджере MAX",
+  "/media/social/Tg wedfotobook .png": "Написать в Телеграм",
+  "/media/social/Wapp wedfotobook .png": "Написать в Вотсап",
+  "/media/social/Max wedfotobook .png": "Написать в мессенджере Макс",
+  "/wp-content/uploads/2026/01/telegram_2019_logo.svg_-optimized.png": "Написать в Телеграм",
+  "/wp-content/uploads/2026/01/whatsapp.svg_-e1768212721627-optimized.png": "Написать в Вотсап",
+  "/wp-content/uploads/2026/01/logotip_max.svg_-optimized.png": "Написать в мессенджере Макс",
   "/wp-content/uploads/2026/08/002-s-1-optimized.jpg": "Профессиональная обработка фотографий для фотокниги",
   "/wp-content/uploads/2026/08/b5db748a-ceb6-4e26-907e-a8fd9f4305a1-1-optimized.jpg": "Семейная фотокнига с памятными фотографиями",
   "/wp-content/uploads/2026/08/img_0698-1-optimized.jpg": "Согласование макета фотокниги с клиентом",
@@ -321,6 +321,34 @@ function withUpdatedGenealogyNaming(bodyHtml: string): string {
     .replaceAll("Родословная книга", "Родословная фотокнига");
 }
 
+function withRussianVisibleCopy(bodyHtml: string): string {
+  const translateText = (text: string) => text
+    .replaceAll("Toggle navigation", "Открыть меню")
+    .replaceAll("[honeypot address]", "")
+    .replaceAll("Cветлана", "Светлана")
+    .replaceAll("Р.S.", "Постскриптум:")
+    .replaceAll("Q&A", "Вопросы и ответы")
+    .replace(/\bElena\b/g, "Елена")
+    .replace(/\bLoveStory\b/gi, "история любви")
+    .replace(/\be-mail\b/gi, "электронная почта")
+    .replace(/\bIP-адрес\b/gi, "сетевой адрес")
+    .replace(/\bQR-код\b/gi, "код для быстрой оплаты")
+    .replace(/\bnetPrint\.ru\b/gi, "НетПринт")
+    .replace(/\btalk me\b/gi, "Толк ми")
+    .replace(/\bWhatsApp\b/g, "Вотсап")
+    .replace(/\bTelegram\b/g, "Телеграм")
+    .replace(/\bMAX\b|\bMax\b/g, "Макс")
+    .replace(/\bRAW\b/g, "необработанные файлы")
+    .replace(/\bTIFF\b/g, "файлы без сжатия")
+    .replace(/\bcookie-файлов\b/gi, "файлов куки")
+    .replace(/\bcookies?\b/gi, "куки");
+
+  return bodyHtml
+    .split(/(<!--[\s\S]*?-->|<script\b[^>]*>[\s\S]*?<\/script>|<style\b[^>]*>[\s\S]*?<\/style>|<[^>]+>)/gi)
+    .map((part) => part.startsWith("<") ? part : translateText(part))
+    .join("");
+}
+
 function withHomepageBenefitLabels(bodyHtml: string, slug: string): string {
   if (slug) return bodyHtml;
 
@@ -394,7 +422,7 @@ export function LegacyPage({ page, enhance = true }: { page: RenderedPage; enhan
     ),
     page.slug,
   ), page.slug);
-  const bodyHtml = withAccessibleLegacyControls(normalizedBodyHtml);
+  const bodyHtml = withRussianVisibleCopy(withAccessibleLegacyControls(normalizedBodyHtml));
   const legalPageClass = WHITE_LEGAL_PAGES.has(page.slug) ? " legal-white-page" : "";
   const isHomepage = !page.slug;
   return (

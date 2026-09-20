@@ -4,9 +4,9 @@ import { catalogItems, contacts } from "@/lib/site-data";
 import { optimizedMediaUrl } from "@/lib/media-path";
 
 const social = [
-  [contacts.telegram, "/media/optimized/social/telegram-64.webp", "Написать в Telegram"],
-  [contacts.whatsapp, "/media/optimized/social/whatsapp-64.webp", "Написать в WhatsApp"],
-  [contacts.max, "/media/optimized/social/max-64.webp", "Написать в мессенджере MAX"],
+  [contacts.telegram, "/media/optimized/social/telegram-64.webp", "Написать в Телеграм"],
+  [contacts.whatsapp, "/media/optimized/social/whatsapp-64.webp", "Написать в Вотсап"],
+  [contacts.max, "/media/optimized/social/max-64.webp", "Написать в мессенджере Макс"],
   [contacts.vk, "/media/optimized/social/vk-64.webp", "Страница WedFotoBook во ВКонтакте"],
 ] as const;
 
@@ -45,7 +45,7 @@ export function Footer() {
             <li><Link href="/polzovatelskoe-soglashenie/">Пользовательское соглашение</Link></li>
             <li><Link href="/politika-obrabotki-personalnyh-dannyh/">Политика обработки персональных данных</Link></li>
             <li><Link href="/soglashenie/">Согласие на обработку персональных данных</Link></li>
-            <li><Link href="/cookie/">Политика использования cookie-файлов</Link></li>
+            <li><Link href="/cookie/">Политика использования файлов куки</Link></li>
             <li><Link href="/oferta/">Публичная оферта</Link></li>
           </ul>
         </div>

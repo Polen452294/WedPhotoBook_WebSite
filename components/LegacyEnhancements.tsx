@@ -128,7 +128,7 @@ export function LegacyEnhancements({ bodyClass }: { bodyClass: string }) {
       event.preventDefault();
       if (readCookieConsent()?.analytics !== true) {
         window.dispatchEvent(new Event("wedfotobook:request-cookie-consent"));
-        setLegacyFormStatus(form, "failed", "Сначала примите использование cookie в уведомлении.");
+        setLegacyFormStatus(form, "failed", "Сначала примите использование куки в уведомлении.");
         return;
       }
       const data = new FormData(form);
