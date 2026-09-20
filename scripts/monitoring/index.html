@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Доступность WedFotoBook</title>
+<style>body{font:16px system-ui;max-width:960px;margin:40px auto;padding:0 20px;color:#253343;background:#f6f8fa}h1{font-size:28px}#state{font-size:24px;font-weight:700}.up{color:#167342}.down{color:#b22222}table{border-collapse:collapse;width:100%;background:white}td,th{padding:10px;text-align:left;border-bottom:1px solid #ddd}p{line-height:1.5}.scroll{max-height:560px;overflow:auto}</style>
+<h1>Доступность WedFotoBook</h1><p id="state" role="status">Загрузка…</p><p id="summary"></p>
+<p>Проверка каждую минуту: главная страница, JavaScript и приложение с базой данных. Время показано в вашем часовом поясе. Это проверка с сервера сайта: сбои сети у отдельных посетителей могут быть не видны. Отправка писем и оформление заявки полностью не проверяются.</p>
+<div class="scroll"><table><thead><tr><th>Время</th><th>Результат</th><th>Ответ главной</th><th>Не прошли проверку</th></tr></thead><tbody id="history"></tbody></table></div>
+<script>
+const state=document.getElementById('state');
+async function refresh(){
+ try{
+  const response=await fetch('./status.json?t='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(10000)});
+  if(!response.ok)throw new Error('unavailable');
+  const data=await response.json();const stale=Date.now()/1000-data.updated>150;
+  state.textContent=stale?'Нет свежих данных — состояние неизвестно':data.ok?'Сайт работает':'Обнаружен сбой';
+  state.className=!stale&&data.ok?'up':'down';
+  document.getElementById('summary').textContent='Последняя проверка: '+new Date(data.updated*1000).toLocaleString()+'. Успешные проверки за 24 часа: '+data.sampleAvailability24h+'% ('+data.samples24h+' проверок). История ниже — последние 1440 проверок. Пропуски наблюдений не считаются доступностью.';
+  const rows=data.history.map(item=>{const row=document.createElement('tr');const failed=Object.entries(item.checks).filter(([,check])=>!check.ok).map(([name])=>name).join(', ');for(const value of [new Date(item.time*1000).toLocaleString(),item.ok?'Работает':'Сбой',item.checks.homepage.ms+' мс',failed||'—']){const cell=document.createElement('td');cell.textContent=value;row.append(cell)}return row});
+  document.getElementById('history').replaceChildren(...rows);
+ }catch{state.textContent='Проверка недоступна — состояние неизвестно';state.className='down'}
+}
+refresh();setInterval(refresh,30000);
+</script></html>

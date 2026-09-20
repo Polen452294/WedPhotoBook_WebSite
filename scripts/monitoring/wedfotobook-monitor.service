@@ -1,0 +1,14 @@
+[Unit]
+Description=WedFotoBook availability check and guarded recovery
+After=network-online.target nginx.service pm2-root.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/wedfotobook-monitor/uptime-monitor.py
+Environment=PM2_HOME=/root/.pm2
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+EnvironmentFile=-/etc/wedfotobook-monitor.env
+TimeoutStartSec=75
+Nice=10
+UMask=0022

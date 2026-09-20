@@ -1,0 +1,11 @@
+[Unit]
+Description=Check WedFotoBook every minute
+
+[Timer]
+OnBootSec=60
+OnUnitActiveSec=60
+AccuracySec=1
+Unit=wedfotobook-monitor.service
+
+[Install]
+WantedBy=timers.target
