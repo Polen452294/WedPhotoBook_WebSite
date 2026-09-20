@@ -572,11 +572,11 @@ test("keeps catalog descriptions out of headings and renders supplied legal head
   assert.match(termsHtml, /<h2>1\. Общие положения<\/h2>/);
   assert.match(policyHtml, /<h1>Политика обработки персональных данных<\/h1>/);
   assert.match(policyHtml, /<h2>1\. Общие положения<\/h2>/);
-  assert.match(globalCss, /\.legal-document-page \{[^}]*padding: 0 0 88px;/s);
+  assert.match(globalCss, /\.legal-document-page \{[^}]*padding: 42px 0 96px;/s);
   assert.match(firstVersionCss, /\.legacy-wordpress\.legal-white-page \{[^}]*min-height: 60px !important;[^}]*height: 60px !important;/s);
-  assert.match(firstVersionCss, /\.restored-first-version \.legal-document h1 \{[^}]*font-size: 16px !important;/s);
-  assert.match(firstVersionCss, /\.restored-first-version \.legal-document h2 \{[^}]*font-size: 14px !important;/s);
-  assert.match(legacyPageSource, /first-version-home\.css\?v=83/);
+  assert.match(firstVersionCss, /\.restored-first-version \.legal-document h1 \{[^}]*font-size: clamp\(24px, 3vw, 32px\) !important;[^}]*text-align: center !important;/s);
+  assert.match(firstVersionCss, /\.restored-first-version \.legal-document h2 \{[^}]*font-size: clamp\(17px, 1\.7vw, 20px\) !important;[^}]*text-align: center !important;/s);
+  assert.match(legacyPageSource, /first-version-home\.css\?v=84/);
 });
 
 test("uses the original contact information order and gates the Yandex map", async () => {

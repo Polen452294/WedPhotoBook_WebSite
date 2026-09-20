@@ -405,7 +405,7 @@ export function LegacyPage({ page, enhance = true }: { page: RenderedPage; enhan
         precedence="wordpress"
       />}
       {!isHomepage && <link rel="stylesheet" href="/wp-assets/home-original-fix.css?v=51" precedence="wordpress-overrides" />}
-      {!isHomepage && <link rel="stylesheet" href="/wp-assets/first-version-home.css?v=83" precedence="site-design" />}
+      {!isHomepage && <link rel="stylesheet" href="/wp-assets/first-version-home.css?v=84" precedence="site-design" />}
       {enhance && <LegacyEnhancements bodyClass={page.bodyClass} />}
       <div className={`legacy-wordpress ${page.bodyClass}${legalPageClass}`} dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </>
