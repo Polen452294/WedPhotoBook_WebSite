@@ -69,7 +69,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
   return (
     <>
       <link rel="stylesheet" href="/wp-assets/home-optimized.css?v=10" precedence="home" />
-      {!isEditorPreview && <script src="/wp-assets/home-interactions.js?v=20260902b" defer />}
+      {!isEditorPreview && <script src="/wp-assets/home-interactions.js?v=20260920" defer />}
       <PageStructuredData title={page.title} description={page.description || undefined} path="/" service />
       <LegacyPage page={withoutHiddenLegacyHomepageSections(page)} enhance={false} />
       <div className="restored-first-version">

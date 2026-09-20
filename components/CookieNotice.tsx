@@ -12,6 +12,7 @@ export function CookieNotice() {
   useEffect(() => {
     const timer = window.setTimeout(() => {
       const stored = readCookieConsent();
+      if (!stored) document.cookie = "wedfotobook_cookie_consent=; Max-Age=0; Path=/; SameSite=Lax";
       setNoticeOpen(!stored);
       setReady(true);
     }, 0);

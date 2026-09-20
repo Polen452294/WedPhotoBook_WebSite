@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const consentKey = "wedfotobook-cookie-consent-v3";
+  const consentKey = "wedfotobook-cookie-consent-v4";
   const consentMaxAge = 180 * 24 * 60 * 60 * 1000;
   let analyticsStarted = false;
 
@@ -14,17 +14,18 @@
     try {
       const value = JSON.parse(localStorage.getItem(consentKey) || "null");
       const updatedAt = Date.parse(value?.updatedAt || "");
-      return value?.version === 3 && value?.necessary === true && typeof value.analytics === "boolean"
+      return value?.version === 4 && value?.necessary === true && typeof value.analytics === "boolean"
         && Number.isFinite(updatedAt) && Date.now() - updatedAt <= consentMaxAge ? value : null;
     } catch { return null; }
   }
 
   function setConsent(analytics) {
-    const value = { version: 3, necessary: true, analytics, updatedAt: new Date().toISOString() };
+    const value = { version: 4, necessary: true, analytics, updatedAt: new Date().toISOString() };
     try {
       localStorage.setItem(consentKey, JSON.stringify(value));
       localStorage.removeItem("wedfotobook-cookie-consent");
       localStorage.removeItem("wedfotobook-cookie-consent-v2");
+      localStorage.removeItem("wedfotobook-cookie-consent-v3");
     } catch { /* The choice still applies to this page. */ }
     document.cookie = `wedfotobook_cookie_consent=${analytics ? "accepted" : "rejected"}; Max-Age=${Math.floor(consentMaxAge / 1000)}; Path=/; SameSite=Lax${location.protocol === "https:" ? "; Secure" : ""}`;
     if (analytics) {
@@ -71,6 +72,7 @@
   function mountCookieNotice(force = false) {
     const stored = getConsent();
     if (stored && !force) { if (stored.analytics) startAnalytics(); return; }
+    if (!stored) document.cookie = "wedfotobook_cookie_consent=; Max-Age=0; Path=/; SameSite=Lax";
     if (document.querySelector(".cookie-consent")) return;
     const notice = document.createElement("div");
     notice.className = "cookie-consent";

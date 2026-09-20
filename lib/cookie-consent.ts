@@ -1,6 +1,6 @@
-export const COOKIE_CONSENT_KEY = "wedfotobook-cookie-consent-v3";
+export const COOKIE_CONSENT_KEY = "wedfotobook-cookie-consent-v4";
 export const COOKIE_CONSENT_EVENT = "wedfotobook:cookie-consent-changed";
-export const COOKIE_CONSENT_VERSION = 3;
+export const COOKIE_CONSENT_VERSION = 4;
 export const COOKIE_CONSENT_SERVER_NAME = "wedfotobook_cookie_consent";
 
 const CONSENT_MAX_AGE_MS = 180 * 24 * 60 * 60 * 1000;
@@ -42,6 +42,7 @@ export function saveCookieConsent(analytics: boolean): CookieConsent {
     window.localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consent));
     window.localStorage.removeItem("wedfotobook-cookie-consent");
     window.localStorage.removeItem("wedfotobook-cookie-consent-v2");
+    window.localStorage.removeItem("wedfotobook-cookie-consent-v3");
   } catch {
     // The selected preference still applies for the current page.
   }

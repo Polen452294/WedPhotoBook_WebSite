@@ -109,6 +109,28 @@
   background-image: none !important;
 }
 
+/* Legal routes render the shared legacy header in a separate wrapper. */
+.legacy-wordpress.legal-white-page {
+  min-height: 60px !important;
+  height: 60px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #011b34 !important;
+}
+
+.restored-first-version .legal-document h1 {
+  margin: 0 0 16px !important;
+  font-size: 16px !important;
+  line-height: 1.35 !important;
+}
+
+.restored-first-version .legal-document h2 {
+  margin: 22px 0 8px !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0 !important;
+}
+
 /* Permanent rule: the three legal documents use a white canvas; their header and footers keep their own colors. */
 .legal-white-route,
 .legal-white-route .legacy-wordpress,

@@ -104,6 +104,7 @@ test("removes Google services and starts all analytics only after explicit conse
   assert.doesNotMatch(cookieNoticeSource, />Настроить<\/button>/);
   assert.doesNotMatch(cookieNoticeSource, /cookie-settings-trigger/);
   assert.match(cookieConsentSource, /CONSENT_MAX_AGE_MS = 180 \* 24 \* 60 \* 60 \* 1000/);
+  assert.match(cookieConsentSource, /COOKIE_CONSENT_VERSION = 4/);
   assert.match(cookieConsentSource, /analytics: boolean/);
   assert.doesNotMatch(analyticsConfigSource, /G-[A-Z0-9]+|google/i);
   assert.match(analyticsConfigSource, /YANDEX_COUNTER_ID = 600494/);
@@ -367,7 +368,7 @@ test("serves responsive photos with full-resolution originals without a third-pa
   assert.doesNotMatch(html, /<link[^>]+home-optimized\.css/);
   assert.doesNotMatch(html, /\/_next\/static\/chunks\/.*\.js/, "the homepage must not download the framework runtime");
   assert.doesNotMatch(head, /<link\b[^>]*rel="modulepreload"/, "the public homepage must not preload unused client modules");
-  assert.match(html, /<script src="\/wp-assets\/home-interactions\.js\?v=20260902b" defer=""><\/script>/);
+  assert.match(html, /<script src="\/wp-assets\/home-interactions\.js\?v=20260920" defer=""><\/script>/);
   const previewHtml = await (await render("/?cms_preview=1")).text();
   assert.match(previewHtml, /<script\b[^>]+_next\/static/, "the CMS preview must keep its editor runtime");
   assert.doesNotMatch(previewHtml, /home-interactions\.js/, "the public enhancement script must not run in the CMS preview");
@@ -572,8 +573,10 @@ test("keeps catalog descriptions out of headings and renders supplied legal head
   assert.match(policyHtml, /<h1>Политика обработки персональных данных<\/h1>/);
   assert.match(policyHtml, /<h2>1\. Общие положения<\/h2>/);
   assert.match(globalCss, /\.legal-document-page \{[^}]*padding: 0 0 88px;/s);
-  assert.match(globalCss, /\.legal-document h1 \{[^}]*font-size: 16px;/s);
-  assert.match(globalCss, /\.legal-document h2 \{[^}]*font-size: 14px;/s);
+  assert.match(firstVersionCss, /\.legacy-wordpress\.legal-white-page \{[^}]*min-height: 60px !important;[^}]*height: 60px !important;/s);
+  assert.match(firstVersionCss, /\.restored-first-version \.legal-document h1 \{[^}]*font-size: 16px !important;/s);
+  assert.match(firstVersionCss, /\.restored-first-version \.legal-document h2 \{[^}]*font-size: 14px !important;/s);
+  assert.match(legacyPageSource, /first-version-home\.css\?v=83/);
 });
 
 test("uses the original contact information order and gates the Yandex map", async () => {

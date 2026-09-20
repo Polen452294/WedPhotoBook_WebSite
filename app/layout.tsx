@@ -15,8 +15,8 @@ const consentedServicesBootstrap = `
 
     function readChoice() {
       try {
-        var value = JSON.parse(window.localStorage.getItem("wedfotobook-cookie-consent-v3") || "null");
-        return value && value.version === 3 && value.necessary === true && typeof value.analytics === "boolean" ? value : null;
+        var value = JSON.parse(window.localStorage.getItem("wedfotobook-cookie-consent-v4") || "null");
+        return value && value.version === 4 && value.necessary === true && typeof value.analytics === "boolean" ? value : null;
       } catch (error) {
         return null;
       }
