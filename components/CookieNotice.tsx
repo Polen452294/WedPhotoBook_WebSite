@@ -52,7 +52,7 @@ export function CookieNotice() {
           </div>
 
           <div className="cookie-consent-actions">
-            <button className="cookie-button cookie-button-primary" type="button" onClick={() => choose(true)}>Принять</button>
+            <button id="cookie-consent-accept" className="cookie-button cookie-button-primary" type="button" onClick={() => choose(true)}>Принять</button>
             <button className="cookie-button cookie-button-secondary" type="button" onClick={() => choose(false)}>Отклонить</button>
           </div>
         </div>
