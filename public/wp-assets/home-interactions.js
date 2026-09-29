@@ -71,7 +71,7 @@
 
   function mountCookieNotice(force = false) {
     const stored = getConsent();
-    if (stored && !force) { if (stored.analytics) startAnalytics(); return; }
+    if (stored?.analytics === true && !force) { startAnalytics(); return; }
     if (!stored) document.cookie = "wedfotobook_cookie_consent=; Max-Age=0; Path=/; SameSite=Lax";
     if (document.querySelector(".cookie-consent")) return;
     const notice = document.createElement("div");
@@ -248,6 +248,9 @@
   }, true);
 
   mountCookieNotice();
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) mountCookieNotice();
+  });
   window.addEventListener("wedfotobook:request-cookie-consent", () => mountCookieNotice(true));
   onIdle(loadCustomizations);
 })();

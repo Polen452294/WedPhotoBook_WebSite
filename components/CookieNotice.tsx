@@ -2,9 +2,11 @@
 
 /* eslint-disable @next/next/no-html-link-for-pages -- a native legal link needs no router preload */
 import { useEffect, useId, useState } from "react";
+import { usePathname } from "next/navigation";
 import { readCookieConsent, saveCookieConsent } from "@/lib/cookie-consent";
 
 export function CookieNotice() {
+  const pathname = usePathname();
   const descriptionId = useId();
   const [ready, setReady] = useState(false);
   const [noticeOpen, setNoticeOpen] = useState(false);
@@ -13,10 +15,18 @@ export function CookieNotice() {
     const timer = window.setTimeout(() => {
       const stored = readCookieConsent();
       if (!stored) document.cookie = "wedfotobook_cookie_consent=; Max-Age=0; Path=/; SameSite=Lax";
-      setNoticeOpen(!stored);
+      setNoticeOpen(stored?.analytics !== true);
       setReady(true);
     }, 0);
     return () => window.clearTimeout(timer);
+  }, [pathname]);
+
+  useEffect(() => {
+    const reopenAfterRestore = (event: PageTransitionEvent) => {
+      if (event.persisted) setNoticeOpen(readCookieConsent()?.analytics !== true);
+    };
+    window.addEventListener("pageshow", reopenAfterRestore);
+    return () => window.removeEventListener("pageshow", reopenAfterRestore);
   }, []);
 
   useEffect(() => {
