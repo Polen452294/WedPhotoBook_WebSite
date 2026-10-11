@@ -78,7 +78,7 @@
     notice.className = "cookie-consent";
     notice.setAttribute("role", "dialog");
     notice.setAttribute("aria-label", "Использование cookie");
-    notice.innerHTML = `<div class="cookie-consent-mark" aria-hidden="true">✓</div><div class="cookie-consent-content"><span class="cookie-consent-kicker">Конфиденциальность</span><h2>Cookie</h2><p>Мы используем cookie для работы сайта и аналитики. Подробнее — в <a href="/cookie/">Политике использования cookie-файлов</a>.</p></div><div class="cookie-consent-actions"><button class="cookie-button cookie-button-primary" type="button" data-cookie-choice="accept">Принять</button><button class="cookie-button cookie-button-secondary" type="button" data-cookie-choice="reject">Отклонить</button></div>`;
+    notice.innerHTML = `<div class="cookie-consent-mark" aria-hidden="true">✓</div><div class="cookie-consent-content"><span class="cookie-consent-kicker">Конфиденциальность</span><h2>Cookie</h2><p>Мы используем cookie для работы сайта и аналитики. Подробнее — в <a href="/cookie/">Политике использования cookie-файлов</a>.</p></div><div class="cookie-consent-actions"><button id="cookie-consent-accept" class="cookie-button cookie-button-primary" type="button" data-cookie-choice="accept">Принять</button><button class="cookie-button cookie-button-secondary" type="button" data-cookie-choice="reject">Отклонить</button></div>`;
     notice.addEventListener("click", (event) => {
       const choice = event.target instanceof Element ? event.target.closest("[data-cookie-choice]")?.dataset.cookieChoice : "";
       if (!choice) return;
