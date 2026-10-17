@@ -13,6 +13,7 @@ import socket
 import ssl
 import subprocess
 import time
+import urllib.error
 import urllib.request
 
 
@@ -43,6 +44,47 @@ def probe(url, expected, timeout=6):
     except Exception as exception:
         # Never publish response bodies, internal paths or credentials.
         status = getattr(exception, "code", status)
+        error = failure_kind(exception)
+    return {"ok": error is None, "http": status, "ms": round((time.monotonic() - started) * 1000), "error": error}
+
+
+def probe_certificate(hostname, timeout=6):
+    """Check the certificate actually served, including hostname, chain and expiry."""
+    started = time.monotonic()
+    expires_in_days = None
+    try:
+        context = ssl.create_default_context()
+        with socket.create_connection((hostname, 443), timeout=timeout) as connection:
+            with context.wrap_socket(connection, server_hostname=hostname) as secured:
+                expires = ssl.cert_time_to_seconds(secured.getpeercert()["notAfter"])
+        remaining = expires - time.time()
+        expires_in_days = int(remaining // 86400)
+        error = "certificate_expiring" if remaining <= 14 * 86400 else None
+    except Exception as exception:
+        error = failure_kind(exception)
+    return {"ok": error is None, "http": None, "ms": round((time.monotonic() - started) * 1000),
+            "error": error, "expiresInDays": expires_in_days}
+
+
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+def probe_https_redirect(hostname, timeout=6):
+    started = time.monotonic()
+    status = None
+    try:
+        opener = urllib.request.build_opener(NoRedirect())
+        request = urllib.request.Request(f"http://{hostname}/", method="HEAD")
+        try:
+            response = opener.open(request, timeout=timeout)
+        except urllib.error.HTTPError as exception:
+            response = exception
+        with response:
+            status = response.status
+            error = None if status in (301, 308) and response.headers.get("Location") == "https://wedfotobook.ru/" else "https_redirect"
+    except Exception as exception:
         error = failure_kind(exception)
     return {"ok": error is None, "http": status, "ms": round((time.monotonic() - started) * 1000), "error": error}
 
@@ -81,6 +123,10 @@ def diagnose(checks):
         return "Ошибка разрешения DNS с сервера мониторинга; локальное приложение работает."
     if "tls" in errors:
         return "Ошибка HTTPS/TLS при проверке сертификата или соединения; локальное приложение работает."
+    if "certificate_expiring" in errors:
+        return "До окончания сертификата HTTPS осталось не более 14 дней: проверьте продление Certbot и применение сертификата в nginx."
+    if "https_redirect" in errors:
+        return "HTTP-адрес сайта не перенаправляет на безопасный HTTPS-адрес: проверьте настройки nginx."
     if any(check["http"] in (502, 503, 504) for check in checks.values()):
         return "Внешний HTTP возвращает серверную ошибку; возможна проблема nginx или соединения с приложением."
     if not checks["javascript"]["ok"] and checks["homepage"]["ok"] and checks["health"]["ok"]:
@@ -115,19 +161,36 @@ def send_alert(event_id, event):
         if any(char in address for char in "\r\n") or "@" not in parseaddr(address)[1]:
             raise ValueError("Invalid monitor mail configuration")
     recovered = event["kind"] == "up"
+    testing = event["kind"] == "test"
+    errors = {check.get("error") for check in event["checks"].values() if not check["ok"]}
     message = EmailMessage()
     message["From"], message["To"] = sender, recipient
-    message["Subject"] = "[WedFotoBook] Сайт восстановлен" if recovered else "[WedFotoBook] Обнаружен сбой сайта"
+    if testing:
+        message["Subject"] = "[WedFotoBook] Проверка уведомлений HTTPS"
+    elif recovered:
+        message["Subject"] = "[WedFotoBook] Сайт восстановлен"
+    elif "certificate_expiring" in errors:
+        message["Subject"] = "[WedFotoBook] Истекает сертификат HTTPS"
+    elif errors.intersection({"tls", "https_redirect"}) or any(name.startswith(("tls:", "https-redirect:")) and not check["ok"] for name, check in event["checks"].items()):
+        message["Subject"] = "[WedFotoBook] Ошибка HTTPS / сертификата"
+    else:
+        message["Subject"] = "[WedFotoBook] Обнаружен сбой сайта"
     message["Date"] = formatdate(usegmt=True)
     message["Message-ID"] = f"<uptime-{event_id}@{parseaddr(sender)[1].split('@')[1]}>"
     stamp = lambda value: datetime.fromtimestamp(value, timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-    lines = ["Сайт: https://wedfotobook.ru/", f"Первый сбой: {stamp(event['started'])}", f"Проверка: {stamp(event['time'])}"]
+    lines = ["Сайт: https://wedfotobook.ru/", f"Проверка: {stamp(event['time'])}"]
+    if testing:
+        lines.append("Это тестовое письмо для проверки уведомлений HTTPS. Реального сбоя не обнаружено.")
+    else:
+        lines.append(f"Первый сбой: {stamp(event['started'])}")
     if recovered:
         lines.append(f"Проверки снова проходят. Интервал до обнаружения восстановления: {event['time'] - event['started']} секунд.")
-    else:
+    elif not testing:
         lines.extend(["Сбой подтверждён двумя последовательными проверками.", "Диагностика: " + event["reason"]])
     for name, check in event["checks"].items():
         lines.append(f"{name}: {'OK' if check['ok'] else 'FAIL'}, HTTP {check['http']}, {check['ms']} мс, ошибка: {check['error'] or 'нет'}")
+        if check.get("expiresInDays") is not None:
+            lines.append(f"До окончания сертификата: {check['expiresInDays']} дней.")
     lines.extend([f"Автовосстановление в этой проверке: {event['action'] or 'не запускалось'}.",
                   "История: https://wedfotobook.ru/status/", "Причина основана на проверках; точный первоисточник может потребовать анализа журналов."])
     message.set_content("\n".join(lines), charset="utf-8")
@@ -136,8 +199,12 @@ def send_alert(event_id, event):
 
 
 def flush_alerts(directory):
+    # Preserve old queued incidents without mailing them when alerts are first enabled.
+    since = int(os.environ.get("UPTIME_MAIL_SINCE", "0"))
     with sqlite3.connect(directory / "history.sqlite3") as database:
-        for event_id, payload in database.execute("SELECT id, payload FROM outbox WHERE sent_at IS NULL ORDER BY rowid LIMIT 2").fetchall():
+        for event_id, payload in database.execute(
+                "SELECT id, payload FROM outbox WHERE sent_at IS NULL "
+                "AND coalesce(json_extract(payload, '$.time'), 0) >= ? ORDER BY rowid LIMIT 2", (since,)).fetchall():
             try:
                 send_alert(event_id, json.loads(payload))
             except (ValueError, OSError, subprocess.SubprocessError) as exception:
@@ -159,8 +226,12 @@ def run():
         "javascript": ("https://wedfotobook.ru/wp-assets/home-interactions.js", "addEventListener"),
         "local": ("http://127.0.0.1:3000/api/health/", '"status":"ok"'),
     }
-    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         futures = {key: executor.submit(probe, *target) for key, target in targets.items()}
+        # Redirect hosts need valid TLS too: the handshake precedes any redirect.
+        for hostname in ("wedfotobook.ru", "www.wedfotobook.ru", "fotobooktest24.ru", "www.fotobooktest24.ru"):
+            futures[f"tls:{hostname}"] = executor.submit(probe_certificate, hostname)
+            futures[f"https-redirect:{hostname}"] = executor.submit(probe_https_redirect, hostname)
         checks = {key: future.result() for key, future in futures.items()}
     now = int(time.time())
     with sqlite3.connect(directory / "history.sqlite3") as database:
